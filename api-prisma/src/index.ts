@@ -1,7 +1,6 @@
 import * as dotenv from "dotenv"
 import express from "express"
 import cors from 'cors'
-import { Prisma, PrismaClient } from '@prisma/client'
 
 import { userRouter } from "./users/user.router"
 
@@ -15,8 +14,6 @@ if(!process.env.PORT){
 
 const PORT: number = parseInt(process.env.PORT as string, 10)
 
-
-const prisma = new PrismaClient()
 
 const app = express()
 
