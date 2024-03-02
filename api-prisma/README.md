@@ -1,6 +1,7 @@
 
 
-##API Prisma Setup
+
+## API Prisma Setup
 
 ```sh
      yarn add express dotenv cors express-validator @prisma/client
@@ -15,6 +16,8 @@
     yarn add ts-node-dev -D
 ```
 
-Set This up on the package.json under scripts.
+Set This up on the package.json under scripts.  On package.json
 
- "dev": "tsnd --respawn --pretty --transpile-only ./src/index.ts"
+```sh
+    "dev": "tsnd --respawn --pretty --transpile-only ./src/index.ts"
+```
