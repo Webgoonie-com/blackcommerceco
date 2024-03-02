@@ -17,7 +17,7 @@ datasource db {
 
 model User {  
   id                  Int                     @id @default(autoincrement())
-  uuid                String                  @default(uuid()) 
+  uuid                String                  @default(uuid()) @unique
   nickname            String? 
   email               String                  @unique
   emailVerified       DateTime? 
