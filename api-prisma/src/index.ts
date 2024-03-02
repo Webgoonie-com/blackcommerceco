@@ -21,17 +21,54 @@ app.get("/users", async (req, res) => {
 })
 
 app.post("/users-create", async (req, res) => {
+     
+
+    try {
+        
+        const newUser = await prisma.user.create({data: req.body})
+
+        return res.json(newUser)
+
+    } catch (error) {
+
+        return res.status(501).json({error})
+
+    }
+
+})
+
+app.put("/users-update-id/:id", async (req, res) => {
   
-    // req.body = {
-    //     firstName: req.body.firstName,
-    //     lastName: req.body.lastName,
-    //     email: req.body.email,
-    //     hashedPassword: req.body.hashedPassword,
-    // }
+    
+    try {
+        const id = req.params.id;
+    
+        const existingUser = await prisma.user.update({
+            where: { id: parseInt(id) }, 
+            data: req.body,
+        });
+        return res.json(existingUser)
+        
+    } catch (error) {
+        return res.status(501).json({error})
+    }
 
-    const newUser = await prisma.user.create({data: req.body})
+    
 
-    return res.json(newUser)
+})
+
+app.put("/users-update-uuid/:uuid", async (req, res) => {
+  
+    
+    try {
+
+        const newUser = await prisma.user.create({data: req.body})
+    
+        return res.json(newUser)
+        
+    } catch (error) {
+        return res.status(501).json({error})
+    }
 
 })
 
