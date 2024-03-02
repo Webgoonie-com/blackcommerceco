@@ -1,4 +1,3 @@
-import {db} from "../utils/db.server"
 import { orm } from "../utils/orm.server";
 
 
@@ -17,7 +16,7 @@ type CreateUserInput = Omit<User, "id"> & {
 
 
 export const listUsers = async (): Promise<User[]> => {
-    return db.user.findMany({
+    return orm.user.findMany({
         select:{
             id: true,
             uuid: true,
@@ -30,7 +29,7 @@ export const listUsers = async (): Promise<User[]> => {
 }
 
 export const getUser = async (id: number): Promise<User | null> => {
-    return db.user.findUnique({
+    return orm.user.findUnique({
         where: {
             id,
         },
@@ -49,7 +48,7 @@ export const getUser = async (id: number): Promise<User | null> => {
 export const createUser = async (user: CreateUserInput): Promise<User | any> => {
     const { firstName, lastName, email, hashedPassword } = user;
 
-    return db.user.create({
+    return orm.user.create({
         data: {
             firstName,
             lastName,
