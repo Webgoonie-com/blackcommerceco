@@ -21,3 +21,62 @@ Set This up on the package.json under scripts.  On package.json
 ```sh
     "dev": "tsnd --respawn --pretty --transpile-only ./src/index.ts"
 ```
+
+
+```sh
+    yarn init -y
+    yarn add prisma -D
+    npx prisma init
+```
+
+set up prisma schema
+
+
+```sh
+
+    generator client {
+        provider = "prisma-client-js"
+    }
+
+    datasource db {
+        provider = "mysql"
+        url      = env("DATABASE_URL")
+    }
+
+
+
+    model User {  
+        id                  Int                     @id @default(autoincrement())
+        uuid                String                  @default(uuid()) 
+        name                String? 
+        email               String                  @unique
+        emailVerified       DateTime? 
+        image               String? 
+        hashedPassword      String? 
+        firstName           String? 
+        lastName            String?
+        updatedAt           DateTime                @default(now()) @updatedAt
+        createdAt           DateTime                @default(now())
+    }
+
+```
+
+```sh
+
+ npx prisma db push
+
+```
+
+Starting the first migration
+
+```sh
+
+    yarn prisma migrate dev --name init
+
+```
+
+```sh
+
+    yarn prisma migrate dev
+
+```
