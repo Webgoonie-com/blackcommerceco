@@ -83,6 +83,7 @@ export const updateUser = async (user: Omit<User, "id">, id: number): Promise<Us
             lastName: true,
             email: true,
             createdAt: true,
+            updatedAt: true,
         }
     })
 }
