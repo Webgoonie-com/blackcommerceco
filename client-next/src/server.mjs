@@ -26,6 +26,11 @@ app.prepare().then(() => {
     const expressApp = express()
     expressApp.use(cors());
 
+    expressApp.post('/api/*', (req, res) => {
+        // Handle your registration logic here
+        return handle(req, res)
+    });
+
     expressApp.get('*', (req, res) => {
         return handle(req, res)
     })

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { IoMdClose } from 'react-icons/io';
 import Button from "@/Elements/Button";
+import './Modal.css'
 
 interface ModalProps {
     isOpen?: boolean;
@@ -62,7 +63,7 @@ const Modal : React.FC<ModalProps> = ({
 
     return (
         <>
-			<div className="
+			<div id="ModalCss" className="
                 justify-center 
                 items-center 
                 flex 
@@ -76,7 +77,17 @@ const Modal : React.FC<ModalProps> = ({
                 bg-gray-800/70
                 "
                 >
-                  <div className="relative w-full md:w-4/6 lg:w-3/6 xl:w-2/5 my-6 mx-auto h-full lg:h-auto md:h-auto">
+                    {/* Actual Display */}
+                  <div className={`
+                            relative 
+                            w-[90%]
+                            my-6 
+                            mx-auto 
+                            h-full 
+                            lg:h-auto 
+                            md:h-auto
+                            z-50
+                    `}>
                      
                      {/* Content */}
                      <div className={`
@@ -90,11 +101,11 @@ const Modal : React.FC<ModalProps> = ({
 
 
                         {/* Visiblity */}
-                        <div className="translate h-full lg:h-auto md:h-auto border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                        <div className="translate h-full lg:h-auto md:h-auto border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-gray-700 outline-none focus:outline-none">
                             
                             
                             {/* Header */}
-                            <div className="flex items-center p-6 rounded-t justify-center relative border-b-[1px]">
+                            <div className="flex items-center text-white p-6 rounded-t justify-center relative border-b-[1px]">
                                 
 
                                 <button
@@ -116,17 +127,39 @@ const Modal : React.FC<ModalProps> = ({
 
                             {/* Body */}
 
-                            <div className="relative p-6 flex-auto">
+                            <div className="relative z-50 p-6 flex-auto">
                                 {body}
                             </div>
 
                             {/* Footer */}
 
-                            <div className="flex flex-col gap-2 p-5">
+                            <div className="flex flex-col bottom-0 gap-2 p-5">
                                 
                                 <div className="flex flex-row items-center gap-4 w-full">
-                                    <Button label={"Ayo"} />
+                                    
+                                    {secondaryAction &&  secondaryActionLabel && 
+                                    (
+                                        <Button
+                                            outline
+                                            disabled={disabled}
+                                            label={secondaryActionLabel}
+                                            onClick={handleSecondaryAction}
+                                        />
+                                    )}
+                                    
+
+                                    <Button
+                                        disabled={disabled}
+                                        label={actionLabel}
+                                        onClick={handleSubmit}
+                                    />
+
                                 </div>
+
+                                <div className="flex flex-col bottom-0 mt-5">
+                                    {footer}
+                                </div>
+
 
                             </div>
 

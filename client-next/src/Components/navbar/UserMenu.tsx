@@ -18,6 +18,15 @@ const UserMenu = () => {
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value)
     }, [])
+
+    const handleLoginModal = () => {
+        loginModal.onOpen()
+        setIsOpen(false)
+    }
+    const handleRegisterModal = () => {
+        registerModal.onOpen()
+        setIsOpen(false)
+    }
     
     return (
         <div className='relative'>
@@ -31,7 +40,7 @@ const UserMenu = () => {
                         font-font-semibold
                         py-3 px-4 
                         rounded-full
-                      hover:bg-neutral-100 
+                      hover:bg-neutral-400 
                       hover:dark:bg-neutral-800 
                         cursor-pointer"
                 >
@@ -78,7 +87,7 @@ const UserMenu = () => {
                             label="Login"
                         />
                         <MenuItem
-                            onClick={registerModal.onOpen}
+                            onClick={handleRegisterModal}
                             label="Sign Up"
                         />
                     </>
