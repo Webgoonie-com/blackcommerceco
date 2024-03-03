@@ -5,19 +5,28 @@
   "type": "commonjs",
   "scripts": {
     "dev": "next dev -p 3333",
-    "devts": "nodemon ./src/server.mjs",
+    "devv": "nodemon ./src/server.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.0.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.18.3",
+    "lucide-react": "^0.344.0",
     "next": "14.1.1",
+    "next-auth": "^4.24.6",
     "react": "^18",
     "react-dom": "^18",
-    "ws": "^8.16.0"
+    "react-icons": "^5.0.1",
+    "tailwind-merge": "^2.2.1",
+    "tailwindcss-animate": "^1.0.7",
+    "ws": "^8.16.0",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import NavbarPublic from "@/Components/navbar/NavbarPublic";
+import ClientOnly from "@/Components/ClientOnly";
+import Modal from "@/Components/modals/Modal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +19,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <ClientOnly>
+
+        
+          <main className="root">
+            <Modal title="Login Modal Here" isOpen />
+            <NavbarPublic />
+            {children}
+          </main>
+
+        </ClientOnly>
+      </body>
     </html>
   );
 }
