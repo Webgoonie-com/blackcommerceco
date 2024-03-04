@@ -15,6 +15,20 @@ datasource db {
 
 
 
+model Admin {  
+  id                  Int                     @id @default(autoincrement())
+  uuid                String                  @default(uuid()) @unique
+  nickname            String? 
+  email               String                  @unique
+  emailVerified       DateTime? 
+  image               String? 
+  hashedPassword      String? 
+  firstName           String? 
+  lastName            String?
+  role                String?
+  updatedAt           DateTime                @default(now()) @updatedAt
+  createdAt           DateTime                @default(now())
+}
 model User {  
   id                  Int                     @id @default(autoincrement())
   uuid                String                  @default(uuid()) @unique

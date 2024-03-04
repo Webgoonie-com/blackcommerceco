@@ -3,3 +3,4 @@ api-prisma/yarn.lock
 api-prisma/node_modules/*
 
 
+client-next/testRest/admin.rest

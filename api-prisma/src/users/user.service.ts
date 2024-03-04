@@ -28,10 +28,43 @@ export const listUsers = async (): Promise<User[]> => {
     })
 }
 
-export const getUser = async (id: number): Promise<User | null> => {
+export const getUserEmail = async (email: string): Promise<User | null> => {
+    return orm.user.findUnique({
+        where: {
+            email,
+        },
+        select: {
+            id: true,
+            uuid: true,
+            firstName: true,
+            lastName: true,
+            hashedPassword: true,
+            email: true,
+            createdAt: true,
+        },
+    })
+}
+
+export const getUserId = async (id: number): Promise<User | null> => {
     return orm.user.findUnique({
         where: {
             id,
+        },
+        select: {
+            id: true,
+            uuid: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            createdAt: true,
+        },
+    })
+}
+
+export const getUserUuId = async (uuid: string): Promise<User | null> => {
+    return orm.user.findUnique({
+        where: {
+            uuid,
         },
         select: {
             id: true,
@@ -63,6 +96,37 @@ export const createUser = async (user: CreateUserInput): Promise<User | any> => 
             hashedPassword: true,
         }
     });
+}
+
+export const loginUser = async (user: CreateUserInput): Promise<User | any> => {
+    const { email, hashedPassword } = user;
+
+    const findUser = orm.user.findUnique({
+        where: {
+            email
+        },
+        select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            hashedPassword: true,
+        }
+    });
+
+    if(!findUser) {
+        return null
+    }
+
+    // Check And do compare of password before returning findUser
+
+    return findUser
+
+    
+
+
+
+
 }
 
 

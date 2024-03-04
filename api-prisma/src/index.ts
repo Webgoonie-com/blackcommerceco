@@ -3,6 +3,7 @@ import express from "express"
 import cors from 'cors'
 
 import { userRouter } from "./users/user.router"
+import { adminRouter } from "./admins/admin.router"
 
 
 dotenv.config()
@@ -20,6 +21,7 @@ const app = express()
 app.use(cors())
 app.use(express.json());
 app.use("/api/users", userRouter)
+app.use("/api/admins", adminRouter)
 
 app.get("/", (req, res) => {
     res.send(`<h2>Well - Its url: api.blackcommerce.co API on PORT: ${PORT} </h2>`)

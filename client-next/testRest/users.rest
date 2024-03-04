@@ -15,6 +15,33 @@ GET http://localhost:3334/api/users/all
 
 ###
 
+GET http://localhost:3334/api/users/email/louisfarrkahan@noi.org
+
+###
+
+
+POST http://localhost:3333/api/adminlogin/
+Content-Type: application/json
+
+{       
+    "email": "lyricicarter@gmail.com",
+    "hashedPassword": "1234567890"
+}
+
+POST http://localhost:3333/api/auth/register/
+Content-Type: application/json
+
+{   
+
+    
+    "firstName": "Malcom",
+    "lastName": "X",
+    "email": "malcomx@noi.org",
+    "hashedPassword": "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
+}
+
+###
+
 
 POST http://localhost:3333/api/register/
 Content-Type: application/json
@@ -22,11 +49,8 @@ Content-Type: application/json
     "firstName": "Malcom",
     "lastName": "X",
     "email": "malcomx@noi.org",
-    "hashedPassword" : "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
+    "hashedPassword": "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
 }
-
-###
-
 
 POST http://localhost:3334/api/users/create/
 Content-Type: application/json
@@ -37,7 +61,7 @@ Content-Type: application/json
     "firstName": "Malcom",
     "lastName": "X",
     "email": "malcomx@noi.org",
-    "hashedPassword" : "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
+    "hashedPassword": "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
 }
 
 
@@ -53,7 +77,7 @@ Content-Type: application/json
     "firstName": "Louis",
     "lastName": "Farrakhan",
     "email": "louisfarrkahan@noi.org",
-    "hashedPassword" : "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
+    "hashedPassword": "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
 }
 
 
@@ -69,7 +93,7 @@ Content-Type: application/json
     "firstName": 1234,
     "lastName": "testLastName",
     "email": 4455545,
-    "hashedPassword" : "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
+    "hashedPassword": "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
 }
 
 ###
@@ -82,7 +106,7 @@ Content-Type: application/json
     "firstName": "Anna",
     "lastName": "Carter",
     "email": "loyaltyisbetter@gmail.com",
-    "hashedPassword" : "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
+    "hashedPassword": "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
 }
 
 ###
@@ -94,7 +118,7 @@ Content-Type: application/json
     "firstName": "Marvin",
     "lastName": "Carter",
     "email": "oldcat1959@gmail.com",
-    "hashedPassword" : "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
+    "hashedPassword": "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
 }
 
 ###
@@ -114,7 +138,7 @@ Content-Type: application/json
     "firstName": "Frank",
     "lastName": "White",
     "email": "fwhite@gmail.com",
-    "hashedPassword" : "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
+    "hashedPassword": "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
 }
 
 ###
@@ -129,7 +153,7 @@ Content-Type: application/json
     "firstName": "John",
     "lastName": "Doe",
     "email": "johndoe@gmail.com",
-    "hashedPassword" : "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
+    "hashedPassword": "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
 }
 ###
 
@@ -143,7 +167,7 @@ Content-Type: application/json
     "firstName": "Jane",
     "lastName": "Doe",
     "email": "janedoe@gmail.com",
-    "hashedPassword" : "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
+    "hashedPassword": "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
 }
 
 
