@@ -15,7 +15,8 @@ const Userlogin = () => {
     lastName: "",
     email: "",
     hashedPassword: "",
-    error: ''
+    error: '',
+    isLoading: false
   });
 
   const showError = (err: any) => {
@@ -25,6 +26,7 @@ const Userlogin = () => {
     setFormData({
         ...formData,
         error: error,
+        isLoading: false
     });
   }
 
@@ -34,6 +36,7 @@ const Userlogin = () => {
     setFormData({
         ...formData,
         error: '',
+        isLoading: false,
         [event.target.name]: event.target.value,
     });
   }
@@ -45,24 +48,29 @@ const Userlogin = () => {
     //  Clear formData before submission
     setFormData({
       ...formData,
+      isLoading: true,
       error: '',
     });
     
-    try {
-      const user = await loginUser(formData.email, formData.hashedPassword);
+    setTimeout(async () => {
       
-      if (user) {
-        //  Only redirect if login was successful
-        router.push("/backoffice");
-      } else {
-        //  Handle unsuccessful login
-        //  console.error('Login unsuccessful');
-        showError('Login unsuccessful');
+      try {
+        const user = await loginUser(formData.email, formData.hashedPassword);
+        
+        if (user) {
+          //  Only redirect if login was successful
+          router.push("/backoffice");
+        } else {
+          //  Handle unsuccessful login
+          //  console.error('Login unsuccessful');
+          showError('Login unsuccessful');
+        }
+  
+      } catch (error) {
+        console.error('Login failed:', error);
       }
-
-    } catch (error) {
-      console.error('Login failed:', error);
-    }
+      
+    }, 3000);
 
   }
 
@@ -85,7 +93,9 @@ const Userlogin = () => {
                 <input name='hashedPassword' type="password" placeholder="Password" onChange={handleChange} />
             </div>
 
-            <button type='submit'>Submit</button>
+            <button disabled={formData.isLoading} type='submit'>
+              {formData.isLoading ? "Sending" : "Submit"}
+            </button>
 
             {formData.error ? ( 
               <div className='text-red-600'>

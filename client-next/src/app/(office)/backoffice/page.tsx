@@ -2,8 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { getUserProfile } from '@/lib/cookieAuth';
+import { useRouter } from 'next/navigation';
 
 const BackOffice = () => {
+  
+  const router = useRouter();
+
   const [user, setUser] = useState(null);
 
   const fetchUserProfile = async () => {
@@ -13,7 +17,13 @@ const BackOffice = () => {
       
       console.log('userData', userData)
 
-      setUser(userData);
+      if(userData){
+        setUser(userData);
+      }else{
+        router.push("/userlogin");
+      }
+
+      
     } catch (error) {
       console.error('Error fetching user profile:', error);
     }

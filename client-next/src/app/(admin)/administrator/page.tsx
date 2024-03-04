@@ -15,7 +15,8 @@ const AdministratorPage = () => {
         lastName: "",
         email: "",
         hashedPassword: "",
-        error: ''
+        error: '',
+        isLoading: false
     });
 
     const showError = (err: any) => {
@@ -25,6 +26,7 @@ const AdministratorPage = () => {
         setFormData({
             ...formData,
             error: error,
+            isLoading: false
         });
     }
 
@@ -34,6 +36,7 @@ const AdministratorPage = () => {
         setFormData({
             ...formData,
             error: '',
+            isLoading: false,
             [event.target.name]: event.target.value,
         });
     }
@@ -44,6 +47,7 @@ const AdministratorPage = () => {
         //  Clear formData before submission
         setFormData({
             ...formData,
+            isLoading: true,
             error: '',
         });
         

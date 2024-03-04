@@ -14,8 +14,6 @@ export const loginAdmin = async (email: string, hashedPassword: string) => {
 
         const user = response.data;
 
-        console.log('admin data received', user)
-
         if (!user) {
             return null; // Or handle the case where no user is found
         }
@@ -42,8 +40,6 @@ export const loginUser = async (email: string, hashedPassword: string) => {
 
         const user = response.data;
 
-        console.log('user data received', user)
-
         if (!user) {
             return null;
         }
@@ -66,8 +62,6 @@ export const getUserProfile = async () => {
 
         const { data}  =  await axiosWithCredentials.get('/api/userProfile')
 
-        console.log('user profile received', data)
-
         return data
         
     } catch (error) {
@@ -82,8 +76,6 @@ export const getAdminProfile = async () => {
     try {
 
         const { data}  =  await axiosWithCredentials.get('/api/adminProfile')
-
-        console.log('returned Data from GetAdminProfile', data)
 
         return data
         

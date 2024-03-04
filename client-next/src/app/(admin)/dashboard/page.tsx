@@ -1,13 +1,15 @@
 "use client"
 
 import { getAdminProfile } from '@/lib/cookieAuth'
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 
 
 
 const Dashboard = () => {
+
+    const router = useRouter();
 
     const [admin, setAdmin] = useState(null);
 
@@ -17,10 +19,17 @@ const Dashboard = () => {
 
       const adminData = await getAdminProfile()
 
-      setAdmin(adminData);
+      
+
+      if(adminData){
+        setAdmin(adminData);
+      }else{
+        router.push("/administrator");
+      }
+
     } catch (error) {
       console.error('Error fetching user profile:', error);
-      redirect('/administrator')
+      
     }
   };
 
