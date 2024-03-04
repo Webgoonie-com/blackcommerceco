@@ -15,28 +15,47 @@ const AdministratorPage = () => {
         lastName: "",
         email: "",
         hashedPassword: "",
+        error: ''
     });
+
+    const showError = (err: any) => {
+
+        const error = err;
+        
+        setFormData({
+            ...formData,
+            error: error,
+        });
+    }
 
     const handleChange = (event: any) => {
         // Updating the state based on the input name
 
         setFormData({
             ...formData,
+            error: '',
             [event.target.name]: event.target.value,
         });
     }
 
     const handleSubmit = async (event: any) => {
         event.preventDefault();
+
+        //  Clear formData before submission
+        setFormData({
+            ...formData,
+            error: '',
+        });
         
         try {
             const admin = await loginAdmin(formData.email, formData.hashedPassword)
 
-            if(admin){
-
+            if (admin) {
                 router.push("/dashboard");
-            }else{
-                console.error('Login unsuccessful');
+            } else {
+                //  Handle unsuccessful login
+                //  console.error('Login unsuccessful');
+                showError('Login unsuccessful');
             }
             
         } catch (error) {
@@ -44,8 +63,10 @@ const AdministratorPage = () => {
         }
     }
 
+
+
     return (
-        <div className='flex flex-col'>
+        <div className='py-4 flex flex-col align-items-center ml-9 mt-20'>
             <form onSubmit={handleSubmit}>
                 <div>
                     <input name='firstName' type="text" placeholder="First Name" onChange={handleChange} />
@@ -60,7 +81,13 @@ const AdministratorPage = () => {
                     <input name='hashedPassword' type="password" placeholder="Password" onChange={handleChange} />
                 </div>
 
-                <button type='submit'>Submit</button>
+                <button className='' type='submit'>Submit</button>
+
+                {formData.error ? ( 
+                    <div className='text-red-600'>
+                        {formData.error}
+                    </div>
+                ) : ''}
             </form>
         </div>
     );
