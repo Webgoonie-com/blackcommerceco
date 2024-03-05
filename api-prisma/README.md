@@ -4,7 +4,7 @@
 ## API Prisma Setup
 
 ```sh
-     yarn add express dotenv cors express-validator @prisma/client
+    yarn add express dotenv cors express-validator @prisma/client
 ```
 
 

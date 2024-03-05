@@ -14,6 +14,26 @@ datasource db {
 }
 
 
+model Account {
+  id                  Int                     @id @default(autoincrement())
+  uuid                String                  @default(uuid()) @unique
+  type                String
+  provider            String
+  providerAccountId   String
+  refresh_token       String?  
+  access_token        String?  
+  expires_at          Int?
+  token_type          String?
+  scope               String?
+  id_token            String?  
+  session_state       String?
+
+  user                User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId              Int
+
+  @@unique([provider, providerAccountId])
+  @@index([userId, providerAccountId, provider])
+}
 
 model Admin {  
   id                  Int                     @id @default(autoincrement())
@@ -29,6 +49,7 @@ model Admin {
   updatedAt           DateTime                @default(now()) @updatedAt
   createdAt           DateTime                @default(now())
 }
+
 model User {  
   id                  Int                     @id @default(autoincrement())
   uuid                String                  @default(uuid()) @unique
@@ -41,4 +62,65 @@ model User {
   lastName            String?
   updatedAt           DateTime                @default(now()) @updatedAt
   createdAt           DateTime                @default(now())
+
+  userPhotos          UserPhoto[]
+  accounts            Account[]
+  listings            Listing[]
+  reservations        Reservation[]
+  
+}
+
+model UserPhoto {
+  Id                  Int @id @default(autoincrement())
+  uuid                String @default(uuid())
+  serverCaption       String?
+  userCaption         String?
+  imageSize           Int?
+  type                String
+  local               String
+  url                 String
+  filename            String
+  message             String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @default(now()) @updatedAt
+  
+  user                User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId              Int
+
+  @@index([userId])
+}
+
+model Listing {
+  id                  Int                     @id @default(autoincrement())
+  uuid                String                  @default(uuid()) @unique
+  title               String
+  description         String
+  imageSrc            String
+  createdAt           DateTime                @default(now())
+  category            String
+  roomCount           Int
+  bathroomCount       Int
+  guestCount          Int
+  locationValue       String
+  price               Int
+
+  user                User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId              Int
+
+  reservations        Reservation[]
+}
+
+model Reservation {
+  id                  Int                     @id @default(autoincrement())
+  uuid                String                  @default(uuid()) @unique
+  startDate           DateTime
+  endDate             DateTime
+  totalPrice          Int
+  createdAt           DateTime                @default(now())
+
+  user                User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId              Int
+
+  listing             Listing                 @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId           Int
 }
