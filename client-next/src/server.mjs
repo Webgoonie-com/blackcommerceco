@@ -18,7 +18,9 @@ const PORT = process.env.PORT || 3303
 
 const dev = process.env.NODE_ENV !== "production"
 
-const app = next({ dev })
+const hostname = 'localhost'
+
+const app = next({ dev, hostname, PORT })
 
 const handle = app.getRequestHandler()
 
@@ -86,6 +88,10 @@ app.prepare().then(() => {
     expressApp.use(express.json());
     expressApp.use(cookieParser(COOKIE_SECRET));
     expressApp.use(cors());
+    // expressApp.use((req, res, next) => {
+    //     res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+    //     next();
+    //   });
 
     
 
@@ -179,6 +185,10 @@ app.prepare().then(() => {
         return res.sendStatus(404)
     });
 
+    expressApp.post('/api/register', (req, res) => {
+        return handle(req, res)
+    });
+    
     expressApp.get('*', (req, res) => {
         return handle(req, res)
     })
