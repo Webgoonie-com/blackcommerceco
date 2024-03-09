@@ -1,0 +1,9 @@
+
+.ModalCss {
+    display: flex;
+}
+
+.ModalCss > div:nth-of-type(1){
+    position: relative;
+    
+}

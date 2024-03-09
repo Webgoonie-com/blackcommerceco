@@ -68,6 +68,8 @@ userRouter.post(
     body("hashedPassword").isString(),
     async (request: Request, response: Response) => {
 
+        console.log('Hit Create User')
+        
         const errors = validationResult(request)
 
         if(!errors.isEmpty()){
