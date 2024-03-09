@@ -52,15 +52,17 @@ const RegisterModal = () => {
         setIsLoading(true);
         console.log('onSubmit Posting Here', data)
         //console.log(`process.env.NEXT_PUBLIC_API_URL +'api/users/createUser/: `, process.env.NEXT_PUBLIC_API_URL +'api/users/createUser/')
-        //axios.post(process.env.NEXT_PUBLIC_API_URL +'api/users/createUser/', data)
+        
         //axios.post('/api/register/', data)
-        console.log('Line 57NEXTAUTH_URL:', process.env.NEXTAUTH_URL);
-        console.log(`Line 57: `, process.env.NEXTAUTH_URL)
-        console.log(`Line 58: ${process.env.NEXTAUTH_URL}/api/register/`)
+        console.log('Line 57NEXTAUTH_URL:', process.env.NEXT_PUBLIC_API_URL);
+        console.log(`Line 57: `, process.env.NEXT_PUBLIC_API_URL)
+        console.log(`Line 58: ${process.env.NEXT_PUBLIC_API_URL}/api/register/`)
         console.log(`Line 59: http://localhost:3333/api/register/`)
         //axios.post(`${process.env.NEXTAUTH_URL}/api/register/`, data)
         //axios.post(`http://localhost:3333/api/register/`, data)
-        axios.post(`/api/register/`, data)
+        //axios.post(`/api/register/`, data)
+        //axios.post(process.env.NEXT_PUBLIC_API_URL +'api/users/createUser/', data)
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/users/createUser/`, data)
             .then(() => {
                 router.refresh();
                 registerModal.onClose();

@@ -9,7 +9,12 @@ export async function encrypt(payload: any) {
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("10 sec from now")
+    //.setExpirationTime("10s")
+    //.setExpirationTime("20d") // it will be expired after 20 days
+    //.setExpirationTime(120") // it will be expired after 120ms
+    //.setExpirationTime("120s") // it will be expired after 120s
+    
+    .setExpirationTime("2m")
     .sign(key);
 }
 
@@ -26,11 +31,12 @@ export async function login(formData: FormData) {
   const user = { email: formData.get("email"), name: "John" };
 
   // Create the session after getting user
-  const expires = new Date(Date.now() + 10 * 1000);
+  const expires = new Date(Date.now() + 60 * 1000);   // This is gonnaehe expiration.
+  
   const session = await encrypt({ user, expires });
 
   // Save the session in a cookie
-  cookies().set("session", session, { expires, httpOnly: true });
+  cookies().set("userSession", session, { expires, httpOnly: true });
 }
 
 export async function logout() {

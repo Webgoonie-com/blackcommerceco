@@ -1,15 +1,4 @@
-GET http://localhost:3334/users
-
 ###
-
-GET http://localhost:3334/api/users/id/1
-
-###
-
-GET http://localhost:3334/api/users/id/2
-
-###
-
 
 GET http://localhost:3334/api/users/all
 
@@ -51,6 +40,8 @@ Content-Type: application/json
     "email": "malcomx@noi.org",
     "hashedPassword": "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
 }
+
+###
 
 POST http://localhost:3334/api/users/create/
 Content-Type: application/json
