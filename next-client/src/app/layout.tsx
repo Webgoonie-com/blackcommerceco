@@ -8,6 +8,8 @@ import RegisterModal from "@/Components/modals/auth/RegisterModal";
 import LoginModal from "@/Components/modals/auth/LoginModal";
 import ToasterProvider from "@/Providers/ToasterProvider";
 import getCurrentUser from "@/Actions/getCurrentUser";
+import AuthProvider from "@/Providers/AuthProvider";
+import QueryProvider from '@/Providers/QueryProvider'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,17 +31,21 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <ClientOnly>
-              <ToasterProvider />
-              <RegisterModal />
-              <LoginModal />
-              <NavbarPublic currentUser={currentUser as any} />
-
-              {children}
-
-        </ClientOnly>
-      </body>
+     <QueryProvider>
+        <body className={inter.className}>
+          <AuthProvider>
+            <ClientOnly>
+                  <ToasterProvider />
+                  <RegisterModal />
+                  <LoginModal />
+                  <NavbarPublic currentUser={currentUser as any} />
+    
+                  {children}
+    
+            </ClientOnly>
+          </AuthProvider>
+        </body>
+    </QueryProvider>
     </html>
   );
 }

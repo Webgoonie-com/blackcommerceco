@@ -165,6 +165,7 @@ export const authOptions: NextAuthOptions = {
             session.user = {
                 email: token.email as string | null | undefined,
                 uuid: token.uuid as string | null | undefined,
+                name: token.name as string | null | undefined,
                 firstName: token.firstName as string | null | undefined,
                 lastName: token.lastName as string | null | undefined,
                 image: token.image as string | null | undefined,

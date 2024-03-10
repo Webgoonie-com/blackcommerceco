@@ -1,6 +1,9 @@
+
 import Image from "next/image";
 
 import { getSession, getAuthSession, login, logout } from "@/lib/libray";
+import Hero from "@/Views/Home/Hero";
+import Categories from "@/Components/Categories";
 
 export default async function Home() {
 
@@ -9,11 +12,18 @@ export default async function Home() {
   const authSession = await getAuthSession();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main 
+        className="
+              flex
+              min-h-screen
+              flex-col
+              "
+        >
       <div>
-        
-        <h2>Home page</h2>
 
+        <Hero />
+
+        <Categories />
         
         {/* <pre>SessioN: {JSON.stringify(session, null, 2)}</pre> */}
 
