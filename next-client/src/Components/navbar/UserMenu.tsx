@@ -83,7 +83,7 @@ const UserMenu = () => {
                     <div className='flex flex-col cursor-pointer'>
                     <>
                         <MenuItem 
-                            onClick={loginModal.onOpen}
+                            onClick={handleLoginModal}
                             label="Login"
                         />
                         <MenuItem

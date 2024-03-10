@@ -5,9 +5,10 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github"
 import GoogleProvider from "next-auth/providers/google"
 import bcrypt from "bcrypt"
+//import axiosWithCredentials from '@/Lib/axiosWithCredentials';
 
-import {orm} from "../../../api-prisma/src/utils/orm.server"
-//import { orm  } from "@/orm/orm.server";
+//import {orm} from "../../../api-prisma/src/utils/orm.server"
+import { orm  } from "@/orm/orm.server";
 
 
 declare module 'next-auth' {
@@ -15,6 +16,10 @@ declare module 'next-auth' {
         user: {
             email?: string | null | undefined;
             uuid?: string | null | undefined;
+            name?: string | null | undefined;
+            firstName?: string | null | undefined;
+            lastName?: string | null | undefined;
+            image: string | null | undefined;
         };
         expires: string;
     }
@@ -24,75 +29,82 @@ declare module 'next-auth' {
         id: number | undefined;
         uuid: string;
         email: string | string[] | undefined;
+        name?: string | null | undefined;
+        firstName?: string | null | undefined;
+        lastName?: string | null | undefined;
         password: string | undefined;
         hashedPassword: string | null | undefined;
+        image: string | null | undefined;
     }
 }
 
 export const authOptions: NextAuthOptions = {
-    adapter: PrismaAdapter(orm),
     providers: [
         CredentialsProvider({
             name: "Credentials",
             credentials: {
                 email: { label: "Your Email", type: "email" },
-                password: { label: "Your Password", type: "password" },
+                hashedPassword: { label: "Your Password", type: "password" },
             },
             async authorize(credentials, req) {
-                if (!credentials || !credentials?.email || !credentials?.password) {
+                if (!credentials || !credentials?.email || !credentials?.hashedPassword) {
                     throw new Error('Invalid credentials');
                 }
 
                 const payload = {
                     email: credentials?.email,
-                    password: credentials?.password,
+                    hashedPassword: credentials?.hashedPassword,
                 };
-                console.log('Payload:',  payload);
 
-                const dbUser = await orm.user.findUnique({
-                    where: { 
-                        email: payload.email 
-                    },
-                    select: {
-                        id: true,
-                        uuid: true,
-                        nickname: true,
-                        emailVerified: true,
-                        email: true,
-                        hashedPassword: true,
-                     }
-                });
 
-                if (!dbUser) {
-                    throw new Error('Sorry there was an error');
-                }
+                console.log('Auth.tsx Payload:',  payload);
 
-                if (!dbUser ||  !dbUser?.hashedPassword) {
-                    throw new Error('Invalid Credentials');
-                }
-
-                // Is the password incrypted?
-
-                const isCorrectPassword = await bcrypt.compare(
-                    credentials?.password, 
-                    dbUser.hashedPassword
+                
+                const dbUser = await fetch(
+                    `${process.env.NEXT_PUBLIC_API_URL}/api/users/loginuser/`,
+                    {
+                        method: "POST",
+                        body: JSON.stringify(payload),
+                        headers: {
+                        "Content-Type": "application/json",
+                        },
+                    }
                 );
-
-                // Is the password incrypted?
-                if (!isCorrectPassword) {
-                    throw new Error('Invalid Credentials');
-                }
                 
 
-                const user: User = {
-                    id: dbUser.id,
-                    uuid: dbUser.uuid,
-                    email: dbUser.email,
-                    password: 'stopPeeking', // You can provide a dummy value for the password if necessary
-                    hashedPassword: dbUser.hashedPassword || undefined, // Ensure it's not null
-                };
+                const user = await dbUser.json();
+                console.log('Line 112: user auth: lib/auth/ = ', user)
 
-                return user;
+                if (!dbUser.ok) {
+                    throw new Error(user.message);
+                }
+
+                console.log('Success returning res.ok On Line 119', dbUser.ok)
+                console.log('Success returning User On Line 120', user)
+
+                if (
+                    user !== null &&
+                    user.user !== null
+                ) {
+                    console.log('Success returning res.ok On Line 126', dbUser.ok)
+                    console.log('Success returning User On Line 127', user)
+                    // return {
+                    //     email: user.user.email,
+                    //     uuid: user.user.uuid,
+                    //     hashedPassword: user.user.hashedPassword,
+                    //     firstName: user.user.firstName, // Add this line
+                    //     lastName: user.user.lastName,   // Add this line
+                    //     image: user.user.image,
+                    // };
+                    return user;
+                }
+        
+                // Return null if user data could not be retrieved
+                return null;
+
+               
+
+
             },
         }),
         GithubProvider({
@@ -112,7 +124,7 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        async jwt({ token, user, account, profile, isNewUser }) {
+        async jwt({ token, user, account}) {
 
         //console.log('Line 113 auth.tsx = JWT Callback:', token, user);
 
@@ -126,6 +138,10 @@ export const authOptions: NextAuthOptions = {
             ...token,
             id: user.id,
             uuid: user.uuid,
+            name: user.firstName + ' ' +user.lastName,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            image: user.image,      
             }
         }
 
@@ -149,13 +165,17 @@ export const authOptions: NextAuthOptions = {
             session.user = {
                 email: token.email as string | null | undefined,
                 uuid: token.uuid as string | null | undefined,
+                firstName: token.firstName as string | null | undefined,
+                lastName: token.lastName as string | null | undefined,
+                image: token.image as string | null | undefined,
             };
+
+      
         }
 
         return session;
         
-        }
-        ,
+        },
         async signIn({ user, account, profile, email, credentials }) {
             const isAllowedToSignIn = true
             if (isAllowedToSignIn) {

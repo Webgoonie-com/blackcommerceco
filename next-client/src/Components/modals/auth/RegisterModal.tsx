@@ -65,16 +65,17 @@ const RegisterModal = () => {
         axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/users/createUser/`, data)
             .then(() => {
                 router.refresh();
-                registerModal.onClose();
+                //registerModal.onClose();
                 //reset();
 
                 toast.success('User Created successfully');
             })
             .catch((error) => {
-                console.log('Error', error)
+                //console.log('Error', error)
+                console.log('Error', error.message)
                 //resetField('password');
                 //resetField('hashedPassword');
-                if(error.response.data?.message)
+                if(error.response?.data?.message)
                 {
                     toast.error(error.response.data.message)
                 }

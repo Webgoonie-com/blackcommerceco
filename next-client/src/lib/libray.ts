@@ -1,8 +1,13 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import axios from "axios";
+export { authOptions } from "@/lib/auth";
 
-const secretKey = "secret";
+const secretKey = process.env.NEXTAUTH_SECRET || "secret";
+
+//console.log('secretKey', secretKey)
+
 const key = new TextEncoder().encode(secretKey);
 
 export async function encrypt(payload: any) {
@@ -19,16 +24,62 @@ export async function encrypt(payload: any) {
 }
 
 export async function decrypt(input: string): Promise<any> {
-  const { payload } = await jwtVerify(input, key, {
-    algorithms: ["HS256"],
-  });
-  return payload;
+  
+  try {
+
+    const { payload } = await jwtVerify(input, key, {
+      algorithms: ["HS256"],
+    });
+
+    return payload;
+    
+  } catch (error) {
+
+    console.error("JWT Verification Error:", error);
+
+    throw error;
+
+  }
+
+}
+
+export async function authDecrypt(input: string): Promise<any> {
+  
+  try {
+
+    console.log('input: ', { input })
+
+    //const session = await getSession();
+    // const { payload } = await jwtVerify(input, key, {
+    //   algorithms: ["A256GCM"],
+    //   algorithms: ["dir"],
+    // });
+
+    // return payload;
+
+    return input
+    
+  } catch (error) {
+
+    console.error("JWT Verification Error:", error);
+
+    throw error;
+
+  }
+
 }
 
 export async function login(formData: FormData) {
   // Verify credentials && get the user
   // This is where you would talk to a database.
-  const user = { email: formData.get("email"), name: "John" };
+  //const user = { email: formData.get("email"), name: "John" };
+
+  const data = { email: formData.get("email"),  password: formData.get("hasedPassword") };
+  
+  const response = await axios.post(`${process.env.NEXTAUTH_URL}/api/register/`, data)
+
+  // Assuming your API response contains user data
+  const user = response.data;
 
   // Create the session after getting user
   const expires = new Date(Date.now() + 60 * 1000);   // This is gonnaehe expiration.
@@ -49,6 +100,18 @@ export async function getSession() {
   if (!session) return null;
   return await decrypt(session);
 }
+
+export async function getAuthSession() {
+  //const session = cookies().get("next-auth.session-token")?.value;
+  const session = cookies().get("next-auth.csrf-token")?.value;
+  
+  console.log('session', session);
+
+  if (!session) return null;
+  return await authDecrypt(session);
+}
+
+
 
 export async function updateSession(request: NextRequest) {
   const session = request.cookies.get("session")?.value;

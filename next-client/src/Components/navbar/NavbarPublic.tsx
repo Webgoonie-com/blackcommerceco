@@ -8,10 +8,14 @@ import Search from './Search';
 import UserMenu from './UserMenu';
 
 interface NavbarPublicProps {
-    currentUser?: User;
+    currentUser?: User | null;
 }
 
-const NavbarPublic = () => {
+const NavbarPublic: React.FC<NavbarPublicProps> = ({currentUser}) => {
+
+    console.log('current on NavbarPublic', {currentUser})
+
+
     return (
         <div className="w-full bg-gray-950 text-white z-10 shadow-sm relative">
             <div className="py-4 border-b-[1px]">
