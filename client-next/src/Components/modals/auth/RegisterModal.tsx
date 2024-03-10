@@ -8,6 +8,7 @@ import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { signIn } from "next-auth/react";
 import axios from 'axios';
+import axiosWithCredentials from "@/lib/axiosWithCredentials";
 
 import useRegisterModal from '@/Hooks/useRegisterModal';
 import useLoginModal from '@/Hooks/useLoginModal';
@@ -59,21 +60,22 @@ const RegisterModal = () => {
         console.log(`Line 58: ${process.env.NEXT_PUBLIC_API_URL}/api/register/`)
         console.log(`Line 59: http://localhost:3333/api/register/`)
         //axios.post(`${process.env.NEXTAUTH_URL}/api/register/`, data)
-        //axios.post(`http://localhost:3333/api/register/`, data)
-        //axios.post(`/api/register/`, data)
+        //axiosWithCredentials.post(`http://localhost:3333/api/register/`, data)
+        //axiosWithCredentials.put(`/api/register/`, data)
         //axios.post(process.env.NEXT_PUBLIC_API_URL +'api/users/createUser/', data)
-        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/users/createUser/`, data)
+        //axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/users/createUser/`, data)
+        axiosWithCredentials.post(`/api/register/`, data)
             .then(() => {
                 router.refresh();
                 registerModal.onClose();
-                reset();
+                //reset();
 
                 toast.success('User Created successfully');
             })
             .catch((error) => {
                 console.log('Error', error)
-                resetField('password');
-                resetField('hashedPassword');
+                //resetField('password');
+                //resetField('hashedPassword');
                 if(error.response.data?.message)
                 {
                     toast.error(error.response.data.message)

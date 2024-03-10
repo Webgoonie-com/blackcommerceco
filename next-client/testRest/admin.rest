@@ -1,0 +1,63 @@
+GET http://localhost:3334/api/admins/all
+
+
+
+###
+
+POST http://localhost:3334/api/admins/loginadmin
+Content-Type: application/json
+
+{
+    "email": "webgoonie@gmail.com",
+    "hashedPassword": "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
+}
+
+###
+
+POST http://localhost:3334/api/admins/loginadmin/
+Content-Type: application/json
+
+{
+    "email": "bretOreta@gmail.com",
+    "hashedPassword": "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
+}
+
+###
+
+
+POST http://localhost:3334/api/admins/createadmin
+Content-Type: application/json
+
+{
+    "firstName": "Benjamin",
+    "lastName": "Carter",
+    "email": "webgoonie@gmail.com",
+    "hashedPassword": "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
+}
+
+
+###
+
+
+POST http://localhost:3334/api/admins/createadmin
+Content-Type: application/json
+
+{
+    "firstName": "Lyric",
+    "lastName": "Carter",
+    "email": "lyricicarter@gmail.com",
+    "hashedPassword": "111"
+}
+
+###
+
+
+POST http://localhost:3334/api/admins/createadmin/
+Content-Type: application/json
+
+{
+    "firstName": "Brett",
+    "lastName": "Oreta",
+    "email": "bretOreta@gmail.com",
+    "hashedPassword": "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
+}

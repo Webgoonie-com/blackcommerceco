@@ -185,12 +185,12 @@ app.prepare().then(() => {
         return res.sendStatus(404)
     });
 
-    expressApp.post('/api/register', (req, res) => {
-        return handle(req, res)
+    expressApp.post('*', async (req, res) => {
+        return await handle(req, res)
     });
     
-    expressApp.get('*', (req, res) => {
-        return handle(req, res)
+    expressApp.get('*', async (req, res) => {
+        return await handle(req, res)
     })
 
     expressApp.listen(PORT, () => {
