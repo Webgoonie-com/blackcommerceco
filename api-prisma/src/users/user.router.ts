@@ -107,7 +107,10 @@ userRouter.post('/create', async (request: Request, response: Response) => {
 
 
 userRouter.post('/loginuser', async (request: Request, response: Response) => {
+
     try {
+
+        console.log('/loginuser: request.body = ', request.body)
         
         const newUser = await UserService.loginUser(request.body)
 

@@ -1,8 +1,11 @@
 import { redirect } from "next/navigation";
-import { getSession, login, logout } from "@/lib/libray";
+import { getSession, getAuthSession, login, logout } from "@/lib/libray";
 
 export default async function Page() {
   const session = await getSession();
+  
+  const authSession = await getAuthSession();
+  
   return (
     <section>
       <form
@@ -25,7 +28,9 @@ export default async function Page() {
       >
         <button type="submit">Logout</button>
       </form>
-      <pre>{JSON.stringify(session, null, 2)}</pre>
+      <pre>SessioN: {JSON.stringify(session, null, 2)}</pre>
+
+      <pre>authSession: {JSON.stringify(authSession, null, 2)}</pre>
     </section>
   );
 }

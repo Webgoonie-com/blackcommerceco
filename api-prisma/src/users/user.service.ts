@@ -1,5 +1,5 @@
 import { orm } from "../utils/orm.server";
-
+import bcrypt from "bcrypt";
 
 type User = {
     id: number;
@@ -12,6 +12,17 @@ type User = {
 
 type CreateUserInput = Omit<User, "id"> & {
     hashedPassword: string;
+};
+
+
+type FindUserResult = {
+    id: number;
+    uuid: string;
+    firstName: string | null;
+    lastName: string | null;
+    email: string;
+    hashedPassword: string | null;
+    createdAt: Date;
 };
 
 
@@ -79,14 +90,22 @@ export const getUserUuId = async (uuid: string): Promise<User | null> => {
 
 
 export const createUser = async (user: CreateUserInput): Promise<User | any> => {
+   
     const { firstName, lastName, email, hashedPassword } = user;
 
+    console.log('on user.service user', user)
+
+    const hashed = await bcrypt.hash(hashedPassword, 12);
+
+
+
+    
     return orm.user.create({
         data: {
             firstName,
             lastName,
             email,
-            hashedPassword,
+            hashedPassword: hashed,
         },
         select: {
             id: true,
@@ -98,36 +117,50 @@ export const createUser = async (user: CreateUserInput): Promise<User | any> => 
     });
 }
 
-export const loginUser = async (user: CreateUserInput): Promise<User | any> => {
+export const loginUser = async (user: CreateUserInput): Promise<User | null> => {
     const { email, hashedPassword } = user;
 
-    const findUser = orm.user.findUnique({
+
+    console.log('loginUser', user)
+    console.log('user.hashedPassword', user.hashedPassword)
+
+    // Find the user by email, including the hashedPassword
+    const findUser = await orm.user.findUnique({
         where: {
-            email
+            email,
         },
         select: {
             id: true,
+            uuid: true,
             firstName: true,
             lastName: true,
             email: true,
             hashedPassword: true,
-        }
-    });
+            image: true,
+            createdAt: true,
+        },
+    }) as FindUserResult;
 
-    if(!findUser) {
-        return null
-    }
-
-    // Check And do compare of password before returning findUser
-
-    return findUser
-
+    console.log('findUser', findUser)
     
 
+    if (!findUser) {
+        return null; // User not found
+    }
 
+    // Compare the entered password with the hashed password from the database
+    const passwordMatch = await bcrypt.compare(user.hashedPassword, findUser.hashedPassword || '');
 
+    console.log('passwordMatch', passwordMatch)
 
-}
+    if (passwordMatch) {
+        // Return the user without the hashedPassword
+        const { hashedPassword, ...userWithoutPassword } = findUser;
+        return userWithoutPassword;
+    } else {
+        return null; // Passwords do not match
+    }
+};
 
 
 export const updateUser = async (user: Omit<User, "id">, id: number): Promise<User> => {

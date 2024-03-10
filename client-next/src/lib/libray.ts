@@ -1,3 +1,4 @@
+import axios from "axios";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
@@ -25,10 +26,24 @@ export async function decrypt(input: string): Promise<any> {
   return payload;
 }
 
+export async function authDecrypt(input: string): Promise<any> {
+  const { payload } = await jwtVerify(input, key, {
+    algorithms: ["HS256"],
+  });
+  return payload;
+}
+
 export async function login(formData: FormData) {
   // Verify credentials && get the user
   // This is where you would talk to a database.
-  const user = { email: formData.get("email"), name: "John" };
+  //const user = { email: formData.get("email"), name: "John" };
+
+  const data = { email: formData.get("email"),  password: formData.get("hasedPassword") };
+  
+  const response = await axios.post(`${process.env.NEXTAUTH_URL}/api/register/`, data)
+
+  // Assuming your API response contains user data
+  const user = response.data;
 
   // Create the session after getting user
   const expires = new Date(Date.now() + 60 * 1000);   // This is gonnaehe expiration.
@@ -49,6 +64,14 @@ export async function getSession() {
   if (!session) return null;
   return await decrypt(session);
 }
+
+
+export async function getAuthSession() {
+  const session = cookies().get("next-auth.session-token")?.value;
+  if (!session) return null;
+  return await authDecrypt(session);
+}
+
 
 export async function updateSession(request: NextRequest) {
   const session = request.cookies.get("session")?.value;
