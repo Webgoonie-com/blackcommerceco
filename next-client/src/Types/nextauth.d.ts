@@ -23,8 +23,8 @@ interface IUser extends DefaultUser {
   lastName: string | undefined | null;
   favoriteIds: string | undefined | null;
   createdAt: Date;
-  updatedLast: Date;
-  emailVerified?: Number;
+  updatedAt: Date;
+  emailVerified?: Date | undefined | null;
 
   
 }
@@ -41,7 +41,9 @@ declare module "next-auth" {
   interface Session {
     user?: User;
     admin?: Admin;
-    emailVerified?: Number;
+    emailVerified?: Date | undefined | null;
+    createdAt?: Date;
+    updatedAt?: Date;
   }
 }
 declare module "next-auth/jwt" {

@@ -50,6 +50,16 @@ model Admin {
   createdAt           DateTime                @default(now())
 }
 
+model Favorite {
+  id                  Int                     @id @default(autoincrement())
+  uuid                String                  @default(uuid()) @unique
+  user                User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId              Int
+  listingId           Int
+  listing             Listing[]
+
+}
+
 model User {  
   id                  Int                     @id @default(autoincrement())
   uuid                String                  @default(uuid()) @unique
@@ -64,6 +74,7 @@ model User {
   updatedAt           DateTime                @default(now()) @updatedAt
   createdAt           DateTime                @default(now())
 
+  favoriteIds         Favorite[]
   userPhotos          UserPhoto[]
   accounts            Account[]
   listings            Listing[]
@@ -109,6 +120,7 @@ model Listing {
   userId              Int
 
   reservations        Reservation[]
+  favorites           Favorite[]
 }
 
 model Reservation {

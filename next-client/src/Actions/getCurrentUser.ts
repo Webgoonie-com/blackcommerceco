@@ -34,6 +34,9 @@ export default async function getCurrentUsers(){
         return {
             ...currentUser,
             ...session,
+            createdAt: currentUser.createdAt.toISOString(),
+            updatedAt: currentUser.updatedAt.toISOString(),
+            emailVerified: currentUser?.emailVerified?.toISOString() || null,
             }
 
     } catch (error: any) {

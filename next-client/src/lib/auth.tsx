@@ -82,7 +82,10 @@ export const authOptions: NextAuthOptions = {
             name: user.firstName + ' ' +user.lastName,
             firstName: user.firstName,
             lastName: user.lastName,
-            usrImage: user.usrImage,      
+            usrImage: user.usrImage,
+            emailVerified: user.emailVerified,
+            createdAt: user.createdAt,
+            upatedAt: user.updatedAt,
             }
         }
 
@@ -94,13 +97,16 @@ export const authOptions: NextAuthOptions = {
 
         if(token && session.user) {
             session.user.role = token.role;
-            session.user.uuid = token.uuid,
-            session.user.token = token.token,
+            session.user.uuid = token.uuid;
+            session.user.token = token.token;
             session.user.name = token.firstName + ' ' + token.lastName;
-            session.user.firstName = token.firstName,
-            session.user.lastName = token.lastName,
+            session.user.firstName = token.firstName;
+            session.user.lastName = token.lastName;
             session.user.email = token.email;
+            session.user.emailVerified = token.emailVerified;
             session.user.image = token.usrImage;
+            session.user.createdAt = token.createdAt;
+            session.user.updatedAt = token.updatedAt;
         }
         return session;
         }
