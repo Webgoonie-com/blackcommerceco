@@ -6,14 +6,13 @@ import Logo from '../Logo'
 import { User } from "next-auth"
 import Search from './Search';
 import UserMenu from './UserMenu';
+import { SafeUser } from '@/Types'
 
 interface NavbarPublicProps {
-    currentUser?: User | null;
+    currentUser?: SafeUser | null;
 }
 
 const NavbarPublic: React.FC<NavbarPublicProps> = ({currentUser}) => {
-
-    console.log('current on NavbarPublic', {currentUser})
 
 
     return (
@@ -23,7 +22,7 @@ const NavbarPublic: React.FC<NavbarPublicProps> = ({currentUser}) => {
                    <div className='flex flex-row items-center justify-between gap-3 md:gap-0'>
                      <Logo />
                      <Search />
-                     <UserMenu />
+                     <UserMenu currentUser={currentUser as any} />
                     </div>
                 </Container>
             </div>

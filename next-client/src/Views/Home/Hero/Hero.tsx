@@ -12,27 +12,16 @@ const Hero = () => {
     const { data: session, status } = useSession();
 
 
-    const dataSessions = session;
+    const dataSessions = session;  
 
-    console.log(dataSessions, 'dataSessions')
-
-
-//     useEffect(() => {
-//       if (status === 'loading') {
-//           console.log('Loading session data...');
-//           console.log('Line 14 on Blank/page.tsx = Session', session)
-//           console.log('Line 15 on Blank/page.tsx = status', status)
-//       }else{
-//         console.log('Loading session satus not loading = ...', status);
-//       }
-//   }, [session, status]);
+   
     
     return (
         <section className="h-screen w-full bg-cover bg-center clearfix relative position-relative" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1506956191951-7a88da4435e5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074')`}}>
             <Container>
                 <div className="flex flex-col h-full justify-center absolute">
                     <div className="max-w-[52rem] px-2 md:mt-20 xl:mt-20">
-                        <div className="bg-zinc-700 border-2 rounded-md border-slate-800 opacity-75 p-2">
+                        <div className="bg-zinc-700 border-2 rounded border-slate-200 opacity-70 p-5">
                             <h4 className="text-[2.4rem] leading-tight text-white font-bold">
                                 Building The African Diaspora
                             </h4>
@@ -52,16 +41,16 @@ const Hero = () => {
                             <div className="flex items-center space-x-3 mt-5">
                                 {!session?.user ? (
                                     <>
-                                        <button onClick={loginModal.onOpen} className="bg-transparent outline-none border-2 border-purple-600 text-purple-600 rounded-md text-sm font-semibold px-6 py-3">
+                                        <button onClick={loginModal.onOpen} className="bg-purple-500 text-white outline-none border-2 border-purple-600  rounded-md text-sm font-semibold px-6 py-3">
                                             Login
                                         </button>
-                                        <button onClick={registerModal.onOpen} className="outline-none border-2 border-purple-600 text-purple-600 rounded-md text-sm font-semibold px-6 py-3 bg-darkBlue">
+                                        <button onClick={registerModal.onOpen} className="bg-purple-500 outline-none border-2 border-purple-600 text-white rounded-md text-sm font-semibold px-6 py-3 bg-darkBlue">
                                             Sign Up
                                         </button>
                                     </>
                                 ) : (
-                                    <button className="outline-none border-2 border-purple-600 text-white-50 rounded-md text-sm font-semibold px-6 py-3">
-                                        Welcome {session.user?.name} !
+                                    <button className="bg-purple-500  outline-none border-2 border-purple-600 text-white-50 rounded-md text-sm font-semibold px-6 py-3">
+                                        Welcome {session.user?.name}!
                                     </button>
                                 )}
                             </div>

@@ -16,7 +16,7 @@ export default async function getCurrentUsers(){
         
         const session = await getSession()
 
-        console.log('authOptions session', session)
+        // console.log('authOptions session', session)
 
         if(!session?.user?.email){
             return null;
@@ -24,7 +24,7 @@ export default async function getCurrentUsers(){
 
         const currentUser = session.user
 
-        console.log("Line 27 = currentUser", currentUser, "session.user", session.user);
+        // console.log("Line 27 = currentUser", currentUser, "session.user", session.user);
 
         if(!currentUser){
             //console.log("Line 32 = !currentUserDetected")

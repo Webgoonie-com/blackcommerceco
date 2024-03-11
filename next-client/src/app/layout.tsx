@@ -26,9 +26,6 @@ export default async function RootLayout({
 
   const currentUser = await getCurrentUser();
 
-  console.log('currentUser on Layout: ', currentUser)
-
-
   return (
     <html lang="en">
      <QueryProvider>

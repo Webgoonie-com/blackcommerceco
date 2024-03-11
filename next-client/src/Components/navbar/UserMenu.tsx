@@ -7,8 +7,18 @@ import MenuItem from './MenuItem'
 
 import useRegisterModal from '@/Hooks/useRegisterModal'
 import useLoginModal from '@/Hooks/useLoginModal'
+import { signOut, useSession } from "next-auth/react"
 
-const UserMenu = () => {
+import { CurrentUser } from '@/Types/nextauth'
+import { SafeUser } from '@/Types'
+
+interface UserMenuProps {
+    currentUser?: SafeUser | null
+}
+
+const UserMenu: React.FC<UserMenuProps> = ({
+    currentUser
+}) => {
 
     const registerModal = useRegisterModal()
     const loginModal = useLoginModal()
@@ -31,21 +41,49 @@ const UserMenu = () => {
     return (
         <div className='relative'>
             <div className="flex flex-row items-center gap-3">
-                <div 
-                    onClick={() => {}}
-                    className="
-                        hidden 
-                        md:block 
-                        text-sm 
-                        font-font-semibold
-                        py-3 px-4 
-                        rounded-full
-                        hover:bg-neutral-400 
-                        hover:dark:bg-neutral-800 
-                        cursor-pointer"
-                >
-                    List Your Business
-                </div>
+                
+
+                {currentUser ? (
+
+                    <>
+                        <div 
+                            onClick={() => {}}
+                            className="
+                                hidden 
+                                md:block 
+                                text-sm 
+                                font-font-semibold
+                                py-3 px-4 
+                                rounded-full
+                                hover:bg-neutral-400 
+                                hover:dark:bg-neutral-800 
+                                cursor-pointer"
+                        >
+                            {currentUser.name} <span className='text-green-400 font-bold'>{' Online '}</span>
+                        </div>
+                    </>
+
+                    ) : (
+
+                    <>
+                        <div 
+                            onClick={() => {}}
+                            className="
+                                hidden 
+                                md:block 
+                                text-sm 
+                                font-font-semibold
+                                py-3 px-4 
+                                rounded-full
+                                hover:bg-neutral-400 
+                                hover:dark:bg-neutral-800 
+                                cursor-pointer"
+                        >
+                            Circlulate Black Dollars
+                        </div>
+                    </>
+
+                    )}
 
                 <div
                     id="toggleAvtarMenu"
@@ -81,16 +119,53 @@ const UserMenu = () => {
                     className="absolute rounded-xl shadow-md w-[60vw] md:w-[300px] bg-white overflow-hidden right-0 top-12 text-sm"
                 >
                     <div className='flex flex-col cursor-pointer'>
-                    <>
-                        <MenuItem 
-                            onClick={handleLoginModal}
-                            label="Login"
-                        />
-                        <MenuItem
-                            onClick={handleRegisterModal}
-                            label="Sign Up"
-                        />
-                    </>
+                        {currentUser ? (
+
+                            <>
+                                <MenuItem 
+                                    onClick={ () => { console.log('Clicked My Trips')} }
+                                    label="My Trips"
+                                />
+                                <MenuItem 
+                                    onClick={ () => { console.log('Clicked My Favorites')} }
+                                    label="My Favorites"
+                                />
+                                <MenuItem 
+                                    onClick={ () => { console.log('Clicked My Reservations')} }
+                                    label="My Reservations"
+                                />
+                                <MenuItem 
+                                    onClick={ () => { console.log('Clicked My Properties')} }
+                                    label="My Properties"
+                                />
+                                <MenuItem 
+                                    onClick={ () => { console.log('List A New Property')} }
+                                    label="List A New Property"
+                                />
+                                <MenuItem 
+                                    onClick={ () => { console.log('List A New Business')} }
+                                    label="List A New Business"
+                                />
+                                <MenuItem
+                                    onClick={() => signOut()}
+                                    label="Sign Out"
+                                />
+                            </>
+
+                        ) : (
+
+                            <>
+                                <MenuItem 
+                                    onClick={handleLoginModal}
+                                    label="Login"
+                                />
+                                <MenuItem
+                                    onClick={handleRegisterModal}
+                                    label="Sign Up"
+                                />
+                            </>
+
+                        )}
                     </div>
                 </div>
             )}

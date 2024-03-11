@@ -1,6 +1,7 @@
 api-prisma/yarn.lock
 
 api-prisma/node_modules/*
-
+next-client/node_modules/*
 
 client-next/testRest/admin.rest
+next-client/.next/*

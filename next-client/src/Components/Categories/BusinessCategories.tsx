@@ -25,7 +25,7 @@ const BusinessCategories = () => {
                         {businesses.map((item) => (
                             <div key={item.label} className="col-span-12 md:col-span-6 lg:col-span-3 bg-gray-900 border border-gray-800 rounded-md p-5">
                                 <BusinessBox 
-                                    //description={item.description}
+                                    description={item.description}
                                     selected={business == item.label}
                                     label={item.label}
                                     icon={item.icon}
