@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 
 type User = {
     id: number;
-    uuid: string;
+    uuid: string | null;
     firstName: string | null;
     lastName: string | null;
     email: string;
@@ -17,7 +17,7 @@ type CreateUserInput = Omit<User, "id"> & {
 
 type FindUserResult = {
     id: number;
-    uuid: string;
+    uuid: string | null;
     firstName: string | null;
     lastName: string | null;
     email: string;

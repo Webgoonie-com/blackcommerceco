@@ -40,3 +40,40 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 For Icons Refernce we use react Icons
 
 You Can Visit: [React Icons](https://react-icons.github.io/react-icons/) for examples and use cases of how Icons are implemented here.
+
+For authentication and type safety prisma is in the next-client folder for next-auth @prisma-client resolution
+
+```sh
+    yarn add prisma -D
+    npx prisma init
+```
+or which is the same thing..
+
+```sh
+    yarn add prisma --dev
+    npx prisma init
+```
+
+
+    Changed the the schema file
+
+```sh
+    datasource db {
+        provider = "mysql"
+        url      = env("DATABASE_URL")
+    }
+```
+
+Then pull the schema from an exisiting database which api-epxress takes precendence.
+
+```sh
+    npx prisma db pull
+
+```
+
+For client can use the adapter for providers the client side  @prisma/client @auth/prisma-adapter was added to the client side.
+
+```sh
+    yarn add @prisma/client @auth/prisma-adapter
+    
+```

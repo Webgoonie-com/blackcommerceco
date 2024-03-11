@@ -7,10 +7,15 @@ import MenuItem from './MenuItem'
 
 import useRegisterModal from '@/Hooks/useRegisterModal'
 import useLoginModal from '@/Hooks/useLoginModal'
+
+import useBusinessRegistrationModal from '@/Hooks/useBusinessRegistrationModal'
+import useRentMyPropertyModal from '@/Hooks/useRentMyPropertyModal'
+
 import { signOut, useSession } from "next-auth/react"
 
 import { CurrentUser } from '@/Types/nextauth'
 import { SafeUser } from '@/Types'
+
 
 interface UserMenuProps {
     currentUser?: SafeUser | null
@@ -22,6 +27,10 @@ const UserMenu: React.FC<UserMenuProps> = ({
 
     const registerModal = useRegisterModal()
     const loginModal = useLoginModal()
+
+    const businessRegistrationModal = useBusinessRegistrationModal()
+
+    const rentMyPropertyModalModal = useRentMyPropertyModal()
 
     const [isOpen, setIsOpen] = useState(false)
 
@@ -37,6 +46,22 @@ const UserMenu: React.FC<UserMenuProps> = ({
         registerModal.onOpen()
         setIsOpen(false)
     }
+
+    const toggleMenuClosed = useCallback(() => {
+        setIsOpen(false)
+    }, [])
+
+
+  
+
+    const onQuickLogin = useCallback(() => {
+        if(!currentUser){
+            console.log('Detected Not Logged In Opening Login Modal')
+            return loginModal.onOpen()
+        }
+
+    }, [currentUser, loginModal])
+
     
     return (
         <div className='relative'>
@@ -47,7 +72,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
 
                     <>
                         <div 
-                            onClick={() => {}}
+                            onClick={onQuickLogin}
                             className="
                                 hidden 
                                 md:block 
@@ -67,7 +92,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
 
                     <>
                         <div 
-                            onClick={() => {}}
+                            onClick={onQuickLogin}
                             className="
                                 hidden 
                                 md:block 
@@ -116,38 +141,54 @@ const UserMenu: React.FC<UserMenuProps> = ({
 
             {isOpen && (
                 <div
-                    className="absolute rounded-xl shadow-md w-[60vw] md:w-[300px] bg-white overflow-hidden right-0 top-12 text-sm"
+                    className="absolute rounded-xl shadow-md w-[60vw] md:w-[300px] bg-white overflow-hidden right-0 top-12 text-sm z-50"
                 >
                     <div className='flex flex-col cursor-pointer'>
                         {currentUser ? (
 
                             <>
+                                <hr />
                                 <MenuItem 
-                                    onClick={ () => { console.log('Clicked My Trips')} }
+                                    onClick={ () => { console.log('My Profile')} }
+                                    label="My Profile"
+                                />
+                                <hr />
+                                <MenuItem 
+                                    onClick={ () => { console.log('Clicked My Trips') , toggleMenuClosed()} }
                                     label="My Trips"
                                 />
                                 <MenuItem 
-                                    onClick={ () => { console.log('Clicked My Favorites')} }
+                                    onClick={ () => { 
+                                        console.log('Clicked My Favorites')
+                                        toggleMenuClosed()
+                                } }
                                     label="My Favorites"
                                 />
                                 <MenuItem 
-                                    onClick={ () => { console.log('Clicked My Reservations')} }
+                                    onClick={ () => { console.log('Clicked My Reservations'),  toggleMenuClosed()} }
                                     label="My Reservations"
                                 />
                                 <MenuItem 
-                                    onClick={ () => { console.log('Clicked My Properties')} }
+                                    onClick={ () => { console.log('Clicked My Properties'),  toggleMenuClosed()} }
                                     label="My Properties"
                                 />
                                 <MenuItem 
-                                    onClick={ () => { console.log('List A New Property')} }
+                                    onClick={ () => { rentMyPropertyModalModal.onOpen(),  toggleMenuClosed()} }
                                     label="List A New Property"
                                 />
+                                
                                 <MenuItem 
-                                    onClick={ () => { console.log('List A New Business')} }
+                                    onClick={ () => { businessRegistrationModal.onOpen(),  toggleMenuClosed()} }
                                     label="List A New Business"
                                 />
+                                <hr />
+                                <MenuItem 
+                                    onClick={ () => { console.log('List A New Business'),  toggleMenuClosed()} }
+                                    label="My Back Office"
+                                />
+                                <hr />
                                 <MenuItem
-                                    onClick={() => signOut()}
+                                    onClick={() => {signOut(),  toggleMenuClosed()}}
                                     label="Sign Out"
                                 />
                             </>

@@ -1,12 +1,16 @@
+import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import NextAuth, { NextAuthOptions } from "next-auth";
-import { useSession } from "next-auth/react";
+import { useSession, getSession } from "next-auth/react";
 import { redirect } from "next/navigation"
 
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github"
 import GoogleProvider from "next-auth/providers/google"
 
+import { orm } from "./orm"
+
 export const authOptions: NextAuthOptions = {
+    adapter: PrismaAdapter(orm),
     providers: [
         CredentialsProvider({
             name: "Credentials",
@@ -72,12 +76,19 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        jwt({ token, user }) {
+        jwt({ token, user, account }) {
+
+        if (account) {
+                token.accessToken = account.access_token
+                token.uuid = user.uuid
+        }
+
         if(user) {
             return {
             ...token,
-            role: user.role,
+            id: user.id,
             uuid: user.uuid,
+            role: user.role,
             token: user.token,
             name: user.firstName + ' ' +user.lastName,
             firstName: user.firstName,
@@ -91,13 +102,21 @@ export const authOptions: NextAuthOptions = {
 
         return token;
         },
+        async redirect({ url, baseUrl }) {
+            // Allows relative callback URLs
+           if (url.startsWith("/")) return `${baseUrl}${url}`
+           // Allows callback URLs on the same origin
+           else if (new URL(url).origin === baseUrl) return url
+           
+           return baseUrl
+        },
         session: async ({ session, token }) => {
         
             //const userSession = await getSession();
 
         if(token && session.user) {
-            session.user.role = token.role;
             session.user.uuid = token.uuid;
+            session.user.role = token.role;
             session.user.token = token.token;
             session.user.name = token.firstName + ' ' + token.lastName;
             session.user.firstName = token.firstName;
@@ -112,7 +131,7 @@ export const authOptions: NextAuthOptions = {
         }
     },
     pages: {
-        //signIn: '/',
+        signIn: '/',
         // signOut: '/auth/logout',
         // error: '/auth/error',
         // verifyRequest: '/auth/verify-request',
@@ -125,6 +144,10 @@ export const authOptions: NextAuthOptions = {
         strategy: 'jwt'
     },
     secret: process.env.NEXTAUTH_SECRET,
+};
+
+export const getServerSession = async (req: any) => {
+    return await getSession({ req }); // Ensure that getSession is imported from 'next-auth/react'
 };
 
 

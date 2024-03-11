@@ -5,8 +5,9 @@ import Container from '../Container'
 import Logo from '../Logo'
 import { User } from "next-auth"
 import Search from './Search';
-import UserMenu from './UserMenu';
-import { SafeUser } from '@/Types'
+import UserMenu from './UserMenu'
+
+import CategoriesNav from '../navbar/categories/CategoriesNav'
 
 interface NavbarPublicProps {
     currentUser?: User | null;
@@ -25,6 +26,8 @@ const NavbarPublic: React.FC<NavbarPublicProps> = ({currentUser}) => {
                      <UserMenu currentUser={currentUser as any} />
                     </div>
                 </Container>
+
+                <CategoriesNav />
             </div>
         </div>
     )

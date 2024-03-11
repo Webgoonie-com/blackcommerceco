@@ -113,7 +113,7 @@ const CategoriesProperties = () => {
     const isMainPage = pathname === '/'
     const isBapPage = pathname === '/bap'
     const isBapsPage = pathname === '/baps'
-    const isBusinessPage = pathname === '/'
+    
 
     //console.log('pathname', pathname)
 
@@ -137,7 +137,7 @@ const CategoriesProperties = () => {
                 <div
                     id="toggleAvtarMenu"
                     onClick={toggleOpen}
-                    className={`outline-none border-2 text-white rounded-md hover:bg-gray-900 text-sm font-semibold px-2 py-1 flex items-center gap-3 cursor-pointer transition duration-200
+                    className={`ms-28 outline-none border-2 text-white rounded-md hover:bg-gray-900 text-sm font-semibold px-2 py-1 flex items-center gap-3 cursor-pointer transition duration-200
                                 ${isOpen ? 'border-purple-600' : 'border-transparent'}`}>
                     <p className='block'>
                         Black Air Properties 
@@ -201,8 +201,8 @@ const CategoriesProperties = () => {
 
     
         return (
-            <div className="relative clearfix bg-purple-800">
-                <div className="px-32 pt-4 flex flex-row items-center justify-between overflow-x-auto">
+            <div className="w-full relative clearfix bg-gray-950">
+                <div className="w-full pt-4 flex flex-row items-center justify-evenly overflow-x-auto">
                     {/* {categories.slice(0, 5).map((item) => ( */}
                     {categories.map((item) => (
                         <div key={item.label} className='col-span-6 md:col-span-4'>

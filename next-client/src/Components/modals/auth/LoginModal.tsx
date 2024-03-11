@@ -31,9 +31,11 @@ const RegisterModal = () => {
 
     const { 
             register, 
-            handleSubmit, 
 			resetField,
-            formState: { errors }
+            handleSubmit, 
+            formState: { 
+                errors 
+            }
         } = useForm<FieldValues>(
             {
                 defaultValues: {
@@ -76,8 +78,8 @@ const RegisterModal = () => {
     };
 
     const toggleModal = useCallback(() => {
-        registerModal.onClose();
-        loginModal.onOpen();
+        loginModal.onClose();
+        registerModal.onOpen();
     }, [loginModal, registerModal]);
 
 
@@ -102,7 +104,7 @@ const RegisterModal = () => {
     const footerContent = (
         <div className='flex flex-col gap-4'>
             <hr />
-            <Button
+            {/* <Button
                 outline
                 label='Continue With Google'
                 icon={FcGoogle}
@@ -117,20 +119,20 @@ const RegisterModal = () => {
                 onClick={() => signIn('github')}
                 //onClick={() => {console.log('Clicked Continue With GitHub!')}}
 
-            />
+            /> */}
             <div className="justify-start flex flex-row items-center gap-2 text-gray-500 text-center mt-4 font-light">
-                    <div>Already have an account </div>
+                    <div>First Time using  BlackCommerce? </div>
                 
                     <div 
                         className="text-white hover:underline hover:cursor-pointer"
                         onClick={toggleModal}>
-                            Log In?
+                            Create an Account?
                     </div>
                     
                     <div 
                         style={{ textAlign: 'right', color: 'pink', position: 'absolute',}}
                         className="right-2 pe-5 position-absolute text-align-items-end justify-content-end d-flex cursor-pointer"
-                        onClick={registerModal.onClose}>
+                        onClick={ loginModal.onClose}>
                             Cancel
                     </div>
                 

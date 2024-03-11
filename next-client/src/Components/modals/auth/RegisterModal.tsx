@@ -121,7 +121,7 @@ const RegisterModal = () => {
     const footerContent = (
         <div className='flex flex-col gap-4'>
             <hr />
-            <Button
+            {/* <Button
                 outline
                 label='Continue With Google'
                 icon={FcGoogle}
@@ -136,7 +136,7 @@ const RegisterModal = () => {
                 onClick={() => signIn('github')}
                 //onClick={() => {console.log('Clicked Continue With GitHub!')}}
 
-            />
+            /> */}
             <div className="justify-start flex flex-row items-center gap-2 text-gray-500 text-center mt-4 font-light">
                     <div>Already have an account </div>
                 

@@ -30,7 +30,7 @@ export default async function Home() {
 
         <Categories />
         
-        <Footer />
+      
 
       </div>
     </main>

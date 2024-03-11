@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model account {
+  id                Int     @id @default(autoincrement())
+  uuid              String  @unique(map: "Account_uuid_key")
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  userId            Int
+  user              user    @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Account_userId_fkey")
+
+  @@unique([provider, providerAccountId], map: "Account_provider_providerAccountId_key")
+  @@index([userId, providerAccountId, provider], map: "Account_userId_providerAccountId_provider_idx")
+}
+
+model admin {
+  id             Int       @id @default(autoincrement())
+  uuid           String    @unique(map: "Admin_uuid_key")
+  nickname       String?
+  email          String    @unique(map: "Admin_email_key")
+  emailVerified  DateTime?
+  image          String?
+  hashedPassword String?
+  firstName      String?
+  lastName       String?
+  role           String?
+  updatedAt      DateTime  @default(now())
+  createdAt      DateTime  @default(now())
+}
+
+model favorite {
+  id        Int       @id @default(autoincrement())
+  uuid      String    @unique(map: "Favorite_uuid_key")
+  userId    Int
+  listingId Int
+  user      user      @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Favorite_userId_fkey")
+  listing   listing[] @relation("favoritetolisting")
+
+  @@index([userId], map: "Favorite_userId_fkey")
+}
+
+model listing {
+  id            Int           @id @default(autoincrement())
+  uuid          String        @unique(map: "Listing_uuid_key")
+  title         String
+  description   String
+  imageSrc      String
+  createdAt     DateTime      @default(now())
+  category      String
+  roomCount     Int
+  bathroomCount Int
+  guestCount    Int
+  locationValue String
+  price         Int
+  userId        Int
+  user          user          @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Listing_userId_fkey")
+  reservation   reservation[]
+  favorite      favorite[]    @relation("favoritetolisting")
+
+  @@index([userId], map: "Listing_userId_fkey")
+}
+
+model reservation {
+  id         Int      @id @default(autoincrement())
+  uuid       String   @unique(map: "Reservation_uuid_key")
+  startDate  DateTime
+  endDate    DateTime
+  totalPrice Int
+  createdAt  DateTime @default(now())
+  userId     Int
+  listingId  Int
+  listing    listing  @relation(fields: [listingId], references: [id], onDelete: Cascade, map: "Reservation_listingId_fkey")
+  user       user     @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Reservation_userId_fkey")
+
+  @@index([listingId], map: "Reservation_listingId_fkey")
+  @@index([userId], map: "Reservation_userId_fkey")
+}
+
+model user {
+  id             Int            @id @default(autoincrement())
+  uuid           String?        @default(uuid()) @unique
+  name           String?
+  role           String?
+  email          String        @unique(map: "User_email_key")
+  emailVerified  DateTime?
+  image          String?
+  hashedPassword String?
+  firstName      String?
+  lastName       String?
+  updatedAt      DateTime      @default(now())
+  createdAt      DateTime      @default(now())
+  account        account[]
+  favorite       favorite[]
+  listing        listing[]
+  reservation    reservation[]
+  userphoto      userphoto[]
+}
+
+model userphoto {
+  Id            Int      @id @default(autoincrement())
+  uuid          String
+  serverCaption String?
+  userCaption   String?
+  imageSize     Int?
+  type          String
+  local         String
+  url           String
+  filename      String
+  message       String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
+  userId        Int
+  user          user     @relation(fields: [userId], references: [id], onDelete: Cascade, map: "UserPhoto_userId_fkey")
+
+  @@index([userId], map: "UserPhoto_userId_idx")
+}

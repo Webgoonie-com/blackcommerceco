@@ -16,7 +16,7 @@ datasource db {
 
 model Account {
   id                  Int                     @id @default(autoincrement())
-  uuid                String                  @default(uuid()) @unique
+  uuid                String?                  @default(uuid()) @unique
   type                String
   provider            String
   providerAccountId   String
@@ -62,8 +62,8 @@ model Favorite {
 
 model User {  
   id                  Int                     @id @default(autoincrement())
-  uuid                String                  @default(uuid()) @unique
-  nickname            String?
+  uuid                String?                 @default(uuid()) @unique
+  name                String?
   role                String?
   email               String                  @unique
   emailVerified       DateTime? 

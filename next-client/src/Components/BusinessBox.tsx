@@ -51,7 +51,7 @@ const BusinessBox: React.FC<BusinessBoxProps> = ({
             }
 
             const url = qs.stringifyUrl({
-                url: '/',
+                url: '/bbs/',
                 query: updatedQeury
             }, { skipNull: true })
     
