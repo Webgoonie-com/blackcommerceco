@@ -6,7 +6,7 @@ import { IoDiamond } from 'react-icons/io5'
 import { BsSnow } from 'react-icons/bs'
 import { FaSkiing } from 'react-icons/fa'
 import { TbBeach, TbChevronDown, TbMountainOff, TbPool } from 'react-icons/tb'
-import { GiBarn, GiBoatFishing, GiCactus, GiCastle, GiCaveEntrance, GiForestCamp, GiIsland, GiWindmill } from 'react-icons/gi'
+import { GiBarn, GiBoatFishing, GiCactus, GiCastle, GiCaveEntrance, GiForestCamp, GiIsland, GiWindmill, GiVillage  } from 'react-icons/gi'
 import { MdOutlineVilla } from 'react-icons/md'
 import CategoryBox from '../../CategoryBox'
 import { usePathname, useSearchParams } from 'next/navigation'
@@ -20,14 +20,19 @@ export const categories = [
         description: 'This property is close to the beach!'
     },
     {
-        label: 'Windmills',
-        icon: GiWindmill,
-        description: 'This property has Windmills!'
+        label: 'Luxury',
+        icon: IoDiamond,
+        description: 'This property is luxurious!'
     },
     {
         label: 'Modern',
         icon: MdOutlineVilla,
         description: 'This property is modern!'
+    },
+    {
+        label: 'Village',
+        icon: GiVillage,
+        description: 'This property is in a village (rural)!'
     },
     {
         label: 'Countryside',
@@ -85,10 +90,12 @@ export const categories = [
         description: 'This property is in or has a barn!'
     },
     {
-        label: 'Luxury',
-        icon: IoDiamond,
-        description: 'This property is luxurious!'
+        label: 'Windmills',
+        icon: GiWindmill,
+        description: 'This property has Windmills!'
     },
+    
+    
     
 ]
 

@@ -16,7 +16,11 @@ export default async function getCurrentUsers(){
         
         const session = await getSession()
 
-        // console.log('authOptions session', session)
+        console.log('authOptions session', session)
+
+        if(session?.user?.name === 'undefined undefined'){
+            console.log('Line 22 3rd party Login session Detected...')
+        }
 
         if(!session?.user?.email){
             return null;
@@ -24,23 +28,23 @@ export default async function getCurrentUsers(){
 
         const currentUser = session.user
 
-        //console.log("Line 27 = currentUser", currentUser, "session.user", session.user);
+        console.log("Line 31 = currentUser", currentUser, "session.user", session.user);
 
         if(!currentUser){
-            //console.log("Line 32 = !currentUserDetected")
+            //console.log("Line 34 = !currentUserDetected")
             return null
         }
 
         return {
             ...currentUser,
             ...session,
-            createdAt: currentUser.createdAt.toISOString(),
-            updatedAt: currentUser.updatedAt.toISOString(),
-            emailVerified: currentUser?.emailVerified?.toISOString() || null,
+            // createdAt: currentUser.createdAt.toISOString(),
+            // updatedAt: currentUser.updatedAt.toISOString(),
+            // emailVerified: currentUser?.emailVerified?.toISOString() || null,
             }
 
     } catch (error: any) {
-        console.log('Line 37: Error', error)
+        console.log('Line 47: Error', error)
         return null
     }
 }
