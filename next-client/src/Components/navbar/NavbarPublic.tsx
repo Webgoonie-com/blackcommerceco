@@ -9,7 +9,7 @@ import UserMenu from './UserMenu';
 import { SafeUser } from '@/Types'
 
 interface NavbarPublicProps {
-    currentUser?: SafeUser | null;
+    currentUser?: User | null;
 }
 
 const NavbarPublic: React.FC<NavbarPublicProps> = ({currentUser}) => {

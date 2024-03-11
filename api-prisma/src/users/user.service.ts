@@ -135,6 +135,7 @@ export const loginUser = async (user: CreateUserInput): Promise<User | null> => 
             firstName: true,
             lastName: true,
             email: true,
+            role: true,
             hashedPassword: true,
             image: true,
             createdAt: true,

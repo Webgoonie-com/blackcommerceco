@@ -54,7 +54,7 @@ model User {
   id                  Int                     @id @default(autoincrement())
   uuid                String                  @default(uuid()) @unique
   nickname            String?
-  role                String? 
+  role                String?
   email               String                  @unique
   emailVerified       DateTime? 
   image               String? 
