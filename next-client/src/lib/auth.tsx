@@ -112,7 +112,7 @@ export const authOptions: NextAuthOptions = {
         }
     },
     pages: {
-        signIn: '/',
+        //signIn: '/',
         // signOut: '/auth/logout',
         // error: '/auth/error',
         // verifyRequest: '/auth/verify-request',
