@@ -44,19 +44,9 @@ const RegisterModal = () => {
         );
     
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
+       
         setIsLoading(true);
-        console.log('onSubmit Posting Here', data)
-        //console.log(`process.env.NEXT_PUBLIC_API_URL +'api/users/createUser/: `, process.env.NEXT_PUBLIC_API_URL +'api/users/createUser/')
-        
-        //axios.post('/api/register/', data)
-        console.log(`Line 58: `, process.env.NEXT_PUBLIC_API_URL)
-        console.log(`Line 59: `, `${process.env.NEXT_PUBLIC_API_URL}`)
-        
-        console.log(`Line 61: http://localhost:3333/api/register/`)
-        //axios.post(`${process.env.NEXTAUTH_URL}/api/register/`, data)
-        //axios.post(`http://localhost:3333/api/register/`, data)
-        //axios.post(`/api/register/`, data)
-        //axios.post(process.env.NEXT_PUBLIC_API_URL +'api/users/createUser/', data)
+       
         signIn('credentials', {
 			...data,
 			redirect: false,
