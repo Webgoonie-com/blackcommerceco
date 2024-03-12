@@ -4,13 +4,10 @@ import React, { useMemo, useState } from 'react'
 import { useSession } from "next-auth/react"
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
-import Modal from '@/Components/modals/Modal'
-
-import useBusinessRegistrationModal from '@/Hooks/useBusinessRegistrationModal'
-
-import ModalHeading from '../../ModalHeading';
 
 import { businesses } from '@/Components/navbar/categories/CategoriesBusinesses'
+import ModalHeading from '@/Components/modals/ModalHeading';
+
 import CategoryInput from '@/Elements/Inputs/CategoryInput';
 
 enum STEPS {
@@ -24,13 +21,13 @@ enum STEPS {
     PRICE = 7,
 }
 
-const BusinessStoreResgistrationModal = () => {
-    const businessRegistrationModal = useBusinessRegistrationModal()
+const BusinessCreation = () => {
 
     const { data: session, status } = useSession();
     const currentUser = session?.user;
 
     const [step, setStep] = useState(STEPS.CATEGORY)
+    const [stringName, setStringName] = useState(`${currentUser?.firstName}` + ' ' + `${currentUser?.lastName}`)
     const [isLoading, setIsLoading] = useState(false)
   
     console.log('Line 31 Current User ON Rental Modal', currentUser)
@@ -110,19 +107,20 @@ const BusinessStoreResgistrationModal = () => {
     }, [step])
 
     let bodyContent = (
-        <div>
-            <ModalHeading 
-            title={"List My Business"}
+        <div className='flex flex-col gap-8'>
+          <ModalHeading 
+            title={stringName+" List A New Business"}
             subtitle='Pick a Category'
             />
-        
-        <div
+
+
+<div
                     className='
                     grid
                     grid-cols-1
                     md:grid-cols-2
                     gap-3
-                    max-h-[50vh]
+                    max-h-[60vh]
                     overflow-y-auto
                 '
                 >
@@ -146,23 +144,23 @@ const BusinessStoreResgistrationModal = () => {
 
                     ))}
         </div>
-        
-        </div>
-    )
 
-      
+          
+        </div>
+      )
+
     return (
-        <Modal
-            isOpen={businessRegistrationModal.isOpen}
-            onClose={businessRegistrationModal.onClose}
-            onSubmit={handleSubmit(onSubmit)}
-            actionLabel={actionLabel}
-            title='Crate A Listing For My Business'
-            secondaryActionLabel={secondaryActionLabel}
-            secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
-            body={bodyContent}
-        />
+        <div className='bg-slate-500 vh h-screen'>
+            
+            <h2>Business Creation</h2>
+
+            <p>Create a new business listing here</p>
+
+            <p>{currentUser?.firstName} {currentUser?.lastName}</p>
+
+            {bodyContent}
+        </div>
     )
 }
 
-export default BusinessStoreResgistrationModal
+export default BusinessCreation
