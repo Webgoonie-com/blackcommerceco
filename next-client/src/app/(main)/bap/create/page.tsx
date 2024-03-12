@@ -77,14 +77,15 @@ const BusinessPropertyCreation = () => {
 
 
     return (
-        <div>
+        <div className='h-screen'>
+        
+        <div className="absolute grid md:grid-cols-3 xl:grid-cols-3 grid-flow-row auto-rows-max mb-14 z-50">
           <h2>Black Property Creation</h2>
 
           <p>Create A New Property Listing As A Black And Or Black Friendly Property.</p>
 
           <p>{currentUser?.firstName} {currentUser?.lastName}</p>
 
-            <div className="grid md:grid-cols-3 xl:grid-cols-3 grid-flow-row auto-rows-max mb-14 z-50">
                   <SelectCountry
                           value={watchLocation}
                           onChange={(value) => setCustomValue('location', value)}

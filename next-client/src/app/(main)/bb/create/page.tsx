@@ -128,7 +128,7 @@ const BusinessCreation = () => {
             />
 
 
-<div
+            <div
                     className='
                     grid
                     grid-cols-1
@@ -167,13 +167,13 @@ const BusinessCreation = () => {
     return (
         <div className='bg-slate-500 h-screen'>
             
+            <div className="absolute grid md:grid-cols-3 xl:grid-cols-3 grid-flow-row auto-rows-max mb-14 z-50">
             <h2>Business Creation</h2>
 
             <p>Create a new business listing here</p>
 
             <p>{currentUser?.firstName} {currentUser?.lastName}</p>
 
-            <div className="grid md:grid-cols-3 xl:grid-cols-3 grid-flow-row auto-rows-max mb-14 z-50">
                   <SelectCountry
                           value={watchLocation}
                           onChange={(value) => setCustomValue('location', value)}
