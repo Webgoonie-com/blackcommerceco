@@ -10,6 +10,14 @@ import ModalHeading from '@/Components/modals/ModalHeading';
 
 import CategoryInput from '@/Elements/Inputs/CategoryInput';
 
+import SelectCountry from '@/Elements/Selects/SelectCountry';
+import SelectStateRegion from '@/Elements/Selects/SelectStateRegion';
+import SelectCityByRegion from '@/Elements/Selects/SelectCityByRegion';
+import CountrySelect from '@/Elements/Selects/CountrySelect';
+
+import  Map from "@/Components/maps/Map";  // We dynamically loop the map on ssr
+import MapFull from '@/Components/maps/MapFull';
+
 enum STEPS {
     CATEGORY = 0,
     LOCATION = 1,
@@ -57,6 +65,12 @@ const BusinessCreation = () => {
     })
 
     const watchCategory = watch('category')
+
+    const watchLocation = watch('location')
+ 
+    const watchLocalinfo  = watch('localinfo')
+
+    const watchCityinfo  = watch('cityinfo')
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
             
@@ -143,6 +157,7 @@ const BusinessCreation = () => {
 
 
                     ))}
+                    
         </div>
 
           
@@ -150,7 +165,7 @@ const BusinessCreation = () => {
       )
 
     return (
-        <div className='bg-slate-500 vh h-screen'>
+        <div className='bg-slate-500 h-screen'>
             
             <h2>Business Creation</h2>
 
@@ -158,7 +173,44 @@ const BusinessCreation = () => {
 
             <p>{currentUser?.firstName} {currentUser?.lastName}</p>
 
-            {bodyContent}
+            <div className="grid md:grid-cols-3 xl:grid-cols-3 grid-flow-row auto-rows-max mb-14 z-50">
+                  <SelectCountry
+                          value={watchLocation}
+                          onChange={(value) => setCustomValue('location', value)}
+                      />
+      
+                  <SelectStateRegion
+                      location={watchLocation}
+                      localinfo={watchLocalinfo}
+                      value={watchLocalinfo}
+                      onChange={(value) => setCustomValue('localinfo', value)}
+                  />
+  
+                  <SelectCityByRegion
+                      location={watchLocation}
+                      localinfo={watchLocalinfo}
+                      value={watchCityinfo}
+                      onChange={(value) => setCustomValue('cityinfo', value)}
+                  />
+              </div>
+
+           
+              <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3 z-0'>
+                        <MapFull
+                            center={
+                                watchCityinfo?.latitude && watchCityinfo?.longitude ? [watchCityinfo?.latitude, watchCityinfo?.longitude] :
+                                //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :
+                                watchLocalinfo?.latitude && watchLocalinfo?.longitude ? [watchLocalinfo?.latitude, watchLocalinfo?.longitude] :
+                                watchLocation?.latitude && watchLocation?.longitude ? [watchLocation?.latitude, watchLocation?.longitude] : [32.1652613142917, -54.72682487791673]
+                            }
+                        />
+              </div>
+
+            
+                    
+
+                    {/* {bodyContent} */}
+            
         </div>
     )
 }
