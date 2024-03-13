@@ -19,9 +19,11 @@ import Input from '@/Elements/Inputs/Input';
 import SelectCountry from '@/Elements/Selects/SelectCountry';
 import SelectStateRegion from '@/Elements/Selects/SelectStateRegion';
 import SelectCityByRegion from '@/Elements/Selects/SelectCityByRegion';
+import dynamic from 'next/dynamic';
+import Switch from '@/Elements/Switches/Switch';
 
 
-import  Map from "@/Components/maps/Map";  // We dynamically loop the map on ssr
+// import  Map from "@/Components/maps/Map";  // We dynamically loop the map on ssr
 
 enum STEPS {
     CATEGORY = 0,
@@ -80,15 +82,17 @@ const BusinessStoreResgistrationModal = () => {
 
     const watchLocalinfo  = watch('localinfo')
 
+    const watchNewStateCodeInfo  = watch('newStateCodeInfo')
+ 
     const watchCityinfo  = watch('cityinfo')
-
-    const watchGuestCount = watch('guestCount')
     
-    const watchRoomCount = watch('roomCount')
-    
-    const watchBathroomCount = watch('bathroomCount')
+    const watchIsAFranchise  = watch('isAFranchise')
 
-    const watchImageSrc = watch('imageSrc')
+    const watchIsTheFranchiseParent  = watch('isTheFranchiseParent')
+
+    const watchOwnsOtherBusinesses  = watch('ownsOtherBusinesses')
+
+   
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
             
@@ -105,6 +109,10 @@ const BusinessStoreResgistrationModal = () => {
         }
 
     }
+
+    const  Map = useMemo(() => dynamic(() => import("@/Components/maps/Map"), {
+        ssr: false
+    }), [])
 
     const setCustomValue = (id: string, value: any) => {
         setValue(id, value, {
@@ -231,141 +239,141 @@ const BusinessStoreResgistrationModal = () => {
         )
     }
 
-    // if (step === STEPS.STATSINFO) {
-    //     {console.log('Line 173 location:', location)}
-    //     {console.log('Line 174 location:', localinfo)}
-    //     {console.log('Line 175 cityinfo:', cityinfo)}
-    //     bodyContent = (
-    //         <div
-    //             className={`
-    //                 flex flex-col gap-8
-    //                 text-white
-    //             `}
-    //         >
-    //             <Heading
-    //                 title={"Business physical address?"}
-    //                 subtitle={"Help others such as drivers and other customers visit you we will provide customers your directions..."}
-    //             />
+    if (step === STEPS.STATSINFO) {
+        {console.log('Line 173 location:', watchLocation)}
+        {console.log('Line 174 location:', watchLocalinfo)}
+        {console.log('Line 175 cityinfo:', watchCityinfo)}
+        bodyContent = (
+            <div
+                className={`
+                    flex flex-col gap-8
+                    text-white
+                `}
+            >
+                <ModalHeading
+                    title={"Business physical address?"}
+                    subtitle={"Help others such as drivers and other customers visit you we will provide customers your directions..."}
+                />
                 
-    //             <div className="position-relative px-2 col">
+                <div className="position-relative px-2 col">
                     
 
-    //             <Switch
-    //                 posCnt={1}
-    //                 title={'Is This Business A Franchise?'} 
-    //                 subtitle={'Business owned by another parent company and/or apart of a chain of stores under a common parent company.'} 
-    //                 onChange={(value) => setCustomValue('isAFranchise', value)}
-    //                 checked={false}
-    //             />
-    //             <hr />
-    //             <Switch 
-    //                 posCnt={2}
-    //                 title={'Is This Business A Corportate Business?'}
-    //                 subtitle={'Parent company owns other businesses/stores?'}
-    //                 onChange={(value) => setCustomValue('isTheFranchiseParent', value)} 
-    //                 checked={false}                
-    //             />
-    //             <hr />
-    //             <Switch 
-    //                 posCnt={3}
-    //                 title={'Does this business own any other businesses?'}
-    //                 subtitle={'Owns other businesses/stores?'}
-    //                 onChange={(value) => setCustomValue('ownsOtherBusinesses', value)} 
-    //                 checked={false}                
-    //             />
-    //             <hr />
+                <Switch
+                    posCnt={1}
+                    title={'Is This Business A Franchise?'} 
+                    subtitle={'Business owned by another parent company and/or apart of a chain of stores under a common parent company.'} 
+                    onChange={(value) => setCustomValue('isAFranchise', value)}
+                    checked={false}
+                />
+                <hr />
+                <Switch 
+                    posCnt={2}
+                    title={'Is This Business A Corportate Business?'}
+                    subtitle={'Parent company owns other businesses/stores?'}
+                    onChange={(value) => setCustomValue('isTheFranchiseParent', value)} 
+                    checked={false}                
+                />
+                <hr />
+                <Switch 
+                    posCnt={3}
+                    title={'Does this business own any other businesses?'}
+                    subtitle={'Owns other businesses/stores?'}
+                    onChange={(value) => setCustomValue('ownsOtherBusinesses', value)} 
+                    checked={false}                
+                />
+                <hr />
                     
 
                     
                     
                     
-    //             </div>
-    //             <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3'>
-    //                     {/* <Map
-    //                         center={
-    //                             cityinfo?.latitude && cityinfo?.longitude ? [cityinfo?.latitude, cityinfo?.longitude] :
-    //                             //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :
-    //                             localinfo?.latitude && localinfo?.longitude ? [localinfo?.latitude, localinfo?.longitude] :
-    //                             location?.latitude && location?.longitude ? [location?.latitude, location?.longitude] : [32.1652613142917, -54.72682487791673]
-    //                         }
-    //                     /> */}
-    //             </div>
-    //         </div>
-    //     )
-    // }
+                </div>
+                <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3'>
+                        <Map
+                          center={
+                              watchCityinfo?.latitude && watchCityinfo?.longitude ? [watchCityinfo?.latitude, watchCityinfo?.longitude] :
+                              //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :
+                              watchLocalinfo?.latitude && watchLocalinfo?.longitude ? [watchLocalinfo?.latitude, watchLocalinfo?.longitude] :
+                              watchLocation?.latitude && watchLocation?.longitude ? [watchLocation?.latitude, watchLocation?.longitude] : [32.1652613142917, -54.72682487791673]
+                          }
+                      />
+                </div>
+            </div>
+        )
+    }
 
-    // if (step === STEPS.LOCALINFO) {
-    //     {console.log('Line 173 location:', location)}
-    //     {console.log('Line 174 location:', localinfo)}
-    //     {console.log('Line 175 cityinfo:', cityinfo)}
-    //     bodyContent = (
-    //         <div
-    //             className={`h-screen
-    //                 flex flex-col gap-8
-    //                 text-white
-    //             `}
-    //         >
-    //             <Heading
-    //                 title={"Business physical address?"}
-    //                 subtitle={"Help others such as drivers and other customers visit you we will provide customers your directions..."}
-    //             />
+    if (step === STEPS.LOCALINFO) {
+        {console.log('Line 173 location:', watchLocation)}
+        {console.log('Line 174 location:', watchLocalinfo)}
+        {console.log('Line 175 cityinfo:', watchCityinfo)}
+        bodyContent = (
+            <div
+                className={`h-screen
+                    flex flex-col gap-8
+                    text-white
+                `}
+            >
+                <ModalHeading
+                    title={"Business physical address?"}
+                    subtitle={"Help others such as drivers and other customers visit you we will provide customers your directions..."}
+                />
                 
-    //             <div className="position-relative px-2 col">
+                <div className="position-relative px-2 col">
                     
 
                     
     
-    //                 <div className='position-relative md:px-2 xl:px-2 mb-3'>
-    //                     <h2 className='px-2'>Street Address1</h2>
-    //                     <Input
-    //                         id="streetAddress1"
-    //                         label="Address1"
-    //                         disabled={isLoading}
-    //                         register={register}
-    //                         errors={errors}
-    //                         required
-    //                         />
-    //                 </div>
+                    <div className='position-relative md:px-2 xl:px-2 mb-3'>
+                        <h2 className='px-2'>Street Address1</h2>
+                        <Input
+                            id="streetAddress1"
+                            label="Address1"
+                            disabled={isLoading}
+                            register={register}
+                            errors={errors}
+                            required
+                            />
+                    </div>
 
-    //                 <div className='position-relative md:px-2 xl:px-2 mb-3'>
-    //                     <h2 className='px-2'>Bldg/Suite/Apt#?</h2>
-    //                     <Input
-    //                         id="streetAddress2"
-    //                         label="Address2"
-    //                         disabled={isLoading}
-    //                         register={register}
-    //                         errors={errors}
-    //                         required
-    //                         />
-    //                 </div>
+                    <div className='position-relative md:px-2 xl:px-2 mb-3'>
+                        <h2 className='px-2'>Bldg/Suite/Apt#?</h2>
+                        <Input
+                            id="streetAddress2"
+                            label="Address2"
+                            disabled={isLoading}
+                            register={register}
+                            errors={errors}
+                            required
+                            />
+                    </div>
 
-    //                 <div className='position-relative md:px-2 xl:px-2 mb-3'>
-    //                     <h2 className='px-2'>Zip/Postal Code</h2>
-    //                     <Input
-    //                         id="busPostalcode"
-    //                         label="Postal Code"
-    //                         disabled={isLoading}
-    //                         register={register}
-    //                         errors={errors}
-    //                         required
-    //                         />
-    //                 </div>
+                    <div className='position-relative md:px-2 xl:px-2 mb-3'>
+                        <h2 className='px-2'>Zip/Postal Code</h2>
+                        <Input
+                            id="busPostalcode"
+                            label="Postal Code"
+                            disabled={isLoading}
+                            register={register}
+                            errors={errors}
+                            required
+                            />
+                    </div>
                     
                     
-    //             </div>
-    //             <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3'>
-    //                     {/* <Map
-    //                         center={
-    //                             cityinfo?.latitude && cityinfo?.longitude ? [cityinfo?.latitude, cityinfo?.longitude] :
-    //                             //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :
-    //                             localinfo?.latitude && localinfo?.longitude ? [localinfo?.latitude, localinfo?.longitude] :
-    //                             location?.latitude && location?.longitude ? [location?.latitude, location?.longitude] : [32.1652613142917, -54.72682487791673]
-    //                         }
-    //                     /> */}
-    //             </div>
-    //         </div>
-    //     )
-    // }
+                </div>
+                <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3'>
+                        <Map
+                          center={
+                              watchCityinfo?.latitude && watchCityinfo?.longitude ? [watchCityinfo?.latitude, watchCityinfo?.longitude] :
+                              //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :
+                              watchLocalinfo?.latitude && watchLocalinfo?.longitude ? [watchLocalinfo?.latitude, watchLocalinfo?.longitude] :
+                              watchLocation?.latitude && watchLocation?.longitude ? [watchLocation?.latitude, watchLocation?.longitude] : [32.1652613142917, -54.72682487791673]
+                          }
+                      />
+                </div>
+            </div>
+        )
+    }
 
 
 

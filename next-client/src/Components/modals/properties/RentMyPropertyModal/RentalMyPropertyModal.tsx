@@ -21,7 +21,9 @@ import SelectStateRegion from '@/Elements/Selects/SelectStateRegion';
 import SelectCityByRegion from '@/Elements/Selects/SelectCityByRegion';
 import CountrySelect from '@/Elements/Selects/CountrySelect';
 
-import  Map from "@/Components/maps/Map";  // We dynamically loop the map on ssr
+//import  Map from "@/Components/maps/Map";  // We dynamically loop the map on ssr
+import dynamic from 'next/dynamic';
+import Counter from '@/Elements/Counters/Counter';
 
 enum STEPS {
   CATEGORY = 0,
@@ -43,7 +45,7 @@ const RentMyPropertyModal = () => {
       const [step, setStep] = useState(STEPS.CATEGORY)
       const [isLoading, setIsLoading] = useState(false)
 
-      console.log('Line 31 Current User ON Rental Modal', currentUser)
+      //console.log('Line 31 Current User ON Rental Modal', currentUser)
   
       const { register,
             handleSubmit, 
@@ -76,16 +78,20 @@ const RentMyPropertyModal = () => {
       const watchLocation = watch('location')
  
       const watchLocalinfo  = watch('localinfo')
- 
-      const watchNewStateCodeInfo  = watch('newStateCodeInfo')
- 
+
       const watchCityinfo  = watch('cityinfo')
-     
-      const watchIsAFranchise  = watch('isAFranchise')
 
-      const watchIsTheFranchiseParent  = watch('isTheFranchiseParent')
+      const watchNewStateCodeInfo  = watch('newStateCodeInfo')
 
-      const watchOwnsOtherBusinesses  = watch('ownsOtherBusinesses')
+      const watchGuestCount = watch('guestCount')
+    
+      const watchRoomCount = watch('roomCount')
+      
+      const watchBathroomCount = watch('bathroomCount')
+  
+      const watchImageSrc = watch('imageSrc')
+ 
+      
  
  
       const imageSrc = watch('imageSrc')
@@ -105,6 +111,10 @@ const RentMyPropertyModal = () => {
         }
 
       }
+
+      const  Map = useMemo(() => dynamic(() => import("@/Components/maps/Map"), {
+        ssr: false
+    }), [])
 
       const setCustomValue = (id: string, value: any) => {
         setValue(id, value, {
@@ -142,8 +152,8 @@ const RentMyPropertyModal = () => {
   let bodyContent = (
     <div className='flex flex-col gap-8'>
       <ModalHeading 
-      title={"Rent My Property"}
-      subtitle='Pick a Category'
+        title={"Rent My Property"}
+        subtitle='Pick a Category'
       />
 
                 <div
@@ -263,132 +273,132 @@ const RentMyPropertyModal = () => {
       )
   }
 
-    // if (step === STEPS.INFO){
-    //     bodyContent = (
-    //         <div
-    //             className={`flex flex-col gap-8 text-white`}
-    //         >
-    //             <Heading 
-    //                 title={"Share Some basics about your place"}
-    //                 subtitle={"What amentities does this propery have?"}
-    //             />
-    //             <Counter 
-    //                 title={'Guests'} 
-    //                 subtitle={"How many guest do you allow?"}
-    //                 value={guestCount}
-    //                 onChange={(value) => setCustomValue('guestCount', value)}
-    //             />
-    //             <hr />
-    //             <Counter 
-    //                 title={'Rooms'} 
-    //                 subtitle={"How many rooms do you have?"}
-    //                 value={roomCount}
-    //                 onChange={(value) => setCustomValue('roomCount', value)}
-    //             />
-    //             <hr />
-    //             <Counter 
-    //                 title={'Bathroom'} 
-    //                 subtitle={"How many bathrooms do you have?"}
-    //                 value={bathroomCount}
-    //                 onChange={(value) => setCustomValue('bathroomCount', value)}
-    //             />
-    //             <hr />
+    if (step === STEPS.INFO){
+        bodyContent = (
+            <div
+                className={`flex flex-col gap-8 text-white`}
+            >
+                <ModalHeading 
+                    title={"Share Some basics about your place"}
+                    subtitle={"What amentities does this propery have?"}
+                />
+                <Counter
+                    title={'Guests'} 
+                    subtitle={"How many guest do you allow?"}
+                    value={watchGuestCount}
+                    onChange={(value) => setCustomValue('guestCount', value)}
+                />
+                <hr />
+                <Counter 
+                    title={'Rooms'} 
+                    subtitle={"How many rooms do you have?"}
+                    value={watchRoomCount}
+                    onChange={(value) => setCustomValue('roomCount', value)}
+                />
+                <hr />
+                <Counter 
+                    title={'Bathroom'} 
+                    subtitle={"How many bathrooms do you have?"}
+                    value={watchBathroomCount}
+                    onChange={(value) => setCustomValue('bathroomCount', value)}
+                />
+                <hr />
                 
                 
-    //         </div>
-    //     )
+            </div>
+        )
 
 
 
-    // }
+    }
 
-    // if (step === STEPS.IMAGES){
-    //     bodyContent = (
-    //         <div
-    //             className="text-white flex flex-col gap-8"
-    //         >
-    //             <Heading
-    //                 title={"Add a photo of your place"}
-    //                 subtitle={"Show guests what your place looks like!"}
-    //             />
+    if (step === STEPS.IMAGES){
+        bodyContent = (
+            <div
+                className="text-white flex flex-col gap-8"
+            >
+                <ModalHeading
+                    title={"Add a photo of your place"}
+                    subtitle={"Show guests what your place looks like!"}
+                />
 
-    //             <ImageUploadProperty 
-    //                 value={imageSrc}
-    //                 onChange={(value) => setCustomValue('imageSrc', value)} 
-    //                 userId={''+userId} 
-    //                 currentUser={''+currentUser}                    
-    //             />
+                {/* <ImageUploadProperty 
+                    value={imageSrc}
+                    onChange={(value) => setCustomValue('imageSrc', value)} 
+                    userId={''+userId} 
+                    currentUser={''+currentUser}                    
+                /> */}
 
-    //             {/* <ImageUpload
-    //                 dirs={[]}
-    //                 value={imagesSrc}
-    //                 onChange={(value) => setCustomValue('imagesSrc', value)}
-    //             /> */}
-    //         </div>
-    //     )
+                {/* <ImageUpload
+                    dirs={[]}
+                    value={imagesSrc}
+                    onChange={(value) => setCustomValue('imagesSrc', value)}
+                /> */}
+            </div>
+        )
 
-    // }
+    }
 
-    // if (step === STEPS.DESCRIPTION){
-    //     bodyContent = (
-    //         <div
-    //             className="flex flex-col gap-8"
-    //         >
-    //             <Heading
-    //                 title="How would you describe your place?"
-    //                 subtitle="Short and sweet works best!"
-    //             />
-
-                
-    //             <Input
-    //                 id="title"
-    //                 label="Title"
-    //                 disabled={isLoading}
-    //                 register={register}
-    //                 errors={errors}
-    //                 required
-    //             />
-
-    //             <hr />
-
-    //             <Input
-    //                 id="description"
-    //                 label="Description"
-    //                 disabled={isLoading}
-    //                 register={register}
-    //                 errors={errors}
-    //                 required
-    //             />
+    if (step === STEPS.DESCRIPTION){
+        bodyContent = (
+            <div
+                className="flex flex-col gap-8"
+            >
+                <ModalHeading
+                    title="How would you describe your place?"
+                    subtitle="Short and sweet works best!"
+                />
 
                 
-    //         </div>
-    //     )
-    // }
+                <Input
+                    id="title"
+                    label="Title"
+                    disabled={isLoading}
+                    register={register}
+                    errors={errors}
+                    required
+                />
 
-    // if(step === STEPS.PRICE) {
-    //     bodyContent = (
-    //         <div
-    //             className="flex flex-col gap-8"
-    //         >
-    //             <Heading
-    //                 title="Now, Set Your Daily/Nightly Price"
-    //                 subtitle="How Much do you charge per night?"
-    //             />
+                <hr />
 
-    //             <Input 
-    //                 id="price"
-    //                 label="Price"
-    //                 formatPrice={true}
-    //                 type="number"
-    //                 disabled={isLoading}
-    //                 register={register}
-    //                 errors={errors}
-    //                 required
-    //             />
+                <Input
+                    id="description"
+                    label="Description"
+                    disabled={isLoading}
+                    register={register}
+                    errors={errors}
+                    required
+                />
 
-    //         </div>
-    //     )
-    // }
+                
+            </div>
+        )
+    }
+
+    if(step === STEPS.PRICE) {
+        bodyContent = (
+            <div
+                className="flex flex-col gap-8"
+            >
+                <ModalHeading
+                    title="Now, Set Your Daily/Nightly Price"
+                    subtitle="How Much do you charge per night?"
+                />
+
+                <Input 
+                    id="price"
+                    label="Price"
+                    formatPrice={true}
+                    type="number"
+                    disabled={isLoading}
+                    register={register}
+                    errors={errors}
+                    required
+                />
+
+            </div>
+        )
+    }
 
     return (
       <Modal

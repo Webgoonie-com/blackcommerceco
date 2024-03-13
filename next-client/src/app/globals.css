@@ -22,8 +22,17 @@
 .purple {
   color: #c13aa8;
 }
+
 .bg-purple {
   background: #c13aa8;
+}
+
+
+.leaflet-bottom,
+.leflet-control,
+.leaflet-pane,
+.leaflet-top {
+  z-index: 0 !important;
 }
 
 @layer base {

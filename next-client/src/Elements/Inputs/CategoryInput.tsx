@@ -26,6 +26,7 @@ const CategoryInput: React.FC<CatergoryInputProps> = ({
                 rounded-xl
                 border-2
                 p-4
+                w-25
                 flex flex-col
                 gap-3
                 hover:border-pink-400

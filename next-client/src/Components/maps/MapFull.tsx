@@ -13,7 +13,8 @@ import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
 // @ts-ignore
-delete L.Icon.Default.prototype._getIconUrl; 
+delete L.Icon.Default.prototype._getIconUrl;
+
 L.Icon.Default.mergeOptions({
     iconUrl: markerIcon.src,
     iconRetinaUrl: markerIcon2x.src,
@@ -43,7 +44,7 @@ const MapFull: React.FC<MapProps> = ({ center }) => {
     return (
         <MapContainer
             id='map'
-            style={{ height: '89vh', width: '97vw', maxWidth: '97%', maxHeight: '89%' }}
+            style={{ height: '100vh', width: '100vw', maxWidth: '100%', maxHeight: '100%' }}
             center={center as L.LatLngExpression || [32.1652613142917, -54.72682487791673]} 
             zoom={center ? 4 : 2} 
             //viewreset
@@ -54,12 +55,15 @@ const MapFull: React.FC<MapProps> = ({ center }) => {
             ref={mapRef}
         >
             <TileLayer
-                maxZoom={14}
+                maxZoom={12}
                 url={url}
                 attribution={attribution}
             />
+
             {center && (
+
                 <Marker position={center as L.LatLngExpression} />
+                
             )}
         </MapContainer>
     )

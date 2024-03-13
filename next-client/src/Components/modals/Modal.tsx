@@ -71,7 +71,7 @@ const Modal : React.FC<ModalProps> = ({
                 overflow-y-auto 
                 fixed 
                 inset-0 
-                z-50 
+                z-[900] 
                 outline-none 
                 focus:outline-none
                 bg-gray-800/70
@@ -86,7 +86,7 @@ const Modal : React.FC<ModalProps> = ({
                             h-full 
                             lg:h-auto 
                             md:h-auto
-                            z-50
+                            z-[900] 
                     `}>
                      
                      {/* Content */}

@@ -18,6 +18,7 @@ import CountrySelect from '@/Elements/Selects/CountrySelect';
 import  Map from "@/Components/maps/Map";  // We dynamically loop the map on ssr
 import MapFull from '@/Components/maps/MapFull';
 
+
 enum STEPS {
     CATEGORY = 0,
     LOCATION = 1,
@@ -38,7 +39,7 @@ const BusinessCreation = () => {
     const [stringName, setStringName] = useState(`${currentUser?.firstName}` + ' ' + `${currentUser?.lastName}`)
     const [isLoading, setIsLoading] = useState(false)
   
-    console.log('Line 31 Current User ON Rental Modal', currentUser)
+    //console.log('Line 31 Current User ON Rental Modal', currentUser)
 
     const { register,
             handleSubmit, 
@@ -167,12 +168,8 @@ const BusinessCreation = () => {
     return (
         <div className='bg-slate-500 h-screen'>
             
-            <div className="absolute grid md:grid-cols-3 xl:grid-cols-3 grid-flow-row auto-rows-max mb-14 z-50">
-            <h2>Business Creation</h2>
-
-            <p>Create a new business listing here</p>
-
-            <p>{currentUser?.firstName} {currentUser?.lastName}</p>
+            <div className="absolute px-32 grid md:grid-cols-3 xl:grid-cols-3 grid-flow-row auto-rows-max mb-14 z-10">
+            
 
                   <SelectCountry
                           value={watchLocation}
@@ -192,10 +189,21 @@ const BusinessCreation = () => {
                       value={watchCityinfo}
                       onChange={(value) => setCustomValue('cityinfo', value)}
                   />
+
+                <div className='flex-row'>
+                    <h2>Business Creation</h2>
+
+                    <p>Create a new business listing here</p>
+
+                    <p>{currentUser?.firstName} {currentUser?.lastName}</p>
+                </div>
+
               </div>
 
+             
+
            
-              <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3 z-0'>
+              <div className='relative md:w-full xl:w-full md:px-0 xl:px-0 mb-0 z-0'>
                         <MapFull
                             center={
                                 watchCityinfo?.latitude && watchCityinfo?.longitude ? [watchCityinfo?.latitude, watchCityinfo?.longitude] :

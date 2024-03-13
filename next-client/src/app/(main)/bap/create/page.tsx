@@ -67,6 +67,8 @@ const BusinessPropertyCreation = () => {
 
     const watchCityinfo  = watch('cityinfo')
 
+    
+
     const setCustomValue = (id: string, value: any) => {
       setValue(id, value, {
           shouldValidate: true,
@@ -79,7 +81,7 @@ const BusinessPropertyCreation = () => {
     return (
         <div className='h-screen'>
         
-        <div className="absolute grid md:grid-cols-3 xl:grid-cols-3 grid-flow-row auto-rows-max mb-14 z-50">
+            <div className="absolute px-32 grid md:grid-cols-3 xl:grid-cols-3 grid-flow-row auto-rows-max mb-14 z-10">
           <h2>Black Property Creation</h2>
 
           <p>Create A New Property Listing As A Black And Or Black Friendly Property.</p>
@@ -104,19 +106,22 @@ const BusinessPropertyCreation = () => {
                       value={watchCityinfo}
                       onChange={(value) => setCustomValue('cityinfo', value)}
                   />
-              </div>
+            </div>
 
            
-              <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3 z-0'>
-                        <MapFull
-                            center={
-                                watchCityinfo?.latitude && watchCityinfo?.longitude ? [watchCityinfo?.latitude, watchCityinfo?.longitude] :
-                                //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :
-                                watchLocalinfo?.latitude && watchLocalinfo?.longitude ? [watchLocalinfo?.latitude, watchLocalinfo?.longitude] :
-                                watchLocation?.latitude && watchLocation?.longitude ? [watchLocation?.latitude, watchLocation?.longitude] : [32.1652613142917, -54.72682487791673]
-                            }
-                        />
-              </div>
+            <div className='relative md:w-full xl:w-full md:px-0 xl:px-0 mb-0 z-0'>
+
+                <MapFull
+                    center={
+                        watchCityinfo?.latitude && watchCityinfo?.longitude ? [watchCityinfo?.latitude, watchCityinfo?.longitude] :
+                        //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :
+                        watchLocalinfo?.latitude && watchLocalinfo?.longitude ? [watchLocalinfo?.latitude, watchLocalinfo?.longitude] :
+                        watchLocation?.latitude && watchLocation?.longitude ? [watchLocation?.latitude, watchLocation?.longitude] : 
+                        [32.1652613142917, -54.72682487791673]
+                    }
+                />
+
+            </div>
 
         </div>
     )
