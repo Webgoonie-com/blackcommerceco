@@ -25,6 +25,9 @@ import CountrySelect from '@/Elements/Selects/CountrySelect';
 import dynamic from 'next/dynamic';
 import Counter from '@/Elements/Counters/Counter';
 
+import ImageUploadProperty from '@/Elements/Files/ImageUploadProperty'
+
+
 enum STEPS {
   CATEGORY = 0,
   LOCATION = 1,
@@ -61,6 +64,10 @@ const RentMyPropertyModal = () => {
             category: '',
             location: null,
             town: null,
+            streetAddress: null,
+            streetAddress2: null,
+            streetCity: null,
+            streetZipCode: null,
             guestCount: 1,
             roomCount: 1,
             bathroomCount: 1,
@@ -72,35 +79,35 @@ const RentMyPropertyModal = () => {
       })
     
 
-      // A work around for selected register in useform
-      const watchCategory = watch('category')
+    // A work around for selected register in useform
+    const watchCategory = watch('category')
 
-      const watchLocation = watch('location')
+    const watchLocation = watch('location')
  
-      const watchLocalinfo  = watch('localinfo')
+    const watchLocalinfo  = watch('localinfo')
 
-      const watchCityinfo  = watch('cityinfo')
+    const watchCityinfo  = watch('cityinfo')
 
-      const watchNewStateCodeInfo  = watch('newStateCodeInfo')
-
-      const watchGuestCount = watch('guestCount')
+    const watcStreetAddress  = watch('streetAddress')
+    const watchStreetCity  = watch('streetCity')
+    const watchStreetZipCode  = watch('streetZipCode')
     
-      const watchRoomCount = watch('roomCount')
+
+    const watchGuestCount = watch('guestCount')
+    
+    const watchRoomCount = watch('roomCount')
       
-      const watchBathroomCount = watch('bathroomCount')
+    const watchBathroomCount = watch('bathroomCount')
   
-      const watchImageSrc = watch('imageSrc')
+    const watchImageSrc = watch('imageSrc')
  
       
  
  
-      const imageSrc = watch('imageSrc')
+    const imageSrc = watch('imageSrc')
 
-      const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
               
-      
-      
-
         try {
 
             // Calling Directly To Internal API Route
@@ -110,19 +117,19 @@ const RentMyPropertyModal = () => {
             console.error(error);
         }
 
-      }
+    }
 
-      const  Map = useMemo(() => dynamic(() => import("@/Components/maps/Map"), {
+    const  Map = useMemo(() => dynamic(() => import("@/Components/maps/Map"), {
         ssr: false
     }), [])
 
-      const setCustomValue = (id: string, value: any) => {
-        setValue(id, value, {
-            shouldValidate: true,
-            shouldDirty: true,
-            shouldTouch: true,
-        })
-      }
+    const setCustomValue = (id: string, value: any) => {
+    setValue(id, value, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true,
+    })
+    }
     
     const onBack = () => {
       setStep((value) => value - 1)
@@ -248,27 +255,59 @@ const RentMyPropertyModal = () => {
               `}
           >
               <ModalHeading 
-                  title={"What City In Or Closest To?"}
+                  title={"What is the address to this property?"}
                   subtitle={"Help guest find you!"}
               />
-              <CountrySelect
-                  value={watchLocation}
-                  onChange={(value) => setCustomValue('location', value)}
-              />
-              {/* <CitySelect onChange={function (value: CitySelectValue): void {
-                  throw new Error('Function not implemented.');
-              } }                
-              /> */}
-              {/* <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3'>
-                      <Map
+              <div className="grid md:grid-cols-3 xl:grid-cols-3 grid-flow-row auto-rows-max z-50">
+                  
+              <Input 
+                    id="streetAddress"
+                    label="Street Address"
+                    type="string"
+                    disabled={isLoading}
+                    register={register}
+                    errors={errors}
+                    required
+                />
+                
+                 {/* 
+                    <CitySelect
+                        onChange={function (value: CitySelectValue): void {
+                        throw new Error('Function not implemented.');
+                        } }                
+                    /> 
+                */}
+
+              <Input 
+                    id="streetCity"
+                    label="City or Town"
+                    type="string"
+                    disabled={isLoading}
+                    register={register}
+                    errors={errors}
+                    required
+                />
+              <Input 
+                    id="streetZipCode"
+                    label="Postal Code"
+                    type="string"
+                    disabled={isLoading}
+                    register={register}
+                    errors={errors}
+                    required
+                />
+                
+              </div>
+             
+              <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3'>
+                        <Map
                           center={
-                              cityinfo?.latitude && cityinfo?.longitude ? [cityinfo?.latitude, cityinfo?.longitude] :
-                              //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :
-                              localinfo?.latitude && localinfo?.longitude ? [localinfo?.latitude, localinfo?.longitude] :
-                              location?.latitude && location?.longitude ? [location?.latitude, location?.longitude] : [32.1652613142917, -54.72682487791673]
+                              watchCityinfo?.latitude && watchCityinfo?.longitude ? [watchCityinfo?.latitude, watchCityinfo?.longitude] :
+                              watchLocalinfo?.latitude && watchLocalinfo?.longitude ? [watchLocalinfo?.latitude, watchLocalinfo?.longitude] :
+                              watchLocation?.latitude && watchLocation?.longitude ? [watchLocation?.latitude, watchLocation?.longitude] : [32.1652613142917, -54.72682487791673]
                           }
-                      />
-              </div> */}
+                        />
+              </div>
           </div>
       )
   }
@@ -284,21 +323,21 @@ const RentMyPropertyModal = () => {
                 />
                 <Counter
                     title={'Guests'} 
-                    subtitle={"How many guest do you allow?"}
+                    subtitle={"How many Guest are allowed at this property?"}
                     value={watchGuestCount}
                     onChange={(value) => setCustomValue('guestCount', value)}
                 />
                 <hr />
                 <Counter 
                     title={'Rooms'} 
-                    subtitle={"How many rooms do you have?"}
+                    subtitle={"How many Rooms does this property have?"}
                     value={watchRoomCount}
                     onChange={(value) => setCustomValue('roomCount', value)}
                 />
                 <hr />
                 <Counter 
                     title={'Bathroom'} 
-                    subtitle={"How many bathrooms do you have?"}
+                    subtitle={"How many Bathrooms does this property have?"}
                     value={watchBathroomCount}
                     onChange={(value) => setCustomValue('bathroomCount', value)}
                 />
@@ -322,12 +361,12 @@ const RentMyPropertyModal = () => {
                     subtitle={"Show guests what your place looks like!"}
                 />
 
-                {/* <ImageUploadProperty 
-                    value={imageSrc}
-                    onChange={(value) => setCustomValue('imageSrc', value)} 
-                    userId={''+userId} 
+                <ImageUploadProperty
+                    value={watchImageSrc}
+                    onChange={(value) => setCustomValue('watchImageSrc', value)} 
+                    userId={''+currentUser?.uuid} 
                     currentUser={''+currentUser}                    
-                /> */}
+                />
 
                 {/* <ImageUpload
                     dirs={[]}
