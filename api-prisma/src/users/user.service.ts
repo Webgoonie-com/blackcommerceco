@@ -102,6 +102,7 @@ export const createUser = async (user: CreateUserInput): Promise<User | any> => 
     
     return orm.user.create({
         data: {
+            name: user?.firstName + ' ' + user?.lastName,
             firstName,
             lastName,
             email,
@@ -109,6 +110,7 @@ export const createUser = async (user: CreateUserInput): Promise<User | any> => 
         },
         select: {
             id: true,
+            name: true,
             firstName: true,
             lastName: true,
             email: true,

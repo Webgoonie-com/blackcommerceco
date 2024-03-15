@@ -79,6 +79,8 @@ model User {
   accounts            Account[]
   listings            Listing[]
   reservations        Reservation[]
+  Propertyphotos      Propertyphoto[]
+  Businessphotos      Businessphoto[]
   
 }
 
@@ -121,6 +123,59 @@ model Listing {
 
   reservations        Reservation[]
   favorites           Favorite[]
+
+  Propertyphotos      Propertyphoto[]
+  Businessphotos      Businessphoto[]
+}
+
+model Propertyphoto {
+    id                  Int                     @id @default(autoincrement())
+    uuid                String                  @default(uuid()) @unique
+    imgAlbumName        String
+    imgCatg             String
+    imageSrc            String
+    imgUrl              String
+    imgName             String
+    imgFileType         String
+    imgEncoding         String
+    imgFileOrigName            String
+    imgFileName           Int
+    imgFileOutputDir       Int
+    guestCount          Int
+    locationValue       String
+    imgFileSize               Int
+    createdAt           DateTime                @default(now())
+
+    user                User                    @relation(fields: [userId], references: [id])
+    userId              Int
+
+    listing             Listing                  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+    listingId           Int
+}
+
+model Businessphoto {
+    id                  Int                     @id @default(autoincrement())
+    uuid                String                  @default(uuid()) @unique
+    imgAlbumName        String
+    imgCatg             String
+    imageSrc            String
+    imgUrl              String
+    imgName             String
+    imgFileType         String
+    imgEncoding         String
+    imgFileOrigName            String
+    imgFileName           Int
+    imgFileOutputDir       Int
+    guestCount          Int
+    locationValue       String
+    imgFileSize               Int
+    createdAt           DateTime                @default(now())
+
+    user                User                    @relation(fields: [userId], references: [id])
+    userId              Int
+
+    listing             Listing                  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+    listingId           Int
 }
 
 model Reservation {

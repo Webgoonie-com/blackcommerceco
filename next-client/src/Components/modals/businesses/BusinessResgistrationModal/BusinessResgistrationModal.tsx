@@ -303,9 +303,11 @@ const BusinessStoreResgistrationModal = () => {
     }
 
     if (step === STEPS.LOCALINFO) {
+
         {console.log('Line 173 location:', watchLocation)}
         {console.log('Line 174 location:', watchLocalinfo)}
         {console.log('Line 175 cityinfo:', watchCityinfo)}
+
         bodyContent = (
             <div
                 className={`h-screen
