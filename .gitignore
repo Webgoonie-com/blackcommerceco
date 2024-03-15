@@ -6,3 +6,4 @@ next-client/node_modules/*
 client-next/testRest/admin.rest
 next-client/.next/*
 api-prisma/uploads/*
+api-prisma/uploaded/*

@@ -23,23 +23,10 @@ const ImageUploadProperty: React.FC<ImageUploadPropertyProps> = ({
     const imageRef = useRef<HTMLInputElement>(null);
     const [selectedFile, setSelectedFile] = useState<File[]>([]);
 
-   
-
-   
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault(); // Prevent the form from submitting
-        //handleUpload(); // Call your upload function
-    };
-
     const onImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-
-        console.log('onImageChange Detected')
-        
 
         if (event.target.files) {
             const files = Array.from(event.target.files);
-
            
             const formData = new FormData();
 
@@ -63,23 +50,13 @@ const ImageUploadProperty: React.FC<ImageUploadPropertyProps> = ({
             } catch (error) {
                 console.error('Error uploading images', error);
             }
-                
-            
-            
-            
-           
-            
 
             const urls =  files.map(file => URL.createObjectURL(file));
-          
-            
 
             setSelectedImages(prevImages => [...prevImages, ...urls]);
-            
-            
+
             console.log("process.env.NEXT_PUBLIC_API_URL +'/api/listings/createpropertyphotos'", process.env.NEXT_PUBLIC_API_URL +'/api/listings/createpropertyphotos')
 
-            
         }
     };
 
@@ -151,12 +128,12 @@ const ImageUploadProperty: React.FC<ImageUploadPropertyProps> = ({
                 </div>
 
 
-                <form onSubmit={handleSubmit}  role="form" encType="multipart/form-data" action={`${process.env.NEXT_PUBLIC_API_URL}/api/listings/createpropertyphotos`} method='POST'>
+                
                     <input id="myImage" type="file" multiple name="files[]" ref={imageRef} onChange={onImageChange} style={{ display: 'none' }} />
     
                     
     
-                </form>
+                
             </div>
         </>
     );

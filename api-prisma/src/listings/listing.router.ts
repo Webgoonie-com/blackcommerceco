@@ -8,7 +8,7 @@ export const listingRouter = express.Router();
 
 import multer from 'multer'
 
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: 'uploaded/' });
 
 
 listingRouter.get('/allProperties', async (request: Request, response: Response) => {
