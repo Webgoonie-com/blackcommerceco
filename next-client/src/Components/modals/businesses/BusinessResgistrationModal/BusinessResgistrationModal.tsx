@@ -21,6 +21,7 @@ import SelectStateRegion from '@/Elements/Selects/SelectStateRegion';
 import SelectCityByRegion from '@/Elements/Selects/SelectCityByRegion';
 import dynamic from 'next/dynamic';
 import Switch from '@/Elements/Switches/Switch';
+import { User } from 'next-auth';
 
 
 // import  Map from "@/Components/maps/Map";  // We dynamically loop the map on ssr
@@ -36,11 +37,14 @@ enum STEPS {
     PRICE = 7,
 }
 
-const BusinessStoreResgistrationModal = () => {
+interface NavbarPublicProps {
+    currentUser?: User | null;
+}
+
+
+const BusinessStoreResgistrationModal: React.FC<NavbarPublicProps> = ({currentUser}) => {
     const businessRegistrationModal = useBusinessRegistrationModal()
 
-    const { data: session, status } = useSession();
-    const currentUser = session?.user;
 
     const [step, setStep] = useState(STEPS.CATEGORY)
     const [isLoading, setIsLoading] = useState(false)
@@ -57,7 +61,7 @@ const BusinessStoreResgistrationModal = () => {
             reset
         } = useForm<FieldValues>({
         defaultValues: {
-            userId: session?.user?.uuid,
+            userId: currentUser?.Id,
             category: '',
             location: null,
             localinfo: null,

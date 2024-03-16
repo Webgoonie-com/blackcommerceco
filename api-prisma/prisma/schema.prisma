@@ -148,8 +148,8 @@ model Propertyphoto {
     user                User                    @relation(fields: [userId], references: [id])
     userId              Int
 
-    listing             Listing                  @relation(fields: [listingId], references: [id], onDelete: Cascade)
-    listingId           Int
+    listing             Listing?                 @relation(fields: [listingId], references: [id], onDelete: Cascade)
+    listingId           Int?
 }
 
 model Businessphoto {

@@ -32,17 +32,19 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
 
             console.log('currentUser', currentUser)
 
-            formData.append('imageSrc', 'FromImageUploadPropertyPhotos')
-            formData.append('imgUrl', 'https://api.blackcommerce.com')
-            formData.append('imgName', 'UploadedCreation')
-            formData.append('imgCatg', 'Property Image')
-            formData.append('user', userId)
-            formData.append('currentUser', currentUser)
-            formData.append('listing', '')
-
             files.forEach(file => {
                 formData.append('files', file as any); // Append each file to the FormData
             });
+
+            formData.append('imageSrc', 'ImageUploadPropertyPhotos')
+            formData.append('imgUrl', `${process.env.NEXT_PUBLIC_API_URL}`)
+            formData.append('imgName', 'PropertyPhoto')
+            formData.append('imgCatg', 'Property')
+            formData.append('userId', userId)
+            
+            console.log('files', files)
+
+           
 
             try {
                 const response = await axios.post(

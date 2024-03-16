@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../globals.css";
@@ -46,8 +47,8 @@ export default async function RootLayout({
                   <ToasterProvider />
                   <RegisterModal />
                   <LoginModal />
-                  <BusinessStoreResgistrationModal />
-							    <RentMyPropertyModal />
+                  <BusinessStoreResgistrationModal currentUser={currentUser as any} />
+							    <RentMyPropertyModal currentUser={currentUser as any} />
                   <NavbarPublic currentUser={currentUser as any} />
     
                   {children}

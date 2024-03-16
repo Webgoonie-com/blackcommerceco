@@ -1,7 +1,8 @@
 import { orm } from "../utils/orm.server";
 import bcrypt from "bcrypt";
 import { Prisma } from '@prisma/client'; // Import Prisma types
-
+import { MIME_TYPE_MAP } from "../types";
+import path from 'path';
 
 type Listing = {
     id: number;
@@ -33,7 +34,6 @@ type ListingProptyPhoto = {
     imgCatg: string | null;
     imgName: string | null;
     userId: number;
-    listingId: number | null;
 }
 
 export const listPropertys = async (): Promise<Listing[]> => {
@@ -100,44 +100,60 @@ export const createPropertyPhotos = async (listingData: any): Promise<ListingPro
     console.log('files:', files);
     console.log('body:', body);
 
-    const createInputs: Prisma.PropertyphotoCreateInput[] = files.map((file: any) => ({
-        imgAlbumName: file.fieldname || '',
-        imgFileOrigName: file.originalname || '',
-        imgEncoding: file.encoding || '',
-        imgFileType: file.mimetype || '',
-        imgFileOutputDir: file.destination || '',
-        imgFileName: file.filename || '',
-        imgFilePath: file.path || '',
-        imgFileSize: file.size || 0,
 
-        imageSrc: body.imageSrc || '', // Assuming imageSrc is passed in the body
-        imgUrl: body.imgUrl || '', // Assuming imgUrl is passed in the body
-        imgName: body.imgName || '', // Assuming imgName is passed in the body
-        imgCatg: body.imgCatg || '', // Assuming imgCatg is passed in the body
-        user: { connect: { uuid: body.user || 0 } }, // Assuming user is passed in the body
 
-    }));
+
+
+        const createInputs: Prisma.PropertyphotoCreateInput[] = files.map((file: any) => {
+            const fileTypeExt = MIME_TYPE_MAP[file?.mimetype as keyof typeof MIME_TYPE_MAP] || '';
+            
+            //const destinationWithoutPublic = file?.destination.replace(/^public\//, '');
+            const destinationWithoutPublic = file?.destination.replace(/^public\//, '');
+            
+            //const imgUrl = body?.imgUrl + '/' + relativePath + '/' + file?.filename + '.' + body?.fileTypeExt;
+            const imgUrl = body?.imgUrl + '/' + destinationWithoutPublic + '/' + file?.filename;
+    
+            return {
+                imgAlbumName: file?.fieldname,
+                imgFileOrigName: file?.originalname,
+                imgEncoding: file?.encoding,
+                imgFileType: file?.mimetype,
+                imgFileOutputDir: file?.destination,
+                imgFileName: file?.filename,
+                imgFilePath: file?.path,
+                imgFileSize: file?.size,
+                imageSrc: body?.imageSrc,
+                imgUrl: imgUrl,
+                imgName: body?.imgName,
+                imgCatg: body?.imgCatg,
+                user: { connect: { id: parseInt(body?.userId) } },
+            };
+        });
 
     console.log('createInput JSON data: ', JSON.stringify(createInputs));
 
     try {
-        const createdPropertyPhotos = await Promise.all(createInputs.map(createInput =>
-            orm.propertyphoto.create({
-                data: createInput,
-                select: {
-                    id: true,
-                    uuid: true,
-                    imgUrl: true,
-                    imageSrc: true,
-                    createdAt: true,
-                }
-            })
-        ));
-        
-        return createdPropertyPhotos;
-    } catch (error) {
-        return error;
-    }
+    const createdPropertyPhotos = await Promise.all(createInputs.map(createInput =>
+        orm.propertyphoto.create({
+            data: {
+                ...(createInput as Prisma.PropertyphotoCreateInput),
+            },
+            select: {
+                id: true,
+                uuid: true,
+                imgUrl: true,
+                imageSrc: true,
+                createdAt: true,
+            }
+        })
+    ));
+
+    return createdPropertyPhotos;
+} catch (error) {
+    console.error('Error creating property photos:', error);
+    return { error: 'Failed to create property photos. Please check the provided data.' };
+}
+
 };
 
 

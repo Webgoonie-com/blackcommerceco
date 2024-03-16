@@ -81,6 +81,7 @@ export const authOptions: NextAuthOptions = {
         if (account) {
                 token.accessToken = account.access_token
                 token.uuid = user.uuid
+                token.id = user.id
         }
 
         if(user) {
@@ -115,6 +116,7 @@ export const authOptions: NextAuthOptions = {
             //const userSession = await getSession();
 
         if(token && session.user) {
+            session.user.id = token.id;
             session.user.uuid = token.uuid;
             session.user.role = token.role;
             session.user.token = token.token;

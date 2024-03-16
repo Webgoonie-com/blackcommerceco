@@ -27,6 +27,8 @@ import Counter from '@/Elements/Counters/Counter';
 
 import ImageUploadProperty from '@/Elements/Files/ImageUploadPropertyPhotos'
 import axiosWithCredentials from '@/lib/axiosWithCredentials';
+import { User } from "next-auth"
+import getCurrentUser from '@/Actions/getCurrentUser';
 
 
 enum STEPS {
@@ -39,19 +41,17 @@ enum STEPS {
   PRICE = 6,
 }
 
-const RentMyPropertyModal = () => {
+interface RentMyPropertyModalProps {
+    currentUser?: User | null;
+}
 
-      const rentMyPropertyModalModal = useRentMyPropertyModal()
+const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) => {
 
-      const { data: session, status } = useSession();
-      const currentUser = session?.user;
-
-      
+      const rentMyPropertyModalModal = useRentMyPropertyModal();
 
       const [step, setStep] = useState(STEPS.CATEGORY)
-      const [isLoading, setIsLoading] = useState(false)
 
-      console.log('Line 31 Current User ON Rental Modal', JSON.stringify(currentUser))
+      const [isLoading, setIsLoading] = useState(false)
   
       const { register,
             handleSubmit, 
@@ -63,7 +63,7 @@ const RentMyPropertyModal = () => {
             reset
         } = useForm<FieldValues>({
         defaultValues: {
-            userId: session?.user?.uuid,
+            userId: currentUser?.Id,
             category: '',
             location: null,
             town: null,
@@ -393,7 +393,7 @@ const RentMyPropertyModal = () => {
                     value={watchImageSrc}
                     //onChange={(value) => setCustomValue('watchImageSrc', value)} 
                     onChange={onChangeImages}
-                    userId={''+currentUser?.uuid} 
+                    userId={''+currentUser?.id} 
                     //userId={''+1} 
                     currentUser={''+currentUser}                    
                 />

@@ -7,8 +7,46 @@ import * as ListingService from "./listing.service";
 export const listingRouter = express.Router();
 
 import multer from 'multer'
+import moment from 'moment'
+import path from 'path'
 
-const upload = multer({ dest: 'uploaded/' });
+
+const momentYear = moment().format('YYYY');
+const momentMonth = moment().format('MM');
+const momentDay = moment().format('DD');
+
+const MIME_TYPE_MAP = {
+    'image/png': 'png',
+    'image/jpeg': 'jpeg',
+    'image/jpg': 'jpg',
+    'image/webp': 'webp'
+};
+
+const propertyPhotoStorage = multer.diskStorage({
+    destination: 'public/uploaded/propertyphotos/'+momentYear+'/'+momentMonth+'/'+momentDay,
+    
+    filename: function(req, file, cb){
+
+        //const ext = MIME_TYPE_MAP[file?.mimetype];
+        //const ext = file?.mimetype ? MIME_TYPE_MAP[file.mimetype] : undefined;
+        const ext = file?.mimetype ? MIME_TYPE_MAP[file.mimetype as keyof typeof MIME_TYPE_MAP] : undefined;
+
+
+        if(!ext){
+            return cb(null, '')
+        }
+
+        cb(null, file.originalname + '-' + Date.now() +path.extname(file.originalname))
+    }   
+})
+
+
+
+const uploadPropertyPhotos = multer({ 
+    //dest: 'public/uploaded/propertyphotos/'+momentYear+'/'+momentMonth+'/'+momentDay
+
+    storage: propertyPhotoStorage
+});
 
 
 listingRouter.get('/allProperties', async (request: Request, response: Response) => {
@@ -54,7 +92,7 @@ console.log('Check Before Create Propertyhotos')
 // })
 
 
-listingRouter.post('/createpropertyphotos', upload.array('files'), async (request: any, response: any) => {
+listingRouter.post('/createpropertyphotos', uploadPropertyPhotos.array('files'), async (request: any, response: any) => {
     try {
         // Combine both files and body data
         const listingData = {
