@@ -30,7 +30,7 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
            
             const formData = new FormData();
 
-            console.log('currentUser', currentUser)
+            console.log('currentUser', [currentUser])
 
             files.forEach(file => {
                 formData.append('files', file as any); // Append each file to the FormData

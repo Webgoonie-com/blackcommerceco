@@ -40,7 +40,7 @@ export const authOptions: NextAuthOptions = {
                 }
                 );
         
-                console.log('Line 42: dbUser auth: lib/auth/ = ', dbUser)
+                //console.log('Line 42: dbUser auth: lib/auth/ = ', dbUser)
         
                 const user = await dbUser.json();
                 //console.log('Line 45: user auth: lib/auth/ = ', user)
