@@ -25,7 +25,7 @@ import  Map from "@/Components/maps/Map";  // We dynamically loop the map on ssr
 import dynamic from 'next/dynamic';
 import Counter from '@/Elements/Counters/Counter';
 
-import ImageUploadProperty from '@/Elements/Files/ImageUploadProperty'
+import ImageUploadProperty from '@/Elements/Files/ImageUploadPropertyPhotos'
 import axiosWithCredentials from '@/lib/axiosWithCredentials';
 
 
@@ -46,10 +46,12 @@ const RentMyPropertyModal = () => {
       const { data: session, status } = useSession();
       const currentUser = session?.user;
 
+      
+
       const [step, setStep] = useState(STEPS.CATEGORY)
       const [isLoading, setIsLoading] = useState(false)
 
-      //console.log('Line 31 Current User ON Rental Modal', currentUser)
+      console.log('Line 31 Current User ON Rental Modal', JSON.stringify(currentUser))
   
       const { register,
             handleSubmit, 
@@ -128,6 +130,11 @@ const RentMyPropertyModal = () => {
     const onNext = () => {
         setStep((value) => value + 1)
     }
+
+    const onChangeImages = (images: string[]) => {
+        console.log('onParent component onChangeImages in Effect ' + images)
+        setCustomValue('watchImageSrc', images);
+    };
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
 
@@ -384,8 +391,10 @@ const RentMyPropertyModal = () => {
 
                 <ImageUploadProperty
                     value={watchImageSrc}
-                    onChange={(value) => setCustomValue('watchImageSrc', value)} 
+                    //onChange={(value) => setCustomValue('watchImageSrc', value)} 
+                    onChange={onChangeImages}
                     userId={''+currentUser?.uuid} 
+                    //userId={''+1} 
                     currentUser={''+currentUser}                    
                 />
 

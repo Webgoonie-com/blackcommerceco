@@ -55,18 +55,18 @@ console.log('Check Before Create Propertyhotos')
 
 
 listingRouter.post('/createpropertyphotos', upload.array('files'), async (request: any, response: any) => {
-    // request.files will contain an array of files uploaded
-    console.log('Uploaded files:', request.files['files[]']);
-    console.log('Uploaded files:', request.body);
-
-    //const uploadedFile = request.files['[files]'];
-    const uploadedFile = request.files['files[]'];
-
-    console.log('Uploaded uploadedFile:', uploadedFile);
     try {
-        const users = await ListingService.createPropertyPhotos(request.files);
-        return response.status(200).json(users);
+        // Combine both files and body data
+        const listingData = {
+            files: request.files,
+            body: request.body
+        };
+
+        // Call the service function with the combined data
+        const createdPropertyPhotos = await ListingService.createPropertyPhotos(listingData);
+        
+        return response.status(200).json(createdPropertyPhotos);
     } catch (error: any) {
-        return response.status(500).json(error.message);
+        return response.status(500).json({ error: error.message });
     }
 });

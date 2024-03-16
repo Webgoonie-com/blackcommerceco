@@ -138,12 +138,11 @@ model Propertyphoto {
     imgName             String
     imgFileType         String
     imgEncoding         String
-    imgFileOrigName            String
-    imgFileName           Int
-    imgFileOutputDir       Int
-    guestCount          Int
-    locationValue       String
-    imgFileSize               Int
+    imgFileOrigName     String
+    imgFileName         String
+    imgFileOutputDir    String
+    imgFilePath         String
+    imgFileSize         Int
     createdAt           DateTime                @default(now())
 
     user                User                    @relation(fields: [userId], references: [id])

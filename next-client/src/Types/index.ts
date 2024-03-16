@@ -175,3 +175,11 @@ import { IUser } from '@/Types/nextauth';
             };
         };
     };
+
+    export type MIME_TYPE_MAP = {
+        'image/png': 'png',
+        'image/jpeg': 'jpeg',
+        'image/jpg': 'jpg',
+        'image/webp': 'webp'
+    };
+    

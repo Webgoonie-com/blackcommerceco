@@ -7,14 +7,14 @@ import { TbPhotoPlus } from 'react-icons/tb';
 
 
 
-interface ImageUploadPropertyProps {
+interface ImageUploadPropertyPhotosProps {
     onChange: (value: string[], userId: string, currentUser: string) => void;
     userId: string;
     currentUser: string;
     value: string;
 }
 
-const ImageUploadProperty: React.FC<ImageUploadPropertyProps> = ({
+const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
     onChange,
     userId,
     currentUser
@@ -23,12 +23,22 @@ const ImageUploadProperty: React.FC<ImageUploadPropertyProps> = ({
     const imageRef = useRef<HTMLInputElement>(null);
     const [selectedFile, setSelectedFile] = useState<File[]>([]);
 
-    const onImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const onImageChange = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
 
         if (event.target.files) {
             const files = Array.from(event.target.files);
            
             const formData = new FormData();
+
+            console.log('currentUser', currentUser)
+
+            formData.append('imageSrc', 'FromImageUploadPropertyPhotos')
+            formData.append('imgUrl', 'https://api.blackcommerce.com')
+            formData.append('imgName', 'UploadedCreation')
+            formData.append('imgCatg', 'Property Image')
+            formData.append('user', userId)
+            formData.append('currentUser', currentUser)
+            formData.append('listing', '')
 
             files.forEach(file => {
                 formData.append('files', file as any); // Append each file to the FormData
@@ -47,22 +57,28 @@ const ImageUploadProperty: React.FC<ImageUploadPropertyProps> = ({
                 
                 console.log('Upload successful', response.data);
                 // Handle the response or update state as needed
+           
+                const urls =  files.map(file => URL.createObjectURL(file));
+
+                //setSelectedImages(prevImages => [...prevImages, ...urls]);
+                setSelectedImages([ ...urls]);
+
+                onChange([...selectedImages, ...urls], userId, currentUser);
+
+                console.log('These Are the setSelectedImages: ',  setSelectedImages )
+
+                console.log("process.env.NEXT_PUBLIC_API_URL +'/api/listings/createpropertyphotos'", process.env.NEXT_PUBLIC_API_URL +'/api/listings/createpropertyphotos')
+
             } catch (error) {
                 console.error('Error uploading images', error);
             }
 
-            const urls =  files.map(file => URL.createObjectURL(file));
-
-            setSelectedImages(prevImages => [...prevImages, ...urls]);
-
-            console.log("process.env.NEXT_PUBLIC_API_URL +'/api/listings/createpropertyphotos'", process.env.NEXT_PUBLIC_API_URL +'/api/listings/createpropertyphotos')
-
         }
-    };
+    }, [currentUser, onChange, selectedImages, userId]);
 
     const removeImage = (index: number) => {
         setSelectedImages(prevImages => {
-            const updatedImages = [...prevImages];
+            var updatedImages = [...prevImages];
             updatedImages.splice(index, 1);
             return updatedImages;
         });
@@ -139,5 +155,5 @@ const ImageUploadProperty: React.FC<ImageUploadPropertyProps> = ({
     );
 };
 
-export default ImageUploadProperty;
+export default ImageUploadPropertyPhotos;
 
