@@ -17,9 +17,10 @@ const momentDay = moment().format('DD');
 
 const MIME_TYPE_MAP = {
     'image/png': 'png',
-    'image/jpeg': 'jpeg',
+    'image/jpeg': 'jpg',
     'image/jpg': 'jpg',
     'application/octet-stream': 'jpg',
+    'image/avif': 'avif',
     'image/webp': 'webp'
 };
 
@@ -60,7 +61,7 @@ async function checkFileType(file: Express.Multer.File, cb: multer.FileFilterCal
     console.log('Checking file type', file)
 
     // Check if the file has a valid image extension
-    const validExtension = /\.(jpeg|jpg|png|gif|webp)$/.test(path.extname(file.originalname).toLowerCase());
+    const validExtension = /\.(jpeg|jpg|png|avif|gif|webp)$/.test(path.extname(file.originalname).toLowerCase());
 
     // Check if the file's MIME type is recognized or generic binary with a valid extension
     const isValidFile = validExtension || file.mimetype === 'application/octet-stream';

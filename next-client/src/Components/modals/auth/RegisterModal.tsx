@@ -50,31 +50,28 @@ const RegisterModal = () => {
     
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true);
-        console.log('onSubmit Posting Here', data)
+        //console.log('onSubmit Posting Here', data)
         //console.log(`process.env.NEXT_PUBLIC_API_URL +'api/users/createUser/: `, process.env.NEXT_PUBLIC_API_URL +'api/users/createUser/')
         
-        //axios.post('/api/register/', data)
-        console.log(`Line 58: `, process.env.NEXT_PUBLIC_API_URL)
-        console.log(`Line 59: `, `${process.env.NEXT_PUBLIC_API_URL}`)
+        
+        //console.log(`Line 58: `, process.env.NEXT_PUBLIC_API_URL)
+        //console.log(`Line 59: `, `${process.env.NEXT_PUBLIC_API_URL}`)
         
         console.log(`Line 61: http://localhost:3333/api/register/`)
-        //axios.post(`${process.env.NEXTAUTH_URL}/api/register/`, data)
-        //axios.post(`http://localhost:3333/api/register/`, data)
-        //axios.post(`/api/register/`, data)
-        //axios.post(process.env.NEXT_PUBLIC_API_URL +'api/users/createUser/', data)
+
         axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/users/createUser/`, data)
             .then(() => {
                 router.refresh();
-                //registerModal.onClose();
-                //reset();
+                registerModal.onClose();
+                reset();
 
-                toast.success('User Created successfully');
+                toast.success('User Created successfully! Check your email for verfication please.');
             })
             .catch((error) => {
                 //console.log('Error', error)
-                console.log('Error', error.message)
-                //resetField('password');
-                //resetField('hashedPassword');
+                //console.log('Error', error.message)
+                resetField('password');
+                resetField('hashedPassword');
                 if(error.response?.data?.message)
                 {
                     toast.error(error.response.data.message)
