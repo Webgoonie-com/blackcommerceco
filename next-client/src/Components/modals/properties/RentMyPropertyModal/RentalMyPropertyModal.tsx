@@ -49,6 +49,8 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
 
       const rentMyPropertyModalModal = useRentMyPropertyModal();
 
+      const [selectedImages, setSelectedImages] = useState<string[]>([]);
+
       const [step, setStep] = useState(STEPS.CATEGORY)
 
       const [isLoading, setIsLoading] = useState(false)
@@ -74,7 +76,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
             guestCount: 1,
             roomCount: 1,
             bathroomCount: 1,
-            imageSrc: '',
+            imageSrc: [],
             title: '',
             description: '',
             price: 1.00,
@@ -91,7 +93,8 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
 
     const watchCityinfo  = watch('cityinfo')
 
-    const watcStreetAddress  = watch('streetAddress')
+    const watchStreetAddress  = watch('streetAddress')
+    const watchStreetAddress2  = watch('streetAddress2')
     const watchStreetCity  = watch('streetCity')
     const watchStreetZipCode  = watch('streetZipCode')
     
@@ -107,7 +110,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
       
  
  
-    const imageSrc = watch('imageSrc')
+    //const imageSrc = watch('imageSrc')
 
     
 
@@ -116,6 +119,8 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
     }), [])
 
     const setCustomValue = (id: string, value: any) => {
+        console.log('setCustomValue id: ', id)
+        console.log('setCustomValue value: ', value)
     setValue(id, value, {
         shouldValidate: true,
         shouldDirty: true,
@@ -124,21 +129,25 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
     }
     
     const onBack = () => {
+        console.log('watchImageSrc', watchImageSrc)
+        
       setStep((value) => value - 1)
     }
 
     const onNext = () => {
+        console.log('watchImageSrc', watchImageSrc)
         setStep((value) => value + 1)
     }
 
     const onChangeImages = (images: string[]) => {
         console.log('onParent component onChangeImages in Effect ' + images)
         setCustomValue('watchImageSrc', images);
+        setSelectedImages(images);
     };
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
 
-        if(step === STEPS.PRICE){
+        if(step !== STEPS.PRICE){
             return onNext()
         }
 
@@ -292,33 +301,46 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                     id="streetAddress"
                     label="Street Address"
                     type="string"
+                    value={watchStreetAddress}
+                    onChange={(value) => setCustomValue('streetAddress', value)}
                     disabled={isLoading}
                     register={register}
                     errors={errors}
                     required
                 />
+
+              {/* <Input 
+                    id="streetAddress"
+                    label="Street Address 2"
+                    type="string"
+                    value={watchStreetAddress2}
+                    onChange={(value) => setCustomValue('streetAddress2', value)}
+                    disabled={isLoading}
+                    register={register}
+                    errors={errors}
+                    required
+                /> */}
                 
-                 {/* 
-                    <CitySelect
-                        onChange={function (value: CitySelectValue): void {
-                        throw new Error('Function not implemented.');
-                        } }                
-                    /> 
-                */}
+              
 
               <Input 
                     id="streetCity"
                     label="City or Town"
                     type="string"
+                    value={watchStreetCity}
+                    onChange={(value) => setCustomValue('streetCity', value)}
                     disabled={isLoading}
                     register={register}
                     errors={errors}
+                    
                     required
                 />
               <Input 
                     id="streetZipCode"
                     label="Postal Code"
                     type="string"
+                    value={watchStreetZipCode}
+                    onChange={(value) => setCustomValue('streetZipCode', value)}
                     disabled={isLoading}
                     register={register}
                     errors={errors}
@@ -390,12 +412,12 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                 />
 
                 <ImageUploadProperty
-                    value={watchImageSrc}
-                    //onChange={(value) => setCustomValue('watchImageSrc', value)} 
+                    value={watchImageSrc as any}
+                    //onChange={(value) => setCustomValue('imageSrc', value)} 
                     onChange={onChangeImages}
-                    userId={''+currentUser?.id} 
-                    //userId={''+1} 
-                    currentUser={''+currentUser}                    
+                    userId={'' + currentUser?.id}
+                    selectedImages={selectedImages}
+                    currentUser={currentUser as any}                
                 />
 
                 {/* <ImageUpload
@@ -473,8 +495,8 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
       <Modal
           isOpen={rentMyPropertyModalModal.isOpen}
           onClose={rentMyPropertyModalModal.onClose}
-          //onSubmit={handleSubmit(onSubmit)}
-          onSubmit={onNext}
+          onSubmit={handleSubmit(onSubmit)}
+          //onSubmit={onNext}
           actionLabel={actionLabel}
           title='List My Property As A Rental'
           secondaryActionLabel={secondaryActionLabel}
