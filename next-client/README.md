@@ -36,6 +36,18 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 
+## This App Quick Notes
+
+When destroyed local copy and repulled repo I had to to these steps to get it back running.
+
+
+```sh
+    yarn cache clean
+    rm -rf node_modules
+    yarn install
+```
+
+## Yarn And Prisma
 
 For Icons Refernce we use react Icons
 
@@ -77,3 +89,5 @@ For client can use the adapter for providers the client side  @prisma/client @au
     yarn add @prisma/client @auth/prisma-adapter
     
 ```
+
+
