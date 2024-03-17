@@ -7,3 +7,4 @@ client-next/testRest/admin.rest
 next-client/.next/*
 api-prisma/uploads/*
 api-prisma/uploaded/*
+api-prisma/public/uploaded/propertyphotos/*
