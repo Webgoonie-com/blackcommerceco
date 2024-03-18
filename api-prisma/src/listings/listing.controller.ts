@@ -5,6 +5,7 @@ import { MIME_TYPE_MAP } from "../types";
 import path from 'path';
 
 type Listing = {
+    countryStateRegionId: any;
     id: number;
     uuid: string | null;
     title: string;
@@ -17,6 +18,7 @@ type Listing = {
     imageSrc: string;
     price: string;
     userId: number;
+    countryId: number;
     createdAt: Date;
 }
 
@@ -51,10 +53,13 @@ export const listPropertys = async (): Promise<Listing[]> => {
             imageSrc: true,
             price: true,
             userId: true,
+            countryId: true,
+            countryStateRegionId: true,
             createdAt: true,
         }
     })
 }
+
 
 
 export const createProperty = async (listing: Listing): Promise<Listing | any> => {
@@ -62,14 +67,18 @@ export const createProperty = async (listing: Listing): Promise<Listing | any> =
 
     try {
         // Convert price to a number
-        //const price = parseFloat(listing.price);
         const price = listing.price;
 
         // Check if imageSrc is null or undefined
         const imageSrcString = Array.isArray(listing.imageSrc) ? listing.imageSrc.join(',') : '';
 
-        // Create the listing with the correct data types
-        const createdListing = await orm.listing.create({
+        // Handle the possibility of countryId, countryStateRegionId, and countryCityId being undefined
+        const countryId = listing.countryId !== undefined ? listing.countryId : 0; // Replace 0 with a default value if needed
+        const countryStateRegionId = listing.countryStateRegionId !== undefined ? listing.countryStateRegionId : 0;
+        const countryCityId = listing.countryId !== undefined ? listing.countryId : 0;
+
+        // Create the property with the correct data types
+        const createdProperty = await orm.property.create({
             data: {
                 title: listing.title,
                 description: listing.description,
@@ -80,11 +89,15 @@ export const createProperty = async (listing: Listing): Promise<Listing | any> =
                 guestCount: listing.guestCount,
                 imageSrc: imageSrcString, // Save the concatenated string
                 price: price, // Pass the price as a number
-                userId: listing.userId
+                userId: listing.userId,
+                countryId: countryId, // Include countryId
+                countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
+                countryCityId: countryCityId, // Include countryCityId
             }
         });
 
-        return createdListing;
+        return createdProperty;
+        
     } catch (error) {
         console.error('Error creating property:', error);
         return { error: 'Failed to create property. Please check the provided data.' };

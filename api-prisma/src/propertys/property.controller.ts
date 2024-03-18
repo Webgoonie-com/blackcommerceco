@@ -19,12 +19,15 @@ type Property = {
     imageSrc: string;
     price: string;
     userId: number;
+    countryId: number | undefined;
+    countryStateRegionId: number | undefined;
+    countryCityId: number |undefined;
     createdAt: Date;
 }
 
 
 export const listPropertys = async (): Promise<Property[]> => {
-    return orm.listing.findMany({
+    const properties = await orm.listing.findMany({
         select:{
             id: true,
             uuid: true,
@@ -39,9 +42,35 @@ export const listPropertys = async (): Promise<Property[]> => {
             price: true,
             userId: true,
             createdAt: true,
+            countryId: true,
+            countryStateRegionId: true,
+            countryCityId: true,
         }
-    })
+    });
+
+    // Map the fetched properties to match the Property type
+    const mappedProperties: Property[] = properties.map(p => ({
+        id: p.id,
+        uuid: p.uuid,
+        title: p.title,
+        description: p.description,
+        category: p.category,
+        roomCount: p.roomCount,
+        bathroomCount: p.bathroomCount,
+        guestCount: p.guestCount,
+        locationValue: p.locationValue,
+        imageSrc: p.imageSrc,
+        price: p.price,
+        userId: p.userId,
+        countryId: p.countryId,
+        countryStateRegionId: p.countryStateRegionId || undefined, // Make optional if necessary
+        countryCityId: p.countryCityId || undefined, // Make optional if necessary
+        createdAt: p.createdAt,
+    }));
+
+    return mappedProperties;
 }
+
 
 
 
@@ -50,11 +79,15 @@ export const createProperty = async (property: Property): Promise<Property | any
 
     try {
         // Convert price to a number
-        //const price = parseFloat(listing.price);
         const price = property.price;
 
         // Check if imageSrc is null or undefined
         const imageSrcString = Array.isArray(property.imageSrc) ? property.imageSrc.join(',') : '';
+
+        // Handle the possibility of countryId, countryStateRegionId, and countryCityId being undefined
+        const countryId = property.countryId !== undefined ? property.countryId : 0; // Replace 0 with a default value if needed
+        const countryStateRegionId = property.countryStateRegionId !== undefined ? property.countryStateRegionId : 0;
+        const countryCityId = property.countryCityId !== undefined ? property.countryCityId : 0;
 
         // Create the property with the correct data types
         const createdProperty = await orm.property.create({
@@ -68,16 +101,21 @@ export const createProperty = async (property: Property): Promise<Property | any
                 guestCount: property.guestCount,
                 imageSrc: imageSrcString, // Save the concatenated string
                 price: price, // Pass the price as a number
-                userId: property.userId
+                userId: property.userId,
+                countryId: countryId, // Include countryId
+                countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
+                countryCityId: countryCityId, // Include countryCityId
             }
         });
 
         return createdProperty;
+        
     } catch (error) {
         console.error('Error creating property:', error);
         return { error: 'Failed to create property. Please check the provided data.' };
     }
 };
+
 
 export const autoSavePropertyData = async (property: Property): Promise<Property | any> => {
 

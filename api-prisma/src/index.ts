@@ -6,7 +6,7 @@ import cors from 'cors'
 import { userRouter } from "./users/user.router"
 import { adminRouter } from "./admins/admin.router"
 import { listingRouter } from "./listings/listing.router"
-import { propertyRouterr } from "./propertys/property.router"
+import { propertyRouter } from "./propertys/property.router"
 
 
 dotenv.config()
@@ -32,7 +32,7 @@ app.use(express.json());
 app.use("/api/users", userRouter)
 app.use("/api/admins", adminRouter)
 app.use("/api/listings", listingRouter)
-app.use("/api/propertys", propertyRouterr)
+app.use("/api/propertys", propertyRouter)
 
 
 app.get("/", (req, res) => {

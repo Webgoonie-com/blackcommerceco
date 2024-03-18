@@ -93,6 +93,7 @@ model Country {
   countryCities                     CountryCity[]
   timezones                         CountryTimezone[]
   propertys                         Property[]
+  listings                          Listing[]
 }
 
 model CountryStateRegion {
@@ -101,10 +102,15 @@ model CountryStateRegion {
   name                              String
   latitude                          String
   longitude                         String
+
   country                           Country                   @relation(fields: [countryId], references: [id])
   countryId                         Int
 
+  countryCity                       CountryCity               @relation(fields: [countryCityId], references: [id])
+  countryCityId                     Int
+
   propertys                         Property[]
+  listings                          Listing[]
   
 }
 
@@ -114,10 +120,13 @@ isoCode                             String
 name                                String
 latitude                            String
 longitude                           String
+
 country                             Country                   @relation(fields: [countryId], references: [id])
 countryId                           Int
               
+countryStateRegion                  CountryStateRegion[]
 propertys                           Property[]
+listings                            Listing[]
 }
 
 model CountryTimezone {
@@ -194,8 +203,8 @@ model UserPhoto {
 }         
 
 model Listing {         
-  id                                Int                     @id @default(autoincrement())
-  uuid                              String                  @default(uuid()) @unique
+  id                                Int                             @id @default(autoincrement())
+  uuid                              String                          @default(uuid()) @unique
   title                             String
   description                       String
   imageSrc                          String
@@ -207,15 +216,25 @@ model Listing {
   locationValue                     String
   price                             String
 
-  createdAt                         DateTime @default(now())
-  updatedAt                         DateTime @default(now()) @updatedAt
+  createdAt                         DateTime                        @default(now())
+  updatedAt                         DateTime                        @default(now())        @updatedAt
 
-  user                              User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                              User                            @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId                            Int
+
+   country              Country?            @relation(fields: [countryId], references: [id])
+  countryId            Int
+
+  countryStateRegion   CountryStateRegion? @relation(fields: [countryStateRegionId], references: [id])
+  countryStateRegionId Int
+
+  countryCity          CountryCity?        @relation(fields: [countryCityId], references: [id])
+  countryCityId        Int
 
   reservations                      Reservation[]
   favorites                         Favorite[]
 
+  property                          Property?
   Propertyphotos                    Propertyphoto[]
   Businessphotos                    Businessphoto[]
 }
@@ -235,24 +254,26 @@ model Property {
   locationValue                     String
   price                             String
           
-  createdAt                         DateTime @default(now())
-  updatedAt                         DateTime @default(now()) @updatedAt
+  createdAt                         DateTime              @default(now())
+  updatedAt                         DateTime              @default(now()) @updatedAt
           
-  user                              User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                              User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId                            Int
           
   reservations                      Reservation[]
   favorites                         Favorite[]
           
   Propertyphotos                    Propertyphoto[]
+
+  listing                           Listing?            @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId                         Int? @unique
           
-  country                           Country             @relation(fields: [countryId], references: [id])
+  country                           Country               @relation(fields: [countryId], references: [id])
   countryId                         Int
-  countryStateRegion                CountryStateRegion  @relation(fields: [countryStateRegionId], references: [id])
+  countryStateRegion                CountryStateRegion    @relation(fields: [countryStateRegionId], references: [id])
   countryStateRegionId              Int
-  countryCity                       CountryCity         @relation(fields: [countryCityId], references: [id])
+  countryCity                       CountryCity           @relation(fields: [countryCityId], references: [id])
   countryCityId                     Int
-  
 }
 
 model Propertyphoto {
