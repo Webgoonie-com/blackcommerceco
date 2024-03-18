@@ -77,12 +77,12 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
         defaultValues: {
             bathroomCount: 1,
             category: '',
-            cityinfo: null,
+            countryCity: null,
             description: '',
             guestCount: 1,
             imageSrc: [],
-            localinfo: null,
-            location: null,
+            countryStateRegion: null,
+            country: null,
             price: 10.00,
             roomCount: 1,
             streetAddress: null,
@@ -99,11 +99,11 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
     // A work around for selected register in useform
     const watchCategory = watch('category')
 
-    const watchLocation = watch('location')
+    const watchCountry = watch('country')
  
-    const watchLocalinfo  = watch('localinfo')
+    const watchCountryStateRegion  = watch('countryStateRegion')
 
-    const watchCityinfo  = watch('cityinfo')
+    const watchCountryCity  = watch('countryCity')
 
     const watchStreetAddress  = watch('streetAddress')
     const watchStreetAddress2  = watch('streetAddress2')
@@ -147,13 +147,11 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
     }
     
     const onBack = () => {
-        console.log('watchImageSrc', watchImageSrc)
         
       setStep((value) => value - 1)
     }
 
     const onNext = () => {
-        console.log('watchImageSrc', watchImageSrc)
         setStep((value) => value + 1)
     }
 
@@ -289,32 +287,32 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
               
               <div className="grid md:grid-cols-3 xl:grid-cols-3 grid-flow-row auto-rows-max z-50">
                   <SelectCountry
-                          value={watchLocation}
-                          onChange={(value) => setCustomValue('location', value)}
+                          value={watchCountry}
+                          onChange={(value) => setCustomValue('country', value)}
                       />
       
                   <SelectStateRegion
-                      location={watchLocation}
-                      localinfo={watchLocalinfo}
-                      value={watchLocalinfo}
-                      onChange={(value) => setCustomValue('localinfo', value)}
+                      country={watchCountry}
+                      countryStateRegion  ={watchCountryStateRegion}
+                      value={watchCountryStateRegion}
+                      onChange={(value) => setCustomValue('countryStateRegion', value)}
                   />
   
                   <SelectCityByRegion
-                      location={watchLocation}
-                      localinfo={watchLocalinfo}
-                      value={watchCityinfo}
-                      onChange={(value) => setCustomValue('cityinfo', value)}
+                      country={watchCountry}
+                      countryStateRegion={watchCountryStateRegion}
+                      value={watchCountryCity}
+                      onChange={(value) => setCustomValue('countryCity', value)}
                   />
               </div>
               
               <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3 z-0'>
                       <Map
                           center={
-                              watchCityinfo?.latitude && watchCityinfo?.longitude ? [watchCityinfo?.latitude, watchCityinfo?.longitude] :
-                              //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :
-                              watchLocalinfo?.latitude && watchLocalinfo?.longitude ? [watchLocalinfo?.latitude, watchLocalinfo?.longitude] :
-                              watchLocation?.latitude && watchLocation?.longitude ? [watchLocation?.latitude, watchLocation?.longitude] : [32.1652613142917, -54.72682487791673]
+                              watchCountryCity?.latitude && watchCountryCity?.longitude ? [watchCountryCity?.latitude, watchCountryCity?.longitude] :
+                              //countryCity?.Latitude && countryCity?.Longitude ? [countryCity?.Latitude, countryCity?.Longitude] :
+                              watchCountryStateRegion?.latitude && watchCountryStateRegion?.longitude ? [watchCountryStateRegion?.latitude, watchCountryStateRegion?.longitude] :
+                              watchCountry?.latitude && watchCountry?.longitude ? [watchCountry?.latitude, watchCountry?.longitude] : [32.1652613142917, -54.72682487791673]
                           }
                       />
               </div>
@@ -391,9 +389,9 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
               <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3'>
                         <Map
                           center={
-                              watchCityinfo?.latitude && watchCityinfo?.longitude ? [watchCityinfo?.latitude, watchCityinfo?.longitude] :
-                              watchLocalinfo?.latitude && watchLocalinfo?.longitude ? [watchLocalinfo?.latitude, watchLocalinfo?.longitude] :
-                              watchLocation?.latitude && watchLocation?.longitude ? [watchLocation?.latitude, watchLocation?.longitude] : [32.1652613142917, -54.72682487791673]
+                              watchCountryCity?.latitude && watchCountryCity?.longitude ? [watchCountryCity?.latitude, watchCountryCity?.longitude] :
+                              watchCountryStateRegion?.latitude && watchCountryStateRegion?.longitude ? [watchCountryStateRegion?.latitude, watchCountryStateRegion?.longitude] :
+                              watchCountry?.latitude && watchCountry?.longitude ? [watchCountry?.latitude, watchCountry?.longitude] : [32.1652613142917, -54.72682487791673]
                           }
                         />
               </div>

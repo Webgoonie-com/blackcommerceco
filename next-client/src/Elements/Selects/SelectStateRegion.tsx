@@ -22,22 +22,22 @@ export type StateRegionSelectValue = {
 }
 
 interface StateRegionSelectProps {
-    location?: any | null,
-    localinfo?: any | null,
+    country?: any | null,
+    countryStateRegion?: any | null,
     value?: StateRegionSelectValue;
     onChange: (value: StateRegionSelectValue | null) => void;
 }
 
 const SelectStateRegion: React.FC<StateRegionSelectProps> = ({
-    location,
-    localinfo,
+    country,
+    countryStateRegion,
     value,
     onChange
 }) => {
-    // console.log('Am I getting SelectStateRegion.tsx Location', location)
-    // console.log('Am I getting SelectStateRegion.tsx Location?.isoCode', location?.isoCode)
-    // console.log('Am I getting SelectStateRegion.tsx Localinfo', localinfo)
-    // console.log('Am I getting SelectStateRegion.tsx Localinfo?.isoCode', localinfo?.isoCode)
+    // console.log('Am I getting SelectStateRegion.tsx country', country)
+    // console.log('Am I getting SelectStateRegion.tsx country?.isoCode', country?.isoCode)
+    // console.log('Am I getting SelectStateRegion.tsx countryStateRegion', countryStateRegion)
+    // console.log('Am I getting SelectStateRegion.tsx countryStateRegion?.isoCode', countryStateRegion?.isoCode)
 
     const { getStateRegionsByCountry } = useCountryStateZip();
     
@@ -55,9 +55,9 @@ const SelectStateRegion: React.FC<StateRegionSelectProps> = ({
         const fetchData = async () => {
             try {
 
-                if (location?.isoCode) {
-                    //console.log('hitting states location', location?.isoCode);
-                    const stateRegions = getStateRegionsByCountry(location?.isoCode);
+                if (country?.isoCode) {
+                    //console.log('hitting states country', country?.isoCode);
+                    const stateRegions = getStateRegionsByCountry(country?.isoCode);
                     const formattedStateRegions = stateRegions.map((state) => ({
                         value: state.isoCode,
                         label: state.name,
@@ -83,7 +83,7 @@ const SelectStateRegion: React.FC<StateRegionSelectProps> = ({
         // Include getStateRegionsByCountry in the dependency array
         fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [location?.isoCode]); // Can't Add getStateRegionsByCountry here or it will keep looping
+    }, [country?.isoCode]); // Can't Add getStateRegionsByCountry here or it will keep looping
     
     
     

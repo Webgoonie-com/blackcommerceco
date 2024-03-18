@@ -18,17 +18,17 @@ export type CitySelectValue = {
 };
 
 interface CountrySelectProps {
-    location?: any | null;
-    localinfo?: any | null;
-    cityinfo?: any | null;
+    country?: any | null;
+    countryStateRegion?: any | null;
+    countryCity?: any | null;
     value?: CitySelectValue;
     onChange: (value: CitySelectValue) => void;
 }
 
 const SelectCityByRegion: React.FC<CountrySelectProps> = ({
-    location,
-    localinfo,
-    cityinfo,
+    country,
+    countryStateRegion,
+    countryCity,
     value,
     onChange
 }) => {
@@ -46,13 +46,13 @@ const SelectCityByRegion: React.FC<CountrySelectProps> = ({
     useEffect(() => {
         const fetchData = async () => {
                 if (
-                    localinfo?.countryCode !== 'undefined' &&
-                    localinfo?.isoCode !== 'undefined'
+                    countryStateRegion?.countryCode !== 'undefined' &&
+                    countryStateRegion?.isoCode !== 'undefined'
                 ) {
 
                     try {    
 
-                        const stateRegions = getAllCitiesOfState(localinfo?.isoCode, localinfo?.countryCode);
+                        const stateRegions = getAllCitiesOfState(countryStateRegion?.isoCode, countryStateRegion?.countryCode);
                         const formattedStateRegions = stateRegions.map((city) => ({
                             value: city.name,
                             label: city.name,
@@ -73,10 +73,10 @@ const SelectCityByRegion: React.FC<CountrySelectProps> = ({
                 }
         };
 
-        // Fetch data only when location or isoCode changes
+        // Fetch data only when country or isoCode changes
         fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [localinfo?.isoCode, localinfo?.countryCode]);
+    }, [countryStateRegion?.isoCode, countryStateRegion?.countryCode]);
 
     return (
         <div className="position-relative px-2 col">

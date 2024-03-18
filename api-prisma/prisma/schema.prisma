@@ -15,269 +15,321 @@ datasource db {
 
 
 model Account {
-  id                  Int                     @id @default(autoincrement())
-  uuid                String?                  @default(uuid()) @unique
-  type                String
-  provider            String
-  providerAccountId   String
-  refresh_token       String?  
-  access_token        String?  
-  expires_at          Int?
-  token_type          String?
-  scope               String?
-  id_token            String?  
-  session_state       String?
+  id                                Int                       @id @default(autoincrement())
+  uuid                              String?                   @default(uuid()) @unique
+  type                              String
+  provider                          String
+  providerAccountId                 String
+  refresh_token                     String?  
+  access_token                      String?  
+  expires_at                        Int?
+  token_type                        String?
+  scope                             String?
+  id_token                          String?  
+  session_state                     String?
 
-  user                User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId              Int
+  user                              User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                            Int
 
-  createdAt               DateTime @default(now())
-  updatedAt               DateTime @default(now()) @updatedAt
-}
+  createdAt                         DateTime                  @default(now())
+  updatedAt                         DateTime                  @default(now()) @updatedAt
+}         
 
-model Admin {  
-  id                      Int                     @id @default(autoincrement())
-  uuid                    String                  @default(uuid()) @unique
-  nickname                String? 
-  email                   String                  @unique
-  emailVerified           DateTime? 
-  image                   String? 
-  hashedPassword          String? 
-  firstName               String? 
-  lastName                String?
-  role                    String?
-  updatedAt               DateTime                @default(now()) @updatedAt
-  createdAt               DateTime                @default(now())
+model Admin {           
+  id                                Int                       @id @default(autoincrement())
+  uuid                              String                    @default(uuid()) @unique
+  nickname                          String? 
+  email                             String                    @unique
+  emailVerified                     DateTime? 
+  image                             String? 
+  hashedPassword                    String? 
+  firstName                         String? 
+  lastName                          String?
+  role                              String?
+  updatedAt                         DateTime                  @default(now()) @updatedAt
+  createdAt                         DateTime                  @default(now())
 }
 
 
 model Business {
-  id                      Int                     @id @default(autoincrement())
-  uuid                    String                  @default(uuid()) @unique
-  title                   String
-  description             String
-  location                String
-  localinfo               String
-  cityinfo                String
-  isAFranchise            String
-  isTheFranchiseParent    String
-  ownsOtherBusinesses     String
-  newStateCodeInfo        String
-  hasStore                Int
-  hasProducts             Int
-  hasServices             Int
-  category                String
-  locationValue           String
-  price                   String
+  id                                Int                       @id @default(autoincrement())
+  uuid                              String                    @default(uuid()) @unique
+  title                             String
+  description                       String
+  location                          String
+  localinfo                         String
+  cityinfo                          String
+  isAFranchise                      String
+  isTheFranchiseParent              String
+  ownsOtherBusinesses               String
+  newStateCodeInfo                  String
+  hasStore                          Int
+  hasProducts                       Int
+  hasServices                       Int
+  category                          String
+  locationValue                     String
+  price                             String
 
-  imageSrc                String
+  imageSrc                          String
 
-  createdAt               DateTime @default(now())
-  updatedAt               DateTime @default(now()) @updatedAt
+  createdAt                         DateTime                  @default(now())
+  updatedAt                         DateTime                  @default(now()) @updatedAt
 
-  user                    User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId                  Int
+  user                              User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                            Int
 
-  reservations            Reservation[]
-  favorites               Favorite[]
+  reservations                      Reservation[]
+  favorites                         Favorite[]
 
-  Businessphotos          Businessphoto[]
+  Businessphotos                    Businessphoto[]
   
 }
+
+model Country {
+  id                                Int                       @id @default(autoincrement())
+  isoCode                           String                    @unique
+  name                              String
+  countryStateRegions               CountryStateRegion[]
+  countryCities                     CountryCity[]
+  timezones                         CountryTimezone[]
+  propertys                         Property[]
+}
+
+model CountryStateRegion {
+  id                                Int                       @id @default(autoincrement())
+  isoCode                           String
+  name                              String
+  latitude                          String
+  longitude                         String
+  country                           Country                   @relation(fields: [countryId], references: [id])
+  countryId                         Int
+
+  propertys                         Property[]
+  
+}
+
+model CountryCity {
+id                                  Int                       @id @default(autoincrement())
+isoCode                             String
+name                                String
+latitude                            String
+longitude                           String
+country                             Country                   @relation(fields: [countryId], references: [id])
+countryId                           Int
+              
+propertys                           Property[]
+}
+
+model CountryTimezone {
+  id                                Int                       @id @default(autoincrement())
+  country                           Country                   @relation(fields: [countryId], references: [id])
+  countryId                         Int
+  timezone                          String
+}
+
 
 model Favorite {
-  id                      Int                     @id @default(autoincrement())
-  uuid                    String                  @default(uuid()) @unique
-  user                    User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId                  Int
-  listingId               Int
-  listing                 Listing[]
+  id                                Int                       @id @default(autoincrement())
+  uuid                              String                    @default(uuid()) @unique
+  user                              User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                            Int
+  listingId                         Int
+  listing                           Listing[]
 
-  property                Property                    @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-  propertyId              Int
+  property                          Property                  @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  propertyId                        Int
 
-  createdAt               DateTime @default(now())
-  updatedAt               DateTime @default(now()) @updatedAt
+  createdAt                         DateTime                  @default(now())
+  updatedAt                         DateTime                  @default(now())  @updatedAt
 
-  business Business @relation(fields: [businessId], references:[id], onDelete: Cascade)
-  businessId Int
+  business                          Business                  @relation(fields: [businessId], references:[id], onDelete: Cascade)
+  businessId                        Int          
+}     
+
+model User {            
+  id                                Int                       @id @default(autoincrement())
+  uuid                              String?                   @default(uuid()) @unique
+  name                              String?
+  role                              String?
+  email                             String                    @unique
+  emailVerified                     DateTime? 
+  image                             String? 
+  phone                             String?
+  hashedPassword                    String? 
+  firstName                         String? 
+  lastName                          String?
+  updatedAt                         DateTime                  @default(now()) @updatedAt
+  createdAt                         DateTime                  @default(now())
+
+  favoriteIds                       Favorite[]
+  userPhotos                        UserPhoto[]
+  accounts                          Account[]
+  listings                          Listing[]
+  reservations                      Reservation[]
+  Propertys                         Property[]
+  Propertyphotos                    Propertyphoto[]
+  Business                          Business[]
+  Businessphotos                    Businessphoto[]
+
+}         
+
+model UserPhoto {         
+  Id                                Int                     @id @default(autoincrement())
+  uuid                              String                  @default(uuid())
+  serverCaption                     String?
+  userCaption                       String?
+  imageSize                         Int?
+  type                              String
+  local                             String
+  url                               String
+  filename                          String
+  message                           String
+  createdAt                         DateTime                @default(now())
+  updatedAt                         DateTime                @default(now()) @updatedAt
+
+  user                              User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                            Int
+
+
+}         
+
+model Listing {         
+  id                                Int                     @id @default(autoincrement())
+  uuid                              String                  @default(uuid()) @unique
+  title                             String
+  description                       String
+  imageSrc                          String
+
+  category                          String
+  roomCount                         Int
+  bathroomCount                     Int
+  guestCount                        Int
+  locationValue                     String
+  price                             String
+
+  createdAt                         DateTime @default(now())
+  updatedAt                         DateTime @default(now()) @updatedAt
+
+  user                              User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                            Int
+
+  reservations                      Reservation[]
+  favorites                         Favorite[]
+
+  Propertyphotos                    Propertyphoto[]
+  Businessphotos                    Businessphoto[]
 }
 
-model User {  
-  id                      Int                     @id @default(autoincrement())
-  uuid                    String?                 @default(uuid()) @unique
-  name                    String?
-  role                    String?
-  email                   String                  @unique
-  emailVerified           DateTime? 
-  image                   String? 
-  phone                   String?
-  hashedPassword          String? 
-  firstName               String? 
-  lastName                String?
-  updatedAt               DateTime                @default(now()) @updatedAt
-  createdAt               DateTime                @default(now())
 
-  favoriteIds             Favorite[]
-  userPhotos              UserPhoto[]
-  accounts                Account[]
-  listings                Listing[]
-  reservations            Reservation[]
-  Propertys               Property[]
-  Propertyphotos          Propertyphoto[]
-  Business                Business[]
-  Businessphotos          Businessphoto[]
-  
-}
-
-model UserPhoto {
-  Id                      Int @id @default(autoincrement())
-  uuid                    String @default(uuid())
-  serverCaption           String?
-  userCaption             String?
-  imageSize               Int?
-  type                    String
-  local                   String
-  url                     String
-  filename                String
-  message                 String
-  createdAt               DateTime @default(now())
-  updatedAt               DateTime @default(now()) @updatedAt
-
-  user                    User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId                  Int
-
- 
-}
-
-model Listing {
-  id                      Int                     @id @default(autoincrement())
-  uuid                    String                  @default(uuid()) @unique
-  title                   String
-  description             String
-  imageSrc                String
-  
-  category                String
-  roomCount               Int
-  bathroomCount           Int
-  guestCount              Int
-  locationValue           String
-  price                   String
-
-  createdAt               DateTime @default(now())
-  updatedAt               DateTime @default(now()) @updatedAt
-
-  user                    User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId                  Int
-
-  reservations            Reservation[]
-  favorites               Favorite[]
-
-  Propertyphotos          Propertyphoto[]
-  Businessphotos          Businessphoto[]
-}   
 model Property {
-  id                      Int                     @id @default(autoincrement())
-  uuid                    String                  @default(uuid()) @unique
-  title                   String
-  description             String
-  imageSrc                String
-  
-  category                String
-  roomCount               Int
-  bathroomCount           Int
-  guestCount              Int
-  locationValue           String
-  price                   String
-
-  createdAt               DateTime @default(now())
-  updatedAt               DateTime @default(now()) @updatedAt
-
-  user                    User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId                  Int
-
-  reservations            Reservation[]
-  favorites               Favorite[]
-
-  Propertyphotos          Propertyphoto[]
+  id                                Int                     @id @default(autoincrement())
+  uuid                              String                  @default(uuid()) @unique
+  title                             String
+  description                       String
+  imageSrc                          String
+            
+  category                          String
+  roomCount                         Int
+  bathroomCount                     Int
+  guestCount                        Int
+  locationValue                     String
+  price                             String
+          
+  createdAt                         DateTime @default(now())
+  updatedAt                         DateTime @default(now()) @updatedAt
+          
+  user                              User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                            Int
+          
+  reservations                      Reservation[]
+  favorites                         Favorite[]
+          
+  Propertyphotos                    Propertyphoto[]
+          
+  country                           Country             @relation(fields: [countryId], references: [id])
+  countryId                         Int
+  countryStateRegion                CountryStateRegion  @relation(fields: [countryStateRegionId], references: [id])
+  countryStateRegionId              Int
+  countryCity                       CountryCity         @relation(fields: [countryCityId], references: [id])
+  countryCityId                     Int
   
 }
 
 model Propertyphoto {
-    id                    Int                     @id @default(autoincrement())
-    uuid                  String                  @default(uuid()) @unique
-    imgAlbumName          String
-    imgCatg               String
-    imageSrc              String
-    imgUrl                String
-    imgName               String
-    imgFileType           String
-    imgEncoding           String
-    imgFileOrigName       String
-    imgFileName           String
-    imgFileOutputDir      String
-    imgFilePath           String
-    imgFileSize           Int
-    createdAt               DateTime @default(now())
-    updatedAt               DateTime @default(now()) @updatedAt
+    id                              Int                 @id @default(autoincrement())
+    uuid                            String              @default(uuid()) @unique
+    imgAlbumName                    String
+    imgCatg                         String
+    imageSrc                        String
+    imgUrl                          String
+    imgName                         String
+    imgFileType                     String
+    imgEncoding                     String
+    imgFileOrigName                 String
+    imgFileName                     String
+    imgFileOutputDir                String
+    imgFilePath                     String
+    imgFileSize                     Int
+    createdAt                       DateTime            @default(now())
+    updatedAt                       DateTime            @default(now()) @updatedAt
 
-    user                  User                    @relation(fields: [userId], references: [id])
-    userId                Int
+    user                            User                @relation(fields: [userId], references: [id])
+    userId                          Int
 
-    listing               Listing?                 @relation(fields: [listingId], references: [id], onDelete: Cascade)
-    listingId             Int?
+    listing                         Listing?            @relation(fields: [listingId], references: [id], onDelete: Cascade)
+    listingId                       Int?
 
-    property                Property                    @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-    propertyId              Int
+    property                        Property            @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+    propertyId                      Int
 }
 
 model Businessphoto {
-    id                    Int                     @id @default(autoincrement())
-    uuid                  String                  @default(uuid()) @unique
-    imgAlbumName          String
-    imgCatg               String
-    imageSrc              String
-    imgUrl                String
-    imgName               String
-    imgFileType           String
-    imgEncoding           String
-    imgFileOrigName              String
-    imgFileName             Int
-    imgFileOutputDir         Int
-    guestCount            Int
-    locationValue         String
-    imgFileSize                 Int
-    createdAt               DateTime @default(now())
-    updatedAt               DateTime @default(now()) @updatedAt
+    id                              Int                     @id @default(autoincrement())
+    uuid                            String                  @default(uuid()) @unique
+    imgAlbumName                    String
+    imgCatg                         String
+    imageSrc                        String
+    imgUrl                          String
+    imgName                         String
+    imgFileType                     String
+    imgEncoding                     String
+    imgFileOrigName                 String
+    imgFileName                     Int
+    imgFileOutputDir                Int
+    guestCount                      Int
+    locationValue                   String
+    imgFileSize                     Int
+    createdAt                       DateTime              @default(now())
+    updatedAt                       DateTime              @default(now()) @updatedAt
 
-    user                  User                    @relation(fields: [userId], references: [id])
-    userId                Int
+    user                            User                  @relation(fields: [userId], references: [id])
+    userId                          Int   
 
-    listing               Listing                  @relation(fields: [listingId], references: [id], onDelete: Cascade)
-    listingId             Int
+    listing                         Listing               @relation(fields: [listingId], references: [id], onDelete: Cascade)
+    listingId                       Int
 
-    business Business @relation(fields: [businessId], references:[id], onDelete: Cascade)
-    businessId Int
+    business                        Business @relation(fields: [businessId], references:[id], onDelete: Cascade)
+    businessId                      Int
 }
 
 model Reservation {
-  id                      Int                     @id @default(autoincrement())
-  uuid                    String                  @default(uuid()) @unique
-  startDate               DateTime
-  endDate                 DateTime
-  totalPrice              Int
-  createdAt               DateTime @default(now())
-  updatedAt               DateTime @default(now()) @updatedAt
+  id                                Int                   @id @default(autoincrement())
+  uuid                              String                @default(uuid()) @unique
+  startDate                         DateTime
+  endDate                           DateTime
+  totalPrice                        Int
+  createdAt                         DateTime              @default(now())
+  updatedAt                         DateTime              @default(now()) @updatedAt
 
-  user                    User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId                  Int
+  user                              User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                            Int
 
-  listing                 Listing                 @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  listingId               Int
+  listing                           Listing               @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId                         Int
 
-  property                Property                    @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-  propertyId              Int
+  property                          Property              @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  propertyId                        Int
   
-  business Business @relation(fields: [businessId], references:[id], onDelete: Cascade)
-  businessId Int
+  business                          Business              @relation(fields: [businessId], references:[id], onDelete: Cascade)
+  businessId                        Int
 }
