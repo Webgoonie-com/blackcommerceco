@@ -15,7 +15,7 @@ type Listing = {
     guestCount: number;
     locationValue: string;
     imageSrc: string;
-    price: number;
+    price: string;
     userId: number;
     createdAt: Date;
 }
@@ -58,38 +58,39 @@ export const listPropertys = async (): Promise<Listing[]> => {
 
 
 export const createProperty = async (listing: Listing): Promise<Listing | any> => {
+    console.log('Hit Create Property Hit on line 62');
 
-    const {
-        id,
-        uuid,
-        title,
-        description,
-        category,
-        roomCount,
-        bathroomCount,
-        locationValue,
-        guestCount,
-        imageSrc,
-        price,
-        userId,
-        createdAt
-    } = listing;
+    try {
+        // Convert price to a number
+        //const price = parseFloat(listing.price);
+        const price = listing.price;
 
-    return orm.listing.create({
-        data: {
-            title: listing?.title,
-            description: listing?.description,
-            category: listing?.category,
-            roomCount: listing?.roomCount,
-            bathroomCount: listing?.roomCount,
-            locationValue: listing?.locationValue,
-            guestCount: listing?.guestCount,
-            imageSrc: listing?.imageSrc,
-            price: listing?.price,
-            userId: listing?.userId
-        }
-    })
-}
+        // Check if imageSrc is null or undefined
+        const imageSrcString = Array.isArray(listing.imageSrc) ? listing.imageSrc.join(',') : '';
+
+        // Create the listing with the correct data types
+        const createdListing = await orm.listing.create({
+            data: {
+                title: listing.title,
+                description: listing.description,
+                category: listing.category,
+                roomCount: listing.roomCount,
+                bathroomCount: listing.bathroomCount,
+                locationValue: listing.locationValue || 'placeholder_value',
+                guestCount: listing.guestCount,
+                imageSrc: imageSrcString, // Save the concatenated string
+                price: price, // Pass the price as a number
+                userId: listing.userId
+            }
+        });
+
+        return createdListing;
+    } catch (error) {
+        console.error('Error creating property:', error);
+        return { error: 'Failed to create property. Please check the provided data.' };
+    }
+};
+
 
 export const createPropertyPhotos = async (listingData: any): Promise<ListingProptyPhoto[] | any> => {
     console.log('Hit Create Property Photos', listingData);

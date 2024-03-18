@@ -26,9 +26,16 @@ import dynamic from 'next/dynamic';
 import Counter from '@/Elements/Counters/Counter';
 
 import ImageUploadProperty from '@/Elements/Files/ImageUploadPropertyPhotos'
-import axiosWithCredentials from '@/lib/axiosWithCredentials';
+
+import axios from 'axios';
+import axiosWithCredentials from '@/lib/axiosWithCredentials'; // Doesn't Work For Post to API Says Cors Error.
+
 import { User } from "next-auth"
 import getCurrentUser from '@/Actions/getCurrentUser';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import { callPropertys, autoSavePropertyData } from '@/ServiceCalls/callPropertys';
+
 
 
 enum STEPS {
@@ -46,6 +53,9 @@ interface RentMyPropertyModalProps {
 }
 
 const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) => {
+
+        const router = useRouter()
+
 
       const rentMyPropertyModalModal = useRentMyPropertyModal();
 
@@ -65,21 +75,23 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
             reset
         } = useForm<FieldValues>({
         defaultValues: {
-            userId: currentUser?.Id,
+            bathroomCount: 1,
             category: '',
+            cityinfo: null,
+            description: '',
+            guestCount: 1,
+            imageSrc: [],
+            localinfo: null,
             location: null,
-            town: null,
+            price: 10.00,
+            roomCount: 1,
             streetAddress: null,
             streetAddress2: null,
             streetCity: null,
             streetZipCode: null,
-            guestCount: 1,
-            roomCount: 1,
-            bathroomCount: 1,
-            imageSrc: [],
             title: '',
-            description: '',
-            price: 1.00,
+            town: null,
+            userId: currentUser?.id,
         }
       })
     
@@ -111,6 +123,12 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
  
  
     //const imageSrc = watch('imageSrc')
+
+    async function  handleAutoSave(){
+
+       // await callPropertys.autoSavePropertyData(data)
+
+    };
 
     
 
@@ -147,6 +165,15 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
 
+
+        try {
+            await autoSavePropertyData(data); // Call the autoSavePropertyData function
+            // Your other submission logic
+        } catch (error) {
+            console.error('Error occurred while submitting data:', error);
+        }
+
+
         if(step !== STEPS.PRICE){
             return onNext()
         }
@@ -162,9 +189,21 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
             
             // Calling Directly To Internal API Route
             
-            axiosWithCredentials.post(process.env.NEXT_PUBLIC_API_URL +'/api/createProperty')
-            
-            console.log('')
+           await axios.post(`
+                ${process.env.NEXT_PUBLIC_API_URL}/api/propertys/createProperty`,
+                data
+            ).then(() =>{
+                toast.success('Listing Crated!')
+                //router.refresh()
+                //reset()
+                //setStep(STEPS.CATEGORY)
+                //rentMyPropertyModalModal.onClose()
+            })
+            .catch(() => {
+                toast.error('Sorry Something went Wrong');
+            }).finally(() => {
+                setIsLoading(false)
+            })
 
             
       

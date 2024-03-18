@@ -2,7 +2,7 @@ import express from 'express'
 import type { Request, Response } from 'express'
 import {body, validationResult} from 'express-validator'
 
-import * as AdminService from "./admin.service";
+import * as AdminService from "./admin.controller";
 
 export const adminRouter = express.Router();
 

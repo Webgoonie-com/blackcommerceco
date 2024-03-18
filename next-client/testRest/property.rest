@@ -1,0 +1,144 @@
+
+###
+
+GET http://localhost:3334/api/propertys/allProperties
+
+
+###
+
+
+
+###
+
+POST http://localhost:3334/api/propertys/createProperty
+Content-Type: application/json
+
+{
+    "bathroomCount": 1,
+    "category": "Luxury",
+    "cityinfo": {
+        "value": "Accra",
+        "label": "Accra",
+        "countryCode": "GH",
+        "latlng": [
+            "5.55602000",
+            "-0.19690000"
+        ],
+        "latitude": "5.55602000",
+        "longitude": "-0.19690000",
+        "name": "Accra"
+    },
+    "description": "Fully Furnished Apartment",
+    "guestCount": 4,
+    "imageSrc": [],
+    "localinfo": {
+        "value": "AA",
+        "label": "Greater Accra",
+        "countryCode": "GH",
+        "latlng": [
+            "5.81428360",
+            "0.07467670"
+        ],
+        "latitude": "5.81428360",
+        "longitude": "0.07467670",
+        "name": "Greater Accra",
+        "isoCode": "AA"
+    },
+    "location": {
+        "value": "GH",
+        "label": "Ghana",
+        "currency": "GHS",
+        "phonecode": "233",
+        "flag": "🇬🇭",
+        "latlng": [
+            8,
+            -2
+        ],
+        "latitude": 8,
+        "longitude": -2,
+        "region": "Ghana",
+        "isoCode": "GH",
+        "name": "Ghana",
+        "timezones": []
+    },
+    "price": "63.58",
+    "roomCount": 2,
+    "streetAddress": "Third Circular Road",
+    "streetAddress2": null,
+    "streetCity": "Accra",
+    "streetZipCode": "GA-51042",
+    "title": "Embassy Gardens",
+    "town": null,
+    "userId": 1
+}
+
+
+
+###
+###
+
+POST http://localhost:3334/api/propertys/autoSavePropertyData
+Content-Type: application/json
+
+{
+    "bathroomCount": 1,
+    "category": "Luxury",
+    "cityinfo": {
+        "value": "Accra",
+        "label": "Accra",
+        "countryCode": "GH",
+        "latlng": [
+            "5.55602000",
+            "-0.19690000"
+        ],
+        "latitude": "5.55602000",
+        "longitude": "-0.19690000",
+        "name": "Accra"
+    },
+    "description": "Fully Furnished Apartment",
+    "guestCount": 4,
+    "imageSrc": [],
+    "localinfo": {
+        "value": "AA",
+        "label": "Greater Accra",
+        "countryCode": "GH",
+        "latlng": [
+            "5.81428360",
+            "0.07467670"
+        ],
+        "latitude": "5.81428360",
+        "longitude": "0.07467670",
+        "name": "Greater Accra",
+        "isoCode": "AA"
+    },
+    "location": {
+        "value": "GH",
+        "label": "Ghana",
+        "currency": "GHS",
+        "phonecode": "233",
+        "flag": "🇬🇭",
+        "latlng": [
+            8,
+            -2
+        ],
+        "latitude": 8,
+        "longitude": -2,
+        "region": "Ghana",
+        "isoCode": "GH",
+        "name": "Ghana",
+        "timezones": []
+    },
+    "price": "63.58",
+    "roomCount": 2,
+    "streetAddress": "Third Circular Road",
+    "streetAddress2": null,
+    "streetCity": "Accra",
+    "streetZipCode": "GA-51042",
+    "title": "Embassy Gardens",
+    "town": null,
+    "userId": 1
+}
+
+
+
+###
