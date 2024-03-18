@@ -2,13 +2,13 @@ import express from 'express'
 import type { Request, Response } from 'express'
 import {body, validationResult} from 'express-validator'
 
-import * as UserService from "./user.service";
+import * as ControllerService from "./user.controller";
 
 export const userRouter = express.Router();
 
 userRouter.get('/all', async (request: Request, response: Response) => {
     try {
-        const users = await UserService.listUsers()
+        const users = await ControllerService.listUsers()
         return response.status(200).json(users);
 
     } catch (error: any) {
@@ -21,7 +21,7 @@ userRouter.get("/id/:id", async (request: Request, response: Response) => {
     const id: number = parseInt(request.params.id, 10)
 
     try {
-        const user = await UserService.getUserId(id)
+        const user = await ControllerService.getUserId(id)
         if(user) {
             return response.status(200).json(user)
         }
@@ -36,7 +36,7 @@ userRouter.get("/uuid/:uuid", async (request: Request, response: Response) => {
     const uuid: string = request.params.id
 
     try {
-        const user = await UserService.getUserUuId(uuid)
+        const user = await ControllerService.getUserUuId(uuid)
         if(user) {
             return response.status(200).json(user)
         }
@@ -51,7 +51,7 @@ userRouter.get("/email/:email", async (request: Request, response: Response) => 
     const paramEmail: string = request.params.email
 
     try {
-        const user = await UserService.getUserEmail(paramEmail)
+        const user = await ControllerService.getUserEmail(paramEmail)
         if(user) {
             return response.status(200).json(user)
         }
@@ -79,7 +79,7 @@ userRouter.post(
         try {
             const user = request.body
             
-            const newUser = await UserService.createUser(user)
+            const newUser = await ControllerService.createUser(user)
 
             return response.status(201).json(newUser)
 
@@ -93,7 +93,7 @@ userRouter.post(
 userRouter.post('/create', async (request: Request, response: Response) => {
     try {
         
-        const newUser = await UserService.createUser(request.body)
+        const newUser = await ControllerService.createUser(request.body)
 
         return response.status(200).json(newUser)
 
@@ -112,7 +112,7 @@ userRouter.post('/loginuser', async (request: Request, response: Response) => {
 
         console.log('/loginuser: request.body = ', request.body)
         
-        const newUser = await UserService.loginUser(request.body)
+        const newUser = await ControllerService.loginUser(request.body)
 
         return response.status(200).json(newUser)
 
@@ -144,7 +144,7 @@ userRouter.put(
         try {
             const user = request.body
             
-            const updatedUser = await UserService.updateUser(user, id)
+            const updatedUser = await ControllerService.updateUser(user, id)
 
             return response.status(201).json(updatedUser)
 
@@ -162,7 +162,7 @@ userRouter.delete("deleteUserId/:id"), async(request: Request, response: Respons
 
     try {
         
-        await UserService.deleteUserId(id)
+        await ControllerService.deleteUserId(id)
         return response.status(204).json("User has been deleted successfully")
     } catch (error: any) {
         return response.status(500).json(error.message)
@@ -176,7 +176,7 @@ userRouter.delete("deleteUserUuid/:uuid"), async(request: Request, response: Res
 
     try {
         
-        await UserService.deleteUserUuid(uuid)
+        await ControllerService.deleteUserUuid(uuid)
         return response.status(204).json("User has been deleted successfully")
     } catch (error: any) {
         return response.status(500).json(error.message)
