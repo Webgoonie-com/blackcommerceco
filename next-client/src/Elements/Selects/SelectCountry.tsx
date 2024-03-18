@@ -1,6 +1,7 @@
 //SelectCountry.tsx
 'use client'
 
+import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
@@ -24,13 +25,21 @@ export type CountrySelectValue = {
 };
 
 interface CountrySelectProps {
+    id: string;
     value?: CountrySelectValue;
     onChange: (value: CountrySelectValue | null) => void; // Update the onChange type
+    required?: boolean;
+    register: UseFormRegister<FieldValues>;
+    errors: FieldErrors;
 }
 
 const SelectCountry: React.FC<CountrySelectProps> = ({
+    id,
     value,
-    onChange
+    errors,
+    onChange,
+    register,
+    required,
 }) => {
     const { getAllCountries } = useCountryStateZip();
     const animatedComponents = makeAnimated();
@@ -57,6 +66,7 @@ const SelectCountry: React.FC<CountrySelectProps> = ({
             <h2>Select Country</h2>
             <Select
                 key={`my_unique_selectcountry_key__${value}`}
+                {...register(id, { required })}
                 placeholder="Select Your Country"
                 isClearable
                 className="position-relative text-black"

@@ -1,3 +1,4 @@
+import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated'
@@ -18,14 +19,19 @@ export type CitySelectValue = {
 };
 
 interface CountrySelectProps {
+    id: string;
     country?: any | null;
     countryStateRegion?: any | null;
     countryCity?: any | null;
     value?: CitySelectValue;
     onChange: (value: CitySelectValue) => void;
+    required?: boolean;
+    register: UseFormRegister<FieldValues>;
+    errors: FieldErrors;
 }
 
 const SelectCityByRegion: React.FC<CountrySelectProps> = ({
+    id,
     country,
     countryStateRegion,
     countryCity,
@@ -83,6 +89,7 @@ const SelectCityByRegion: React.FC<CountrySelectProps> = ({
             <h2>Select Nearest City</h2>
             
                 <Select
+                    id={id}
                     key={`my_unique_selectcitybyregion_key__${value}`}
                     placeholder="Select Nearest City"
                     isClearable={true}

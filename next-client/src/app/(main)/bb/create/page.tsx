@@ -53,7 +53,9 @@ const BusinessCreation = () => {
         defaultValues: {
             userId: session?.user?.uuid,
             category: '',
-            location: null,
+            country: null,
+            countryCity: null,
+            countryStateRegion: null,
             town: null,
             guestCount: 1,
             roomCount: 1,
@@ -67,11 +69,13 @@ const BusinessCreation = () => {
 
     const watchCategory = watch('category')
 
-    const watchLocation = watch('location')
+    const watchCountry = watch('location')
  
-    const watchLocalinfo  = watch('localinfo')
+    const watchCountryStateRegion  = watch('countryStateRegion')
 
     const watchCityinfo  = watch('cityinfo')
+
+    const watchCountryCity  = watch('countryCity')
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
             
@@ -171,23 +175,33 @@ const BusinessCreation = () => {
             <div className="absolute px-32 grid md:grid-cols-3 xl:grid-cols-3 grid-flow-row auto-rows-max mb-14 z-10">
             
 
-                  <SelectCountry
-                          value={watchLocation}
-                          onChange={(value) => setCustomValue('location', value)}
-                      />
+                <SelectCountry
+                    id={'country'}
+                    value={watchCountry}
+                    onChange={(value) => setCustomValue('country', value)}
+                    register={register}
+                    errors={errors}
+                    required
+                />
       
-                  <SelectStateRegion
-                      location={watchLocation}
-                      localinfo={watchLocalinfo}
-                      value={watchLocalinfo}
-                      onChange={(value) => setCustomValue('localinfo', value)}
-                  />
+                <SelectStateRegion
+                    id={'countryStateRegion'}
+                    country={watchCountry}
+                    countryStateRegion={watchCountryStateRegion}
+                    value={watchCountryStateRegion}
+                    onChange={(value) => setCustomValue('countryStateRegion', value)}
+                    errors={errors}
+                    register={register}
+                />
   
-                  <SelectCityByRegion
-                      location={watchLocation}
-                      localinfo={watchLocalinfo}
-                      value={watchCityinfo}
-                      onChange={(value) => setCustomValue('cityinfo', value)}
+                <SelectCityByRegion
+                    id={'countryCity'}
+                    country={watchCountry}
+                    countryStateRegion={watchCountryStateRegion}
+                    value={watchCityinfo}
+                    onChange={(value) => setCustomValue('countryCity', value)}
+                    errors={errors}
+                    register={register}
                   />
 
                 <div className='flex-row'>
@@ -208,8 +222,8 @@ const BusinessCreation = () => {
                             center={
                                 watchCityinfo?.latitude && watchCityinfo?.longitude ? [watchCityinfo?.latitude, watchCityinfo?.longitude] :
                                 //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :
-                                watchLocalinfo?.latitude && watchLocalinfo?.longitude ? [watchLocalinfo?.latitude, watchLocalinfo?.longitude] :
-                                watchLocation?.latitude && watchLocation?.longitude ? [watchLocation?.latitude, watchLocation?.longitude] : [32.1652613142917, -54.72682487791673]
+                                watchCountryStateRegion?.latitude && watchCountryStateRegion?.longitude ? [watchCountryStateRegion?.latitude, watchCountryStateRegion?.longitude] :
+                                watchCountry?.latitude && watchCountry?.longitude ? [watchCountry?.latitude, watchCountry?.longitude] : [32.1652613142917, -54.72682487791673]
                             }
                         />
               </div>

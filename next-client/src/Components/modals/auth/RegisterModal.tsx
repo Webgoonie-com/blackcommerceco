@@ -65,7 +65,10 @@ const RegisterModal = () => {
                 registerModal.onClose();
                 reset();
 
-                toast.success('User Created successfully! Check your email for verfication please.');
+                toast.success('User Created successfully! Check your email for verfication please.', {
+                    duration: 7000,
+                    position: 'bottom-right',
+                });
             })
             .catch((error) => {
                 //console.log('Error', error)

@@ -9,6 +9,7 @@ import path from 'path';
 type Property = {
     id: number;
     uuid: string | null;
+    token: string;
     title: string;
     description: string;
     category: string;
@@ -32,6 +33,7 @@ export const listPropertys = async (): Promise<Property[]> => {
             id: true,
             uuid: true,
             title: true,
+            token: true,
             description: true,
             category: true,
             roomCount: true,
@@ -53,6 +55,7 @@ export const listPropertys = async (): Promise<Property[]> => {
         id: p.id,
         uuid: p.uuid,
         title: p.title,
+        token: p.token,
         description: p.description,
         category: p.category,
         roomCount: p.roomCount,
@@ -80,6 +83,10 @@ export const createProperty = async (property: Property): Promise<Property | any
     try {
         // Convert price to a number
         const price = property.price;
+        const autoSavetoken = property.token;
+
+        console.log('Line 88 autoSaveToken', autoSavetoken)
+
 
         // Check if imageSrc is null or undefined
         const imageSrcString = Array.isArray(property.imageSrc) ? property.imageSrc.join(',') : '';
@@ -93,6 +100,7 @@ export const createProperty = async (property: Property): Promise<Property | any
         const createdProperty = await orm.property.create({
             data: {
                 title: property.title,
+                token: property.token,
                 description: property.description,
                 category: property.category,
                 roomCount: property.roomCount,
@@ -125,7 +133,11 @@ export const autoSavePropertyData = async (property: Property): Promise<Property
 
     const price = property.price;
 
-    const imageSrcString = Array.isArray(property.imageSrc) ? property.imageSrc.join(',') : '';
+        const imageSrcString = Array.isArray(property.imageSrc) ? property.imageSrc.join(',') : '';
+
+        const autoSaveToken = property?.token
+
+        console.log('autoSaveToken', autoSaveToken)
 
         // Handle the possibility of countryId, countryStateRegionId, and countryCityId being undefined
         const countryId = property.countryId !== undefined ? property.countryId : 0; // Replace 0 with a default value if needed
@@ -136,6 +148,7 @@ export const autoSavePropertyData = async (property: Property): Promise<Property
         const createdProperty = await orm.property.create({
             data: {
                 title: property.title,
+                token: property.token,
                 description: property.description,
                 category: property.category,
                 roomCount: property.roomCount,
@@ -165,6 +178,7 @@ export const getPropertyId = async (id: number): Promise<Property | null> => {
         select: {
             id: true,
             uuid: true,
+            token: true,
             title: true,
             description: true,
             category: true,
@@ -194,6 +208,7 @@ export const getPropertyUuId = async (uuid: string): Promise<Property | null> =>
         select: {
             id: true,
             uuid: true,
+            token: true,
             title: true,
             description: true,
             category: true,

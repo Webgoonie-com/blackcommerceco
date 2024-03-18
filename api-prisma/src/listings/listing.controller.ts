@@ -7,6 +7,7 @@ import path from 'path';
 type Listing = {
     id: number;
     uuid: string | null;
+    token: string;
     title: string;
     description: string;
     category: string;
@@ -43,6 +44,7 @@ export const listPropertys = async (): Promise<Listing[]> => {
         select:{
             id: true,
             uuid: true,
+            token: true,
             title: true,
             description: true,
             category: true,
@@ -81,6 +83,7 @@ export const createProperty = async (listing: Listing): Promise<Listing | any> =
         const createdProperty = await orm.property.create({
             data: {
                 title: listing.title,
+                token: listing.token,
                 description: listing.description,
                 category: listing.category,
                 roomCount: listing.roomCount,
@@ -181,6 +184,7 @@ export const getListingId = async (id: number): Promise<Listing | null> => {
         select: {
             id: true,
             uuid: true,
+            token: true,
             title: true,
             description: true,
             category: true,
@@ -209,6 +213,7 @@ export const getListingUuId = async (uuid: string): Promise<Listing | null> => {
         select: {
             id: true,
             uuid: true,
+            token: true,
             title: true,
             description: true,
             category: true,

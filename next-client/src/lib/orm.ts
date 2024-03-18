@@ -6,6 +6,6 @@ declare global {
 
 export const orm = new PrismaClient();
 
-//if (process.env.NODE_ENV !== "production") globalThis.prisma = orm
+if (process.env.NODE_ENV !== "production") globalThis.prisma = orm
 
 export default orm

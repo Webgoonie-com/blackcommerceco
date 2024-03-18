@@ -19,14 +19,23 @@ export const callPropertys = async (data: any) => {
 }
 
 
-export const autoSavePropertyData = async (data: any) => {
+export const autoSavePropertyData = async (data: any, autoSaveToken: any) => {
     
     console.log('Line 24: autoSavePropertyData', data)
+    console.log('Line 24: autoSaveToken', autoSaveToken)
+
+    const postData = {
+        data: data,
+        token: autoSaveToken,
+        
+    }
+    
+    console.log('Line 24: autoSaveToken', postData)
 
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/propertys/autoSavePropertyData`, data);
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/propertys/autoSavePropertyData`, postData);
         
-        console.log('Response Data', response.data)
+        console.log('Line 38 on Call Property AutoSave Response Data', response.data)
 
         return response.data;
 

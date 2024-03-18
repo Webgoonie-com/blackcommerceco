@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useSession } from "next-auth/react"
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
@@ -48,52 +48,72 @@ enum STEPS {
   PRICE = 6,
 }
 
+const makeToken = (length: number)  => {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
 interface RentMyPropertyModalProps {
     currentUser?: User | null;
 }
 
 const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) => {
 
+        
+
+        // const generateTokenToSave = makeToken(20)
+
+        // console.log('Business Make Id: ', generateTokenToSave);
+
+    
         const router = useRouter()
 
 
-      const rentMyPropertyModalModal = useRentMyPropertyModal();
+        const rentMyPropertyModalModal = useRentMyPropertyModal();
 
-      const [selectedImages, setSelectedImages] = useState<string[]>([]);
+        const [selectedImages, setSelectedImages] = useState<string[]>([]);
+      
+        const [autoSaveToken, setAutoSaveToken] = useState<string>();
 
-      const [step, setStep] = useState(STEPS.CATEGORY)
+        const [step, setStep] = useState(STEPS.CATEGORY)
 
-      const [isLoading, setIsLoading] = useState(false)
+        const [isLoading, setIsLoading] = useState(false)
   
-      const { register,
-            handleSubmit, 
-            setValue, 
-            watch, 
-            formState: { 
-                errors 
-            },
-            reset
-        } = useForm<FieldValues>({
-        defaultValues: {
-            bathroomCount: 1,
-            category: '',
-            countryCity: null,
-            description: '',
-            guestCount: 1,
-            imageSrc: [],
-            countryStateRegion: null,
-            country: null,
-            price: 10.00,
-            roomCount: 1,
-            streetAddress: null,
-            streetAddress2: null,
-            streetCity: null,
-            streetZipCode: null,
-            title: '',
-            town: null,
-            userId: currentUser?.id,
-        }
-      })
+        const { register,
+                handleSubmit, 
+                setValue, 
+                watch, 
+                formState: { 
+                    errors 
+                },
+                reset
+            } = useForm<FieldValues>({
+            defaultValues: {
+                bathroomCount: 1,
+                category: '',
+                countryCity: null,
+                description: '',
+                guestCount: 1,
+                imageSrc: [],
+                countryStateRegion: null,
+                country: null,
+                price: 10.00,
+                roomCount: 1,
+                streetAddress: '',
+                streetAddress2: '',
+                streetCity: '',
+                streetZipCode: '',
+                title: '',
+                town: null,
+                token: autoSaveToken,
+                userId: currentUser?.id,
+            }
+        })
     
 
     // A work around for selected register in useform
@@ -165,7 +185,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
 
 
         try {
-            await autoSavePropertyData(data); // Call the autoSavePropertyData function
+            await autoSavePropertyData(data, autoSaveToken); // Call the autoSavePropertyData function
             // Your other submission logic
         } catch (error) {
             console.error('Error occurred while submitting data:', error);
@@ -287,22 +307,32 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
               
               <div className="grid md:grid-cols-3 xl:grid-cols-3 grid-flow-row auto-rows-max z-50">
                   <SelectCountry
+                          id={'country'}
                           value={watchCountry}
                           onChange={(value) => setCustomValue('country', value)}
+                          register={register}
+                          errors={errors}
+                          required
                       />
       
                   <SelectStateRegion
+                      id={'countryStateRegion'}
                       country={watchCountry}
-                      countryStateRegion  ={watchCountryStateRegion}
+                      countryStateRegion={watchCountryStateRegion}
                       value={watchCountryStateRegion}
                       onChange={(value) => setCustomValue('countryStateRegion', value)}
+                      errors={errors}
+                      register={register}
                   />
   
                   <SelectCityByRegion
+                      id={'countryCity'}
                       country={watchCountry}
                       countryStateRegion={watchCountryStateRegion}
                       value={watchCountryCity}
                       onChange={(value) => setCustomValue('countryCity', value)}
+                      errors={errors}
+                      register={register}
                   />
               </div>
               
@@ -527,6 +557,13 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
             </div>
         )
     }
+
+
+    useEffect(() => {
+        // Generate token only once during the initial load
+        const token = makeToken(20);
+        setAutoSaveToken(token);
+      }, []);
 
     return (
       <Modal

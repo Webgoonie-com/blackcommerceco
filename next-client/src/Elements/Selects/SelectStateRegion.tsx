@@ -2,6 +2,7 @@
 
 'use client'
 
+import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 import React, { useEffect, useState, useRef } from 'react'
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
@@ -22,13 +23,18 @@ export type StateRegionSelectValue = {
 }
 
 interface StateRegionSelectProps {
+    id: string;
     country?: any | null,
     countryStateRegion?: any | null,
     value?: StateRegionSelectValue;
     onChange: (value: StateRegionSelectValue | null) => void;
+    required?: boolean;
+    register: UseFormRegister<FieldValues>;
+    errors: FieldErrors;
 }
 
 const SelectStateRegion: React.FC<StateRegionSelectProps> = ({
+    id,
     country,
     countryStateRegion,
     value,

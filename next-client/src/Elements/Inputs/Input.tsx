@@ -45,7 +45,7 @@ const Input: React.FC<InputProps> = ({
             )}
             <input
                 id={id}
-                //disabled={disabled}
+                disabled={disabled}
                 {...register(id, { required })}
                 value={value} // Bind value prop
                 placeholder={placeholder || ' '}
