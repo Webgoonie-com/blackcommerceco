@@ -5,7 +5,6 @@ import { MIME_TYPE_MAP } from "../types";
 import path from 'path';
 
 type Listing = {
-    countryStateRegionId: any;
     id: number;
     uuid: string | null;
     title: string;
@@ -19,6 +18,7 @@ type Listing = {
     price: string;
     userId: number;
     countryId: number;
+    countryStateRegionId: number
     createdAt: Date;
 }
 
@@ -48,8 +48,8 @@ export const listPropertys = async (): Promise<Listing[]> => {
             category: true,
             roomCount: true,
             bathroomCount: true,
-            locationValue: true,
             guestCount: true,
+            locationValue: true,
             imageSrc: true,
             price: true,
             userId: true,
@@ -171,3 +171,57 @@ export const createPropertyPhotos = async (listingData: any): Promise<ListingPro
 };
 
 
+
+
+export const getListingId = async (id: number): Promise<Listing | null> => {
+    return orm.listing.findUnique({
+        where: {
+            id,
+        },
+        select: {
+            id: true,
+            uuid: true,
+            title: true,
+            description: true,
+            category: true,
+            roomCount: true,
+            bathroomCount: true,
+            guestCount: true,
+            locationValue: true,
+            imageSrc: true,
+            price: true,
+            userId: true,
+            countryId: true,
+            countryStateRegionId: true,
+            createdAt: true,
+        },
+    })
+}
+
+
+
+
+export const getListingUuId = async (uuid: string): Promise<Listing | null> => {
+    return orm.listing.findUnique({
+        where: {
+            uuid,
+        },
+        select: {
+            id: true,
+            uuid: true,
+            title: true,
+            description: true,
+            category: true,
+            roomCount: true,
+            bathroomCount: true,
+            guestCount: true,
+            locationValue: true,
+            imageSrc: true,
+            price: true,
+            userId: true,
+            countryId: true,
+            countryStateRegionId: true,
+            createdAt: true,
+        },
+    })
+}

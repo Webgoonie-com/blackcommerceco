@@ -115,7 +115,12 @@ Content-Type: application/json
 ###
 
 
-GET http://localhost:3334/users/1
+GET http://localhost:3334/api/users/all
+
+###
+
+
+GET http://localhost:3334/api/users/all
 
 
 ###

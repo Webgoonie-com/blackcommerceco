@@ -167,3 +167,40 @@ listingRouter.post('/createpropertyphotos', uploadPropertyPhotos.array('files'),
         return response.status(500).json({ error: error.message });
     }
 });
+
+
+
+
+
+
+
+
+listingRouter.get("/id/:id", async (request: Request, response: Response) => {
+
+    const id: number = parseInt(request.params.id, 10)
+
+    try {
+        const user = await ListingService.getListingId(id)
+        if(user) {
+            return response.status(200).json(user)
+        }
+    } catch (error) {
+        return response.status(500).json("User Could Not Be Found Id");
+    }
+
+})
+
+listingRouter.get("/uuid/:uuid", async (request: Request, response: Response) => {
+
+    const uuid: string = request.params.id
+
+    try {
+        const user = await ListingService.getListingUuId(uuid)
+        if(user) {
+            return response.status(200).json(user)
+        }
+    } catch (error) {
+        return response.status(500).json("User Could Not Be Found by Uuid");
+    }
+
+})

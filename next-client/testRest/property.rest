@@ -142,3 +142,21 @@ Content-Type: application/json
 
 
 ###
+
+
+GET http://localhost:3334/api/propertys/all
+
+
+###
+
+
+GET http://localhost:3334/api/propertys/id/1
+
+
+
+###
+
+
+GET http://localhost:3334/api/propertys/uuid/adfadfadf
+
+###
