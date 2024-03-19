@@ -324,7 +324,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
         let existingListing
         let updatedProperty
 
-        const existingProperty = await orm.property.findFirst({
+        let existingProperty = await orm.property.findFirst({
             where: {
                 token: autoSaveToken || token,
                 userId: parseInt(property.userId as any)
@@ -449,7 +449,13 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
             }
         });
 
-        console.log('Line 449 existingListing', existingListing)
+        console.log('Line 452 existingListing', existingListing)
+
+        if(!existingProperty){
+            return new Error("Uncessfull Property Exist");
+            
+
+        }
 
         if(!existingListing){
 
@@ -525,7 +531,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
 
         // Run Control Over Countries countryStateRegion countryCity
         // Later Run Location Of actual geo reverse address with street name and zip code targete ghana africa.
-        
+
 
         //  return createdListing
 
