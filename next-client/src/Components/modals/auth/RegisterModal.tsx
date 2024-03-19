@@ -59,8 +59,10 @@ const RegisterModal = () => {
         
         console.log(`Line 61: http://localhost:3333/api/register/`)
 
-        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/users/createUser/`, data)
-            .then(() => {
+            axios.post(
+                `${process.env.NEXT_PUBLIC_API_URL}/api/users/createUser/`,
+                data
+            ).then(() => {
                 router.refresh();
                 registerModal.onClose();
                 reset();
@@ -77,10 +79,16 @@ const RegisterModal = () => {
                 resetField('hashedPassword');
                 if(error.response?.data?.message)
                 {
-                    toast.error(error.response.data.message)
+                    toast.error(error.response.data.message, {
+                        duration: 7000,
+                        position: 'bottom-right',
+                    });
                 }
                 else {
-                    toast.error(error.message)
+                    toast.error(error.message, {
+                        duration: 7000,
+                        position: 'bottom-right',
+                    });
                 }
             })
             .finally(() => {

@@ -78,9 +78,16 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
 
         const [selectedImages, setSelectedImages] = useState<string[]>([]);
       
-        const [autoSaveToken, setAutoSaveToken] = useState<string>();
+        const [autoSaveToken, setAutoSaveToken] = useState<string>(makeToken(20));
+        const [autoSaveProperty, setAutoSaveProperty] = useState<string[]>([]);
 
         const [step, setStep] = useState(STEPS.CATEGORY)
+        
+        const [propertyId, setPropertyId] = useState<number>(0)
+
+        const [listingId, setListingId] = useState<number>(0)
+
+        
 
         const [isLoading, setIsLoading] = useState(false)
   
@@ -94,6 +101,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                 reset
             } = useForm<FieldValues>({
             defaultValues: {
+                listingId: listingId,
                 bathroomCount: 1,
                 category: '',
                 countryCity: null,
@@ -109,7 +117,6 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                 streetCity: '',
                 streetZipCode: '',
                 title: '',
-                town: null,
                 token: autoSaveToken,
                 userId: currentUser?.id,
             }
@@ -138,6 +145,9 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
     const watchBathroomCount = watch('bathroomCount')
   
     const watchImageSrc = watch('imageSrc')
+
+    
+    const watchToken = watch('token')
  
       
  
@@ -177,7 +187,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
 
     const onChangeImages = (images: string[]) => {
         console.log('onParent component onChangeImages in Effect ' + images)
-        setCustomValue('watchImageSrc', images);
+        setCustomValue('imageSrc', images);
         setSelectedImages(images);
     };
 
@@ -185,8 +195,18 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
 
 
         try {
-            await autoSavePropertyData(data, autoSaveToken); // Call the autoSavePropertyData function
+            const responseData = await autoSavePropertyData(data, autoSaveToken); // Call the autoSavePropertyData function
             // Your other submission logic
+
+            console.log('responseData: ', responseData)
+
+            const { id, listingId } = responseData;
+
+            console.log('listingId: id -', id)
+
+            setPropertyId(id)
+            setListingId(listingId)
+
         } catch (error) {
             console.error('Error occurred while submitting data:', error);
         }
@@ -481,10 +501,13 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                 <ImageUploadProperty
                     value={watchImageSrc as any}
                     //onChange={(value) => setCustomValue('imageSrc', value)} 
+                    autoSaveToken={autoSaveToken}
                     onChange={onChangeImages}
                     userId={'' + currentUser?.id}
                     selectedImages={selectedImages}
                     currentUser={currentUser as any}                
+                    propertyId={propertyId}
+                    listingId={listingId}
                 />
 
                 {/* <ImageUpload
@@ -559,11 +582,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
     }
 
 
-    useEffect(() => {
-        // Generate token only once during the initial load
-        const token = makeToken(20);
-        setAutoSaveToken(token);
-      }, []);
+   
 
     return (
       <Modal

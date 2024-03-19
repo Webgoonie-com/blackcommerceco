@@ -55,12 +55,17 @@ const RegisterModal = () => {
 		})
 		.then((callback) => {
 			
-			console.log('callback', callback)
+			//console.log('callback', callback)
 
 			setIsLoading(false)
 
 			if(callback?.ok){
-				toast.success('Logged In')
+				
+                toast.success('successfully Logged In', {
+                    duration: 7000,
+                    position: 'bottom-right',
+                });
+
 				router.refresh()
 				loginModal.onClose();
 			}
@@ -69,7 +74,10 @@ const RegisterModal = () => {
 				
 				console.log('Line 75 on Login Modal Error', callback.error)
 
-				toast.error("Sorry Wrong Credentials Try Again.")
+				toast.error("Sorry Wrong Credentials Try Again.", {
+                    duration: 7000,
+                    position: 'bottom-right',
+                });
 
 				resetField('hashedPassword');
 				return false;

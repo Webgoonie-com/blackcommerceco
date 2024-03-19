@@ -225,7 +225,7 @@ model Listing {
   user                              User                            @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId                            Int
 
-   country                          Country?            @relation(fields: [countryId], references: [id])
+  country                           Country?            @relation(fields: [countryId], references: [id])
   countryId                         Int
 
   countryStateRegion                CountryStateRegion? @relation(fields: [countryStateRegionId], references: [id])
@@ -257,6 +257,12 @@ model Property {
   guestCount                          Int
   locationValue                       String
   price                               String
+  
+  streetAddress                       String?
+  streetAddress2                      String?
+  streetCity                          String?
+  streetZipCode                       String?
+  
 
   createdAt                           DateTime              @default(now())
   updatedAt                           DateTime              @default(now()) @updatedAt
@@ -305,8 +311,8 @@ model Propertyphoto {
     listing                           Listing?            @relation(fields: [listingId], references: [id], onDelete: Cascade)
     listingId                         Int?
 
-    property                          Property            @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-    propertyId                        Int
+    property                          Property?            @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+    propertyId                        Int?
 }
 
 model Businessphoto {

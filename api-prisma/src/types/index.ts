@@ -19,3 +19,23 @@ export const MIME_TYPE_MAP = {
 export interface MimeTypeMap {
     [key: string]: string;
 }
+
+export interface Country {
+
+    value: string;
+    label: string;
+    currency: string;
+    phonecode: number;
+    flag: string;
+    latlng: number[] | number | [] | string | null;
+    latitude:  number;
+    longitude: number;
+    region: string;
+    isoCode: 'GH',
+    name: 'Ghana',
+    timezones: []
+
+}
+
+
+

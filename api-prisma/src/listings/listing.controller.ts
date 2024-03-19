@@ -143,6 +143,8 @@ export const createPropertyPhotos = async (listingData: any): Promise<ListingPro
                 imgUrl: imgUrl,
                 imgName: body?.imgName,
                 imgCatg: body?.imgCatg,
+                token: body?.token,
+                property: { connect: { id: parseInt(body?.propertyId) } },
                 user: { connect: { id: parseInt(body?.userId) } },
             };
         });

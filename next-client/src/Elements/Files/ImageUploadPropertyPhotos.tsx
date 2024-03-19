@@ -11,14 +11,20 @@ interface ImageUploadPropertyPhotosProps {
     userId: string;
     currentUser: string;
     value: string[];
+    propertyId: number;
+    listingId: number;
     selectedImages: string[];
+    autoSaveToken: string;
 }
 
 const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
     onChange,
     userId,
     currentUser,
-    selectedImages: propSelectedImages
+    selectedImages: propSelectedImages,
+    autoSaveToken,
+    propertyId,
+    listingId,
 }) => {
     const [selectedImages, setSelectedImages] = useState<string[]>(propSelectedImages);
     const imageRef = useRef<HTMLInputElement>(null);
@@ -38,6 +44,8 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
             formData.append('imgName', 'PropertyPhoto');
             formData.append('imgCatg', 'Property');
             formData.append('userId', userId);
+            formData.append('token', autoSaveToken); // Convert array to string
+            formData.append('propertyId', String(propertyId));
     
             try {
                 const response = await axios.post(

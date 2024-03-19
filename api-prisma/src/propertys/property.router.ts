@@ -32,6 +32,8 @@ propertyRouter.post('/createProperty', async (request: Request, response: Respon
     
     console.log('Hit Create Property')
     const propertyData = await request.body;
+    console.log('Hit Create propertyData', propertyData)
+
     
     try {
         const property = await PropertyService.createProperty(propertyData)

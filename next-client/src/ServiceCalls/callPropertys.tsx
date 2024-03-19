@@ -5,7 +5,10 @@ export const callPropertys = async (data: any) => {
 
     try {
         
-        const {data: propertys} = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/propertys/createProperty`, data)
+        const {data: propertys} = await axios.post(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/propertys/createProperty`, 
+            data
+        )
 
         console.log('propertys', propertys)
         
@@ -24,9 +27,10 @@ export const autoSavePropertyData = async (data: any, autoSaveToken: any) => {
     console.log('Line 24: autoSavePropertyData', data)
     console.log('Line 24: autoSaveToken', autoSaveToken)
 
+    
+
     const postData = {
-        data: data,
-        token: autoSaveToken,
+        ...data, token: autoSaveToken
         
     }
     
