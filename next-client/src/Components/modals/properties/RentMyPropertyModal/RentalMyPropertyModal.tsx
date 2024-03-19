@@ -66,6 +66,8 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
 
         
 
+        //console.log('Line 69: currentUser', currentUser)
+
         // const generateTokenToSave = makeToken(20)
 
         // console.log('Business Make Id: ', generateTokenToSave);
@@ -86,6 +88,8 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
         const [propertyId, setPropertyId] = useState<number>(0)
 
         const [listingId, setListingId] = useState<number>(0)
+        
+        const [userId, setUserId] = useState<number>(parseInt(currentUser?.id as string))
 
         
 
@@ -148,6 +152,8 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
 
     
     const watchToken = watch('token')
+
+    const watchUserId = watch('userId')
  
       
  
@@ -186,7 +192,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
     }
 
     const onChangeImages = (images: string[]) => {
-        console.log('onParent component onChangeImages in Effect ' + images)
+        //console.log('onParent component onChangeImages in Effect ' + images)
         setCustomValue('imageSrc', images);
         setSelectedImages(images);
     };
@@ -195,14 +201,15 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
 
 
         try {
-            const responseData = await autoSavePropertyData(data, autoSaveToken); // Call the autoSavePropertyData function
+            const responseData = await autoSavePropertyData(data, autoSaveToken, userId); // Call the autoSavePropertyData function
             // Your other submission logic
 
             console.log('responseData: ', responseData)
 
             const { id, listingId } = responseData;
 
-            console.log('listingId: id -', id)
+            //console.log('propertyId: id -', id)
+            //console.log('propertyId: listingId -', listingId)
 
             setPropertyId(id)
             setListingId(listingId)

@@ -26,6 +26,11 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
     propertyId,
     listingId,
 }) => {
+
+    console.log('Line 30: currentUser', currentUser)
+    console.log('Line 31: userId', userId)
+
+
     const [selectedImages, setSelectedImages] = useState<string[]>(propSelectedImages);
     const imageRef = useRef<HTMLInputElement>(null);
 

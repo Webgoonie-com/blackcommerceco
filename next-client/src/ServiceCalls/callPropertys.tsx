@@ -22,15 +22,18 @@ export const callPropertys = async (data: any) => {
 }
 
 
-export const autoSavePropertyData = async (data: any, autoSaveToken: any) => {
+export const autoSavePropertyData = async (data: any, autoSaveToken: any, userId: any) => {
     
-    console.log('Line 24: autoSavePropertyData', data)
-    console.log('Line 24: autoSaveToken', autoSaveToken)
+    console.log('Line 27: autoSavePropertyData', data)
+    console.log('Line 28: autoSaveToken', autoSaveToken)
+    console.log('Line 29: userId', userId)
 
     
 
     const postData = {
-        ...data, token: autoSaveToken
+        ...data, 
+        token: autoSaveToken,
+        userId: userId
         
     }
     

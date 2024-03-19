@@ -1,0 +1,298 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model favoritetolisting {
+  A Int
+  B Int
+
+  @@unique([A, B], map: "_FavoriteToListing_AB_unique")
+  @@index([B], map: "_FavoriteToListing_B_index")
+  @@map("_favoritetolisting")
+}
+
+model account {
+  id                Int      @id @default(autoincrement())
+  uuid              String?  @unique(map: "Account_uuid_key")
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  userId            Int
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @default(now())
+
+  @@index([userId], map: "Account_userId_fkey")
+}
+
+model admin {
+  id             Int       @id @default(autoincrement())
+  uuid           String    @unique(map: "Admin_uuid_key")
+  nickname       String?
+  email          String    @unique(map: "Admin_email_key")
+  emailVerified  DateTime?
+  image          String?
+  hashedPassword String?
+  firstName      String?
+  lastName       String?
+  role           String?
+  updatedAt      DateTime  @default(now())
+  createdAt      DateTime  @default(now())
+}
+
+model business {
+  id                   Int      @id @default(autoincrement())
+  uuid                 String   @unique(map: "Business_uuid_key")
+  title                String
+  token                String
+  description          String
+  location             String
+  localinfo            String
+  cityinfo             String
+  isAFranchise         String
+  isTheFranchiseParent String
+  ownsOtherBusinesses  String
+  newStateCodeInfo     String
+  hasStore             Int
+  hasProducts          Int
+  hasServices          Int
+  category             String
+  locationValue        String
+  price                String
+  imageSrc             String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @default(now())
+  userId               Int
+
+  @@index([userId], map: "Business_userId_fkey")
+}
+
+model businessphoto {
+  id               Int      @id @default(autoincrement())
+  uuid             String   @unique(map: "Businessphoto_uuid_key")
+  imgAlbumName     String
+  imgCatg          String
+  imageSrc         String
+  imgUrl           String
+  imgName          String
+  imgFileType      String
+  imgEncoding      String
+  imgFileOrigName  String
+  imgFileName      Int
+  imgFileOutputDir Int
+  guestCount       Int
+  locationValue    String
+  imgFileSize      Int
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @default(now())
+  userId           Int
+  listingId        Int
+  businessId       Int
+  token            String
+
+  @@index([businessId], map: "Businessphoto_businessId_fkey")
+  @@index([listingId], map: "Businessphoto_listingId_fkey")
+  @@index([userId], map: "Businessphoto_userId_fkey")
+}
+
+model country {
+  id      Int    @id @default(autoincrement())
+  isoCode String @unique(map: "Country_isoCode_key")
+  name    String
+}
+
+model countrycity {
+  id        Int    @id @default(autoincrement())
+  isoCode   String
+  name      String
+  latitude  String
+  longitude String
+  countryId Int
+
+  @@index([countryId], map: "CountryCity_countryId_fkey")
+}
+
+model countrystateregion {
+  id            Int    @id @default(autoincrement())
+  isoCode       String
+  name          String
+  latitude      String
+  longitude     String
+  countryId     Int
+  countryCityId Int
+
+  @@index([countryCityId], map: "CountryStateRegion_countryCityId_fkey")
+  @@index([countryId], map: "CountryStateRegion_countryId_fkey")
+}
+
+model countrytimezone {
+  id        Int    @id @default(autoincrement())
+  countryId Int
+  timezone  String
+
+  @@index([countryId], map: "CountryTimezone_countryId_fkey")
+}
+
+model favorite {
+  id         Int      @id @default(autoincrement())
+  uuid       String   @unique(map: "Favorite_uuid_key")
+  userId     Int
+  listingId  Int
+  propertyId Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+  businessId Int
+
+  @@index([businessId], map: "Favorite_businessId_fkey")
+  @@index([propertyId], map: "Favorite_propertyId_fkey")
+  @@index([userId], map: "Favorite_userId_fkey")
+}
+
+model listing {
+  id                   Int      @id @default(autoincrement())
+  uuid                 String   @unique(map: "Listing_uuid_key")
+  token                String
+  title                String
+  description          String
+  imageSrc             String
+  category             String
+  roomCount            Int
+  bathroomCount        Int
+  guestCount           Int
+  locationValue        String
+  price                String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @default(now())
+  userId               Int
+  countryId            Int
+  countryStateRegionId Int
+  countryCityId        Int
+
+  @@index([countryCityId], map: "Listing_countryCityId_fkey")
+  @@index([countryId], map: "Listing_countryId_fkey")
+  @@index([countryStateRegionId], map: "Listing_countryStateRegionId_fkey")
+  @@index([userId], map: "Listing_userId_fkey")
+}
+
+model property {
+  id                   Int      @id @default(autoincrement())
+  uuid                 String   @unique(map: "Property_uuid_key")
+  token                String
+  title                String
+  description          String
+  imageSrc             String
+  category             String
+  roomCount            Int
+  bathroomCount        Int
+  guestCount           Int
+  locationValue        String
+  price                String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @default(now())
+  userId               Int
+  listingId            Int?     @unique(map: "Property_listingId_key")
+  countryId            Int
+  countryStateRegionId Int
+  countryCityId        Int
+  streetAddress        String?
+  streetAddress2       String?
+  streetCity           String?
+  streetZipCode        String?
+
+  @@index([countryCityId], map: "Property_countryCityId_fkey")
+  @@index([countryId], map: "Property_countryId_fkey")
+  @@index([countryStateRegionId], map: "Property_countryStateRegionId_fkey")
+  @@index([userId], map: "Property_userId_fkey")
+}
+
+model propertyphoto {
+  id               Int      @id @default(autoincrement())
+  uuid             String   @unique(map: "Propertyphoto_uuid_key")
+  token            String
+  imgAlbumName     String
+  imgCatg          String
+  imageSrc         String
+  imgUrl           String
+  imgName          String
+  imgFileType      String
+  imgEncoding      String
+  imgFileOrigName  String
+  imgFileName      String
+  imgFileOutputDir String
+  imgFilePath      String
+  imgFileSize      Int
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @default(now())
+  userId           Int
+  listingId        Int?
+  propertyId       Int?
+
+  @@index([listingId], map: "Propertyphoto_listingId_fkey")
+  @@index([propertyId], map: "Propertyphoto_propertyId_fkey")
+  @@index([userId], map: "Propertyphoto_userId_fkey")
+}
+
+model reservation {
+  id         Int      @id @default(autoincrement())
+  uuid       String   @unique(map: "Reservation_uuid_key")
+  startDate  DateTime
+  endDate    DateTime
+  totalPrice Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+  userId     Int
+  listingId  Int
+  propertyId Int
+  businessId Int
+
+  @@index([businessId], map: "Reservation_businessId_fkey")
+  @@index([listingId], map: "Reservation_listingId_fkey")
+  @@index([propertyId], map: "Reservation_propertyId_fkey")
+  @@index([userId], map: "Reservation_userId_fkey")
+}
+
+model user {
+  id             Int       @id @default(autoincrement())
+  uuid           String?   @unique(map: "User_uuid_key")
+  name           String?
+  role           String?
+  email          String    @unique(map: "User_email_key")
+  emailVerified  DateTime?
+  image          String?
+  phone          String?
+  hashedPassword String?
+  firstName      String?
+  lastName       String?
+  updatedAt      DateTime  @default(now())
+  createdAt      DateTime  @default(now())
+}
+
+model userphoto {
+  Id            Int      @id @default(autoincrement())
+  uuid          String
+  serverCaption String?
+  userCaption   String?
+  imageSize     Int?
+  type          String
+  local         String
+  url           String
+  filename      String
+  message       String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
+  userId        Int
+  token         String
+
+  @@index([userId], map: "UserPhoto_userId_fkey")
+}

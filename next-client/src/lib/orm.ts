@@ -1,11 +1,20 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient as Prisma } from "@prisma/client";
 
+// Exporting PrismaClient as orm
+export { Prisma as orm };
+
+// Declare global prisma instance
 declare global {
-  var prisma: PrismaClient | undefined;
-};
+  var prisma: Prisma | undefined;
+}
 
-export const orm = new PrismaClient();
+// Initialize PrismaClient
+const prisma = new Prisma();
 
-if (process.env.NODE_ENV !== "production") globalThis.prisma = orm
+// Assign PrismaClient to globalThis if not in production
+if (process.env.NODE_ENV !== "production") {
+  globalThis.prisma = prisma;
+}
 
-export default orm
+// Export Prisma instance by default
+export default prisma;
