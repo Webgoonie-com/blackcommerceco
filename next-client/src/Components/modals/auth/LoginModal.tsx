@@ -67,7 +67,7 @@ const RegisterModal = () => {
                 });
 
 				router.refresh()
-				loginModal.onClose();
+				loginModal.onClose()
 			}
 
 			if(callback?.error){
@@ -79,7 +79,7 @@ const RegisterModal = () => {
                     position: 'bottom-right',
                 });
 
-				resetField('hashedPassword');
+				resetField('hashedPassword')
 				return false;
 			}
 		})
@@ -88,7 +88,7 @@ const RegisterModal = () => {
     const toggleModal = useCallback(() => {
         loginModal.onClose();
         registerModal.onOpen();
-    }, [loginModal, registerModal]);
+    }, [loginModal, registerModal])
 
 
     const bodyContent = (

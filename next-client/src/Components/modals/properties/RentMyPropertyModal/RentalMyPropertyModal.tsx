@@ -173,8 +173,8 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
     }), [])
 
     const setCustomValue = (id: string, value: any) => {
-        console.log('setCustomValue id: ', id)
-        console.log('setCustomValue value: ', value)
+        // console.log('setCustomValue id: ', id)
+        // console.log('setCustomValue value: ', value)
     setValue(id, value, {
         shouldValidate: true,
         shouldDirty: true,
@@ -238,7 +238,10 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                 ${process.env.NEXT_PUBLIC_API_URL}/api/propertys/createProperty`,
                 data
             ).then(() =>{
-                toast.success('Listing Crated!')
+                toast.success('Congratulations Your Listing was Just Created!', {
+                    duration: 7000,
+                    position: 'bottom-right',
+                })
                 //router.refresh()
                 //reset()
                 //setStep(STEPS.CATEGORY)

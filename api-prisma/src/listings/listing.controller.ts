@@ -10,17 +10,13 @@ type Listing = {
     token: string;
     title: string;
     description: string;
-    category: string;
-    roomCount: number;
-    bathroomCount: number;
-    guestCount: number;
-    locationValue: string;
     imageSrc: string;
-    price: string;
+    category: string;
     userId: number;
     countryId: number;
     countryStateRegionId: number
     createdAt: Date;
+    updatedAt: Date;
 }
 
 
@@ -40,7 +36,7 @@ type ListingProptyPhoto = {
 }
 
 export const listPropertys = async (): Promise<Listing[]> => {
-    return orm.listing.findMany({
+    return orm.property.findMany({
         select:{
             id: true,
             uuid: true,
@@ -48,64 +44,20 @@ export const listPropertys = async (): Promise<Listing[]> => {
             title: true,
             description: true,
             category: true,
-            roomCount: true,
-            bathroomCount: true,
-            guestCount: true,
-            locationValue: true,
             imageSrc: true,
             price: true,
             userId: true,
             countryId: true,
             countryStateRegionId: true,
             createdAt: true,
+            updatedAt: true,
         }
     })
 }
 
 
 
-export const createProperty = async (listing: Listing): Promise<Listing | any> => {
-    console.log('Hit Create Property Hit on line 62');
 
-    try {
-        // Convert price to a number
-        const price = listing.price;
-
-        // Check if imageSrc is null or undefined
-        const imageSrcString = Array.isArray(listing.imageSrc) ? listing.imageSrc.join(',') : '';
-
-        // Handle the possibility of countryId, countryStateRegionId, and countryCityId being undefined
-        const countryId = listing.countryId !== undefined ? listing.countryId : 0; // Replace 0 with a default value if needed
-        const countryStateRegionId = listing.countryStateRegionId !== undefined ? listing.countryStateRegionId : 0;
-        const countryCityId = listing.countryId !== undefined ? listing.countryId : 0;
-
-        // Create the property with the correct data types
-        const createdProperty = await orm.property.create({
-            data: {
-                title: listing.title,
-                token: listing.token,
-                description: listing.description,
-                category: listing.category,
-                roomCount: listing.roomCount,
-                bathroomCount: listing.bathroomCount,
-                locationValue: listing.locationValue || 'placeholder_value',
-                guestCount: listing.guestCount,
-                imageSrc: imageSrcString, // Save the concatenated string
-                price: price, // Pass the price as a number
-                userId: listing.userId,
-                countryId: countryId, // Include countryId
-                countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
-                countryCityId: countryCityId, // Include countryCityId
-            }
-        });
-
-        return createdProperty;
-        
-    } catch (error) {
-        console.error('Error creating property:', error);
-        return { error: 'Failed to create property. Please check the provided data.' };
-    }
-};
 
 
 export const createPropertyPhotos = async (listingData: any): Promise<ListingProptyPhoto[] | any> => {
@@ -189,17 +141,15 @@ export const getListingId = async (id: number): Promise<Listing | null> => {
             token: true,
             title: true,
             description: true,
-            category: true,
-            roomCount: true,
-            bathroomCount: true,
-            guestCount: true,
-            locationValue: true,
             imageSrc: true,
-            price: true,
+            category: true,
             userId: true,
             countryId: true,
             countryStateRegionId: true,
+            propertyId: true,
+            businessId: true,
             createdAt: true,
+            updatedAt: true,
         },
     })
 }
@@ -219,16 +169,12 @@ export const getListingUuId = async (uuid: string): Promise<Listing | null> => {
             title: true,
             description: true,
             category: true,
-            roomCount: true,
-            bathroomCount: true,
-            guestCount: true,
-            locationValue: true,
             imageSrc: true,
-            price: true,
             userId: true,
             countryId: true,
             countryStateRegionId: true,
             createdAt: true,
+            updatedAt: true,
         },
     })
 }

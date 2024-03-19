@@ -65,12 +65,12 @@ const RegisterModal = () => {
             ).then(() => {
                 router.refresh();
                 registerModal.onClose();
-                reset();
+                reset()
 
                 toast.success('User Created successfully! Check your email for verfication please.', {
                     duration: 7000,
                     position: 'bottom-right',
-                });
+                })
             })
             .catch((error) => {
                 //console.log('Error', error)

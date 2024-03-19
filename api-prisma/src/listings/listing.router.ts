@@ -136,18 +136,6 @@ listingRouter.get('/allProperties', async (request: Request, response: Response)
     }
 })
 
-listingRouter.post('/createproperty', async (request: Request, response: Response) => {
-
-    const listing = request.body
-
-    try {
-        const listings = await ListingService.createProperty(listing)
-        return response.status(200).json(listings);
-
-    } catch (error: any) {
-        return response.status(500).json(error.message);
-    }
-})
 
 
 

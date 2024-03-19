@@ -82,6 +82,8 @@ model Business {
   reservations                      Reservation[]
   favorites                         Favorite[]
 
+  listing                          Listing[]
+
   Businessphotos                    Businessphoto[]
   
 }
@@ -213,12 +215,8 @@ model Listing {
   imageSrc                          String
 
   category                          String
-  roomCount                         Int
-  bathroomCount                     Int
-  guestCount                        Int
-  locationValue                     String
-  price                             String
 
+  
   createdAt                         DateTime                        @default(now())
   updatedAt                         DateTime                        @default(now())        @updatedAt
 
@@ -237,7 +235,13 @@ model Listing {
   reservations                      Reservation[]
   favorites                         Favorite[]
 
-  property                          Property?
+  property                          Property?        @relation(fields: [propertyId], references: [id])
+  propertyId                        Int?
+  
+  
+  business                          Business?        @relation(fields: [businessId], references: [id])
+  businessId                        Int?
+
   Propertyphotos                    Propertyphoto[]
   Businessphotos                    Businessphoto[]
 }
@@ -275,8 +279,8 @@ model Property {
 
   Propertyphotos                      Propertyphoto[]
 
-  listing                             Listing?            @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  listingId                           Int? @unique
+  listing                             Listing[]
+  listingId                           Int?                  @unique
 
   country                             Country               @relation(fields: [countryId], references: [id])
   countryId                           Int

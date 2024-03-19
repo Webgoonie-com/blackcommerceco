@@ -44,13 +44,31 @@ propertyRouter.post('/createProperty', async (request: Request, response: Respon
     }
 })
 
+propertyRouter.post('/createpropertyphotos', async (request: Request, response: Response) => {
+    
+    console.log('Hit Create Property Photos')
+
+    const propertyPhotoData = await request.body;
+
+    console.log('Hit Create propertyData', propertyPhotoData)
+
+    
+    try {
+        const propertyPhoto = await PropertyService.createPropertyPhotos(propertyPhotoData)
+        return response.status(200).json(propertyPhoto);
+
+    } catch (error: any) {
+        return response.status(500).json(error.message);
+    }
+})
+
 propertyRouter.post('/autoSavePropertyData', async (request: Request, response: Response) => {
     
     console.log('Hit Create Property')
     const propertyData = await request.body;
     
     try {
-        const property = await PropertyService.autoSavePropertyData(propertyData)
+        const property = await PropertyService.autoSavePropertyData(propertyData, propertyData)
         return response.status(200).json(property);
 
     } catch (error: any) {

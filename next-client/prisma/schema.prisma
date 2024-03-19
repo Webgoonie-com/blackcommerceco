@@ -167,22 +167,21 @@ model listing {
   description          String
   imageSrc             String
   category             String
-  roomCount            Int
-  bathroomCount        Int
-  guestCount           Int
-  locationValue        String
-  price                String
   createdAt            DateTime @default(now())
   updatedAt            DateTime @default(now())
   userId               Int
   countryId            Int
   countryStateRegionId Int
   countryCityId        Int
+  businessId           Int?
+  propertyId           Int?
 
   @@index([countryCityId], map: "Listing_countryCityId_fkey")
   @@index([countryId], map: "Listing_countryId_fkey")
   @@index([countryStateRegionId], map: "Listing_countryStateRegionId_fkey")
   @@index([userId], map: "Listing_userId_fkey")
+  @@index([businessId], map: "Listing_businessId_fkey")
+  @@index([propertyId], map: "Listing_propertyId_fkey")
 }
 
 model property {

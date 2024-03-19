@@ -54,6 +54,7 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
     
             try {
                 const response = await axios.post(
+                    //`${process.env.NEXT_PUBLIC_API_URL}/api/propertys/createpropertyphotos`,
                     `${process.env.NEXT_PUBLIC_API_URL}/api/listings/createpropertyphotos`,
                     formData,
                     {
@@ -75,7 +76,7 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
                 console.error('Error uploading images', error);
             }
         }
-    }, [onChange, selectedImages, userId]);
+    }, [autoSaveToken, onChange, propertyId, selectedImages, userId]);
     
     
 
