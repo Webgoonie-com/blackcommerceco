@@ -16,6 +16,8 @@ export type CitySelectValue = {
     phonecode: string;
     timezones: [];
     value: string;
+    disabled?: boolean; 
+    register: UseFormRegister<FieldValues>;
 };
 
 interface CountrySelectProps {
@@ -24,6 +26,7 @@ interface CountrySelectProps {
     countryStateRegion?: any | null;
     countryCity?: any | null;
     value?: CitySelectValue;
+    disabled?: boolean;
     onChange: (value: CitySelectValue) => void;
     required?: boolean;
     register: UseFormRegister<FieldValues>;
@@ -36,6 +39,10 @@ const SelectCityByRegion: React.FC<CountrySelectProps> = ({
     countryStateRegion,
     countryCity,
     value,
+    disabled,
+    required,
+    register,
+    errors,
     onChange
 }) => {
 
@@ -92,6 +99,8 @@ const SelectCityByRegion: React.FC<CountrySelectProps> = ({
                     id={id}
                     key={`my_unique_selectcitybyregion_key__${value}`}
                     placeholder="Select Nearest City"
+                    disabled={disabled}
+                    {...register(id, { required })}
                     isClearable={true}
                     className="text-black z-1"
                     options={cityOptions as any}

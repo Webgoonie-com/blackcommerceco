@@ -104,6 +104,7 @@ const SelectStateRegion: React.FC<StateRegionSelectProps> = ({
         <div className="position-relative px-2 col">
             <h2>Select State Region</h2>
             <Select
+                id={id}
                 key={`my_unique_selectstateregion_key__${value}`}
                 placeholder="Select State / Region"
                 isClearable

@@ -28,7 +28,7 @@ import { User } from 'next-auth';
 
 enum STEPS {
     CATEGORY = 0,
-    LOCATION = 1,
+    country = 1,
     STATSINFO = 2,
     LOCALINFO = 3,
     INFO = 4,
@@ -37,12 +37,12 @@ enum STEPS {
     PRICE = 7,
 }
 
-interface NavbarPublicProps {
+interface BusinessStoreResgistrationModalProps {
     currentUser?: User | null;
 }
 
 
-const BusinessStoreResgistrationModal: React.FC<NavbarPublicProps> = ({currentUser}) => {
+const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalProps> = ({currentUser}) => {
     const businessRegistrationModal = useBusinessRegistrationModal()
 
 
@@ -63,8 +63,8 @@ const BusinessStoreResgistrationModal: React.FC<NavbarPublicProps> = ({currentUs
         defaultValues: {
             userId: currentUser?.Id,
             category: '',
-            location: null,
-            localinfo: null,
+            country: null,
+            countryStateRegion: null,
             cityinfo: null,
             isAFranchise: null,
             isTheFranchiseParent: null,
@@ -82,13 +82,16 @@ const BusinessStoreResgistrationModal: React.FC<NavbarPublicProps> = ({currentUs
 
     const watchCategory = watch('category')
 
-    const watchLocation  = watch('location')
+    const watchCountry  = watch('country')
 
-    const watchLocalinfo  = watch('localinfo')
-
-    const watchNewStateCodeInfo  = watch('newStateCodeInfo')
+    const watchCountryStateRegion  = watch('countryStateRegion')
  
-    const watchCityinfo  = watch('cityinfo')
+    const watchCountryCity  = watch('countryCity')
+
+    const watchStreetAddress  = watch('streetAddress')
+    const watchStreetAddress2  = watch('streetAddress2')
+    const watchStreetCity  = watch('streetCity')
+    const watchStreetZipCode  = watch('streetZipCode')
     
     const watchIsAFranchise  = watch('isAFranchise')
 
@@ -98,27 +101,20 @@ const BusinessStoreResgistrationModal: React.FC<NavbarPublicProps> = ({currentUs
 
    
 
-    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-            
-    
-    
-
-        try {
-
-            // Calling Directly To Internal API Route
-    
-            
-        } catch (error) {
-            console.error(error);
-        }
-
-    }
-
+   
     const  Map = useMemo(() => dynamic(() => import("@/Components/maps/Map"), {
         ssr: false
     }), [])
 
+    const onSwitchChange = (id: string, value: any) => {
+        console.log('onSwitchChange id: ', id)
+        console.log('onSwitchChange value: ', value)
+        setCustomValue(id, value); // Update the value in the parent component
+    };
+
     const setCustomValue = (id: string, value: any) => {
+        console.log('id Line 125 setValue', id)
+        console.log('Line 126 setValue', value)
         setValue(id, value, {
             shouldValidate: true,
             shouldDirty: true,
@@ -130,7 +126,7 @@ const BusinessStoreResgistrationModal: React.FC<NavbarPublicProps> = ({currentUs
         setStep((value) => value - 1)
     }
 
-    const OnNext = () => {
+    const onNext = () => {
         setStep((value) => value + 1)
     }
 
@@ -150,6 +146,49 @@ const BusinessStoreResgistrationModal: React.FC<NavbarPublicProps> = ({currentUs
       return 'Back';
 
     }, [step])
+
+
+    
+            
+    
+    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+            
+    
+        console.log('DATA: on onSubmit: ', data)
+    
+
+        try {
+
+            // Calling Directly To Internal API Route
+    
+            
+        } catch (error) {
+            console.error(error);
+        }
+
+        if(step !== STEPS.PRICE){
+            return onNext()
+        }
+
+
+    
+
+
+        try {
+
+            // Calling Directly To Internal API Route
+    
+            
+        } catch (error) {
+            console.error(error);
+        }
+
+        if(step !== STEPS.PRICE){
+            return onNext()
+        }
+
+
+    }
 
     let bodyContent = (
         <div>
@@ -194,7 +233,7 @@ const BusinessStoreResgistrationModal: React.FC<NavbarPublicProps> = ({currentUs
 
     // Begin Steps
 
-    if (step === STEPS.LOCATION) {
+    if (step === STEPS.country) {
         
         bodyContent = (
             <div
@@ -204,38 +243,48 @@ const BusinessStoreResgistrationModal: React.FC<NavbarPublicProps> = ({currentUs
                 `}
                 >
                 <ModalHeading
-                    title={"What is the location of this Business?"}
-                    subtitle={"Help others find you on the map..."}
+                    title={"We need To get the Geo Market placement of your Business"}
+                    subtitle={"Help others find you in their market and mark your business on the map..."}
                 />
                 
                 <div className="grid md:grid-cols-3 xl:grid-cols-3 grid-flow-row auto-rows-max z-50">
                     <SelectCountry
-                        value={watchLocation}
-                        onChange={(value) => setCustomValue('location', value)}
+                        id={'country'}
+                        value={watchCountry}
+                        onChange={(value) => setCustomValue('country', value)}
+                        register={register}
+                          errors={errors}
+                          required
                     />
     
                     <SelectStateRegion
-                        location={watchLocation}
-                        localinfo={watchLocalinfo}
-                        value={watchLocalinfo}
-                        onChange={(value) => setCustomValue('localinfo', value)}
+                        id={'countryStateRegion'}
+                        country={watchCountry}
+                        countryStateRegion={watchCountryStateRegion}
+                        value={watchCountryStateRegion}
+                        onChange={(value) => setCustomValue('countryStateRegion', value)}
+                        errors={errors}
+                        register={register}
                     />
 
                     <SelectCityByRegion
-                        location={watchLocation}
-                        localinfo={watchLocalinfo}
-                        value={watchCityinfo}
-                        onChange={(value) => setCustomValue('cityinfo', value)}
+                        id={'countryCity'}
+                        country={watchCountry}
+                        countryStateRegion={watchCountryStateRegion}
+                        value={watchCountryCity}
+                        onChange={(value) => setCustomValue('countryCity', value)}
+                        errors={errors}
+                        register={register}
                     />
                     
                 </div>
                 <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3 z-0'>
                         <Map
                             center={
-                                watchCityinfo?.latitude && watchCityinfo?.longitude ? [watchCityinfo?.latitude, watchCityinfo?.longitude] :
+                                watchCountryCity?.latitude && watchCountryCity?.longitude ? [watchCountryCity?.latitude, watchCountryCity?.longitude] :
                                 //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :
-                                watchLocalinfo?.latitude && watchLocalinfo?.longitude ? [watchLocalinfo?.latitude, watchLocalinfo?.longitude] :
-                                watchLocation?.latitude && watchLocation?.longitude ? [watchLocation?.latitude, watchLocation?.longitude] : [32.1652613142917, -54.72682487791673]
+                                watchCountryStateRegion?.latitude && watchCountryStateRegion?.longitude ? [watchCountryStateRegion?.latitude, watchCountryStateRegion?.longitude] :
+                                watchCountry?.latitude && watchCountry?.longitude ? [watchCountry?.latitude, watchCountry?.longitude] : [32.1652613142917, -54.72682487791673]
                             }
                         />
                 </div>
@@ -244,9 +293,9 @@ const BusinessStoreResgistrationModal: React.FC<NavbarPublicProps> = ({currentUs
     }
 
     if (step === STEPS.STATSINFO) {
-        {console.log('Line 173 location:', watchLocation)}
-        {console.log('Line 174 location:', watchLocalinfo)}
-        {console.log('Line 175 cityinfo:', watchCityinfo)}
+        {console.log('Line 294 watchIsAFranchise:', watchIsAFranchise)}
+        {console.log('Line 296 watchIsAFranchise:', watchIsAFranchise)}
+        {console.log('Line 296 watchOwnsOtherBusinesses:', watchOwnsOtherBusinesses)}
         bodyContent = (
             <div
                 className={`
@@ -263,27 +312,38 @@ const BusinessStoreResgistrationModal: React.FC<NavbarPublicProps> = ({currentUs
                     
 
                 <Switch
+                    id={"isAFranchise"}
                     posCnt={1}
                     title={'Is This Business A Franchise?'} 
                     subtitle={'Business owned by another parent company and/or apart of a chain of stores under a common parent company.'} 
                     onChange={(value) => setCustomValue('isAFranchise', value)}
-                    checked={false}
+                    checked={watchIsAFranchise}
+                    
+                    errors={errors}
+                    register={register}
                 />
                 <hr />
-                <Switch 
+                <Switch
+                    id={"isTheFranchiseParent"}
                     posCnt={2}
                     title={'Is This Business A Corportate Business?'}
                     subtitle={'Parent company owns other businesses/stores?'}
                     onChange={(value) => setCustomValue('isTheFranchiseParent', value)} 
-                    checked={false}                
+                    checked={watchIsTheFranchiseParent}
+                    errors={errors}
+                    register={register}
+                    
                 />
                 <hr />
-                <Switch 
-                    posCnt={3}
-                    title={'Does this business own any other businesses?'}
-                    subtitle={'Owns other businesses/stores?'}
-                    onChange={(value) => setCustomValue('ownsOtherBusinesses', value)} 
-                    checked={false}                
+                <Switch
+                     id={"ownsOtherBusinesses"}
+                     posCnt={3}
+                     title={'Does this business own any other businesses?'}
+                     subtitle={'Owns other businesses/stores?'}
+                     onChange={(value) => setCustomValue('ownsOtherBusinesses', value)} 
+                     checked={watchOwnsOtherBusinesses || false} // Initialize based on form value
+                     errors={errors}
+                     register={register}         
                 />
                 <hr />
                     
@@ -295,10 +355,10 @@ const BusinessStoreResgistrationModal: React.FC<NavbarPublicProps> = ({currentUs
                 <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3'>
                         <Map
                           center={
-                              watchCityinfo?.latitude && watchCityinfo?.longitude ? [watchCityinfo?.latitude, watchCityinfo?.longitude] :
+                              watchCountryCity?.latitude && watchCountryCity?.longitude ? [watchCountryCity?.latitude, watchCountryCity?.longitude] :
                               //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :
-                              watchLocalinfo?.latitude && watchLocalinfo?.longitude ? [watchLocalinfo?.latitude, watchLocalinfo?.longitude] :
-                              watchLocation?.latitude && watchLocation?.longitude ? [watchLocation?.latitude, watchLocation?.longitude] : [32.1652613142917, -54.72682487791673]
+                              watchCountryStateRegion?.latitude && watchCountryStateRegion?.longitude ? [watchCountryStateRegion?.latitude, watchCountryStateRegion?.longitude] :
+                              watchCountry?.latitude && watchCountry?.longitude ? [watchCountry?.latitude, watchCountry?.longitude] : [32.1652613142917, -54.72682487791673]
                           }
                       />
                 </div>
@@ -308,9 +368,7 @@ const BusinessStoreResgistrationModal: React.FC<NavbarPublicProps> = ({currentUs
 
     if (step === STEPS.LOCALINFO) {
 
-        {console.log('Line 173 location:', watchLocation)}
-        {console.log('Line 174 location:', watchLocalinfo)}
-        {console.log('Line 175 cityinfo:', watchCityinfo)}
+        
 
         bodyContent = (
             <div
@@ -370,10 +428,10 @@ const BusinessStoreResgistrationModal: React.FC<NavbarPublicProps> = ({currentUs
                 <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3'>
                         <Map
                           center={
-                              watchCityinfo?.latitude && watchCityinfo?.longitude ? [watchCityinfo?.latitude, watchCityinfo?.longitude] :
+                              watchCountryCity?.latitude && watchCountryCity?.longitude ? [watchCountryCity?.latitude, watchCountryCity?.longitude] :
                               //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :
-                              watchLocalinfo?.latitude && watchLocalinfo?.longitude ? [watchLocalinfo?.latitude, watchLocalinfo?.longitude] :
-                              watchLocation?.latitude && watchLocation?.longitude ? [watchLocation?.latitude, watchLocation?.longitude] : [32.1652613142917, -54.72682487791673]
+                              watchCountryStateRegion?.latitude && watchCountryStateRegion?.longitude ? [watchCountryStateRegion?.latitude, watchCountryStateRegion?.longitude] :
+                              watchCountry?.latitude && watchCountry?.longitude ? [watchCountry?.latitude, watchCountry?.longitude] : [32.1652613142917, -54.72682487791673]
                           }
                       />
                 </div>
@@ -388,8 +446,8 @@ const BusinessStoreResgistrationModal: React.FC<NavbarPublicProps> = ({currentUs
         <Modal
             isOpen={businessRegistrationModal.isOpen}
             onClose={businessRegistrationModal.onClose}
-            //onSubmit={handleSubmit(onSubmit)}
-            onSubmit={OnNext}
+            onSubmit={handleSubmit(onSubmit)}
+            //onSubmit={OnNext}
             actionLabel={actionLabel}
             title='Crate A Listing For My Business'
             secondaryActionLabel={secondaryActionLabel}
