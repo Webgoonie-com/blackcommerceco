@@ -2,19 +2,17 @@ import express from 'express'
 import type { Request, Response } from 'express'
 import {body, validationResult} from 'express-validator'
 
-import * as ListingService from "./listing.controller";
+import * as BusinessController from "./business.controller";
 
-export const listingRouter = express.Router();
+export const businessRouter = express.Router();
 
 import multer, { FileFilterCallback } from 'multer'
 import moment from 'moment'
 import path from 'path'
 
-
 const momentYear = moment().format('YYYY');
 const momentMonth = moment().format('MM');
 const momentDay = moment().format('DD');
-
 
 //  Begin Multer File Types Config ----
 
@@ -75,12 +73,10 @@ const fileFilter = (
     callback(null, true);
 };
 
-
 //  Begin Multer Photo Path And Config ----
 
-
-const propertyPhotoStorage = multer.diskStorage({
-    destination: 'public/uploaded/propertyphotos/'+momentYear+'/'+momentMonth+'/'+momentDay,
+const businessPhotoStorage = multer.diskStorage({
+    destination: 'public/uploaded/businessphotos/'+momentYear+'/'+momentMonth+'/'+momentDay,
     
     filename: function(req, file, cb) {
         // Extract the extension from MIME type
@@ -89,31 +85,27 @@ const propertyPhotoStorage = multer.diskStorage({
         // If extension is not found or the file's original name doesn't have an extension,
         // generate filename based on MIME type
         if (!ext || !file.originalname.includes('.')) {
-            let filename = 'propertyPhoto-' + Date.now();
+            let filename = 'businessPhoto-' + Date.now();
 
             // Use .jpg extension for JPEG images
             if (ext) {
                 filename += `.${ext}`;
             } else {
                 // If MIME type is not found in the map, return an error
-                return cb(new Error('Error:  propertyPhotoStorage = multer.diskStorage  Only images are allowed!'), filename);
+                return cb(new Error('Error:  businessPhotoStorage = multer.diskStorage  Only images are allowed!'), filename);
             }
 
             cb(null, filename);
         } else {
             // If extension is found in the original filename, use it
-            cb(null, 'propertyPhoto-' + Date.now() + path.extname(file.originalname).toLowerCase());
+            cb(null, 'businessPhoto-' + Date.now() + path.extname(file.originalname).toLowerCase());
         }
     }   
 });
 
-
-
-
-
-const uploadPropertyPhotos = multer({ 
+const uploadBusinessPhotos = multer({ 
     
-    storage: propertyPhotoStorage,
+    storage: businessPhotoStorage,
     
     //  This is a custom fileLimit.
     limits: fileLimit,  //  {fileSize: 1000000},
@@ -126,15 +118,15 @@ const uploadPropertyPhotos = multer({
 });
 
 
+
 //  Begin Routes ----
 
 
-
-listingRouter.get('/allProperties', async (request: Request, response: Response) => {
+businessRouter.get('/allbusinesses', async (request: Request, response: Response) => {
     
     console.log('We Hit To Get A List Of all Properties')
     try {
-        const users = await ListingService.listPropertys()
+        const users = await BusinessController.listBusinesses()
         return response.status(200).json(users);
 
     } catch (error: any) {
@@ -143,7 +135,7 @@ listingRouter.get('/allProperties', async (request: Request, response: Response)
 })
 
 
-listingRouter.post('/createpropertyphotos', uploadPropertyPhotos.array('files'), async (request: any, response: any) => {
+businessRouter.post('/createpropertyphotos', uploadBusinessPhotos.array('files'), async (request: any, response: any) => {
     try {
         // Combine both files and body data
         const listingData = {
@@ -152,7 +144,7 @@ listingRouter.post('/createpropertyphotos', uploadPropertyPhotos.array('files'),
         };
 
         // Call the service function with the combined data
-        const createdPropertyPhotos = await ListingService.createPropertyPhotos(listingData);
+        const createdPropertyPhotos = await BusinessController.createBusinessPhotos(listingData);
         
         return response.status(200).json(createdPropertyPhotos);
     } catch (error: any) {
@@ -161,12 +153,12 @@ listingRouter.post('/createpropertyphotos', uploadPropertyPhotos.array('files'),
 });
 
 
-listingRouter.get("/id/:id", async (request: Request, response: Response) => {
+businessRouter.get("/id/:id", async (request: Request, response: Response) => {
 
     const id: number = parseInt(request.params.id, 10)
 
     try {
-        const user = await ListingService.getListingId(id)
+        const user = await BusinessController.getBusinessId(id)
         if(user) {
             return response.status(200).json(user)
         }
@@ -176,12 +168,12 @@ listingRouter.get("/id/:id", async (request: Request, response: Response) => {
 
 })
 
-listingRouter.get("/uuid/:uuid", async (request: Request, response: Response) => {
+businessRouter.get("/uuid/:uuid", async (request: Request, response: Response) => {
 
     const uuid: string = request.params.id
 
     try {
-        const user = await ListingService.getListingUuId(uuid)
+        const user = await BusinessController.getBusinessUuId(uuid)
         if(user) {
             return response.status(200).json(user)
         }

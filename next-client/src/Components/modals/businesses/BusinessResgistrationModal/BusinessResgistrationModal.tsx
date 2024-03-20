@@ -22,8 +22,9 @@ import SelectCityByRegion from '@/Elements/Selects/SelectCityByRegion';
 import dynamic from 'next/dynamic';
 import Switch from '@/Elements/Switches/Switch';
 import { User } from 'next-auth';
-import ImageUploadPropertyPhotos from '@/Elements/Files/ImageUploadPropertyPhotos';
 import ImageUploadBusinessPhotos from '@/Elements/Files/ImageUploadBusinessPhotos';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
 
 
 // import  Map from "@/Components/maps/Map";  // We dynamically loop the map on ssr
@@ -178,6 +179,26 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
         try {
 
             // Calling Directly To Internal API Route
+
+            await axios.post(`
+                ${process.env.NEXT_PUBLIC_API_URL}/api/businesses/createBusiness`,
+                data
+            ).then(() =>{
+                toast.success('Congratulations Your Listing was Just Created!', {
+                    duration: 7000,
+                    position: 'bottom-right',
+                })
+                //router.refresh()
+                //reset()
+                //setStep(STEPS.CATEGORY)
+                //rentMyPropertyModalModal.onClose()
+            })
+            .catch(() => {
+                toast.error('Sorry Something went Wrong');
+            }).finally(() => {
+                setIsLoading(false)
+            })
+
     
             
         } catch (error) {

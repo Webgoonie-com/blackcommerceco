@@ -57,8 +57,6 @@ model business {
   title                String
   token                String
   description          String
-  location             String
-  localinfo            String
   cityinfo             String
   isAFranchise         String
   isTheFranchiseParent String
@@ -69,13 +67,20 @@ model business {
   hasServices          Int
   category             String
   locationValue        String
-  price                String
   imageSrc             String
   createdAt            DateTime @default(now())
   updatedAt            DateTime @default(now())
   userId               Int
+  countryCityId        Int
+  countryId            Int
+  countryStateRegionId Int
+  listingId            Int?     @unique(map: "Business_listingId_key")
+  sellprice            String?
 
   @@index([userId], map: "Business_userId_fkey")
+  @@index([countryCityId], map: "Business_countryCityId_fkey")
+  @@index([countryId], map: "Business_countryId_fkey")
+  @@index([countryStateRegionId], map: "Business_countryStateRegionId_fkey")
 }
 
 model businessphoto {

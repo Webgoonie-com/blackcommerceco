@@ -57,8 +57,8 @@ model Business {
   title                             String
   token                             String
   description                       String
-  location                          String
-  localinfo                         String
+  
+  
   cityinfo                          String
   isAFranchise                      String
   isTheFranchiseParent              String
@@ -69,7 +69,7 @@ model Business {
   hasServices                       Int
   category                          String
   locationValue                     String
-  price                             String
+  sellprice                         String?
 
   imageSrc                          String
 
@@ -82,9 +82,17 @@ model Business {
   reservations                      Reservation[]
   favorites                         Favorite[]
 
-  listing                          Listing[]
+  listing                             Listing[]
+  listingId                           Int?                  @unique
 
   Businessphotos                    Businessphoto[]
+
+country                             Country               @relation(fields: [countryId], references: [id])
+countryId                           Int
+countryStateRegion                  CountryStateRegion    @relation(fields: [countryStateRegionId], references: [id])
+countryStateRegionId                Int
+countryCity                         CountryCity           @relation(fields: [countryCityId], references: [id])
+countryCityId                       Int
   
 }
 
@@ -95,8 +103,9 @@ model Country {
   countryStateRegions               CountryStateRegion[]
   countryCities                     CountryCity[]
   timezones                         CountryTimezone[]
-  propertys                         Property[]
   listings                          Listing[]
+  propertys                         Property[]
+  businesses                        Business[]
 }
 
 model CountryStateRegion {
@@ -112,8 +121,9 @@ model CountryStateRegion {
   countryCity                       CountryCity               @relation(fields: [countryCityId], references: [id])
   countryCityId                     Int
 
-  propertys                         Property[]
   listings                          Listing[]
+  propertys                         Property[]
+  businesses                        Business[]
   
 }
 
@@ -128,8 +138,9 @@ country                             Country                   @relation(fields: 
 countryId                           Int
               
 countryStateRegion                  CountryStateRegion[]
-propertys                           Property[]
 listings                            Listing[]
+propertys                           Property[]
+businesses                          Business[]
 }
 
 model CountryTimezone {
@@ -261,13 +272,11 @@ model Property {
   guestCount                          Int
   locationValue                       String
   price                               String
-  
+
   streetAddress                       String?
   streetAddress2                      String?
   streetCity                          String?
   streetZipCode                       String?
-  
-
   createdAt                           DateTime              @default(now())
   updatedAt                           DateTime              @default(now()) @updatedAt
 
