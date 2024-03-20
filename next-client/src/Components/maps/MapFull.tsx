@@ -23,13 +23,22 @@ L.Icon.Default.mergeOptions({
 
 interface MapProps {
     center?: number[]
+    mapCenterReasonTxt?: string | null
 }
 
 const url = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors';
 
 
-const MapFull: React.FC<MapProps> = ({ center }) => {
+const MapFull: React.FC<MapProps> = (
+    { 
+        
+        center, 
+        mapCenterReasonTxt
+
+    }) => {
+    
+    
     const mapRef = useRef<L.Map | null>(null);
     
     // Use useEffect to update the map view when the center prop changes

@@ -122,6 +122,7 @@ const BusinessPropertyCreation = () => {
             <div className='relative md:w-full xl:w-full md:px-0 xl:px-0 mb-0 z-0'>
 
                 <MapFull
+                    mapCenterReasonTxt={""}
                     center={
                         watchCityinfo?.latitude && watchCityinfo?.longitude ? [watchCityinfo?.latitude, watchCityinfo?.longitude] :
                         //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :

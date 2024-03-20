@@ -264,7 +264,7 @@ export const createProperty = async (property: Property): Promise<Property | any
             try {
                 
            
-                const createdProperty = await orm.property.create({
+                const autoSaveCreateUpdateProperty = await orm.property.create({
                     data: {
                         title: property.title,
                         token: property.token || token,
@@ -287,7 +287,7 @@ export const createProperty = async (property: Property): Promise<Property | any
                     }
                 });
 
-                return createdProperty;
+                return autoSaveCreateUpdateProperty;
 
             } catch (error) {
                 console.log('Error', error);
@@ -319,7 +319,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
         const countryCityId = property.countryCityId !== undefined ? property.countryCityId : 0;
 
 
-        let createdProperty
+        let autoSaveCreateUpdateProperty
         let createdListing
         let existingListing
         let updatedProperty
@@ -349,7 +349,9 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
             try {
 
                 // If property exists, update it
-                updatedProperty = await orm.property.update({
+               // updatedProperty = await orm.property.update({
+
+                autoSaveCreateUpdateProperty = await orm.property.update({
                     where: { id: existingProperty.id },
                     data: {
                         title: property.title,
@@ -388,7 +390,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
             try {
                 
            
-                createdProperty = await orm.property.create({
+                autoSaveCreateUpdateProperty = await orm.property.create({
                     data: {
                         title: property.title,
                         token: property.token || token,
@@ -434,7 +436,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
                     }
                 });
 
-            //return createdProperty;
+            //return autoSaveCreateUpdateProperty;
 
             } catch (error) {
                 console.log('Error', error);
@@ -535,7 +537,8 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
 
         //  return createdListing
 
-        return createdProperty;
+        console.log('autoSaveCreateUpdateProperty: ', autoSaveCreateUpdateProperty);
+        return autoSaveCreateUpdateProperty;
 
 
 
@@ -590,7 +593,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
 //     console.log('createInput JSON data: ', JSON.stringify(createInputs));
 
 //     try {
-//     const createdPropertyPhotos = await Promise.all(createInputs.map(createInput =>
+//     const autoSaveCreateUpdatePropertyPhotos = await Promise.all(createInputs.map(createInput =>
 //         orm.propertyphoto.create({
 //             data: {
 //                 ...(createInput as Prisma.PropertyphotoCreateInput),
@@ -605,7 +608,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
 //         })
 //     ));
 
-//     return createdPropertyPhotos;
+//     return autoSaveCreateUpdatePropertyPhotos;
 // } catch (error) {
 //     console.error('Error creating property photos:', error);
 //     return { error: 'Failed to create property photos. Please check the provided data.' };
@@ -659,7 +662,7 @@ export const createPropertyPhotos = async (propertyData: any): Promise<PropertyP
     console.log('createInput JSON data: ', JSON.stringify(createInputs));
 
     try {
-    const createdPropertyPhotos = await Promise.all(createInputs.map(createInput =>
+    const autoSaveCreateUpdatePropertyPhotos = await Promise.all(createInputs.map(createInput =>
         orm.propertyphoto.create({
             data: {
                 ...(createInput as Prisma.PropertyphotoCreateInput),
@@ -674,7 +677,7 @@ export const createPropertyPhotos = async (propertyData: any): Promise<PropertyP
         })
     ));
 
-    return createdPropertyPhotos;
+    return autoSaveCreateUpdatePropertyPhotos;
 } catch (error) {
     console.error('Error creating property photos:', error);
     return { error: 'Failed to create property photos. Please check the provided data.' };
@@ -706,9 +709,9 @@ export const createPropertyPhotos = async (propertyData: any): Promise<PropertyP
 //         };
 
 //         // Call the service function with the combined data
-//         const createdPropertyPhotos = await ListingService.createPropertyPhotos(listingData);
+//         const autoSaveCreateUpdatePropertyPhotos = await ListingService.createPropertyPhotos(listingData);
         
-//         return response.status(200).json(createdPropertyPhotos);
+//         return response.status(200).json(autoSaveCreateUpdatePropertyPhotos);
 //     } catch (error: any) {
 //         return response.status(500).json({ error: error.message });
 //     }

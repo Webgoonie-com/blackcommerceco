@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import ReactSwitch from "react-switch";
 
 interface SwitchProps {
-    id: string;
-    posCnt: number;
-    title: string;
-    subtitle: string;
-    checked: boolean;
-    onChange: (value: boolean) => void;
-    register: any;
-    errors: any;
+    id: string
+    posCnt: number
+    title: string
+    subtitle: string
+    checked: boolean
+    onChange: (value: boolean) => void
+    register: any
+    errors: any
 }
 
 const Switch: React.FC<SwitchProps> = ({
@@ -22,15 +22,17 @@ const Switch: React.FC<SwitchProps> = ({
     register,
     errors
 }) => {
-    const [isChecked, setIsChecked] = useState<boolean>(false);
+    
+    
+    const [isChecked, setIsChecked] = useState<boolean>(false)
 
     useEffect(() => {
         setIsChecked(checked || false); // Ensure it's always a boolean
-    }, [checked]);
+    }, [checked])
 
     const onSwitch = (value: boolean) => {
-        setIsChecked(value);
-        onChange(value);
+        setIsChecked(value)
+        onChange(value)
     };
 
     return (

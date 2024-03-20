@@ -24,11 +24,13 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
     selectedImages: propSelectedImages,
     autoSaveToken,
     propertyId,
-    listingId,
+    listingId: propsListingId,
 }) => {
 
     console.log('Line 30: currentUser', currentUser)
     console.log('Line 31: userId', userId)
+    console.log('Line 32: propertyId', propertyId)
+    console.log('Line 33: propsListingId', propsListingId)
 
 
     const [selectedImages, setSelectedImages] = useState<string[]>(propSelectedImages);

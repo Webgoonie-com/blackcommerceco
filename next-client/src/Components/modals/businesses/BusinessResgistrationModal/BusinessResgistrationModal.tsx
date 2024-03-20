@@ -22,31 +22,52 @@ import SelectCityByRegion from '@/Elements/Selects/SelectCityByRegion';
 import dynamic from 'next/dynamic';
 import Switch from '@/Elements/Switches/Switch';
 import { User } from 'next-auth';
+import ImageUploadPropertyPhotos from '@/Elements/Files/ImageUploadPropertyPhotos';
+import ImageUploadBusinessPhotos from '@/Elements/Files/ImageUploadBusinessPhotos';
 
 
 // import  Map from "@/Components/maps/Map";  // We dynamically loop the map on ssr
 
 enum STEPS {
     CATEGORY = 0,
-    country = 1,
+    LOCATION = 1,
     STATSINFO = 2,
+   
     LOCALINFO = 3,
-    INFO = 4,
-    IMAGES = 5,
-    DESCRIPTION = 6,
-    PRICE = 7,
+    IMAGES = 4,
+    DESCRIPTION = 5,
 }
 
 interface BusinessStoreResgistrationModalProps {
     currentUser?: User | null;
 }
 
+const makeToken = (length: number)  => {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
 
 const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalProps> = ({currentUser}) => {
     const businessRegistrationModal = useBusinessRegistrationModal()
 
+    const [selectedImages, setSelectedImages] = useState<string[]>([]);
+
+    const [autoSaveToken, setAutoSaveToken] = useState<string>(makeToken(20));
 
     const [step, setStep] = useState(STEPS.CATEGORY)
+
+    
+    const [businessId, setBusinessId] = useState<number>(0)
+
+    const [listingId, setListingId] = useState<number>(0)
+
+    const [userId, setUserId] = useState<number>(parseInt(currentUser?.id as string))
+
     const [isLoading, setIsLoading] = useState(false)
   
     //console.log('Line 31 Current User ON Rental Modal', currentUser)
@@ -61,22 +82,29 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
             reset
         } = useForm<FieldValues>({
         defaultValues: {
-            userId: currentUser?.Id,
+            listingId: listingId,
             category: '',
+            countryCity: null,
             country: null,
             countryStateRegion: null,
             cityinfo: null,
             isAFranchise: null,
             isTheFranchiseParent: null,
             ownsOtherBusinesses: null,
-            newStateCodeInfo: null,
+            exactBusinessGeoLocation: [],
             hasStore: 1,
             hasProducts: 1,
             hasServices: 1,
-            imageSrc: '',
-            price: 1,   //Don't kow what to do with price
+            imageSrc: [],
+            streetAddress: '',
+            streetAddress2: '',
+            streetCity: '',
+            streetZipCode: '',
+            token: autoSaveToken,
+            userId: currentUser?.id,
+            description: '',
             title: '',
-            description: ''
+            businessId: businessId,
         }
     })
 
@@ -98,6 +126,10 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
     const watchIsTheFranchiseParent  = watch('isTheFranchiseParent')
 
     const watchOwnsOtherBusinesses  = watch('ownsOtherBusinesses')
+
+    const watchImageSrc = watch('imageSrc')
+
+    
 
    
 
@@ -130,27 +162,13 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
         setStep((value) => value + 1)
     }
 
-    const actionLabel = useMemo(() => {
-        if(step === STEPS.PRICE){
-            return 'Create'
-        }
-
-        return 'Next'
-    }, [step])
-
-    const secondaryActionLabel = useMemo(() => {
-      if(step === STEPS.CATEGORY){
-          return  undefined
-      }
-
-      return 'Back';
-
-    }, [step])
+    const onChangeImages = (images: string[]) => {
+        //console.log('onParent component onChangeImages in Effect ' + images)
+        setCustomValue('imageSrc', images);
+        setSelectedImages(images);
+    };
 
 
-    
-            
-    
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
             
     
@@ -166,7 +184,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
             console.error(error);
         }
 
-        if(step !== STEPS.PRICE){
+        if(step !== STEPS.DESCRIPTION){
             return onNext()
         }
 
@@ -183,13 +201,31 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
             console.error(error);
         }
 
-        if(step !== STEPS.PRICE){
+        if(step !== STEPS.DESCRIPTION){
             return onNext()
         }
 
 
     }
 
+    const actionLabel = useMemo(() => {
+        if(step === STEPS.DESCRIPTION){
+            return 'Create'
+        }
+
+        return 'Next'
+    }, [step])
+
+    const secondaryActionLabel = useMemo(() => {
+      if(step === STEPS.CATEGORY){
+          return  undefined
+      }
+
+      return 'Back';
+
+    }, [step])
+
+    
     let bodyContent = (
         <div>
             <ModalHeading 
@@ -233,7 +269,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
 
     // Begin Steps
 
-    if (step === STEPS.country) {
+    if (step === STEPS.LOCATION) {
         
         bodyContent = (
             <div
@@ -280,6 +316,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
                 </div>
                 <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3 z-0'>
                         <Map
+                            mapCenterReasonTxt={"Your Business Market Area"}
                             center={
                                 watchCountryCity?.latitude && watchCountryCity?.longitude ? [watchCountryCity?.latitude, watchCountryCity?.longitude] :
                                 //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :
@@ -354,7 +391,8 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
                 </div>
                 <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3'>
                         <Map
-                          center={
+                            mapCenterReasonTxt={"The Location Of Your Business"}
+                            center={
                               watchCountryCity?.latitude && watchCountryCity?.longitude ? [watchCountryCity?.latitude, watchCountryCity?.longitude] :
                               //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :
                               watchCountryStateRegion?.latitude && watchCountryStateRegion?.longitude ? [watchCountryStateRegion?.latitude, watchCountryStateRegion?.longitude] :
@@ -365,11 +403,8 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
             </div>
         )
     }
-
+    
     if (step === STEPS.LOCALINFO) {
-
-        
-
         bodyContent = (
             <div
                 className={`h-screen
@@ -390,8 +425,11 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
                     <div className='position-relative md:px-2 xl:px-2 mb-3'>
                         <h2 className='px-2'>Street Address1</h2>
                         <Input
-                            id="streetAddress1"
-                            label="Address1"
+                            id="streetAddress"
+                            label="Street Address"
+                            type={"string"}
+                            value={watchStreetAddress}
+                            onChange={(value) => setCustomValue('streetAddress', value)}
                             disabled={isLoading}
                             register={register}
                             errors={errors}
@@ -404,6 +442,9 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
                         <Input
                             id="streetAddress2"
                             label="Address2"
+                            type={"string"}
+                            value={watchStreetAddress2}
+                            onChange={(value) => setCustomValue('streetAddress2', value)}
                             disabled={isLoading}
                             register={register}
                             errors={errors}
@@ -412,10 +453,31 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
                     </div>
 
                     <div className='position-relative md:px-2 xl:px-2 mb-3'>
+                        <h2 className='px-2'>City or Town</h2>
+
+                        <Input 
+                            id="streetCity"
+                            label="City or Town"
+                            type="string"
+                            value={watchStreetCity}
+                            onChange={(value) => setCustomValue('streetCity', value)}
+                            disabled={isLoading}
+                            register={register}
+                            errors={errors}
+                            
+                            required
+                        />
+
+                     </div>
+
+                    <div className='position-relative md:px-2 xl:px-2 mb-3'>
                         <h2 className='px-2'>Zip/Postal Code</h2>
                         <Input
-                            id="busPostalcode"
+                            id="streetZipCode"
                             label="Postal Code"
+                            type="string"
+                            value={watchStreetZipCode}
+                            onChange={(value) => setCustomValue('streetZipCode', value)}
                             disabled={isLoading}
                             register={register}
                             errors={errors}
@@ -427,6 +489,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
                 </div>
                 <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3'>
                         <Map
+                            mapCenterReasonTxt={'Your Business Address is about here....'}
                           center={
                               watchCountryCity?.latitude && watchCountryCity?.longitude ? [watchCountryCity?.latitude, watchCountryCity?.longitude] :
                               //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :
@@ -438,10 +501,78 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
             </div>
         )
     }
+   
+    if (step === STEPS.IMAGES){
+        bodyContent = (
+            <div
+                className="text-white flex flex-col gap-8"
+            >
+                <ModalHeading
+                    title={"Add a photo of your place"}
+                    subtitle={"Show guests what your place looks like!"}
+                />
+
+                <ImageUploadBusinessPhotos
+                    value={watchImageSrc as any}
+                    //onChange={(value) => setCustomValue('imageSrc', value)} 
+                    autoSaveToken={autoSaveToken}
+                    onChange={onChangeImages}
+                    userId={'' + currentUser?.id}
+                    selectedImages={selectedImages}
+                    currentUser={currentUser as any}                
+                    businessId={businessId}
+                    listingId={listingId}
+                />
+
+                {/* <ImageUpload
+                    dirs={[]}
+                    value={imagesSrc}
+                    onChange={(value) => setCustomValue('imagesSrc', value)}
+                /> */}
+            </div>
+        )
+
+    }
+
+    if (step === STEPS.DESCRIPTION){
+        bodyContent = (
+            <div
+                className="flex flex-col gap-8"
+            >
+                <ModalHeading
+                    title="What are the highlights of your businesess?"
+                    subtitle="Short and sweet works best!"
+                />
+
+                
+                <Input
+                    id="title"
+                    label="Title"
+                    disabled={isLoading}
+                    register={register}
+                    errors={errors}
+                    required
+                />
+
+                <hr />
+
+                <Input
+                    id="description"
+                    label="Description"
+                    disabled={isLoading}
+                    register={register}
+                    errors={errors}
+                    required
+                />
+
+                
+            </div>
+        )
+    }
+
+   
 
 
-
-      
     return (
         <Modal
             isOpen={businessRegistrationModal.isOpen}

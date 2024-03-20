@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect } from 'react';
 import L from 'leaflet';
-import { MapContainer, Marker, TileLayer } from 'react-leaflet'
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
 
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
@@ -21,14 +21,15 @@ L.Icon.Default.mergeOptions({
 });
 
 interface MapProps {
-    center?: number[]
+    center?: number[],
+    mapCenterReasonTxt?: string | null;
 }
 
 const url = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
 
-const Map: React.FC<MapProps> = ({ center }) => {
+const Map: React.FC<MapProps> = ({ mapCenterReasonTxt, center }) => {
     const mapRef = useRef<L.Map | null>(null);
     
     // Use useEffect to update the map view when the center prop changes
@@ -46,7 +47,7 @@ const Map: React.FC<MapProps> = ({ center }) => {
             zoom={center ? 4 : 2} 
             //viewreset
             
-            scrollWheelZoom={true} 
+            scrollWheelZoom={false} 
             className="h-[35vh] rounded-lg"
             trackResize={true}
             ref={mapRef}
@@ -57,7 +58,11 @@ const Map: React.FC<MapProps> = ({ center }) => {
                 attribution={attribution}
             />
             {center && (
-                <Marker position={center as L.LatLngExpression} />
+                <Marker position={center as L.LatLngExpression}>
+                    <Popup>
+                        {mapCenterReasonTxt}
+                    </Popup>
+                </Marker>
             )}
         </MapContainer>
     )

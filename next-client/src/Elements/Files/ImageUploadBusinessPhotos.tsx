@@ -1,3 +1,6 @@
+
+"use client"
+
 import axiosWithCredentials from '@/lib/axiosWithCredentials';
 import axios from 'axios';
 import Image from 'next/image';
@@ -6,61 +9,81 @@ import { IoMdClose } from 'react-icons/io';
 import { TbPhotoPlus } from 'react-icons/tb';
 
 
-
 interface ImageUploadBusinessPhotosProps {
-    onChange: (value: string[], userId: string, currentUser: string) => void;
+    onChange: (images: string[]) => void;
     userId: string;
     currentUser: string;
-    value: string;
+    value: string[];
+    businessId: number;
+    listingId: number;
+    selectedImages: string[];
+    autoSaveToken: string;
 }
 
 const ImageUploadBusinessPhotos: React.FC<ImageUploadBusinessPhotosProps> = ({
     onChange,
     userId,
-    currentUser
+    currentUser,
+    selectedImages: propSelectedImages,
+    autoSaveToken,
+    businessId,
+    listingId: propsListingId,
 }) => {
-    const [selectedImages, setSelectedImages] = useState<string[]>([]);
+
+    console.log('Line 30: currentUser', currentUser)
+    console.log('Line 31: userId', userId)
+    console.log('Line 32: businessId', businessId)
+    console.log('Line 33: propsListingId', propsListingId)
+
+
+    const [selectedImages, setSelectedImages] = useState<string[]>(propSelectedImages);
     const imageRef = useRef<HTMLInputElement>(null);
-    const [selectedFile, setSelectedFile] = useState<File[]>([]);
 
-    const onImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
 
+    const onImageChange = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             const files = Array.from(event.target.files);
-           
             const formData = new FormData();
-
+    
             files.forEach(file => {
                 formData.append('files', file as any); // Append each file to the FormData
             });
-
+    
+            formData.append('imageSrc', 'ImageUploadBusinessPhotos');
+            formData.append('imgUrl', `${process.env.NEXT_PUBLIC_API_URL}`);
+            formData.append('imgName', 'PropertyPhoto');
+            formData.append('imgCatg', 'Property');
+            formData.append('userId', userId);
+            formData.append('token', autoSaveToken); // Convert array to string
+            formData.append('propertyId', String(businessId));
+    
             try {
                 const response = await axios.post(
-                    `${process.env.NEXT_PUBLIC_API_URL}/api/listings/createpropertyphotos`, 
-                    formData, 
+                    //`${process.env.NEXT_PUBLIC_API_URL}/api/listings/createpropertyphotos`,
+                    `${process.env.NEXT_PUBLIC_API_URL}/api/businesses/createbusinessphotos`,
+                    formData,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
                     }
                 );
-                
-                console.log('Upload successful', response.data);
-                // Handle the response or update state as needed
+    
+                const newImages = response.data.map((image: any) => image.imgUrl); // Extract the URLs
+    
+                // Update state using the setter function
+                setSelectedImages(prevImages => [...prevImages, ...newImages]);
+    
+                // Call the onChange callback with the updated images
+                onChange([...selectedImages, ...newImages]);
+    
             } catch (error) {
                 console.error('Error uploading images', error);
             }
-
-            const urls =  files.map(file => URL.createObjectURL(file));
-
-            setSelectedImages(prevImages => [...prevImages, ...urls]);
-
-            onChange([...selectedImages, ...urls], userId, currentUser);
-
-            console.log("process.env.NEXT_PUBLIC_API_URL +'/api/listings/createpropertyphotos'", process.env.NEXT_PUBLIC_API_URL +'/api/listings/createpropertyphotos')
-
         }
-    };
+    }, [autoSaveToken, onChange, businessId, selectedImages, userId]);
+    
+    
 
     const removeImage = (index: number) => {
         setSelectedImages(prevImages => {
@@ -68,6 +91,9 @@ const ImageUploadBusinessPhotos: React.FC<ImageUploadBusinessPhotosProps> = ({
             updatedImages.splice(index, 1);
             return updatedImages;
         });
+    
+        // Call the onChange callback with the updated images
+        onChange(selectedImages.filter((_, i) => i !== index));
     };
 
     return (
@@ -142,4 +168,3 @@ const ImageUploadBusinessPhotos: React.FC<ImageUploadBusinessPhotosProps> = ({
 };
 
 export default ImageUploadBusinessPhotos;
-

@@ -25,7 +25,7 @@ import  Map from "@/Components/maps/Map";  // We dynamically loop the map on ssr
 import dynamic from 'next/dynamic';
 import Counter from '@/Elements/Counters/Counter';
 
-import ImageUploadProperty from '@/Elements/Files/ImageUploadPropertyPhotos'
+import ImageUploadPropertyPhotos from '@/Elements/Files/ImageUploadPropertyPhotos'
 
 import axios from 'axios';
 import axiosWithCredentials from '@/lib/axiosWithCredentials'; // Doesn't Work For Post to API Says Cors Error.
@@ -35,7 +35,6 @@ import getCurrentUser from '@/Actions/getCurrentUser';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { callPropertys, autoSavePropertyData } from '@/ServiceCalls/callPropertys';
-
 
 
 enum STEPS {
@@ -64,35 +63,18 @@ interface RentMyPropertyModalProps {
 
 const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) => {
 
-        
-
-        //console.log('Line 69: currentUser', currentUser)
-
+        console.log('Line 69: currentUser', currentUser)
         // const generateTokenToSave = makeToken(20)
 
         // console.log('Business Make Id: ', generateTokenToSave);
-
-    
         const router = useRouter()
-
-
         const rentMyPropertyModalModal = useRentMyPropertyModal();
-
         const [selectedImages, setSelectedImages] = useState<string[]>([]);
-      
         const [autoSaveToken, setAutoSaveToken] = useState<string>(makeToken(20));
-        const [autoSaveProperty, setAutoSaveProperty] = useState<string[]>([]);
-
         const [step, setStep] = useState(STEPS.CATEGORY)
-        
         const [propertyId, setPropertyId] = useState<number>(0)
-
         const [listingId, setListingId] = useState<number>(0)
-        
         const [userId, setUserId] = useState<number>(parseInt(currentUser?.id as string))
-
-        
-
         const [isLoading, setIsLoading] = useState(false)
   
         const { register,
@@ -109,7 +91,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                 bathroomCount: 1,
                 category: '',
                 countryCity: null,
-                description: '',
+                
                 guestCount: 1,
                 imageSrc: [],
                 countryStateRegion: null,
@@ -120,52 +102,28 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                 streetAddress2: '',
                 streetCity: '',
                 streetZipCode: '',
+                exactBusinessGeoLocation: [],
                 title: '',
+                description: '',
                 token: autoSaveToken,
                 userId: currentUser?.id,
+                propertyId: propertyId,
             }
         })
     
-
     // A work around for selected register in useform
     const watchCategory = watch('category')
-
     const watchCountry = watch('country')
- 
     const watchCountryStateRegion  = watch('countryStateRegion')
-
     const watchCountryCity  = watch('countryCity')
-
     const watchStreetAddress  = watch('streetAddress')
     const watchStreetAddress2  = watch('streetAddress2')
     const watchStreetCity  = watch('streetCity')
     const watchStreetZipCode  = watch('streetZipCode')
-    
-
     const watchGuestCount = watch('guestCount')
-    
     const watchRoomCount = watch('roomCount')
-      
     const watchBathroomCount = watch('bathroomCount')
-  
     const watchImageSrc = watch('imageSrc')
-
-    
-    const watchToken = watch('token')
-
-    const watchUserId = watch('userId')
- 
-      
- 
- 
-    //const imageSrc = watch('imageSrc')
-
-    async function  handleAutoSave(){
-
-       // await callPropertys.autoSavePropertyData(data)
-
-    };
-
     
 
     const  Map = useMemo(() => dynamic(() => import("@/Components/maps/Map"), {
@@ -213,6 +171,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
 
             setPropertyId(id)
             setListingId(listingId)
+            setCustomValue('', id)
 
         } catch (error) {
             console.error('Error occurred while submitting data:', error);
@@ -368,96 +327,98 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
               
               <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3 z-0'>
                       <Map
-                          center={
+                            mapCenterReasonTxt={"Your Business Market Area"}
+                            center={
                               watchCountryCity?.latitude && watchCountryCity?.longitude ? [watchCountryCity?.latitude, watchCountryCity?.longitude] :
                               //countryCity?.Latitude && countryCity?.Longitude ? [countryCity?.Latitude, countryCity?.Longitude] :
                               watchCountryStateRegion?.latitude && watchCountryStateRegion?.longitude ? [watchCountryStateRegion?.latitude, watchCountryStateRegion?.longitude] :
                               watchCountry?.latitude && watchCountry?.longitude ? [watchCountry?.latitude, watchCountry?.longitude] : [32.1652613142917, -54.72682487791673]
-                          }
+                            }
                       />
               </div>
           </div>
       )
-  }
+    }
 
-  if (step === STEPS.LOCALINFO){
-      bodyContent = (
-          <div
-              className={`
-                  flex flex-col gap-8
-                  text-white
-              `}
-          >
-              <ModalHeading 
-                  title={"What is the address to this property?"}
-                  subtitle={"Help guest find you!"}
-              />
-              <div className="grid md:grid-cols-3 xl:grid-cols-3 grid-flow-row auto-rows-max z-50">
-                  
-              <Input 
-                    id="streetAddress"
-                    label="Street Address"
-                    type="string"
-                    value={watchStreetAddress}
-                    onChange={(value) => setCustomValue('streetAddress', value)}
-                    disabled={isLoading}
-                    register={register}
-                    errors={errors}
-                    required
+    if (step === STEPS.LOCALINFO){
+        bodyContent = (
+            <div
+                className={`
+                    flex flex-col gap-4
+                    text-white
+                `}
+            >
+                <ModalHeading 
+                    title={"What is the address to this property?"}
+                    subtitle={"Help guest find you!"}
                 />
-
-              {/* <Input 
-                    id="streetAddress"
-                    label="Street Address 2"
-                    type="string"
-                    value={watchStreetAddress2}
-                    onChange={(value) => setCustomValue('streetAddress2', value)}
-                    disabled={isLoading}
-                    register={register}
-                    errors={errors}
-                    required
-                /> */}
-                
-              
-
-              <Input 
-                    id="streetCity"
-                    label="City or Town"
-                    type="string"
-                    value={watchStreetCity}
-                    onChange={(value) => setCustomValue('streetCity', value)}
-                    disabled={isLoading}
-                    register={register}
-                    errors={errors}
+                <div className="grid md:grid-cols-3 xl:grid-cols-3 grid-flow-row auto-rows-max z-50">
                     
-                    required
-                />
-              <Input 
-                    id="streetZipCode"
-                    label="Postal Code"
-                    type="string"
-                    value={watchStreetZipCode}
-                    onChange={(value) => setCustomValue('streetZipCode', value)}
-                    disabled={isLoading}
-                    register={register}
-                    errors={errors}
-                    required
-                />
+                <Input 
+                        id="streetAddress"
+                        label="Street Address"
+                        type="string"
+                        value={watchStreetAddress}
+                        onChange={(value) => setCustomValue('streetAddress', value)}
+                        disabled={isLoading}
+                        register={register}
+                        errors={errors}
+                        required
+                    />
+
+                {/* <Input 
+                        id="streetAddress"
+                        label="Street Address 2"
+                        type="string"
+                        value={watchStreetAddress2}
+                        onChange={(value) => setCustomValue('streetAddress2', value)}
+                        disabled={isLoading}
+                        register={register}
+                        errors={errors}
+                        required
+                    /> */}
+                    
                 
-              </div>
-             
-              <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3'>
-                        <Map
-                          center={
-                              watchCountryCity?.latitude && watchCountryCity?.longitude ? [watchCountryCity?.latitude, watchCountryCity?.longitude] :
-                              watchCountryStateRegion?.latitude && watchCountryStateRegion?.longitude ? [watchCountryStateRegion?.latitude, watchCountryStateRegion?.longitude] :
-                              watchCountry?.latitude && watchCountry?.longitude ? [watchCountry?.latitude, watchCountry?.longitude] : [32.1652613142917, -54.72682487791673]
-                          }
-                        />
-              </div>
-          </div>
-      )
-  }
+
+                <Input 
+                        id="streetCity"
+                        label="City or Town"
+                        type="string"
+                        value={watchStreetCity}
+                        onChange={(value) => setCustomValue('streetCity', value)}
+                        disabled={isLoading}
+                        register={register}
+                        errors={errors}
+                        
+                        required
+                    />
+                <Input 
+                        id="streetZipCode"
+                        label="Postal Code"
+                        type="string"
+                        value={watchStreetZipCode}
+                        onChange={(value) => setCustomValue('streetZipCode', value)}
+                        disabled={isLoading}
+                        register={register}
+                        errors={errors}
+                        required
+                    />
+                    
+                </div>
+                
+                    <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3'>
+                            <Map
+                                mapCenterReasonTxt={"Your Rental Property is about here.."}
+                                center={
+                                watchCountryCity?.latitude && watchCountryCity?.longitude ? [watchCountryCity?.latitude, watchCountryCity?.longitude] :
+                                watchCountryStateRegion?.latitude && watchCountryStateRegion?.longitude ? [watchCountryStateRegion?.latitude, watchCountryStateRegion?.longitude] :
+                                watchCountry?.latitude && watchCountry?.longitude ? [watchCountry?.latitude, watchCountry?.longitude] : [32.1652613142917, -54.72682487791673]
+                            }
+                            />
+                </div>
+            </div>
+        )
+    }
 
     if (step === STEPS.INFO){
         bodyContent = (
@@ -508,7 +469,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                     subtitle={"Show guests what your place looks like!"}
                 />
 
-                <ImageUploadProperty
+                <ImageUploadPropertyPhotos
                     value={watchImageSrc as any}
                     //onChange={(value) => setCustomValue('imageSrc', value)} 
                     autoSaveToken={autoSaveToken}
