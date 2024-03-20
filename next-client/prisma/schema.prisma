@@ -76,6 +76,10 @@ model business {
   countryStateRegionId Int
   listingId            Int?     @unique(map: "Business_listingId_key")
   sellprice            String?
+  streetAddress        String?
+  streetAddress2       String?
+  streetCity           String?
+  streetZipCode        String?
 
   @@index([userId], map: "Business_userId_fkey")
   @@index([countryCityId], map: "Business_countryCityId_fkey")

@@ -63,12 +63,16 @@ model Business {
   isAFranchise                      String
   isTheFranchiseParent              String
   ownsOtherBusinesses               String
-  newStateCodeInfo                  String
   hasStore                          Int
   hasProducts                       Int
   hasServices                       Int
   category                          String
-  locationValue                     String
+
+  streetAddress                     String?
+  streetAddress2                    String?
+  streetCity                        String?
+  streetZipCode                     String?
+
   sellprice                         String?
 
   imageSrc                          String
@@ -87,12 +91,12 @@ model Business {
 
   Businessphotos                    Businessphoto[]
 
-country                             Country               @relation(fields: [countryId], references: [id])
-countryId                           Int
-countryStateRegion                  CountryStateRegion    @relation(fields: [countryStateRegionId], references: [id])
-countryStateRegionId                Int
-countryCity                         CountryCity           @relation(fields: [countryCityId], references: [id])
-countryCityId                       Int
+  country                             Country               @relation(fields: [countryId], references: [id])
+  countryId                           Int
+  countryStateRegion                  CountryStateRegion    @relation(fields: [countryStateRegionId], references: [id])
+  countryStateRegionId                Int
+  countryCity                         CountryCity           @relation(fields: [countryCityId], references: [id])
+  countryCityId                       Int
   
 }
 

@@ -26,6 +26,7 @@ import ImageUploadBusinessPhotos from '@/Elements/Files/ImageUploadBusinessPhoto
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
+import { callBusinesses, autoSaveBusinessData } from '@/ServiceCalls/callBusinesses';
 
 // import  Map from "@/Components/maps/Map";  // We dynamically loop the map on ssr
 
@@ -174,7 +175,38 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
             
     
         console.log('DATA: on onSubmit: ', data)
+
+
+        try {
+
+            // Calling Directly To Internal API Route
+
+            const responseData = await autoSaveBusinessData(data, autoSaveToken, userId); // Call the autoSaveBusinessData function
+            // Your other submission logic
+
+            console.log('responseData: ', responseData)
+
+            const { id, listingId } = responseData;
+
+            //console.log('propertyId: id -', id)
+            //console.log('propertyId: listingId -', listingId)
+
+            setBusinessId(id)
+            setListingId(listingId)
+            setCustomValue('', id)
     
+            
+        } catch (error) {
+            console.error(error);
+        }
+
+        if(step !== STEPS.DESCRIPTION){
+            return onNext()
+        }
+
+
+        setIsLoading(true)
+
 
         try {
 
@@ -213,18 +245,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
     
 
 
-        try {
-
-            // Calling Directly To Internal API Route
-    
-            
-        } catch (error) {
-            console.error(error);
-        }
-
-        if(step !== STEPS.DESCRIPTION){
-            return onNext()
-        }
+       
 
 
     }
