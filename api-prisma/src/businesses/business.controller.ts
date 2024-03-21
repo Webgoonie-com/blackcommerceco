@@ -74,7 +74,7 @@ export const listBusinesses = async (): Promise<Business[]> => {
         
     
     return await orm.business.findMany({
-        
+       
         select:{
             id: true,
             uuid: true,
@@ -99,7 +99,23 @@ export const listBusinesses = async (): Promise<Business[]> => {
             countryStateRegionId: true,
             countryCityId: true,
             createdAt: true,
-            user: true,
+            user: {
+                select: {
+                    id: true,
+                    uuid: true,
+                    name: true,
+                    role: false,
+                    email: false,
+                    emailVerified: false,
+                    hashedPassword: false,
+                    image: true,
+                    phone: false,
+                    firstName: true,
+                    lastName: true,
+                    updatedAt: true,
+                    createdAt: true,
+                }
+            },
             updatedAt: true,
             
          }
