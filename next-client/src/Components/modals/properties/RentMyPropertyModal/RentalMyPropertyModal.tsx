@@ -63,10 +63,10 @@ interface RentMyPropertyModalProps {
 
 const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) => {
 
-        console.log('Line 69: currentUser', currentUser)
-        // const generateTokenToSave = makeToken(20)
+        //  console.log('Line 69: currentUser', currentUser)
+        //  const generateTokenToSave = makeToken(20)
 
-        // console.log('Business Make Id: ', generateTokenToSave);
+        //  console.log('Business Make Id: ', generateTokenToSave);
         const router = useRouter()
         const rentMyPropertyModalModal = useRentMyPropertyModal();
         const [selectedImages, setSelectedImages] = useState<string[]>([]);

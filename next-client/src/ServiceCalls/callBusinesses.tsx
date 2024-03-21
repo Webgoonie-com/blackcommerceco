@@ -24,9 +24,9 @@ export const callBusinesses = async (data: any) => {
 
 export const autoSaveBusinessData = async (data: any, autoSaveToken: any, userId: any) => {
     
-    // console.log('Line 27: autoSavePropertyData', data)
-    // console.log('Line 28: autoSaveToken', autoSaveToken)
-    // console.log('Line 29: userId', userId)
+     console.log('Line 27: autoSaveBusinessData', data)
+     console.log('Line 28: autoSaveToken', autoSaveToken)
+     console.log('Line 29: userId', userId)
 
     
 
@@ -37,17 +37,17 @@ export const autoSaveBusinessData = async (data: any, autoSaveToken: any, userId
         
     }
     
-    //console.log('Line 24: autoSaveToken', postData)
+    console.log('Line 24: autoSaveToken', postData)
 
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/businesess/autoSaveBusinessData`, postData);
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/businesses/autoSaveBusinessData`, postData);
         
-        console.log('Line 38 on Call Property AutoSave Response Data', response.data)
+        console.log('Line 45 on Call Business AutoSave Response Data', response.data)
 
         return response.data;
 
     } catch (error) {
-        console.error('Error occurred while auto saving property data:', error);
+        console.error('Error occurred while auto saving businesses data:', error);
         throw error;
     }
 };

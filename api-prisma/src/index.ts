@@ -7,6 +7,7 @@ import { userRouter } from "./users/user.router"
 import { adminRouter } from "./admins/admin.router"
 import { listingRouter } from "./listings/listing.router"
 import { propertyRouter } from "./propertys/property.router"
+import { businessRouter } from "./businesses/business.router"
 
 
 dotenv.config()
@@ -33,6 +34,7 @@ app.use("/api/users", userRouter)
 app.use("/api/admins", adminRouter)
 app.use("/api/listings", listingRouter)
 app.use("/api/propertys", propertyRouter)
+app.use("/api/businesses", businessRouter)
 
 
 app.get("/", (req, res) => {

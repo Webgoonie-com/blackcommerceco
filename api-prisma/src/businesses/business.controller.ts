@@ -24,14 +24,13 @@ type Business = {
     streetAddress2: string | null;
     streetCity: string | null;
     streetZipCode: string | null;
-    sellprice?: string;
+    sellPrice?: string;
     createdAt: Date;
     updatedAt: Date;
 
-    cityinfo: string;
-    isAFranchise: string;
-    isTheFranchiseParent: string;
-    ownsOtherBusinesses: string;
+    isAFranchise: boolean;
+    isTheFranchiseParent: boolean;
+    ownsOtherBusinesses: boolean;
 }
 
 type BusinessPhoto = {
@@ -67,7 +66,15 @@ type Listing = {
 }
 
 export const listBusinesses = async (): Promise<Business[]> => {
-    return orm.business.findMany({
+
+    console.log('We Hit Controller now')
+
+
+    try {
+        
+    
+    return await orm.business.findMany({
+        
         select:{
             id: true,
             uuid: true,
@@ -76,7 +83,7 @@ export const listBusinesses = async (): Promise<Business[]> => {
             description: true,
             category: true,
             imageSrc: true,
-            cityinfo: true,
+            
             isAFranchise: true,
             isTheFranchiseParent: true,
             ownsOtherBusinesses: true,
@@ -92,9 +99,20 @@ export const listBusinesses = async (): Promise<Business[]> => {
             countryStateRegionId: true,
             countryCityId: true,
             createdAt: true,
+            user: true,
             updatedAt: true,
-        }
-    })
+            
+         }
+        })
+
+
+    } catch (error) {
+
+        console.log('Error', error);
+        
+        throw error; 
+        
+    }
 }
 
 export const createBusinessPhotos = async (businessPhotoData: any): Promise<BusinessPhoto[] | any> => {
@@ -179,7 +197,7 @@ export const getBusinessId = async (id: number): Promise<Business | null> => {
             description: true,
             imageSrc: true,
             category: true,
-            cityinfo: true,
+            
             isAFranchise: true,
             isTheFranchiseParent: true,
             ownsOtherBusinesses: true,
@@ -216,7 +234,7 @@ export const getBusinessUuId = async (uuid: string): Promise<Business | null> =>
             description: true,
             category: true,
             imageSrc: true,
-            cityinfo: true,
+            
             isAFranchise: true,
             isTheFranchiseParent: true,
             ownsOtherBusinesses: true,
@@ -339,7 +357,6 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                         token: business.token || token,
                         description: business.description,
                         category: business.category,
-                        cityinfo: business.cityinfo,
                         isAFranchise: business.isAFranchise,
                         isTheFranchiseParent: business.isTheFranchiseParent,
                         ownsOtherBusinesses: business.ownsOtherBusinesses,
@@ -355,6 +372,11 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                         countryId: countryId, // Include countryId
                         countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
                         countryCityId: countryCityId, // Include countryCityId
+                        //user: { connect: { id: business?.userId  as any } },
+                        
+                        // user: {
+                        //     connect: { id: business.userId } // Assuming you want to connect the business to an existing user
+                        // }
                     },
                     select: {
                         id: true,
@@ -367,7 +389,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                         hasProducts: true,
                         hasServices: true,
                         imageSrc: true,
-                        cityinfo: true,
+                        
                         isAFranchise: true,
                         isTheFranchiseParent: true,
                         ownsOtherBusinesses: true,

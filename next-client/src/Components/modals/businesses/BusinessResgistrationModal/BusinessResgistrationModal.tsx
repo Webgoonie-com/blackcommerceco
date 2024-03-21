@@ -55,6 +55,7 @@ const makeToken = (length: number)  => {
 }
 
 const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalProps> = ({currentUser}) => {
+    
     const businessRegistrationModal = useBusinessRegistrationModal()
 
     const [selectedImages, setSelectedImages] = useState<string[]>([]);
@@ -147,8 +148,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
     };
 
     const setCustomValue = (id: string, value: any) => {
-        console.log('id Line 125 setValue', id)
-        console.log('Line 126 setValue', value)
+       
         setValue(id, value, {
             shouldValidate: true,
             shouldDirty: true,
@@ -372,9 +372,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
     }
 
     if (step === STEPS.STATSINFO) {
-        {console.log('Line 294 watchIsAFranchise:', watchIsAFranchise)}
-        {console.log('Line 296 watchIsAFranchise:', watchIsAFranchise)}
-        {console.log('Line 296 watchOwnsOtherBusinesses:', watchOwnsOtherBusinesses)}
+
         bodyContent = (
             <div
                 className={`

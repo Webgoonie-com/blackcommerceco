@@ -1,7 +1,7 @@
 
 ###
 
-GET http://localhost:3334/api/propertys/allProperties
+GET http://localhost:3334/api/propertys/allproperties
 
 
 ###

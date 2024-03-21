@@ -1,0 +1,101 @@
+
+
+
+
+
+###
+
+GET http://localhost:3334/api/businesses/allbusinesses
+
+
+
+###
+
+
+
+###
+
+POST http://localhost:3334/api/businesses/createBusinesses
+Content-Type: application/json
+
+{
+    "listingId": 0,
+    "category": "Shopping",
+    "countryCity": null,
+    "country": null,
+    "countryStateRegion": null,
+    "cityinfo": null,
+    "isAFranchise": null,
+    "isTheFranchiseParent": null,
+    "ownsOtherBusinesses": null,
+    "exactBusinessGeoLocation": [],
+    "hasStore": 1,
+    "hasProducts": 1,
+    "hasServices": 1,
+    "imageSrc": [],
+    "streetAddress": "",
+    "streetAddress2": "",
+    "streetCity": "",
+    "streetZipCode": "",
+    "token": "29L7sIZLRmS9aZyABJll",
+    "userId": 2,
+    "description": "",
+    "title": "",
+    "businessId": 0
+}
+
+
+
+###
+###
+
+POST http://localhost:3334/api/businesses/autoSaveBusinessData
+Content-Type: application/json
+
+{
+    "listingId": 0,
+    "category": "Shopping",
+    "countryCity": null,
+    "country": null,
+    "countryStateRegion": null,
+    "cityinfo": null,
+    "isAFranchise": null,
+    "isTheFranchiseParent": null,
+    "ownsOtherBusinesses": null,
+    "exactBusinessGeoLocation": [],
+    "hasStore": 1,
+    "hasProducts": 1,
+    "hasServices": 1,
+    "imageSrc": [],
+    "streetAddress": "",
+    "streetAddress2": "",
+    "streetCity": "",
+    "streetZipCode": "",
+    "token": "29L7sIZLRmS9aZyABJll",
+    "userId": 2,
+    "description": "",
+    "title": "",
+    "businessId": 0
+}
+
+
+
+###
+
+
+GET http://localhost:3334/api/businesses/all
+
+
+###
+
+
+GET http://localhost:3334/api/businesses/id/1
+
+
+
+###
+
+
+GET http://localhost:3334/api/businesses/uuid/adfadfadf
+
+###

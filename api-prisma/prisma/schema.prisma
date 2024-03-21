@@ -59,10 +59,9 @@ model Business {
   description                       String
   
   
-  cityinfo                          String
-  isAFranchise                      String
-  isTheFranchiseParent              String
-  ownsOtherBusinesses               String
+  isAFranchise                      Boolean
+  isTheFranchiseParent              Boolean
+  ownsOtherBusinesses               Boolean
   hasStore                          Int
   hasProducts                       Int
   hasServices                       Int
@@ -72,15 +71,16 @@ model Business {
   streetAddress2                    String?
   streetCity                        String?
   streetZipCode                     String?
+  exactBusinessGeoLocation          String?
 
-  sellprice                         String?
+  sellPrice                         String?
 
   imageSrc                          String
 
   createdAt                         DateTime                  @default(now())
   updatedAt                         DateTime                  @default(now()) @updatedAt
 
-  user                              User                      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                              User?                     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId                            Int
 
   reservations                      Reservation[]
@@ -89,13 +89,13 @@ model Business {
   listing                             Listing[]
   listingId                           Int?                  @unique
 
-  Businessphotos                    Businessphoto[]
+  Businessphotos                      Businessphoto[]
 
-  country                             Country               @relation(fields: [countryId], references: [id])
+  country                             Country?               @relation(fields: [countryId], references: [id])
   countryId                           Int
-  countryStateRegion                  CountryStateRegion    @relation(fields: [countryStateRegionId], references: [id])
+  countryStateRegion                  CountryStateRegion?    @relation(fields: [countryStateRegionId], references: [id])
   countryStateRegionId                Int
-  countryCity                         CountryCity           @relation(fields: [countryCityId], references: [id])
+  countryCity                         CountryCity?           @relation(fields: [countryCityId], references: [id])
   countryCityId                       Int
   
 }

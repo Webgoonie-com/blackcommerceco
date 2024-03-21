@@ -9,6 +9,7 @@ export const businessRouter = express.Router();
 import multer, { FileFilterCallback } from 'multer'
 import moment from 'moment'
 import path from 'path'
+import { Business } from '@prisma/client';
 
 const momentYear = moment().format('YYYY');
 const momentMonth = moment().format('MM');
@@ -124,7 +125,7 @@ const uploadBusinessPhotos = multer({
 
 businessRouter.get('/allbusinesses', async (request: Request, response: Response) => {
     
-    console.log('We Hit To Get A List Of all Properties')
+    console.log('We Hit To Get A List Of all Businesses')
     try {
         const users = await BusinessController.listBusinesses()
         return response.status(200).json(users);
@@ -133,6 +134,8 @@ businessRouter.get('/allbusinesses', async (request: Request, response: Response
         return response.status(500).json(error.message);
     }
 })
+
+
 
 
 businessRouter.post('/createpropertyphotos', uploadBusinessPhotos.array('files'), async (request: any, response: any) => {
@@ -149,6 +152,22 @@ businessRouter.post('/createpropertyphotos', uploadBusinessPhotos.array('files')
         return response.status(200).json(createdPropertyPhotos);
     } catch (error: any) {
         return response.status(500).json({ error: error.message });
+    }
+});
+businessRouter.post('/autoSaveBusinessData', async (request, response) => {
+
+
+    try {
+        const businessData = request.body; // Assuming you're sending the business data in the request body
+
+        console.log('businessData 6:00: ', businessData)
+
+        // Call the service function with the received data
+        const createdBusiness = await BusinessController.autoSaveBusinessData(businessData, businessData);
+
+        return response.status(200).json(createdBusiness);
+    } catch (error) {
+        return response.status(500).json({ error });
     }
 });
 
