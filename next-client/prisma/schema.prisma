@@ -52,34 +52,32 @@ model admin {
 }
 
 model business {
-  id                   Int      @id @default(autoincrement())
-  uuid                 String   @unique(map: "Business_uuid_key")
-  title                String
-  token                String
-  description          String
-  cityinfo             String
-  isAFranchise         String
-  isTheFranchiseParent String
-  ownsOtherBusinesses  String
-  newStateCodeInfo     String
-  hasStore             Int
-  hasProducts          Int
-  hasServices          Int
-  category             String
-  locationValue        String
-  imageSrc             String
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @default(now())
-  userId               Int
-  countryCityId        Int
-  countryId            Int
-  countryStateRegionId Int
-  listingId            Int?     @unique(map: "Business_listingId_key")
-  sellprice            String?
-  streetAddress        String?
-  streetAddress2       String?
-  streetCity           String?
-  streetZipCode        String?
+  id                       Int      @id @default(autoincrement())
+  uuid                     String   @unique(map: "Business_uuid_key")
+  title                    String
+  token                    String
+  description              String
+  isAFranchise             Boolean
+  isTheFranchiseParent     Boolean
+  ownsOtherBusinesses      Boolean
+  hasStore                 Int
+  hasProducts              Int
+  hasServices              Int
+  category                 String
+  imageSrc                 String
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @default(now())
+  userId                   Int
+  countryCityId            Int
+  countryId                Int
+  countryStateRegionId     Int
+  listingId                Int?     @unique(map: "Business_listingId_key")
+  streetAddress            String?
+  streetAddress2           String?
+  streetCity               String?
+  streetZipCode            String?
+  exactBusinessGeoLocation String?
+  sellPrice                String?
 
   @@index([userId], map: "Business_userId_fkey")
   @@index([countryCityId], map: "Business_countryCityId_fkey")
@@ -98,10 +96,8 @@ model businessphoto {
   imgFileType      String
   imgEncoding      String
   imgFileOrigName  String
-  imgFileName      Int
-  imgFileOutputDir Int
-  guestCount       Int
-  locationValue    String
+  imgFileName      String
+  imgFileOutputDir String
   imgFileSize      Int
   createdAt        DateTime @default(now())
   updatedAt        DateTime @default(now())
@@ -109,6 +105,7 @@ model businessphoto {
   listingId        Int
   businessId       Int
   token            String
+  imgFilePath      String
 
   @@index([businessId], map: "Businessphoto_businessId_fkey")
   @@index([listingId], map: "Businessphoto_listingId_fkey")
