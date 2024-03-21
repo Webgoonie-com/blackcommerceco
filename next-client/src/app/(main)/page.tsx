@@ -5,7 +5,7 @@ import Image from "next/image";
 import Hero from "@/Views/Home/Hero";
 import Footer from "@/Views/Footer";
 import Categories from "@/Components/Categories";
-
+import Listings from '@/Components/Listings'
 export default async function Home() {
 
   // const session = await getSession();
@@ -13,26 +13,27 @@ export default async function Home() {
   // const authSession = await getAuthSession();
 
   return (
-    <main 
-        className="
-              flex
-              min-h-screen
-              flex-col
-              "
-        >
-      <div>
+   <div>
+      <main 
+          className="
+                flex
+                min-h-screen
+                flex-col
+                "
+          >
+        <div>
+  
+  
+          <Hero />
+  
+          <Listings />
 
-        {/* <pre>SessioN: {JSON.stringify(session, null, 2)}</pre> */}
-
-        {/* <pre>authSession: {JSON.stringify(authSession, null, 2)}</pre> */}
-
-        <Hero />
-
-        <Categories />
+          <Categories />
+          
         
-      
-
-      </div>
-    </main>
+  
+        </div>
+      </main>
+   </div>
   );
 }

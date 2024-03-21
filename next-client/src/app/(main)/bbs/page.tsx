@@ -1,3 +1,4 @@
+import PropertyListings from '@/Components/Listings'
 import React from 'react'
 
 const BbsPage = () => {
@@ -6,6 +7,7 @@ const BbsPage = () => {
         <h2>Bbs Page</h2>
 
         <p>Full List Of Black Businesses Page</p>
+        <PropertyListings />
     </div>
   )
 }

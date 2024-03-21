@@ -130,9 +130,33 @@ const uploadPropertyPhotos = multer({
 
 
 
+listingRouter.get('/all', async (request: Request, response: Response) => {
+    
+    console.log('We Hit All Only Listingss')
+    try {
+        const users = await ListingService.listPropertys()
+        return response.status(200).json(users);
+
+    } catch (error: any) {
+        return response.status(500).json(error.message);
+    }
+})
+
 listingRouter.get('/allProperties', async (request: Request, response: Response) => {
     
     console.log('We Hit To Get A List Of all Properties')
+    try {
+        const users = await ListingService.listPropertys()
+        return response.status(200).json(users);
+
+    } catch (error: any) {
+        return response.status(500).json(error.message);
+    }
+})
+
+listingRouter.get('/allBusinesses', async (request: Request, response: Response) => {
+    
+    console.log('We Hit To Get A List Of all Businesses')
     try {
         const users = await ListingService.listPropertys()
         return response.status(200).json(users);

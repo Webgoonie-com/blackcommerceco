@@ -1133,6 +1133,11 @@ damerau-levenshtein@^1.0.8:
   resolved "https://registry.yarnpkg.com/damerau-levenshtein/-/damerau-levenshtein-1.0.8.tgz#b43d286ccbd36bc5b2f7ed41caf2d0aba1f8a6e7"
   integrity sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==
 
+date-fns@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-3.6.0.tgz#f20ca4fe94f8b754951b24240676e8618c0206bf"
+  integrity sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==
+
 debug@^3.2.7:
   version "3.2.7"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.2.7.tgz#72580b7e9145fb39b6676f9c5e5fb100b934179a"
@@ -1948,6 +1953,16 @@ hoist-non-react-statics@^3.3.1:
   integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
   dependencies:
     react-is "^16.7.0"
+
+http@^0.0.1-security:
+  version "0.0.1-security"
+  resolved "https://registry.yarnpkg.com/http/-/http-0.0.1-security.tgz#3aac09129d12dc2747bbce4157afde20ad1f7995"
+  integrity sha512-RnDvP10Ty9FxqOtPZuxtebw1j4L/WiqNMDtuc1YMH1XQm5TgDRaR1G9u8upL6KD1bXHSp9eSXo/ED+8Q7FAr+g==
+
+https@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/https/-/https-1.0.0.tgz#3c37c7ae1a8eeb966904a2ad1e975a194b7ed3a4"
+  integrity sha512-4EC57ddXrkaF0x83Oj8sM6SLQHAWXw90Skqu2M4AEWENZ3F02dFJE/GARA8igO79tcgYqGrD7ae4f5L3um2lgg==
 
 ieee754@^1.1.12:
   version "1.2.1"

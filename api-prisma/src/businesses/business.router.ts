@@ -181,7 +181,7 @@ businessRouter.post('/createBusiness', async (request, response) => {
         console.log('businessData 6:00: ', businessData)
 
         // Call the service function with the received data
-        const createdBusiness = await BusinessController.autoSaveBusinessData(businessData, businessData);
+        const createdBusiness = await BusinessController.createBusiness(businessData, businessData);
 
         return response.status(200).json(createdBusiness);
     } catch (error) {

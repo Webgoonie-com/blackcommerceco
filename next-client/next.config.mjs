@@ -1,7 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    reactStrictMode: true,
+    swcMinify: true,
     images: {
     remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "next/image",
+      },
       {
         protocol: "https",
         hostname: "tailwindui.com",
@@ -15,15 +21,15 @@ const nextConfig = {
         hostname: "uko-react.vercel.app",
       },
       {
-        protocol: "http",
+        protocol: "https",
         hostname: "localhost",
       },
       {
-        protocol: "http",
+        protocol: "https",
         hostname: "localhost:3333",
       },
       {
-        protocol: "http",
+        protocol: "https",
         hostname: "localhost:3334",
       },
     ],

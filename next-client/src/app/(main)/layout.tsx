@@ -21,9 +21,7 @@ export const metadata: Metadata = {
   description: "A app made for a miniority group of people on planet earth deprived far for too long.",
 };
 
-export default async function RootLayout({
-  children,
-}: Readonly<{
+export default async function RootLayout({  children } : Readonly<{
   children: React.ReactNode;
 }>) {
 
