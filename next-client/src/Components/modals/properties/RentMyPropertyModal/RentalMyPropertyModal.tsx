@@ -201,10 +201,10 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                     duration: 7000,
                     position: 'bottom-right',
                 })
-                //router.refresh()
-                //reset()
-                //setStep(STEPS.CATEGORY)
-                //rentMyPropertyModalModal.onClose()
+                router.refresh()
+                reset()
+                setStep(STEPS.CATEGORY)
+                rentMyPropertyModalModal.onClose()
             })
             .catch(() => {
                 toast.error('Sorry Something went Wrong');

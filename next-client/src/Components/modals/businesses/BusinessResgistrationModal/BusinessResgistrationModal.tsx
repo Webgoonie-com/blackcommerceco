@@ -28,6 +28,8 @@ import { toast } from 'react-hot-toast';
 
 import { callBusinesses, autoSaveBusinessData } from '@/ServiceCalls/callBusinesses';
 
+import { useRouter } from 'next/navigation';
+
 // import  Map from "@/Components/maps/Map";  // We dynamically loop the map on ssr
 
 enum STEPS {
@@ -55,6 +57,8 @@ const makeToken = (length: number)  => {
 }
 
 const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalProps> = ({currentUser}) => {
+    
+    const router = useRouter()
     
     const businessRegistrationModal = useBusinessRegistrationModal()
 
@@ -220,10 +224,10 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
                     duration: 7000,
                     position: 'bottom-right',
                 })
-                //router.refresh()
-                //reset()
-                //setStep(STEPS.CATEGORY)
-                //rentMyPropertyModalModal.onClose()
+                router.refresh()
+                reset()
+                setStep(STEPS.CATEGORY)
+                businessRegistrationModal.onClose()
             })
             .catch(() => {
                 toast.error('Sorry Something went Wrong');
