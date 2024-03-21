@@ -55,7 +55,8 @@ const ImageUploadBusinessPhotos: React.FC<ImageUploadBusinessPhotosProps> = ({
             formData.append('imgCatg', 'Property');
             formData.append('userId', userId);
             formData.append('token', autoSaveToken); // Convert array to string
-            formData.append('propertyId', String(businessId));
+            formData.append('businessId', String(businessId));
+            formData.append('listingId', String(propsListingId))
     
             try {
                 const response = await axios.post(
@@ -81,7 +82,7 @@ const ImageUploadBusinessPhotos: React.FC<ImageUploadBusinessPhotosProps> = ({
                 console.error('Error uploading images', error);
             }
         }
-    }, [autoSaveToken, onChange, businessId, selectedImages, userId]);
+    }, [userId, autoSaveToken, businessId, propsListingId, onChange, selectedImages]);
     
     
 

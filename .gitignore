@@ -8,3 +8,4 @@ next-client/.next/*
 api-prisma/uploads/*
 api-prisma/uploaded/*
 api-prisma/public/uploaded/propertyphotos/*
+api-prisma/public/uploaded/businessphotos/*

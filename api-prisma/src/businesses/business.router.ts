@@ -138,7 +138,7 @@ businessRouter.get('/allbusinesses', async (request: Request, response: Response
 
 
 
-businessRouter.post('/createpropertyphotos', uploadBusinessPhotos.array('files'), async (request: any, response: any) => {
+businessRouter.post('/createbusinessphotos', uploadBusinessPhotos.array('files'), async (request: any, response: any) => {
     try {
         // Combine both files and body data
         const listingData = {
@@ -154,7 +154,25 @@ businessRouter.post('/createpropertyphotos', uploadBusinessPhotos.array('files')
         return response.status(500).json({ error: error.message });
     }
 });
+
 businessRouter.post('/autoSaveBusinessData', async (request, response) => {
+
+
+    try {
+        const businessData = request.body; // Assuming you're sending the business data in the request body
+
+        console.log('businessData 6:00: ', businessData)
+
+        // Call the service function with the received data
+        const createdBusiness = await BusinessController.autoSaveBusinessData(businessData, businessData);
+
+        return response.status(200).json(createdBusiness);
+    } catch (error) {
+        return response.status(500).json({ error });
+    }
+});
+
+businessRouter.post('/createBusiness', async (request, response) => {
 
 
     try {

@@ -145,7 +145,7 @@ export const createBusinessPhotos = async (businessPhotoData: any): Promise<Busi
 
 
 
-        const createInputs: Prisma.PropertyphotoCreateInput[] = files.map((file: any) => {
+        const createInputs: Prisma.BusinessphotoCreateInput[] = files.map((file: any) => {
             const fileTypeExt = MIME_TYPE_MAP[file?.mimetype as keyof typeof MIME_TYPE_MAP] || '';
             
             //const destinationWithoutPublic = file?.destination.replace(/^public\//, '');
@@ -168,7 +168,8 @@ export const createBusinessPhotos = async (businessPhotoData: any): Promise<Busi
                 imgName: body?.imgName,
                 imgCatg: body?.imgCatg,
                 token: body?.token,
-                property: { connect: { id: parseInt(body?.propertyId) } },
+                listing: { connect: { id: parseInt(body?.listingId) } },
+                business: { connect: { id: parseInt(body?.businessId) } },
                 user: { connect: { id: parseInt(body?.userId) } },
             };
         });
@@ -176,10 +177,10 @@ export const createBusinessPhotos = async (businessPhotoData: any): Promise<Busi
     console.log('createInput JSON data: ', JSON.stringify(createInputs));
 
     try {
-    const createdPropertyPhotos = await Promise.all(createInputs.map(createInput =>
-        orm.propertyphoto.create({
+    const createdBusinessPhotos = await Promise.all(createInputs.map(createInput =>
+        orm.businessphoto.create({
             data: {
-                ...(createInput as Prisma.PropertyphotoCreateInput),
+                ...(createInput as Prisma.BusinessphotoCreateInput),
             },
             select: {
                 id: true,
@@ -191,7 +192,7 @@ export const createBusinessPhotos = async (businessPhotoData: any): Promise<Busi
         })
     ));
 
-    return createdPropertyPhotos;
+    return createdBusinessPhotos;
 } catch (error) {
     console.error('Error creating property photos:', error);
     return { error: 'Failed to create property photos. Please check the provided data.' };
@@ -274,6 +275,269 @@ export const getBusinessUuId = async (uuid: string): Promise<Business | null> =>
 
 
 export const autoSaveBusinessData = async (business: Business, listing: Listing): Promise<Business | any> => {
+
+
+    console.log("Hit autoSavePropertyData Service.ts new Controller.ts", business)
+    //return business;
+
+        
+
+        const imageSrcString = Array.isArray(business.imageSrc) ? business.imageSrc.join(',') : '';
+
+        const autoSaveToken = business?.token
+        console.log('Line 142 autoSaveToken', autoSaveToken)
+
+        const { token } = business;
+
+        console.log('Line 146 autoSaveToken', token)
+
+        // Handle the possibility of countryId, countryStateRegionId, and countryCityId being undefined
+        const countryId = business.countryId !== undefined ? business.countryId : 0; // Replace 0 with a default value if needed
+        const countryStateRegionId = business.countryStateRegionId !== undefined ? business.countryStateRegionId : 0;
+        const countryCityId = business.countryCityId !== undefined ? business.countryCityId : 0;
+
+
+        let autoSaveBusinessData
+        let createdListing
+        let existingBusiness
+        let existingListing
+        let updatedBusiness
+
+        existingBusiness = await orm.business.findFirst({
+            where: {
+                token: autoSaveToken || token,
+                userId: parseInt(business.userId as any)
+            }
+        });
+
+        existingListing = await orm.listing.findFirst({
+            where: {
+                token: autoSaveToken || token,
+                userId: parseInt(business.userId as any)
+            }
+        });
+
+        console.log('Line 322 existingListing', existingListing)
+
+        
+
+        if (existingBusiness) {
+
+            console.log('Line 346 updating business')
+
+            try {
+
+                // If business exists, update it
+               // updatedbusiness = await orm.business.update({
+
+                autoSaveBusinessData = await orm.business.update({
+                    where: { id: existingBusiness.id },
+                    data: {
+                        title: business.title,
+                        token: business.token || token,
+                        description: business.description,
+                        category: business.category,
+                        
+                        
+                        
+                        
+                        imageSrc: imageSrcString, // Save the concatenated string
+                        streetAddress: business.streetAddress,
+                        streetAddress2: business.streetAddress2,
+                        streetCity: business.streetCity,
+                        streetZipCode: business.streetZipCode,
+                        userId: business.userId,
+                        countryId: countryId, // Include countryId
+                        countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
+                        countryCityId: countryCityId, // Include countryCityId
+                    }
+                });
+
+                
+                //return updatedbusiness;          
+                
+            } catch (error) {
+                console.log('Error', error);
+            }
+
+        } else {
+           
+            // If business doesn't exist, create it
+            console.log('business Creation attempt')
+
+            try {
+                
+           
+                autoSaveBusinessData = await orm.business.create({
+                    data: {
+                        title: business.title,
+                        token: business.token || token,
+                        description: business.description,
+                        category: business.category,
+                        isAFranchise: business.isAFranchise,
+                        isTheFranchiseParent: business.isTheFranchiseParent,
+                        ownsOtherBusinesses: business.ownsOtherBusinesses,
+                        hasStore: business.hasStore,
+                        hasProducts: business.hasProducts,
+                        hasServices: business.hasServices,
+                        imageSrc: imageSrcString, // Save the concatenated string
+                        streetAddress: business.streetAddress,
+                        streetAddress2: business.streetAddress2,
+                        streetCity: business.streetCity,
+                        streetZipCode: business.streetZipCode,
+                        userId: business.userId,
+                        countryId: countryId, // Include countryId
+                        countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
+                        countryCityId: countryCityId, // Include countryCityId
+                        //user: { connect: { id: business?.userId  as any } },
+                        
+                        // user: {
+                        //     connect: { id: business.userId } // Assuming you want to connect the business to an existing user
+                        // }
+                    },
+                    select: {
+                        id: true,
+                        uuid: true,
+                        title: true,
+                        token: true,
+                        description: true,
+                        category: true,
+                        hasStore: true,
+                        hasProducts: true,
+                        hasServices: true,
+                        imageSrc: true,
+                        
+                        isAFranchise: true,
+                        isTheFranchiseParent: true,
+                        ownsOtherBusinesses: true,
+                        streetAddress: true,
+                        streetCity: true,
+                        streetZipCode: true,
+                        userId: true,
+                        countryId: true,
+                        countryStateRegionId: true,
+                        countryCityId: true,
+                        createdAt: true,
+                        updatedAt: true,
+                    }
+                });
+
+            //return autoSaveCreateUpdatebusiness;
+
+            } catch (error) {
+                console.log('Error', error);
+            }
+        }
+
+
+        existingListing = await orm.listing.findFirst({
+            where: {
+                token: autoSaveToken || token,
+                userId: parseInt(business.userId as any)
+            }
+        });
+
+        console.log('Line 452 existingListing', existingListing)
+
+        if(!existingBusiness){
+            return new Error("Uncessfull Business Exist");
+            
+
+        }
+
+        if(!existingListing){
+
+            try {
+                
+                console.log('Line 455 try creating existingListing')
+
+                createdListing = await orm.listing.create({
+                    data: {
+                        title: listing.title,
+                        token: listing.token || token,
+                        description: listing.description,
+                        category: listing.category,
+                        imageSrc: imageSrcString, // Save the concatenated string
+                        userId: listing.userId,
+                        businessId: existingBusiness?.id,
+                        countryId: countryId, // Include countryId
+                        countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
+                        countryCityId: countryCityId, // Include countryCityId
+                    },
+                    select: {
+                        id: true,
+                        uuid: true,
+                        title: true,
+                        token: true,
+                        description: true,
+                        category: true,
+                        imageSrc: true,
+                        userId: true,
+                        countryId: true,
+                        countryStateRegionId: true,
+                        countryCityId: true,
+                        createdAt: true,
+                        updatedAt: true,
+                    }
+                });
+
+                //return createdListing;
+
+            } catch (error) {
+                console.log('Error', error);
+            }
+        }else{
+
+            console.log('Line 497 try Updating existingListing existingListing', existingListing.id)
+
+            try {
+                
+                createdListing = await orm.listing.update({
+                    where: { id: existingListing?.id},
+                    data: {
+                        title: listing.title,
+                        token: listing.token || token,
+                        description: listing.description,
+                        category: listing.category,
+                        imageSrc: imageSrcString, // Save the concatenated string
+                        userId: listing.userId,
+                        businessId: existingBusiness?.id,
+                        countryId: countryId, // Include countryId
+                        countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
+                        countryCityId: countryCityId, // Include countryCityId
+                    }
+                });
+
+                //return updatedListing;
+            } catch (error) {
+                console.log('Error on Updateing Listing')
+            }
+
+        }
+
+
+
+        // Run Control Over Countries countryStateRegion countryCity
+        // Later Run Location Of actual geo reverse address with street name and zip code targete ghana africa.
+
+
+        //  return createdListing
+
+        console.log('autoSaveCreateUpdateBusiness: ', autoSaveBusinessData);
+        return autoSaveBusinessData;
+
+
+
+
+        ///Let's do some more updating and checking.-mb-10
+
+
+}
+
+//  This should be the final wizard step from the auto save good time to take the business live and be sure to comb all the country data input properly.
+//  Hopefull you sent this to the api on setTimeOut In the front end.
+
+export const createBusiness = async (business: Business, listing: Listing): Promise<Business | any> => {
 
 
     console.log("Hit autoSavePropertyData Service.ts new Controller.ts", business)
