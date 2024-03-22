@@ -465,6 +465,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
 
         let autoSaveBusinessData
         let createdListing
+        let createdBusiness
         let existingBusiness
         let existingListing
         let updatedBusiness
@@ -520,6 +521,8 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                     }
                 });
 
+                
+                updatedBusiness = autoSaveBusinessData
                 
                 //return updatedbusiness;          
                 
@@ -590,6 +593,8 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                 });
 
             //return autoSaveCreateUpdatebusiness;
+
+            createdBusiness = autoSaveBusinessData
 
             } catch (error) {
                 console.log('Error', error);
