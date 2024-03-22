@@ -106,6 +106,7 @@ model Businessphoto {
   imgAlbumName                        String
   imgCatg                             String
   imageSrc                            String
+  imagesMultiSrc                            String
   imgUrl                              String
   imgName                             String
   imgFileType                         String

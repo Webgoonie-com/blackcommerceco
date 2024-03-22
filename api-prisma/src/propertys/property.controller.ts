@@ -878,6 +878,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
                         streetCity: property.streetCity,
                         streetZipCode: property.streetZipCode,
                         userId: property.userId,
+                        listingId: existingListing?.id,
                         countryId: existingCountry?.id, // Include countryId
                         countryStateRegionId: existingCountryStateRegion?.id, // Include countryStateRegionId
                         countryCityId: existingCountryCity?.id, // Include countryCityId

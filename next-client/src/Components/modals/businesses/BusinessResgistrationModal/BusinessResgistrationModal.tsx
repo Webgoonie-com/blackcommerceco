@@ -34,8 +34,8 @@ import { useRouter } from 'next/navigation';
 
 enum STEPS {
     CATEGORY = 0,
-    LOCATION = 1,
-    STATSINFO = 2,
+    STATSINFO = 1,
+    LOCATION = 2,
    
     LOCALINFO = 3,
     IMAGES = 4,
@@ -180,29 +180,35 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
     
         console.log('DATA: on onSubmit: ', data)
 
-
-        try {
-
-            // Calling Directly To Internal API Route
-
-            const responseData = await autoSaveBusinessData(data, autoSaveToken, userId); // Call the autoSaveBusinessData function
-            // Your other submission logic
-
-            console.log('responseData: ', responseData)
-
-            const { id, listingId } = responseData;
-
-            //console.log('propertyId: id -', id)
-            //console.log('propertyId: listingId -', listingId)
-
-            setBusinessId(id)
-            setListingId(listingId)
-            setCustomValue('', id)
-    
+        
+        if(step === STEPS.CATEGORY){
+            return onNext()
+        }else{
             
-        } catch (error) {
-            console.error(error);
+                try {
+        
+                    // Calling Directly To Internal API Route
+        
+                    const responseData = await autoSaveBusinessData(data, autoSaveToken, userId); // Call the autoSaveBusinessData function
+                    // Your other submission logic
+        
+                    console.log('responseData: ', responseData)
+        
+                    const { id, listingId } = responseData;
+        
+                    //console.log('propertyId: id -', id)
+                    //console.log('propertyId: listingId -', listingId)
+        
+                    setBusinessId(id)
+                    setListingId(listingId)
+                    setCustomValue('', id)
+            
+                    
+                } catch (error) {
+                    console.error(error);
+                }
         }
+
 
         if(step !== STEPS.DESCRIPTION){
             return onNext()
@@ -315,65 +321,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
 
     // Begin Steps
 
-    if (step === STEPS.LOCATION) {
-        
-        bodyContent = (
-            <div
-                className={`
-                    flex flex-col gap-8
-                    text-white
-                `}
-                >
-                <ModalHeading
-                    title={"We need To get the Geo Market placement of your Business"}
-                    subtitle={"Help others find you in their market and mark your business on the map..."}
-                />
-                
-                <div className="grid md:grid-cols-3 xl:grid-cols-3 grid-flow-row auto-rows-max z-50">
-                    <SelectCountry
-                        id={'country'}
-                        value={watchCountry}
-                        onChange={(value) => setCustomValue('country', value)}
-                        register={register}
-                          errors={errors}
-                          required
-                    />
-    
-                    <SelectStateRegion
-                        id={'countryStateRegion'}
-                        country={watchCountry}
-                        countryStateRegion={watchCountryStateRegion}
-                        value={watchCountryStateRegion}
-                        onChange={(value) => setCustomValue('countryStateRegion', value)}
-                        errors={errors}
-                        register={register}
-                    />
-
-                    <SelectCityByRegion
-                        id={'countryCity'}
-                        country={watchCountry}
-                        countryStateRegion={watchCountryStateRegion}
-                        value={watchCountryCity}
-                        onChange={(value) => setCustomValue('countryCity', value)}
-                        errors={errors}
-                        register={register}
-                    />
-                    
-                </div>
-                <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3 z-0'>
-                        <Map
-                            mapCenterReasonTxt={"Your Business Market Area"}
-                            center={
-                                watchCountryCity?.latitude && watchCountryCity?.longitude ? [watchCountryCity?.latitude, watchCountryCity?.longitude] :
-                                //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :
-                                watchCountryStateRegion?.latitude && watchCountryStateRegion?.longitude ? [watchCountryStateRegion?.latitude, watchCountryStateRegion?.longitude] :
-                                watchCountry?.latitude && watchCountry?.longitude ? [watchCountry?.latitude, watchCountry?.longitude] : [32.1652613142917, -54.72682487791673]
-                            }
-                        />
-                </div>
-            </div>
-        )
-    }
+   
 
     if (step === STEPS.STATSINFO) {
 
@@ -448,6 +396,66 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
         )
     }
     
+    if (step === STEPS.LOCATION) {
+        
+        bodyContent = (
+            <div
+                className={`
+                    flex flex-col gap-8
+                    text-white
+                `}
+                >
+                <ModalHeading
+                    title={"We need To get the Geo Market placement of your Business"}
+                    subtitle={"Help others find you in their market and mark your business on the map..."}
+                />
+                
+                <div className="grid md:grid-cols-3 xl:grid-cols-3 grid-flow-row auto-rows-max z-50">
+                    <SelectCountry
+                        id={'country'}
+                        value={watchCountry}
+                        onChange={(value) => setCustomValue('country', value)}
+                        register={register}
+                          errors={errors}
+                          required
+                    />
+    
+                    <SelectStateRegion
+                        id={'countryStateRegion'}
+                        country={watchCountry}
+                        countryStateRegion={watchCountryStateRegion}
+                        value={watchCountryStateRegion}
+                        onChange={(value) => setCustomValue('countryStateRegion', value)}
+                        errors={errors}
+                        register={register}
+                    />
+
+                    <SelectCityByRegion
+                        id={'countryCity'}
+                        country={watchCountry}
+                        countryStateRegion={watchCountryStateRegion}
+                        value={watchCountryCity}
+                        onChange={(value) => setCustomValue('countryCity', value)}
+                        errors={errors}
+                        register={register}
+                    />
+                    
+                </div>
+                <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3 z-0'>
+                        <Map
+                            mapCenterReasonTxt={"Your Business Market Area"}
+                            center={
+                                watchCountryCity?.latitude && watchCountryCity?.longitude ? [watchCountryCity?.latitude, watchCountryCity?.longitude] :
+                                //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :
+                                watchCountryStateRegion?.latitude && watchCountryStateRegion?.longitude ? [watchCountryStateRegion?.latitude, watchCountryStateRegion?.longitude] :
+                                watchCountry?.latitude && watchCountry?.longitude ? [watchCountry?.latitude, watchCountry?.longitude] : [32.1652613142917, -54.72682487791673]
+                            }
+                        />
+                </div>
+            </div>
+        )
+    }
+
     if (step === STEPS.LOCALINFO) {
         bodyContent = (
             <div

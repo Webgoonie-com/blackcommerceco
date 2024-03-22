@@ -21,6 +21,7 @@ type Business = {
     countryId: number;
     countryCityId: number | undefined;
     countryStateRegionId: number | undefined;
+    listingId: number | undefined | null;
     streetAddress: string | null;
     streetAddress2: string | null;
     streetCity: string | null;
@@ -66,6 +67,53 @@ type Listing = {
     updatedAt: Date;
 }
 
+
+type CountryCity = {
+    id: number;
+    uuid: string | null;
+    value: string;
+    label: string;
+    countryCode: string;
+    latlngts: number;
+    latitude: string;
+    longitude: string;
+    countryId: number;
+    name: string;
+}
+
+
+type CountryStateRegion = {
+    id: number | null;
+    uuid: string | null;
+    value: string;
+    label: string;
+    countryCode: string;
+    latlng: string;
+    
+    latitude: string;
+    longitude: string;
+    name: string;
+    
+    countryId: number | null;
+    isoCode: string;
+}
+
+type Country = {
+    id: number | undefined | null;
+    uuid: string | null;
+    value: string;
+    isoCode: string;
+    name: string;
+    currency: string;
+    phonecode: string;
+    flag: string;
+    latitude: number;
+    longitude: number;
+    region: string;
+    timezones: string[];
+}
+
+
 export const listBusinesses = async (): Promise<Business[]> => {
 
     console.log('We Hit Controller now')
@@ -85,7 +133,7 @@ export const listBusinesses = async (): Promise<Business[]> => {
             category: true,
             imageSrc: true,
             imagesMultiSrc: true,
-            
+            listingId: true,
             isAFranchise: true,
             isTheFranchiseParent: true,
             ownsOtherBusinesses: true,
@@ -133,100 +181,7 @@ export const listBusinesses = async (): Promise<Business[]> => {
     }
 }
 
-export const createBusinessPhotos = async (businessPhotoData: any): Promise<BusinessPhoto[] | any> => {
-    
-    console.log('Hit Create Business Photos', businessPhotoData);
 
-    const files = businessPhotoData.files; // Access the uploaded files
-    const body = businessPhotoData.body; // Access the body data
-
-    console.log('files:', files);
-    console.log('body:', body);
-
-
-
-
-
-        const createInputs: Prisma.BusinessphotoCreateInput[] = files.map((file: any) => {
-            const fileTypeExt = MIME_TYPE_MAP[file?.mimetype as keyof typeof MIME_TYPE_MAP] || '';
-            
-            //const destinationWithoutPublic = file?.destination.replace(/^public\//, '');
-            const destinationWithoutPublic = file?.destination.replace(/^public\//, '');
-            
-            //const imgUrl = body?.imgUrl + '/' + relativePath + '/' + file?.filename + '.' + body?.fileTypeExt;
-            const imgUrl = body?.imgUrl + '/' + destinationWithoutPublic + '/' + file?.filename;
-    
-            return {
-                imgAlbumName: file?.fieldname,
-                imgFileOrigName: file?.originalname,
-                imgEncoding: file?.encoding,
-                imgFileType: file?.mimetype,
-                imgFileOutputDir: file?.destination,
-                imgFileName: file?.filename,
-                imgFilePath: file?.path,
-                imgFileSize: file?.size,
-                imageSrc: body?.imageSrc,
-                imagesMultiSrc: body?.imageSrc,
-                imgUrl: imgUrl,
-                imgName: body?.imgName,
-                imgCatg: body?.imgCatg,
-                token: body?.token,
-                listing: { connect: { id: parseInt(body?.listingId) } },
-                business: { connect: { id: parseInt(body?.businessId) } },
-                user: { connect: { id: parseInt(body?.userId) } },
-            };
-        });
-
-    console.log('createInput JSON data: ', JSON.stringify(createInputs));
-
-     // Determine the last image URL
-     const lastImageIndex = files.length - 1;
-     const lastImageUrl = createInputs[lastImageIndex].imgUrl;
-
-     // Update imageSrc for the last image
-     createInputs[lastImageIndex].imageSrc = lastImageUrl;
-
-    // Remove the last image URL from imagesMultiSrc
-    // const imagesMultiSrc = createInputs
-    //         .filter((_, index) => index !== lastImageIndex)
-    //         .map(input => input.imgUrl);
-
-        console.log('createInput JSON data: ', JSON.stringify(createInputs));
-
-        await orm.business.update({
-            where: { id: body?.businessId },
-            data: {
-                imageSrc: lastImageUrl, // Save the concatenated string           
-            }
-        });
-
-
-    try {
-    const createdBusinessPhotos = await Promise.all(createInputs.map(createInput =>
-        orm.businessphoto.create({
-            data: {
-                ...(createInput as Prisma.BusinessphotoCreateInput),
-            },
-            select: {
-                id: true,
-                uuid: true,
-                imgUrl: true,
-                imageSrc: true,
-                createdAt: true,
-            }
-        })
-    ));
-
-
-    body?.businessId
-
-    return createdBusinessPhotos;
-} catch (error) {
-    console.error('Error creating property photos:', error);
-    return { error: 'Failed to create property photos. Please check the provided data.' };
-}
-
-};
 
 
 export const getBusinessId = async (id: number): Promise<Business | null> => {
@@ -243,7 +198,7 @@ export const getBusinessId = async (id: number): Promise<Business | null> => {
             imageSrc: true,
             imagesMultiSrc: true,
             category: true,
-            
+            listingId: true,
             isAFranchise: true,
             isTheFranchiseParent: true,
             ownsOtherBusinesses: true,
@@ -351,7 +306,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
 
         
 
-        if (existingBusiness) {
+        if (existingBusiness && existingListing) {
 
             console.log('Line 346 updating business')
 
@@ -370,7 +325,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                         
                         
                         
-                        
+                        listingId: existingListing.id,
                         imageSrc: imageSrcString, // Save the concatenated string
                         streetAddress: business.streetAddress,
                         streetAddress2: business.streetAddress2,
@@ -459,6 +414,11 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
             }
         }
 
+        if(!existingBusiness){
+            return new Error("Uncessfull Business Exist");
+            
+
+        }
 
         existingListing = await orm.listing.findFirst({
             where: {
@@ -469,11 +429,6 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
 
         console.log('Line 452 existingListing', existingListing)
 
-        if(!existingBusiness){
-            return new Error("Uncessfull Business Exist");
-            
-
-        }
 
         if(!existingListing){
 
@@ -826,3 +781,101 @@ export const createBusiness = async (business: Business, listing: Listing): Prom
 
 
 }
+
+
+
+
+export const createBusinessPhotos = async (businessPhotoData: any): Promise<BusinessPhoto[] | any> => {
+    
+    console.log('Hit Create Business Photos', businessPhotoData);
+
+    const files = businessPhotoData.files; // Access the uploaded files
+    const body = businessPhotoData.body; // Access the body data
+
+    console.log('files:', files);
+    console.log('body:', body);
+
+
+
+
+
+        const createInputs: Prisma.BusinessphotoCreateInput[] = files.map((file: any) => {
+            const fileTypeExt = MIME_TYPE_MAP[file?.mimetype as keyof typeof MIME_TYPE_MAP] || '';
+            
+            //const destinationWithoutPublic = file?.destination.replace(/^public\//, '');
+            const destinationWithoutPublic = file?.destination.replace(/^public\//, '');
+            
+            //const imgUrl = body?.imgUrl + '/' + relativePath + '/' + file?.filename + '.' + body?.fileTypeExt;
+            const imgUrl = body?.imgUrl + '/' + destinationWithoutPublic + '/' + file?.filename;
+    
+            return {
+                imgAlbumName: file?.fieldname,
+                imgFileOrigName: file?.originalname,
+                imgEncoding: file?.encoding,
+                imgFileType: file?.mimetype,
+                imgFileOutputDir: file?.destination,
+                imgFileName: file?.filename,
+                imgFilePath: file?.path,
+                imgFileSize: file?.size,
+                imageSrc: body?.imageSrc,
+                imagesMultiSrc: body?.imageSrc,
+                imgUrl: imgUrl,
+                imgName: body?.imgName,
+                imgCatg: body?.imgCatg,
+                token: body?.token,
+                listing: { connect: { id: parseInt(body?.listingId) } },
+                business: { connect: { id: parseInt(body?.businessId) } },
+                user: { connect: { id: parseInt(body?.userId) } },
+            };
+        });
+
+    console.log('createInput JSON data: ', JSON.stringify(createInputs));
+
+     // Determine the last image URL
+     const lastImageIndex = files.length - 1;
+     const lastImageUrl = createInputs[lastImageIndex].imgUrl;
+
+     // Update imageSrc for the last image
+     createInputs[lastImageIndex].imageSrc = lastImageUrl;
+
+    // Remove the last image URL from imagesMultiSrc
+    // const imagesMultiSrc = createInputs
+    //         .filter((_, index) => index !== lastImageIndex)
+    //         .map(input => input.imgUrl);
+
+        console.log('createInput JSON data: ', JSON.stringify(createInputs));
+
+        // await orm.business.update({
+        //     where: { id: body?.businessId },
+        //     data: {
+        //         imageSrc: lastImageUrl, // Save the concatenated string           
+        //     }
+        // });
+
+
+    try {
+    const createdBusinessPhotos = await Promise.all(createInputs.map(createInput =>
+        orm.businessphoto.create({
+            data: {
+                ...(createInput as Prisma.BusinessphotoCreateInput),
+            },
+            select: {
+                id: true,
+                uuid: true,
+                imgUrl: true,
+                imageSrc: true,
+                createdAt: true,
+            }
+        })
+    ));
+
+
+    body?.businessId
+
+    return createdBusinessPhotos;
+} catch (error) {
+    console.error('Error creating property photos:', error);
+    return { error: 'Failed to create property photos. Please check the provided data.' };
+}
+
+};
