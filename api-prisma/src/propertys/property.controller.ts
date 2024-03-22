@@ -420,75 +420,6 @@ export const createProperty = async (property: Property): Promise<Property | any
 
 
 
-// export const createPropertyPhotos = async (propertyData: any): Promise<PropertyPhoto[] | any> => {
-//     console.log('Hit Create Property Photos', propertyData);
-
-//     const files = propertyData.files; // Access the uploaded files
-//     const body = propertyData.body; // Access the body data
-
-//     console.log('files:', files);
-//     console.log('body:', body);
-
-
-
-
-
-//         const createInputs: Prisma.PropertyphotoCreateInput[] = files.map((file: any) => {
-//             const fileTypeExt = MIME_TYPE_MAP[file?.mimetype as keyof typeof MIME_TYPE_MAP] || '';
-            
-//             //const destinationWithoutPublic = file?.destination.replace(/^public\//, '');
-//             const destinationWithoutPublic = file?.destination.replace(/^public\//, '');
-            
-//             //const imgUrl = body?.imgUrl + '/' + relativePath + '/' + file?.filename + '.' + body?.fileTypeExt;
-//             const imgUrl = body?.imgUrl + '/' + destinationWithoutPublic + '/' + file?.filename;
-    
-//             return {
-//                 imgAlbumName: file?.fieldname,
-//                 imgFileOrigName: file?.originalname,
-//                 imgEncoding: file?.encoding,
-//                 imgFileType: file?.mimetype,
-//                 imgFileOutputDir: file?.destination,
-//                 imgFileName: file?.filename,
-//                 imgFilePath: file?.path,
-//                 imgFileSize: file?.size,
-//                 imageSrc: body?.imageSrc,
-//                 imgUrl: imgUrl,
-//                 imgName: body?.imgName,
-//                 imgCatg: body?.imgCatg,
-//                 token: body?.token,
-//                 property: { connect: { id: parseInt(body?.propertyId) } },
-//                 user: { connect: { id: parseInt(body?.userId) } },
-//             };
-//         });
-
-//     console.log('createInput JSON data: ', JSON.stringify(createInputs));
-
-//     try {
-//     const autoSaveCreateUpdatePropertyPhotos = await Promise.all(createInputs.map(createInput =>
-//         orm.propertyphoto.create({
-//             data: {
-//                 ...(createInput as Prisma.PropertyphotoCreateInput),
-//             },
-//             select: {
-//                 id: true,
-//                 uuid: true,
-//                 imgUrl: true,
-//                 imageSrc: true,
-//                 createdAt: true,
-//             }
-//         })
-//     ));
-
-//     return autoSaveCreateUpdatePropertyPhotos;
-// } catch (error) {
-//     console.error('Error creating property photos:', error);
-//     return { error: 'Failed to create property photos. Please check the provided data.' };
-// }
-
-// };
-
-
-
 export const createPropertyPhotos = async (propertyData: any): Promise<PropertyPhoto[] | any> => {
     console.log('Hit Create Property Photos', propertyData);
 
@@ -604,36 +535,6 @@ export const deletePropertyPhoto = async (propertyData: any): Promise<PropertyPh
 }
 
 
-
-//     const listing = request.body
-
-//     try {
-//         const listings = await ListingService.createProperty(listing)
-//         return response.status(200).json(listings);
-
-//     } catch (error: any) {
-//         return response.status(500).json(error.message);
-//     }
-// })
-
-
-
-// listingRouter.post('/createpropertyphotos', uploadPropertyPhotos.array('files'), async (request: any, response: any) => {
-//     try {
-//         // Combine both files and body data
-//         const listingData = {
-//             files: request.files,
-//             body: request.body
-//         };
-
-//         // Call the service function with the combined data
-//         const autoSaveCreateUpdatePropertyPhotos = await ListingService.createPropertyPhotos(listingData);
-        
-//         return response.status(200).json(autoSaveCreateUpdatePropertyPhotos);
-//     } catch (error: any) {
-//         return response.status(500).json({ error: error.message });
-//     }
-// });
 
 
 

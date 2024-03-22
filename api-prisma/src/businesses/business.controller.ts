@@ -1020,19 +1020,15 @@ export const createBusinessPhotos = async (businessPhotoData: any): Promise<Busi
      // Update imageSrc for the last image
      createInputs[lastImageIndex].imageSrc = lastImageUrl;
 
-    // Remove the last image URL from imagesMultiSrc
-    // const imagesMultiSrc = createInputs
-    //         .filter((_, index) => index !== lastImageIndex)
-    //         .map(input => input.imgUrl);
 
         console.log('createInput JSON data: ', JSON.stringify(createInputs));
 
-        // await orm.business.update({
-        //     where: { id: body?.businessId },
-        //     data: {
-        //         imageSrc: lastImageUrl, // Save the concatenated string           
-        //     }
-        // });
+        await orm.business.update({
+            where: { id: body?.businessId },
+            data: {
+                imageSrc: lastImageUrl, // Save the concatenated string           
+            }
+        });
 
 
     try {
