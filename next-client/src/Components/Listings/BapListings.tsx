@@ -4,25 +4,12 @@ import React, { useEffect, useState } from 'react';
 import { useSession } from "next-auth/react"
 import getListings from '@/ServiceCalls/callListings';
 import ClientOnly from '@/Components/ClientOnly';
-import EmptyState from '@/Components/EmptyStates/EmptyState';
+import EmptyStateBap from '@/Components/EmptyStates/EmptyStateBap';
 import ListingCard from '@/Components/Listings/ListingCard';
 import getCurrentUser from '@/Actions/getCurrentUser';
-import EmptyStateBap from '../EmptyStates/EmptyStateBap';
-import ListingBapCard from './ListingBapCard';
-import ListingBbCard from './ListingBBCard';
 
 
 
-interface BbListingProp {
-    Id: number;
-    uuid: string;
-    // ... other properties
-    Businesses: {
-        namePublicDisplay: string;
-        // ... other properties
-    };
-    // ... other properties
-}
 interface BapListingProp {
     Id: number;
     uuid: string;
@@ -36,8 +23,7 @@ interface BapListingProp {
 
 export default function Listings() {
 
-    const [baplistings, setBapListings] = useState<BapListingProp[]>([]);
-    const [bblistings, setBbListings] = useState<BbListingProp[]>([]);
+    const [listings, setListings] = useState<BapListingProp[]>([]);
 
 
     const { data: session, status } = useSession();
@@ -48,8 +34,7 @@ export default function Listings() {
         const fetchData = async () => {
             const data = await getListings();
             console.log('data from Listings', data)
-            setBapListings(data);
-            setBbListings(data);
+            setListings(data);
         };
     
         fetchData();
@@ -64,7 +49,7 @@ export default function Listings() {
     //console.log('listing info', JSON.stringify(listings, null, 2));
 
 
-    if(baplistings.length === 0){
+    if(listings.length === 0){
         return(
             <ClientOnly>
                 <div className='text-white pt-28 bg-gray-950'>
@@ -95,8 +80,8 @@ export default function Listings() {
                                 2xl:grid-cols-6
                                 gap-8
                             "> 
-                            {baplistings.map((listing: any) => (
-                                <ListingBapCard
+                            {listings.map((listing: any) => (
+                                <ListingCard 
                                     key={listing.uuid}
                                     currentUser={listing.currentUser}
                                     data={listing}
@@ -107,40 +92,6 @@ export default function Listings() {
                     </div>
                 
             </div>
-
-
-            <div 
-                className='relative bg-gray-950 pb-20 pt-28 px-5 py-20 mx-auto flex items-center md:flex-row flex-col'
-                //className=' px-32 py-20 bg-gray-950 pb-20 pt-28'
-            >
-                
-                    <div className='container text-white'>
-                        <div
-                            className="
-                                pt-24 
-                                grid
-                                grid-cols-1
-                                sm:grid-cols-2
-                                md:grid-cols-3
-                                lg:grid-cols-4
-                                xl:grid-cols-5
-                                2xl:grid-cols-6
-                                gap-8
-                            "> 
-                            {bblistings.map((bblisting: any) => (
-                                <ListingBbCard
-                                    key={bblisting.uuid}
-                                    currentUser={bblisting.currentUser}
-                                    data={bblisting}
-                                />
-                            ))}
-                            
-                        </div>
-                    </div>
-                
-            </div>
-
-            
         </ClientOnly>
         
     )

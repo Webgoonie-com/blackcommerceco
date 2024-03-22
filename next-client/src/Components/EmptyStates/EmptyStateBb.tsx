@@ -4,15 +4,15 @@ import React from "react";
 import { useRouter } from "next/navigation"
 
 import Button from "@/Elements/Button";
-import ModalHeading from "./modals/ModalHeading";
+import ModalHeading from "@/Components/modals/ModalHeading";
 
-interface EmptyState {
+interface EmptyStateBbProps {
     title?: string;
     subtitle?: string;
     showReset?: boolean;
 }
 
-const EmptyState: React.FC<EmptyState> = ({
+const EmptyStateBb: React.FC<EmptyStateBbProps> = ({
     title = "No exact matches found at the moment...",
     subtitle = "Try changing or removing some of your filters",
     showReset
@@ -49,4 +49,4 @@ const EmptyState: React.FC<EmptyState> = ({
     )
 }
 
-export default EmptyState
+export default EmptyStateBb

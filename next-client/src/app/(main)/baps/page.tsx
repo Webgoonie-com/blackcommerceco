@@ -1,4 +1,4 @@
-import BusinessListings from '@/Components/Listings'
+import BapListings from '@/Components/Listings/BapListings'
 import React from 'react'
 
 const Baps = () => {
@@ -7,8 +7,8 @@ const Baps = () => {
       
       <h2>Baps</h2>
       
-      <p>A Full List Of Black Properties</p>
-      <BusinessListings />
+      <p>A Full List Of BapListings Black Air Property Listings</p>
+      <BapListings />
 
     </div>
   )
