@@ -34,7 +34,7 @@ interface Property {
     category: string;
     description: string;
     guestCount: number;
-    imageSrc: string;
+    imageSrc: string | undefined | null;
     locationValue: string;
     price: number;
     roomCount: number;
@@ -53,6 +53,7 @@ interface Businesses {
     namePublicDisplay: string;
     nameDBA: string;
     nameLegal: string;
+    imageSrc: string;
     isAFranchise: number;
     isTheFranchiseParent: number;
     ownsOtherBusinesses: number;
@@ -88,6 +89,7 @@ interface ListingCardProps {
         ServiceListingId: number;
         User: User;
         Property: Property;
+        imageSrc: string;
         Businesses: Businesses;
         updatedAt: Date;
         // ... other properties of data
@@ -117,6 +119,7 @@ const ListingCard: React.FC<ListingCardProps> =  ({
 }) => {
 
     
+    console.log('Line 120 on ListingCard Data', data)
     
 
     const router = useRouter()
@@ -165,24 +168,26 @@ const ListingCard: React.FC<ListingCardProps> =  ({
     }, [reservation])
 
     
-
+    {JSON.stringify(data)}
     return (
+        
         <div
-            onClick={() => router.push(`/listings/${data?.uuid}`)} 
+            onClick={() => router.push(`/bbs/${data?.uuid}`)} 
             className='col-span-1 cursor-pointer group text-white'
         >
+            
+
             <div  
                 className='flex flex-col gap-2 w-full'
             >
                 <div className="aspect-square w-full relative overflow-hidden rounded-xl">
 
-                    
+               
     
-                    {/* <Image
+                    <Image
                         fill
                         alt="Listing"
-                        //src={`${process.env.NEXT_PUBLIC_API_URL}${data?.Property?.imageSrc}`}
-                        src={`htttp://localhost:3334/api/${data?.Property?.imageSrc}`}
+                        src={`${data?.imageSrc}`}
                         className="
                             object-cover 
                             h-full 
@@ -193,7 +198,7 @@ const ListingCard: React.FC<ListingCardProps> =  ({
                             placeholder = 'empty'
                             priority={true}
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // has "fill" but is missing "sizes" prop. Please add it to improve page performance.
-                    /> */}
+                    />
                     <div className="absolute top-3 right-3">
                         <HeartIconButton 
                             listingId={listingId?.toString()}

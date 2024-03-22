@@ -98,64 +98,78 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
 
     }, [autoSaveToken, onChange, propertyId, selectedImages, userId]);
     
-    
-
-    const removeImage = async (index: number) => {
-
-                console.log('Updated index: ', index);
-
-                const updatedImages = [...selectedImages];
-                updatedImages.splice(index, 1);
-                
-                console.log('Updated index: ', index);
-                console.log('Updated Images: ', updatedImages);
-        
-
-        
-
-        // Pass the command to API Move to top after tested and retuns success or failure.
+   
+    const removeImage = async (imageUrl: string) => {
         try {
+            // Call the API to delete the specific image
+            await deletePropertyPhoto(imageUrl, autoSaveToken, userId);
+            
+            // Update the state to remove the deleted image
+            setSelectedImages(prevImages => prevImages.filter(image => image !== imageUrl));
+            
+            // Call the onChange callback with the updated images
+            onChange(selectedImages.filter(image => image !== imageUrl));
+        } catch (error) {
+            console.error('Error deleting image:', error);
+        }
+    };
 
-            // const response = await axios.post(
+    // const removeImage = async (index: number) => {
+
+    //             console.log('Updated index: ', index);
+
+    //             const updatedImages = [...selectedImages];
+    //             updatedImages.splice(index, 1);
                 
-            //     //`${process.env.NEXT_PUBLIC_API_URL}/api/propertys/createpropertyphotos`,
+    //             console.log('Updated index: ', index);
+    //             console.log('Updated Images: ', updatedImages);
+        
 
-            //     `${process.env.NEXT_PUBLIC_API_URL}/api/propertys/deletePropertyPhoto/:`+autoSaveToken, {
-            //         updatedImages,
-            //         autoSaveToken,
-            //         userId,
+        
+
+    //     // Pass the command to API Move to top after tested and retuns success or failure.
+    //     try {
+
+    //         // const response = await axios.post(
+                
+    //         //     //`${process.env.NEXT_PUBLIC_API_URL}/api/propertys/createpropertyphotos`,
+
+    //         //     `${process.env.NEXT_PUBLIC_API_URL}/api/propertys/deletePropertyPhoto/:`+autoSaveToken, {
+    //         //         updatedImages,
+    //         //         autoSaveToken,
+    //         //         userId,
 
 
-            //     }
+    //         //     }
 
-            // );
+    //         // );
 
-            //console.log('Line 122 = response: ', response);
+    //         //console.log('Line 122 = response: ', response);
 
-            await deletePropertyPhoto(
-                        updatedImages,
-                        autoSaveToken,
-                        userId
-            )
+    //         await deletePropertyPhoto(
+    //                     updatedImages,
+    //                     autoSaveToken,
+    //                     userId
+    //         )
 
             
-        } catch (error) {
-            console.log('Line 128 = error: ', error);
-        }
+    //     } catch (error) {
+    //         console.log('Line 128 = error: ', error);
+    //     }
 
 
 
-        // setSelectedImages(prevImages => {
-        //     const updatedImages = [...prevImages];
-        //     updatedImages.splice(index, 1);
-        //     return updatedImages;
-        // });
+    //     // setSelectedImages(prevImages => {
+    //     //     const updatedImages = [...prevImages];
+    //     //     updatedImages.splice(index, 1);
+    //     //     return updatedImages;
+    //     // });
     
-        // // // Call the onChange callback with the updated images
-        // onChange(selectedImages.filter((_, i) => i !== index));
+    //     // // // Call the onChange callback with the updated images
+    //     // onChange(selectedImages.filter((_, i) => i !== index));
 
 
-    };
+    // };
 
     return (
         <>
@@ -199,7 +213,7 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
                                 <IoMdClose
                                     size={18}
                                     className="absolute cursor-pointer z-50 text-white border-2 bg-red-600 border-red-100 rounded-full"
-                                    onClick={() => removeImage(index)}
+                                    onClick={() => removeImage(image)}
                                 />
                                 <Image
                                     src={image}

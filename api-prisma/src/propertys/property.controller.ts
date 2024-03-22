@@ -727,7 +727,17 @@ export const deletePropertyPhoto = async (propertyData: any): Promise<PropertyPh
         
     }
 
-    console.log('Delete Controller', propertyData)
+    console.log('Delete Controller propertyData', propertyData.propertyData)
+    console.log('Delete userId', propertyData.userId)
+    console.log('Delete autoSaveToken', propertyData.autoSaveToken)
+
+    const findPhoto = await orm.propertyphoto.findFirst({
+        where: { imageSrc: propertyData?.propertyData },
+        
+    })
+
+    console.log('Find Photo: = ', findPhoto)
+    
     
 
 

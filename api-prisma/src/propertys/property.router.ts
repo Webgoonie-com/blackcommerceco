@@ -231,7 +231,11 @@ propertyRouter.post('/deletePhoto/:imageurl', async (request: Request, response:
 
     const propertyPhotoData = await request.body;
 
-    console.log('propertyPhotoData', propertyPhotoData)
+    
+
+    console.log('propertyPhotoData.updatedImages', propertyPhotoData.updatedImages)
+    console.log('propertyPhotoData.autoSaveToken', propertyPhotoData.autoSaveToken)
+    console.log('propertyPhotoData.userId', propertyPhotoData.autoSaveToken.userId)
     
 
     try {
@@ -241,4 +245,30 @@ propertyRouter.post('/deletePhoto/:imageurl', async (request: Request, response:
     } catch (error: any) {
         return response.status(500).json(error.message);
     }
+
+
+    
+    // try {
+    //     const { imageData } = await request.json();
+        
+
+    //     if(!imageData)  return NextResponse.json({ Error: false, message: 'File Empty' });
+
+    //      // Ensure imageData is an object and has a property 'local'
+    //     const localPath = imageData && imageData.local;
+        
+    //     if (!localPath) {
+    //         return NextResponse.json({ success: false, message: 'Local path not provided' });
+    //     }
+
+    //     // Delete the file from the file system
+    //     await unlink(localPath);
+
+    //     return NextResponse.json({ success: true, message: 'File deleted successfully' });
+    // } catch (error) {
+    //     console.error('Error deleting file:', error);
+    //     return NextResponse.json({ success: false, message: 'Error deleting file', error: error });
+    // }
+
+
 })

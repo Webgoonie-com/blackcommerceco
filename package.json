@@ -1,0 +1,23 @@
+{
+  "name": "blackcommerceco",
+  "version": "1.0.0",
+  "description": "An African Disaposra EcoSystem",
+  "main": "server.ts",
+  "scripts": {
+    "cleanClient": "cd CLIENT &&  start yarn cleanClient",
+    "cleanupClient": "start yarn cleanUpClient",
+    "test": "start yarn startApi && start yarn startClient",
+    "dev": "start yarn open-browser && start yarn startApi && start yarn startClient",
+    "devv": "start http://localhost:3333 && start yarn startApi && start yarn startClient",
+    "mobile": "start yarn startMobile && start yarn startClient",
+    "open-browser": "start http://localhost:3333",
+    "startApi": "cd api-prisma && yarn dev",
+    "startClient": "cd next-client && yarn dev",
+    "startMobile": "cd mobile/expo-mobile && npx expo start -c --tunnel"
+    
+  },
+  "repository": "https://github.com/Webgoonie-com/blackcommerceco.git",
+  "author": "Webgoonie <webgoonie@gmail.com>",
+  "license": "MIT",
+  "private": true
+}
