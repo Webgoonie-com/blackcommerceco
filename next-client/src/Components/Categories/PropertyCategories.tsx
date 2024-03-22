@@ -5,7 +5,7 @@ import CategoryBox from "@/Components/CategoryBox"
 import { CategoriesOnlyProperties } from "@/Components/Categories/CategoriesOnly"
 import Container from "@/Components/Container";
 
-const PropertyCategories = () => {
+export const PropertyCategories = () => {
     const params = useSearchParams();
 
     // extract the category from params

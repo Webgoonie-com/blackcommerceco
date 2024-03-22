@@ -7,7 +7,7 @@ import { User } from "next-auth"
 import Search from './Search';
 import UserMenu from './UserMenu'
 
-import CategoriesNav from '../navbar/categories/CategoriesNav'
+import CategoriesNav from '../navbar/navcategories/CategoriesNav'
 
 interface NavbarPublicProps {
     currentUser?: User | null;
