@@ -5,6 +5,7 @@
   "license": "MIT",
   "description": "",
   "scripts": {
+    "cleanClean": "rm -rf node_modules",
     "dev": "nodemon ./src/index.ts",
     "devv": "tsnd --respawn --pretty --transpile-only ./src/index.ts"
   },

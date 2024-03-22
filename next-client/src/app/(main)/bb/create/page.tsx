@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react"
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 
-import { businesses } from '@/Components/navbar/categories/CategoriesBusinesses'
+import { businesses } from '@/Components/navbar/navcategories/CategoriesBusinesses'
 import ModalHeading from '@/Components/modals/ModalHeading';
 
 import CategoryInput from '@/Elements/Inputs/CategoryInput';
