@@ -90,6 +90,10 @@ interface ListingCardProps {
         User: User;
         Property: Property;
         imageSrc: string;
+        category: string;
+        title: string;
+        description: string;
+        locationValue: string;
         Businesses: Businesses;
         updatedAt: Date;
         // ... other properties of data
@@ -129,7 +133,7 @@ const ListingCard: React.FC<ListingCardProps> =  ({
     
     //const location = data?.Property?.locationValue || '';
 
-    const location = getByValue(data?.Property?.locationValue || '');
+    const location = getByValue(data?.locationValue || '');
 
 
     // For trips reserverations
@@ -208,13 +212,13 @@ const ListingCard: React.FC<ListingCardProps> =  ({
                 </div>
 
                 <div className="font-semibold text-lg">
-                    { data?.Property?.title}, { data?.Property?.description}
+                    { data?.title}, { data?.description}
                 </div>
                 <div className="font-semibold text-lg">
                     {location?.region}, {location?.label}
                 </div>
                 <div className="font-light text-white">
-                    {reservationDate || data?.Property?.category}
+                    {reservationDate || data?.category}
                 </div>
                 <div className="flex flex-row items-center gap-1">
                     <div className="font-semibold">
