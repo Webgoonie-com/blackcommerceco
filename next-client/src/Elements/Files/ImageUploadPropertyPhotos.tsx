@@ -1,5 +1,8 @@
+"use client"
+
 import { Button } from '@/Components/ui/button';
 import axiosWithCredentials from '@/lib/axiosWithCredentials';
+import { deletePropertyPhoto } from '@/ServiceCalls/callPropertyPhotos';
 import axios from 'axios';
 import Image from 'next/image';
 import React, { useCallback, useState, useRef } from 'react';
@@ -67,8 +70,11 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
     
             try {
                 const response = await axios.post(
+                    
                     //`${process.env.NEXT_PUBLIC_API_URL}/api/propertys/createpropertyphotos`,
+
                     `${process.env.NEXT_PUBLIC_API_URL}/api/listings/createpropertyphotos`,
+
                     formData,
                     {
                         headers: {
@@ -94,15 +100,61 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
     
     
 
-    const removeImage = (index: number) => {
-        setSelectedImages(prevImages => {
-            const updatedImages = [...prevImages];
-            updatedImages.splice(index, 1);
-            return updatedImages;
-        });
+    const removeImage = async (index: number) => {
+
+                console.log('Updated index: ', index);
+
+                const updatedImages = [...selectedImages];
+                updatedImages.splice(index, 1);
+                
+                console.log('Updated index: ', index);
+                console.log('Updated Images: ', updatedImages);
+        
+
+        
+
+        // Pass the command to API Move to top after tested and retuns success or failure.
+        try {
+
+            // const response = await axios.post(
+                
+            //     //`${process.env.NEXT_PUBLIC_API_URL}/api/propertys/createpropertyphotos`,
+
+            //     `${process.env.NEXT_PUBLIC_API_URL}/api/propertys/deletePropertyPhoto/:`+autoSaveToken, {
+            //         updatedImages,
+            //         autoSaveToken,
+            //         userId,
+
+
+            //     }
+
+            // );
+
+            //console.log('Line 122 = response: ', response);
+
+            await deletePropertyPhoto(
+                        updatedImages,
+                        autoSaveToken,
+                        userId
+            )
+
+            
+        } catch (error) {
+            console.log('Line 128 = error: ', error);
+        }
+
+
+
+        // setSelectedImages(prevImages => {
+        //     const updatedImages = [...prevImages];
+        //     updatedImages.splice(index, 1);
+        //     return updatedImages;
+        // });
     
-        // Call the onChange callback with the updated images
-        onChange(selectedImages.filter((_, i) => i !== index));
+        // // // Call the onChange callback with the updated images
+        // onChange(selectedImages.filter((_, i) => i !== index));
+
+
     };
 
     return (

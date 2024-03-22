@@ -1,7 +1,7 @@
 "use client"
 
-import BusinessCategories from "./BusinessCategories";
-import PropertyCategories from "./PropertyCategories";
+import BusinessCategories from "@/Components/Categories/BusinessCategories";
+import PropertyCategories from "@/Components/Categories/PropertyCategories";
 
 const Categories = () => {
     

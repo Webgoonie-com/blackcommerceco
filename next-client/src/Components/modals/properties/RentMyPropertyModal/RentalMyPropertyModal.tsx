@@ -10,7 +10,8 @@ import useRentMyPropertyModal from '@/Hooks/useRentMyPropertyModal'
 
 import ModalHeading from '../../ModalHeading';
 
-import { categories } from '@/Components/navbar/categories/CategoriesProperties'
+// import { categories } from '@/Components/navbar/categories/Categories'
+import { CategoriesOnlyProperties } from "@/Components/navbar/categories/CategoriesOnly"
 
 import CategoryInput from '@/Elements/Inputs/CategoryInput';
 
@@ -256,7 +257,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                         overflow-y-auto
                     '
                     >
-                        {categories.map((item) => (
+                        {CategoriesOnlyProperties.map((item) => (
 
                         <div
                             className='cursor-pointer col-col-span-1'

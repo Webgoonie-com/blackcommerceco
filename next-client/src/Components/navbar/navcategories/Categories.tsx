@@ -1,4 +1,4 @@
-import CategoriesProperties from './CategoriesProperties'
+import CategoriesProperties from '@/Components/Categories/Categories'
 import CategoriesBusinesses from './CategoriesBusinesses'
 
 import Container from '@/Components/Container'

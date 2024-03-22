@@ -1,9 +1,10 @@
 "use client"
 
 import React from 'react'
-import CategoriesProperties from './CategoriesProperties'
+//import CategoriesProperties from './CategoriesProperties'
+import PropertyCategoriesBox from '@/Components/Categories/PropertyCategories'
 import Container from '@/Components/Container'
-import CategoriesBusinesses from './CategoriesBusinesses'
+import CategoriesBusinessesBox from '@/Components/Categories/BusinessCategories'
 
 export const propertyCategories = {
 
@@ -16,9 +17,9 @@ const CategoriesNav = () => {
         <div className='w-full pt-4 flex flex-row'>
             
             
-            <CategoriesProperties />
+            <PropertyCategoriesBox />
 
-            <CategoriesBusinesses />
+            <CategoriesBusinessesBox />
             
         </div>
     </div>

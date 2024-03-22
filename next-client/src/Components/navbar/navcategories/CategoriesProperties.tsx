@@ -8,7 +8,7 @@ import { FaSkiing } from 'react-icons/fa'
 import { TbBeach, TbChevronDown, TbMountainOff, TbPool } from 'react-icons/tb'
 import { GiBarn, GiBoatFishing, GiCactus, GiCastle, GiCaveEntrance, GiForestCamp, GiIsland, GiWindmill, GiVillage  } from 'react-icons/gi'
 import { MdOutlineVilla } from 'react-icons/md'
-import CategoryBox from '../../CategoryBox'
+import CategoryBox from '@/Components/CategoryBox'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { BiPlus } from 'react-icons/bi'
 import Link from 'next/link'
@@ -99,7 +99,8 @@ export const categories = [
     
 ]
 
-const CategoriesProperties = () => {
+export const CategoriesProperties  = () => {
+//const CategoriesProperties = () => {
 
     const params = useSearchParams();
     const [isOpen, setIsOpen] = useState(false);
@@ -203,7 +204,7 @@ const CategoriesProperties = () => {
         return (
             <div className="w-full relative clearfix bg-gray-950">
                 <div className="w-full pt-4 flex flex-row items-center justify-evenly overflow-x-auto">
-                    {/* {categories.slice(0, 5).map((item) => ( */}
+                    {/* {Categories.slice(0, 5).map((item) => ( */}
                     {categories.map((item) => (
                         <div key={item.label} className='col-span-6 md:col-span-4'>
                             <CategoryBox
@@ -235,4 +236,3 @@ const CategoriesProperties = () => {
     return null
 }
 
-export default CategoriesProperties

@@ -81,6 +81,8 @@ export const createPropertyPhotos = async (listingData: any): Promise<ListingPro
             
             //const imgUrl = body?.imgUrl + '/' + relativePath + '/' + file?.filename + '.' + body?.fileTypeExt;
             const imgUrl = body?.imgUrl + '/' + destinationWithoutPublic + '/' + file?.filename;
+
+            const fullLocalPath = path.join(process.cwd(), file?.path)
     
             return {
                 imgAlbumName: file?.fieldname,
@@ -89,7 +91,8 @@ export const createPropertyPhotos = async (listingData: any): Promise<ListingPro
                 imgFileType: file?.mimetype,
                 imgFileOutputDir: file?.destination,
                 imgFileName: file?.filename,
-                imgFilePath: file?.path,
+                //imgFilePath: file?.path,
+                imgFilePath: fullLocalPath,
                 imgFileSize: file?.size,
                 imageSrc: body?.imageSrc,
                 imgUrl: imgUrl,

@@ -652,6 +652,8 @@ export const createPropertyPhotos = async (propertyData: any): Promise<PropertyP
             
             //const imgUrl = body?.imgUrl + '/' + relativePath + '/' + file?.filename + '.' + body?.fileTypeExt;
             const imgUrl = body?.imgUrl + '/' + destinationWithoutPublic + '/' + file?.filename;
+
+            const fullLocalPath = path.join(process.cwd(), file?.path)
     
             return {
                 imgAlbumName: file?.fieldname,
@@ -660,7 +662,8 @@ export const createPropertyPhotos = async (propertyData: any): Promise<PropertyP
                 imgFileType: file?.mimetype,
                 imgFileOutputDir: file?.destination,
                 imgFileName: file?.filename,
-                imgFilePath: file?.path,
+                //imgFilePath: file?.path,
+                imgFilePath: fullLocalPath,
                 imgFileSize: file?.size,
                 imageSrc: body?.imageSrc,
                 imgUrl: imgUrl,
@@ -715,7 +718,24 @@ export const createPropertyPhotos = async (propertyData: any): Promise<PropertyP
 
 };
 
-// listingRouter.post('/createproperty', async (request: Request, response: Response) => {
+
+export const deletePropertyPhoto = async (propertyData: any): Promise<PropertyPhoto[] | any> => {
+
+
+    if(!propertyData){
+        throw new Error("Poperty Data Mising");
+        
+    }
+
+    console.log('Delete Controller', propertyData)
+    
+
+
+    return propertyData
+
+}
+
+
 
 //     const listing = request.body
 

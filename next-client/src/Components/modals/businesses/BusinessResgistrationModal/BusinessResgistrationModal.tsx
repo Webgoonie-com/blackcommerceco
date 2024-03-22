@@ -10,7 +10,7 @@ import useBusinessRegistrationModal from '@/Hooks/useBusinessRegistrationModal'
 
 import ModalHeading from '../../ModalHeading';
 
-import { businesses } from '@/Components/navbar/categories/CategoriesBusinesses'
+import { businesses } from '@/Components/navbar/navcategories/CategoriesBusinesses'
 
 import CategoryInput from '@/Elements/Inputs/CategoryInput';
 
