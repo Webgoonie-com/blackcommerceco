@@ -1,3 +1,4 @@
+import { Button } from '@/Components/ui/button';
 import axiosWithCredentials from '@/lib/axiosWithCredentials';
 import axios from 'axios';
 import Image from 'next/image';
@@ -34,10 +35,19 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
 
 
     const [selectedImages, setSelectedImages] = useState<string[]>(propSelectedImages);
+    const [primaryPhoto, setPrimaryPhoto] = useState<boolean>(false);
+
     const imageRef = useRef<HTMLInputElement>(null);
 
 
+
+    const makePrimaryPhoto = (event: React.MouseEvent<HTMLButtonElement>) => {
+        console.log('MakePrimary Photos', event);
+        setPrimaryPhoto(!primaryPhoto);
+    }
+
     const onImageChange = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
+
         if (event.target.files) {
             const files = Array.from(event.target.files);
             const formData = new FormData();
@@ -47,11 +57,12 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
             });
     
             formData.append('imageSrc', 'ImageUploadPropertyPhotos');
+            formData.append('imagesMultiSrc', 'ImageUploadMultiPropertyPhotos');
             formData.append('imgUrl', `${process.env.NEXT_PUBLIC_API_URL}`);
             formData.append('imgName', 'PropertyPhoto');
             formData.append('imgCatg', 'Property');
             formData.append('userId', userId);
-            formData.append('token', autoSaveToken); // Convert array to string
+            formData.append('token', autoSaveToken);                            // Convert array to string
             formData.append('propertyId', String(propertyId));
     
             try {
@@ -78,6 +89,7 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
                 console.error('Error uploading images', error);
             }
         }
+
     }, [autoSaveToken, onChange, propertyId, selectedImages, userId]);
     
     
@@ -129,12 +141,12 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
                 </div>
 
                 <div className="relative">
-                    <div className="relative hover:opacity-70 transition border-dashed border-2 border-indigo-300 flex flex-row justify-start items-start text-white">
-                        {selectedImages.map((image, index) => (
+                    <div id="image-container" className="relative hover:opacity-70 transition border-dashed border-2 border-indigo-300 flex flex-row self-start items-start text-white">
+                        {selectedImages.slice().reverse().map((image, index) => (
                             <div key={index} className="relative self-start p-2 ml-3">
                                 <IoMdClose
                                     size={18}
-                                    className="relative cursor-pointer"
+                                    className="absolute cursor-pointer z-50 text-white border-2 bg-red-600 border-red-100 rounded-full"
                                     onClick={() => removeImage(index)}
                                 />
                                 <Image
@@ -145,6 +157,7 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
                                     className="relative"
                                     style={{ objectFit: 'cover' }}
                                 />
+                                <Button className='w-full' onClick={makePrimaryPhoto} disabled={primaryPhoto} variant={'primary'}>Make Primary Photo</Button>
                             </div>
                         ))}
                     </div>

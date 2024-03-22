@@ -51,6 +51,7 @@ const ImageUploadBusinessPhotos: React.FC<ImageUploadBusinessPhotosProps> = ({
     
             formData.append('imageSrc', 'ImageUploadBusinessPhotos');
             formData.append('imgUrl', `${process.env.NEXT_PUBLIC_API_URL}`);
+            formData.append('imagesMultiSrc', 'ImageUploadMultiBusinessPhotos');
             formData.append('imgName', 'BusinessPhoto');
             formData.append('imgCatg', 'Business');
             formData.append('userId', userId);

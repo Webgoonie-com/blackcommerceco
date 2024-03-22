@@ -52,32 +52,33 @@ model admin {
 }
 
 model business {
-  id                       Int      @id @default(autoincrement())
-  uuid                     String   @unique(map: "Business_uuid_key")
-  title                    String
-  token                    String
-  description              String
-  isAFranchise             Boolean
-  isTheFranchiseParent     Boolean
-  ownsOtherBusinesses      Boolean
-  hasStore                 Int
-  hasProducts              Int
-  hasServices              Int
-  category                 String
-  imageSrc                 String
-  createdAt                DateTime @default(now())
-  updatedAt                DateTime @default(now())
-  userId                   Int
-  countryCityId            Int
-  countryId                Int
-  countryStateRegionId     Int
-  listingId                Int?     @unique(map: "Business_listingId_key")
-  streetAddress            String?
-  streetAddress2           String?
-  streetCity               String?
-  streetZipCode            String?
-  exactBusinessGeoLocation String?
-  sellPrice                String?
+  id                   Int      @id @default(autoincrement())
+  uuid                 String   @unique(map: "Business_uuid_key")
+  title                String
+  token                String
+  description          String
+  isAFranchise         Boolean
+  isTheFranchiseParent Boolean
+  ownsOtherBusinesses  Boolean
+  hasStore             Int
+  hasProducts          Int
+  hasServices          Int
+  category             String
+  imageSrc             String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @default(now())
+  userId               Int
+  countryCityId        Int
+  countryId            Int
+  countryStateRegionId Int
+  listingId            Int?     @unique(map: "Business_listingId_key")
+  streetAddress        String?
+  streetAddress2       String?
+  streetCity           String?
+  streetZipCode        String?
+  sellPrice            String?
+  imagesMultiSrc       String?
+  locationValue        String?
 
   @@index([userId], map: "Business_userId_fkey")
   @@index([countryCityId], map: "Business_countryCityId_fkey")
@@ -171,7 +172,7 @@ model listing {
   token                String
   title                String
   description          String
-  imageSrc             String
+  imageSrc             String?
   category             String
   createdAt            DateTime @default(now())
   updatedAt            DateTime @default(now())
@@ -196,7 +197,7 @@ model property {
   token                String
   title                String
   description          String
-  imageSrc             String
+  imageSrc             String?
   category             String
   roomCount            Int
   bathroomCount        Int
@@ -214,6 +215,7 @@ model property {
   streetAddress2       String?
   streetCity           String?
   streetZipCode        String?
+  imagesMultiSrc       String?
 
   @@index([countryCityId], map: "Property_countryCityId_fkey")
   @@index([countryId], map: "Property_countryId_fkey")

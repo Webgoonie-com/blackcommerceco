@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Made for Property photos to stop the shrin if don't work delete. */
+#image-container {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+  gap: 10px;
+}
+
+.image {
+  max-width: 100%;
+  max-height: 100%;
+}
+
 
 #page-container {
   position: relative;
