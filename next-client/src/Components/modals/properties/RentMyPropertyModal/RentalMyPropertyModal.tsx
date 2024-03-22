@@ -331,7 +331,6 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                             mapCenterReasonTxt={"Your Business Market Area"}
                             center={
                               watchCountryCity?.latitude && watchCountryCity?.longitude ? [watchCountryCity?.latitude, watchCountryCity?.longitude] :
-                              //countryCity?.Latitude && countryCity?.Longitude ? [countryCity?.Latitude, countryCity?.Longitude] :
                               watchCountryStateRegion?.latitude && watchCountryStateRegion?.longitude ? [watchCountryStateRegion?.latitude, watchCountryStateRegion?.longitude] :
                               watchCountry?.latitude && watchCountry?.longitude ? [watchCountry?.latitude, watchCountry?.longitude] : [32.1652613142917, -54.72682487791673]
                             }

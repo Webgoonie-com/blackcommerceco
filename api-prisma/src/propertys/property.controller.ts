@@ -23,6 +23,7 @@ type Listing = {
 
 
 type Property = {
+    [x: string]: any;
     id: number;
     uuid: string | null;
     token: string;
@@ -260,8 +261,12 @@ export const getPropertyId = async (id: number): Promise<Property | null> => {
             countryCity: { 
                 select: {
                     id: true,
-                    isoCode: true,
+                    uuid: true,
+                    label: true,
+                    value: true,
+                    countryCode: true,
                     name: true,
+                    latlng: true,
                     latitude: true,
                     longitude: true,
                     countryId: true
@@ -640,17 +645,11 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
         const imageSrcString = Array.isArray(property.imageSrc) ? property.imageSrc.join(',') : '';
 
         const autoSaveToken = property?.token
-        console.log('Line 142 autoSaveToken', autoSaveToken)
+        //console.log('Line 142 autoSaveToken', autoSaveToken)
 
         const { token } = property;
 
-        console.log('Line 146 autoSaveToken', token)
-
-        // Handle the possibility of countryId, countryStateRegionId, and countryCityId being undefined
-        const countryId = property.countryId !== undefined ? property.countryId : 0; // Replace 0 with a default value if needed
-        const countryStateRegionId = property.countryStateRegionId !== undefined ? property.countryStateRegionId : 0;
-        const countryCityId = property.countryCityId !== undefined ? property.countryCityId : 0;
-
+        //console.log('Line 146 autoSaveToken', token)
 
         let autoSaveCreateUpdateProperty
         let createdListing
@@ -659,7 +658,176 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
         //let existingProperty
 
         // Begin Country CountryState CountryCity Ripped
+
+        let existingCountry
+        let existingCountryStateRegion
+        let existingCountryCity
+
+        if(property.country){
+
+            //console.log('Begin To Rip Out Country ON Insert Update',  property.country)
+
+            
+
+            existingCountry = await orm.country.findFirst({
+                where: {
+                    isoCode: property.country?.isoCode,
+                    value: property.country?.value,
+                }
+            });
+
+            //console.log('1 Existing Country: ', existingCountry)
+
+            if(!existingCountry){
+                //console.log("It's time to Create A New Country: ", existingCountry)
+                console.log("It's time to Create A New Country: ")
+
+                const neWCreateCountryLatlng = `${property.country?.latitude},${property.country?.longitude}`;
+
+                // const user = await prisma.user.create({
+                //     data: {
+                //       name: 'Alice',
+                //       email: 'alice@prisma.io',
+                //     },
+                //   })
+
+                try {
+                    
+                    
+                    existingCountry = await orm.country.create({
+                        data: {
+                            isoCode: property.country?.isoCode,
+                            value: property.country?.value,
+                            label: property.country?.label,
+                            currency: property.country?.currency,
+                            phonecode: property.country?.phonecode,
+                            flag: property.country?.flag,
+                            latlng: neWCreateCountryLatlng,
+                            latitude: property.country?.latitude.toString(),
+                            longitude: property.country?.longitude.toString(),
+                            region: property.country?.region,
+                            name: property.country?.name,
+                        },
+                    });
+
+
+
+                    console.log("newCountry", existingCountry)
+
+
+                } catch (error) {
+                    console.log("error", error)
+                }
+
+            }
+
+            //console.log("2 Ater it's all said and done on country", existingCountry)
+
+
+        }
+
+
+        if (property.countryStateRegion) {
+            //console.log("Let's Begin  countryStateRegion ", property.countryStateRegion);
         
+            existingCountryStateRegion = await orm.countryStateRegion.findFirst({
+                where: {
+                    isoCode: property.countryStateRegion?.isoCode,
+                    value: property.countryStateRegion?.value,
+                }
+            });
+        
+            //console.log('1 existingCountryStateRegion', existingCountryStateRegion);
+        
+            const neWCreateCountryStateRegionLatlng = `${property.countryStateRegion?.latitude},${property.countryStateRegion?.longitude}`;
+        
+            if (!existingCountryStateRegion) {
+                try {
+                    existingCountryStateRegion = await orm.countryStateRegion.create({
+                        data: {
+                            isoCode: property.countryStateRegion?.isoCode,
+                            value: property.countryStateRegion?.value,
+                            label: property.countryStateRegion?.label,
+                            name: property.countryStateRegion?.name,
+                            latlng: neWCreateCountryStateRegionLatlng,
+                            latitude: property.countryStateRegion?.latitude.toString(),
+                            longitude: property.countryStateRegion?.longitude.toString(),
+                            country: {
+                                connect: { id: existingCountry?.id } // Connect to the associated country
+                            },
+                            // countryCity: {
+                            //     connect: { id: property.countryCityId } // Connect to the associated country city
+                            // }
+                            // countryCity:  property.countryCityId ? {
+                            //     connect: { id: property.countryCityId } // Connect to the associated country city
+                            // } : null
+                        },
+                    });
+        
+                    console.log("new existingCountryStateRegion", existingCountryStateRegion);
+                } catch (error) {
+                    console.log("error", error);
+                }
+            }
+        }
+
+        if(property.countryCity) {
+
+            console.log("countryCity damnit", property.countryCity)
+
+            existingCountryCity = await orm.countryCity.findFirst({
+                where: {
+                    countryCode: property.countryCity?.countryCode,
+                    value: property.countryCity?.value,
+                }
+            });
+
+
+            console.log("1 countryCity existingCountryCity", existingCountryCity)
+
+            if(!existingCountryCity){
+
+                const neWCountryCodeLatlng = `${property.countryCity?.latitude},${property.countryCity?.longitude}`;
+
+                try {
+                    existingCountryStateRegion = await orm.countryCity.create({
+                        data: {
+                            value: property.countryCity?.value,
+                            label: property.countryCity?.label,
+                            name: property.countryCity?.name,
+                            countryCode: property.countryCity?.countryCode,
+                            latlng: neWCountryCodeLatlng,
+                            latitude: property.countryCity?.latitude.toString(),
+                            longitude: property.countryCity?.longitude.toString(),
+                            country: {
+                                connect: { id: existingCountry?.id } // Connect to the associated country
+                            },
+                            countryStateRegion: {
+                                connect: { id: existingCountryStateRegion?.id } // Connect to the associated country city
+                            }
+                        },
+                    });
+        
+                    console.log("new existingCountryStateRegion", existingCountryStateRegion);
+                } catch (error) {
+                    console.log("error", error);
+                }
+
+            }
+
+
+
+
+        }
+
+
+        // Handle the possibility of countryId, countryStateRegionId, and countryCityId being undefined
+        const countryId = property.countryId !== undefined ? property.countryId : 0; // Replace 0 with a default value if needed
+        const countryStateRegionId = property.countryStateRegionId !== undefined ? property.countryStateRegionId : 0;
+        const countryCityId = property.countryCityId !== undefined ? property.countryCityId : 0;
+
+
+       
         
         // End Country CountryState CountryCity Ripped
 
@@ -679,7 +847,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
             }
         });
 
-        console.log('Line 322 existingListing', existingListing)
+        //console.log('Line 322 existingListing', existingListing)
 
         
 
@@ -710,9 +878,9 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
                         streetCity: property.streetCity,
                         streetZipCode: property.streetZipCode,
                         userId: property.userId,
-                        countryId: countryId, // Include countryId
-                        countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
-                        countryCityId: countryCityId, // Include countryCityId
+                        countryId: existingCountry?.id, // Include countryId
+                        countryStateRegionId: existingCountryStateRegion?.id, // Include countryStateRegionId
+                        countryCityId: existingCountryCity?.id, // Include countryCityId
                     }
                 });
 
@@ -792,7 +960,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
             }
         });
 
-        console.log('Line 452 existingListing', existingListing)
+        //console.log('Line 452 existingListing', existingListing)
 
         if(!existingProperty){
 
@@ -844,7 +1012,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
             }
         }else{
 
-            console.log('Line 497 try Updating existingListing existingListing')
+            //console.log('Line 497 try Updating existingListing existingListing')
 
             try {
                 
@@ -879,7 +1047,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
 
         //  return createdListing
 
-        console.log('autoSaveCreateUpdateProperty: ', autoSaveCreateUpdateProperty);
+        //console.log('autoSaveCreateUpdateProperty: ', autoSaveCreateUpdateProperty);
         return autoSaveCreateUpdateProperty;
 
 

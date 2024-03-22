@@ -133,9 +133,12 @@ model Country {
   currency                            String
   phonecode                           String
   flag                                String
+  
   latlng                              String
+  
   latitude                            String
   longitude                           String
+
   region                              String
   isoCode                             String                  @unique
   name                                String
@@ -151,16 +154,23 @@ model CountryStateRegion {
   id                                  Int                     @id @default(autoincrement())
   uuid                                String?                 @default(uuid()) @unique
   isoCode                             String
+  value                               String
+  label                               String
   name                                String
+  
+  latlng                              String
+  
   latitude                            String
   longitude                           String
-  
+
   country                             Country                 @relation(fields: [countryId], references: [id])
   countryId                           Int
   
-  countryCity                         CountryCity             @relation(fields: [countryCityId], references: [id])
-  countryCityId                       Int
+  // countryCity                         CountryCity             @relation(fields: [countryCityId], references: [id])
+  // countryCityId                       Int
   
+  countryCitys                        CountryCity[]
+
   listings                            Listing[]
   propertys                           Property[]
   businesses                          Business[]
@@ -170,15 +180,23 @@ model CountryStateRegion {
 model CountryCity { 
   id                                  Int                     @id @default(autoincrement())
   uuid                                String?                 @default(uuid()) @unique
-  isoCode                             String
+  value                               String
+  label                               String
   name                                String
+  countryCode                         String
+  
+  latlng                              String
+  
   latitude                            String
   longitude                           String
   
   country                             Country                 @relation(fields: [countryId], references: [id])
   countryId                           Int
+  
+  countryStateRegion                  CountryStateRegion      @relation(fields: [countryStateRegionId], references: [id])
+  countryStateRegionId                Int
                 
-  countryStateRegion                  CountryStateRegion[]
+  
   listings                            Listing[]
   propertys                           Property[]
   businesses                          Business[]

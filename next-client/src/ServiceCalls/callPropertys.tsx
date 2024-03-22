@@ -1,7 +1,26 @@
 import axios from 'axios'
 import React from 'react'
 
-export const callPropertys = async (data: any) => {
+export const callPropertys = async () => {
+
+    try {
+        
+        const {data: propertys} = await axios.get(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/propertys/allproperties`
+        )
+
+        //console.log('propertys', propertys)
+        
+        return propertys
+
+    } catch (error) {
+        console.log('error', error)
+        return error
+    }
+
+}
+
+export const createProperty = async (data: any) => {
 
     try {
         
@@ -20,6 +39,7 @@ export const callPropertys = async (data: any) => {
     }
 
 }
+
 
 
 export const autoSavePropertyData = async (data: any, autoSaveToken: any, userId: any) => {
