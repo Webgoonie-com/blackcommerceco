@@ -6,6 +6,9 @@ import path from 'path';
 
 
 type Business = {
+    countryCity: any;
+    countryStateRegion: any;
+    country: any;
     id: number;
     uuid: string | null;
     token: string;
@@ -18,15 +21,18 @@ type Business = {
     hasProducts: number;
     hasServices: number;
     userId: number;
+    
     countryId: number;
     countryCityId: number | undefined;
     countryStateRegionId: number | undefined;
+
     listingId: number | undefined | null;
     streetAddress: string | null;
     streetAddress2: string | null;
     streetCity: string | null;
     streetZipCode: string | null;
     sellPrice?: string;
+    
     createdAt: Date;
     updatedAt: Date;
 
@@ -134,6 +140,9 @@ export const listBusinesses = async (): Promise<Business[]> => {
             imageSrc: true,
             imagesMultiSrc: true,
             listingId: true,
+            country: true,
+            countryStateRegion: true,
+            countryCity: true,
             isAFranchise: true,
             isTheFranchiseParent: true,
             ownsOtherBusinesses: true,
@@ -199,6 +208,9 @@ export const getBusinessId = async (id: number): Promise<Business | null> => {
             imagesMultiSrc: true,
             category: true,
             listingId: true,
+            country: true,
+            countryStateRegion: true,
+            countryCity: true,
             isAFranchise: true,
             isTheFranchiseParent: true,
             ownsOtherBusinesses: true,
@@ -236,7 +248,9 @@ export const getBusinessUuId = async (uuid: string): Promise<Business | null> =>
             category: true,
             imageSrc: true,
             imagesMultiSrc: true,
-            
+            country: true,
+            countryStateRegion: true,
+            countryCity: true,
             isAFranchise: true,
             isTheFranchiseParent: true,
             ownsOtherBusinesses: true,
@@ -275,6 +289,173 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
         const { token } = business;
 
         console.log('Line 146 autoSaveToken', token)
+
+        // Begin Country CountryState CountryCity Ripped
+        let existingCountry
+        let existingCountryStateRegion
+        let existingCountryCity
+
+        console.log('Begin To Rip Out Country ON Insert Update',  business)
+
+        if(business.country){
+
+            
+            console.log('Begin To Rip Out Country ON Insert Update',  business.country)
+
+            
+
+            existingCountry = await orm.country.findFirst({
+                where: {
+                    isoCode: business.country?.isoCode,
+                    value: business.country?.value,
+                }
+            });
+
+            console.log('1 Existing Country: ', existingCountry)
+
+            if(!existingCountry){
+                //console.log("It's time to Create A New Country: ", existingCountry)
+                console.log("It's time to Create A New Country: ")
+
+                const neWCreateCountryLatlng = `${business.country?.latitude},${business.country?.longitude}`;
+
+                // const user = await prisma.user.create({
+                //     data: {
+                //       name: 'Alice',
+                //       email: 'alice@prisma.io',
+                //     },
+                //   })
+
+                try {
+                    
+                    
+                    existingCountry = await orm.country.create({
+                        data: {
+                            isoCode: business.country?.isoCode,
+                            value: business.country?.value,
+                            label: business.country?.label,
+                            currency: business.country?.currency,
+                            phonecode: business.country?.phonecode,
+                            flag: business.country?.flag,
+                            latlng: neWCreateCountryLatlng,
+                            latitude: business.country?.latitude.toString(),
+                            longitude: business.country?.longitude.toString(),
+                            region: business.country?.region,
+                            name: business.country?.name,
+                        },
+                    });
+
+
+
+                    console.log("newCountry", existingCountry)
+
+
+                } catch (error) {
+                    console.log("error", error)
+                }
+
+            }
+
+            //console.log("2 Ater it's all said and done on country", existingCountry)
+
+
+        }
+
+        if (business.countryStateRegion) {
+            //console.log("Let's Begin  countryStateRegion ", business.countryStateRegion);
+        
+            existingCountryStateRegion = await orm.countryStateRegion.findFirst({
+                where: {
+                    isoCode: business.countryStateRegion?.isoCode,
+                    value: business.countryStateRegion?.value,
+                }
+            });
+        
+            //console.log('1 existingCountryStateRegion', existingCountryStateRegion);
+        
+            const neWCreateCountryStateRegionLatlng = `${business.countryStateRegion?.latitude},${business.countryStateRegion?.longitude}`;
+        
+            if (!existingCountryStateRegion) {
+                try {
+                    existingCountryStateRegion = await orm.countryStateRegion.create({
+                        data: {
+                            isoCode: business.countryStateRegion?.isoCode,
+                            value: business.countryStateRegion?.value,
+                            label: business.countryStateRegion?.label,
+                            name: business.countryStateRegion?.name,
+                            latlng: neWCreateCountryStateRegionLatlng,
+                            latitude: business.countryStateRegion?.latitude.toString(),
+                            longitude: business.countryStateRegion?.longitude.toString(),
+                            country: {
+                                connect: { id: existingCountry?.id } // Connect to the associated country
+                            },
+                            // countryCity: {
+                            //     connect: { id: property.countryCityId } // Connect to the associated country city
+                            // }
+                            // countryCity:  property.countryCityId ? {
+                            //     connect: { id: property.countryCityId } // Connect to the associated country city
+                            // } : null
+                        },
+                    });
+        
+                    console.log("new existingCountryStateRegion", existingCountryStateRegion);
+                } catch (error) {
+                    console.log("error", error);
+                }
+            }
+        }
+
+        if(business.countryCity) {
+
+            console.log("countryCity damnit", business.countryCity)
+
+            existingCountryCity = await orm.countryCity.findFirst({
+                where: {
+                    countryCode: business.countryCity?.countryCode,
+                    value: business.countryCity?.value,
+                }
+            });
+
+
+            console.log("1 countryCity existingCountryCity", existingCountryCity)
+
+            if(!existingCountryCity){
+
+                const neWCountryCodeLatlng = `${business.countryCity?.latitude},${business.countryCity?.longitude}`;
+
+                try {
+                    existingCountryStateRegion = await orm.countryCity.create({
+                        data: {
+                            value: business.countryCity?.value,
+                            label: business.countryCity?.label,
+                            name: business.countryCity?.name,
+                            countryCode: business.countryCity?.countryCode,
+                            latlng: neWCountryCodeLatlng,
+                            latitude: business.countryCity?.latitude.toString(),
+                            longitude: business.countryCity?.longitude.toString(),
+                            country: {
+                                connect: { id: existingCountry?.id } // Connect to the associated country
+                            },
+                            countryStateRegion: {
+                                connect: { id: existingCountryStateRegion?.id } // Connect to the associated country city
+                            }
+                        },
+                    });
+        
+                    console.log("new existingCountryStateRegion", existingCountryStateRegion);
+                } catch (error) {
+                    console.log("error", error);
+                }
+
+            }
+
+
+
+
+        }
+
+        // End Country CountryState CountryCity Ripped
+
 
         // Handle the possibility of countryId, countryStateRegionId, and countryCityId being undefined
         const countryId = business.countryId !== undefined ? business.countryId : 0; // Replace 0 with a default value if needed
@@ -326,15 +507,16 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                         
                         
                         listingId: existingListing.id,
+                        
                         imageSrc: imageSrcString, // Save the concatenated string
                         streetAddress: business.streetAddress,
                         streetAddress2: business.streetAddress2,
                         streetCity: business.streetCity,
                         streetZipCode: business.streetZipCode,
                         userId: business.userId,
-                        countryId: countryId, // Include countryId
-                        countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
-                        countryCityId: countryCityId, // Include countryCityId
+                        countryId: existingCountry?.id, // Include countryId
+                        countryStateRegionId: existingCountryStateRegion?.id, // Include countryStateRegionId
+                        countryCityId: existingCountryCity?.id,
                     }
                 });
 

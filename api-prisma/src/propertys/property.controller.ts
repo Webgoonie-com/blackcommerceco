@@ -634,6 +634,9 @@ export const deletePropertyPhoto = async (propertyData: any): Promise<PropertyPh
 //         return response.status(500).json({ error: error.message });
 //     }
 // });
+
+
+
 export const autoSavePropertyData = async (property: Property, listing: Listing): Promise<Property | any> => {
 
 
