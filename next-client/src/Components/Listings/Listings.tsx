@@ -66,7 +66,7 @@ export default function Listings() {
                 className='relative bg-gray-950 pb-20 pt-28 px-5 py-20 mx-auto flex items-center md:flex-row flex-col'
                 //className=' px-32 py-20 bg-gray-950 pb-20 pt-28'
             >
-                <Container>
+                
                     <div className='container text-white'>
                         <div
                             className="
@@ -90,7 +90,7 @@ export default function Listings() {
                             
                         </div>
                     </div>
-                </Container>
+                
             </div>
         </ClientOnly>
         
