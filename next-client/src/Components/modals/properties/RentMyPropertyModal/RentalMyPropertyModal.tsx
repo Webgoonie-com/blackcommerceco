@@ -11,7 +11,7 @@ import useRentMyPropertyModal from '@/Hooks/useRentMyPropertyModal'
 import ModalHeading from '../../ModalHeading';
 
 // import { categories } from '@/Components/navbar/categories/Categories'
-import { CategoriesOnlyProperties } from "@/Components/navbar/categories/CategoriesOnly"
+import { CategoriesOnlyProperties } from "@/Components/Categories/CategoriesOnly"
 
 import CategoryInput from '@/Elements/Inputs/CategoryInput';
 

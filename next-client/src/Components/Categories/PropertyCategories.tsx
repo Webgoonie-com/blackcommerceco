@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import CategoryBox from "@/Components/CategoryBox"
-import { CategoriesOnlyProperties } from "@/Components/navbar/navcategories/CategoriesOnly"
+import { CategoriesOnlyProperties } from "@/Components/Categories/CategoriesOnly"
 import Container from "@/Components/Container";
 
 const PropertyCategories = () => {

@@ -2,14 +2,17 @@ import React, { useCallback, useState } from 'react'
 
 import { IoDiamond } from 'react-icons/io5'
 import { BsSnow } from 'react-icons/bs'
-import { FaSkiing } from 'react-icons/fa'
+import { FaHandsWash, FaSkiing } from 'react-icons/fa'
 import { TbBeach, TbChevronDown, TbMountainOff, TbPool } from 'react-icons/tb'
-import { GiBarn, GiBoatFishing, GiCactus, GiCastle, GiCaveEntrance, GiForestCamp, GiIsland, GiWindmill, GiVillage  } from 'react-icons/gi'
+import { GiBarn, GiBoatFishing, GiCactus, GiCastle, GiCaveEntrance, GiForestCamp, GiIsland, GiWindmill, GiVillage, GiRingmaster, GiHomeGarage  } from 'react-icons/gi'
 import { MdOutlineVilla } from 'react-icons/md'
 import CategoryBox from '@/Components/CategoryBox'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { BiPlus } from 'react-icons/bi'
 import Link from 'next/link'
+import { CiCloudMoon, CiForkAndKnife, CiGift, CiMedicalCase } from 'react-icons/ci'
+import { ImHappy } from 'react-icons/im'
+import { FaHotTubPerson, FaScrewdriverWrench, FaTruckPlane, FaTruckRampBox } from 'react-icons/fa6'
 
 export const CategoriesOnlyProperties = [
     {
@@ -96,3 +99,69 @@ export const CategoriesOnlyProperties = [
     
     
 ]
+
+export const  CategoriesOnlyBusinesses = [
+    {
+        label: 'Dinning',
+        icon: CiForkAndKnife,
+        description: 'This property is close to the beach!'
+    },
+    {
+        label: 'Shopping',
+        icon: CiGift,
+        description: 'For Shopping businesses and services!'
+    },
+    {
+        label: 'NightLife',
+        icon: CiCloudMoon,
+        description: 'For Night Entertainment & NightLife Lifestyle(s)!'
+    },
+    {
+        label: 'Tours',
+        icon: GiRingmaster,
+        description: 'For Tours And Tour Guides businesses and services!'
+    },
+    {
+        label: 'Activities',
+        icon: ImHappy,
+        description: 'Fun Activities Even For The Family!'
+    },
+    {
+        label: 'Beauty',
+        icon: FaHandsWash,
+        description: 'For Beauty, Makeup And Nails businesses and services!'
+    },
+    {
+        label: 'Spas',
+        icon: FaHotTubPerson,
+        description: 'For Spas And message businesses and services!!'
+    },
+    {
+        label: 'AutoMotive',
+        icon: FaScrewdriverWrench,
+        description: 'For Automotive related businesses and services!'
+    },
+    {
+        label: 'Transporation',
+        icon: FaTruckRampBox,
+        description: 'For Transporation related businesses and services!'
+    },
+    {
+        label: 'Travel',
+        icon: FaTruckPlane,
+        description: 'For Travel businesses and services!'
+    },
+    {
+        label: 'HomeServices',
+        icon: GiHomeGarage,
+        description: 'For Home related businesses and services!'
+    },
+    {
+        
+        label: 'Medical',
+        icon: CiMedicalCase,
+        description: 'Medical Related business and services!'
+    },
+    
+]
+

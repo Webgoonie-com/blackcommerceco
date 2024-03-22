@@ -2,7 +2,8 @@
 
 import { useSearchParams } from "next/navigation";
 import BusinessBox from "../BusinessBox"
-import { businesses } from "../navbar/categories/CategoriesBusinesses"
+//import { businesses } from "../navbar/navcategories/CategoriesBusinesses"
+import { businesses } from "@/Components/navbar/navcategories/CategoriesBusinesses"
 import Container from "@/Components/Container";
 
 const BusinessCategories = () => {
