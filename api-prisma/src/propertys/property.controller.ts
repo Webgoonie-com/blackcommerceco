@@ -33,7 +33,8 @@ type Property = {
     bathroomCount: number;
     guestCount: number;
     locationValue: string;
-    imageSrc: string;
+    imageSrc: string | null;
+    imagesMultiSrc: string | null;
     price: string;
     userId: number;
     streetAddress: string | null;
@@ -81,6 +82,7 @@ export const listPropertys = async (): Promise<Property[]> => {
             locationValue: true,
             guestCount: true,
             imageSrc: true,
+            imagesMultiSrc: true,
             price: true,
             streetAddress: true,
             streetAddress2: true,
@@ -108,6 +110,7 @@ export const listPropertys = async (): Promise<Property[]> => {
         guestCount: p.guestCount,
         locationValue: p.locationValue,
         imageSrc: p.imageSrc,
+        imagesMultiSrc: p.imagesMultiSrc,
         price: p.price,
         userId: p.userId,
         streetAddress: p.streetAddress,
@@ -142,6 +145,7 @@ export const getPropertyId = async (id: number): Promise<Property | null> => {
             guestCount: true,
             locationValue: true,
             imageSrc: true,
+            imagesMultiSrc: true,
             price: true,
             streetAddress: true,
             streetAddress2: true,
@@ -176,6 +180,7 @@ export const getPropertyUuId = async (uuid: string): Promise<Property | null> =>
             guestCount: true,
             locationValue: true,
             imageSrc: true,
+            imagesMultiSrc: true,
             price: true,
             streetAddress: true,
             streetAddress2: true,
@@ -323,8 +328,15 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
         let createdListing
         let existingListing
         let updatedProperty
+        //let existingProperty
 
-        let existingProperty = await orm.property.findFirst({
+        // Begin Country CountryState CountryCity Ripped
+        
+        // End Country CountryState CountryCity Ripped
+
+
+        // Begin Listing And Propety
+        const existingProperty = await orm.property.findFirst({
             where: {
                 token: autoSaveToken || token,
                 userId: parseInt(property.userId as any)
@@ -454,12 +466,13 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
         console.log('Line 452 existingListing', existingListing)
 
         if(!existingProperty){
+
             return new Error("Uncessfull Property Exist");
             
 
         }
 
-        if(!existingListing){
+        if(!existingListing && existingProperty){
 
             try {
                 
@@ -502,7 +515,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
             }
         }else{
 
-            console.log('Line 497 try Updating existingListing existingListing', existingListing.id)
+            console.log('Line 497 try Updating existingListing existingListing')
 
             try {
                 
@@ -659,10 +672,25 @@ export const createPropertyPhotos = async (propertyData: any): Promise<PropertyP
             };
         });
 
-    console.log('createInput JSON data: ', JSON.stringify(createInputs));
+    //console.log('createInput JSON data: ', JSON.stringify(createInputs));
+
+    const lastImageIndex = files.length - 1;
+     const lastImageUrl = createInputs[lastImageIndex].imgUrl;
+
+     //console.log('lastImageIndex', lastImageUrl)
+
+     // Update imageSrc for the last image
+     createInputs[lastImageIndex].imageSrc = lastImageUrl;
+
+    await orm.property.update({
+        where: { id: body?.propertyId },
+        data: {
+            imageSrc: lastImageUrl, // Save the concatenated string           
+        }
+    });
 
     try {
-    const autoSaveCreateUpdatePropertyPhotos = await Promise.all(createInputs.map(createInput =>
+    const saveMultipleUploadPropertyPhotos = await Promise.all(createInputs.map(createInput =>
         orm.propertyphoto.create({
             data: {
                 ...(createInput as Prisma.PropertyphotoCreateInput),
@@ -677,7 +705,9 @@ export const createPropertyPhotos = async (propertyData: any): Promise<PropertyP
         })
     ));
 
-    return autoSaveCreateUpdatePropertyPhotos;
+    
+
+    return saveMultipleUploadPropertyPhotos;
 } catch (error) {
     console.error('Error creating property photos:', error);
     return { error: 'Failed to create property photos. Please check the provided data.' };

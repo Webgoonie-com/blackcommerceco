@@ -10,7 +10,7 @@ type Listing = {
     token: string;
     title: string;
     description: string;
-    imageSrc: string;
+    imageSrc: string | null;
     category: string;
     userId: number;
     countryId: number;
@@ -101,7 +101,18 @@ export const createPropertyPhotos = async (listingData: any): Promise<ListingPro
             };
         });
 
-    console.log('createInput JSON data: ', JSON.stringify(createInputs));
+    //console.log('createInput JSON data: ', JSON.stringify(createInputs));
+
+    const lastImageIndex = files.length - 1;
+     const lastImageUrl = createInputs[lastImageIndex].imgUrl;
+
+     console.log('lastImageIndex', lastImageUrl)
+
+     // Update imageSrc for the last image
+     createInputs[lastImageIndex].imageSrc = lastImageUrl;
+
+    
+
 
     try {
     const createdPropertyPhotos = await Promise.all(createInputs.map(createInput =>
@@ -117,7 +128,15 @@ export const createPropertyPhotos = async (listingData: any): Promise<ListingPro
                 createdAt: true,
             }
         })
-    ));
+
+        ));
+       
+        await orm.property.update({
+            where: { id: parseInt(body?.propertyId) },
+            data: {
+                imageSrc: lastImageUrl, // Save the concatenated string           
+            }
+        })
 
     return createdPropertyPhotos;
 } catch (error) {

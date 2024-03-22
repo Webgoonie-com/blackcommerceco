@@ -11,7 +11,8 @@ type Business = {
     token: string;
     title: string;
     description: string;
-    imageSrc: string;
+    imageSrc: string | null;
+    imagesMultiSrc: string | null;
     category: string;
     hasStore: number;
     hasProducts: number;
@@ -83,6 +84,7 @@ export const listBusinesses = async (): Promise<Business[]> => {
             description: true,
             category: true,
             imageSrc: true,
+            imagesMultiSrc: true,
             
             isAFranchise: true,
             isTheFranchiseParent: true,
@@ -164,6 +166,7 @@ export const createBusinessPhotos = async (businessPhotoData: any): Promise<Busi
                 imgFilePath: file?.path,
                 imgFileSize: file?.size,
                 imageSrc: body?.imageSrc,
+                imagesMultiSrc: body?.imageSrc,
                 imgUrl: imgUrl,
                 imgName: body?.imgName,
                 imgCatg: body?.imgCatg,
@@ -175,6 +178,28 @@ export const createBusinessPhotos = async (businessPhotoData: any): Promise<Busi
         });
 
     console.log('createInput JSON data: ', JSON.stringify(createInputs));
+
+     // Determine the last image URL
+     const lastImageIndex = files.length - 1;
+     const lastImageUrl = createInputs[lastImageIndex].imgUrl;
+
+     // Update imageSrc for the last image
+     createInputs[lastImageIndex].imageSrc = lastImageUrl;
+
+    // Remove the last image URL from imagesMultiSrc
+    // const imagesMultiSrc = createInputs
+    //         .filter((_, index) => index !== lastImageIndex)
+    //         .map(input => input.imgUrl);
+
+        console.log('createInput JSON data: ', JSON.stringify(createInputs));
+
+        await orm.business.update({
+            where: { id: body?.businessId },
+            data: {
+                imageSrc: lastImageUrl, // Save the concatenated string           
+            }
+        });
+
 
     try {
     const createdBusinessPhotos = await Promise.all(createInputs.map(createInput =>
@@ -191,6 +216,9 @@ export const createBusinessPhotos = async (businessPhotoData: any): Promise<Busi
             }
         })
     ));
+
+
+    body?.businessId
 
     return createdBusinessPhotos;
 } catch (error) {
@@ -213,6 +241,7 @@ export const getBusinessId = async (id: number): Promise<Business | null> => {
             title: true,
             description: true,
             imageSrc: true,
+            imagesMultiSrc: true,
             category: true,
             
             isAFranchise: true,
@@ -251,6 +280,7 @@ export const getBusinessUuId = async (uuid: string): Promise<Business | null> =>
             description: true,
             category: true,
             imageSrc: true,
+            imagesMultiSrc: true,
             
             isAFranchise: true,
             isTheFranchiseParent: true,
