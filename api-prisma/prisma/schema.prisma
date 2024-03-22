@@ -127,6 +127,16 @@ model Businessphoto {
 
 model Country {
   id                                  Int                     @id @default(autoincrement())
+  uuid                                String?                 @default(uuid()) @unique
+  value                               String
+  label                               String
+  currency                            String
+  phonecode                           String
+  flag                                String
+  latlng                              String
+  latitude                            String
+  longitude                           String
+  region                              String
   isoCode                             String                  @unique
   name                                String
   countryStateRegions                 CountryStateRegion[]
@@ -139,6 +149,7 @@ model Country {
   
 model CountryStateRegion {  
   id                                  Int                     @id @default(autoincrement())
+  uuid                                String?                 @default(uuid()) @unique
   isoCode                             String
   name                                String
   latitude                            String
@@ -158,6 +169,7 @@ model CountryStateRegion {
   
 model CountryCity { 
   id                                  Int                     @id @default(autoincrement())
+  uuid                                String?                 @default(uuid()) @unique
   isoCode                             String
   name                                String
   latitude                            String

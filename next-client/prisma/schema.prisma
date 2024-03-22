@@ -114,30 +114,42 @@ model businessphoto {
 }
 
 model country {
-  id      Int    @id @default(autoincrement())
-  isoCode String @unique(map: "Country_isoCode_key")
-  name    String
+  id        Int     @id @default(autoincrement())
+  isoCode   String  @unique(map: "Country_isoCode_key")
+  name      String
+  currency  String
+  flag      String
+  label     String
+  latitude  String
+  latlng    String
+  longitude String
+  phonecode String
+  region    String
+  uuid      String? @unique(map: "Country_uuid_key")
+  value     String
 }
 
 model countrycity {
-  id        Int    @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   isoCode   String
   name      String
   latitude  String
   longitude String
   countryId Int
+  uuid      String? @unique(map: "CountryCity_uuid_key")
 
   @@index([countryId], map: "CountryCity_countryId_fkey")
 }
 
 model countrystateregion {
-  id            Int    @id @default(autoincrement())
+  id            Int     @id @default(autoincrement())
   isoCode       String
   name          String
   latitude      String
   longitude     String
   countryId     Int
   countryCityId Int
+  uuid          String? @unique(map: "CountryStateRegion_uuid_key")
 
   @@index([countryCityId], map: "CountryStateRegion_countryCityId_fkey")
   @@index([countryId], map: "CountryStateRegion_countryId_fkey")

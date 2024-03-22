@@ -180,7 +180,7 @@ propertyRouter.post('/createpropertyphotos', uploadPropertyPhotos.array('files')
 
 propertyRouter.post('/autoSavePropertyData', async (request: Request, response: Response) => {
     
-    console.log('Hit Create Property')
+    console.log('Hit AutoSavePropertyData: ', request.body)
     const propertyData = await request.body;
     
     try {

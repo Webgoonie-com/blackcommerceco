@@ -1,6 +1,6 @@
 import { orm } from "../utils/orm.server";
 import bcrypt from "bcrypt";
-import { Prisma } from '@prisma/client'; // Import Prisma types
+//import { CountryCity, Prisma } from '@prisma/client'; // Import Prisma types
 import { MIME_TYPE_MAP } from "../types";
 import path from 'path';
 
@@ -21,60 +21,33 @@ type Listing = {
     updatedAt: Date;
 }
 
-
-type Property = {
-    id: number;
-    uuid: string | null;
-    token: string;
-    title: string;
-    description: string;
-    category: string;
-    roomCount: number;
-    bathroomCount: number;
-    guestCount: number;
-    locationValue: string;
-    imageSrc: string | null;
-    imagesMultiSrc: string | null;
-    price: string;
-    userId: number;
-    streetAddress: string | null;
-    streetAddress2: string | null;
-    streetCity: string | null;
-    streetZipCode: string | null;
-    countryId: number | undefined;
-    countryStateRegionId: number | undefined;
-    countryCityId: number |undefined;
-    createdAt: Date;
-}
-
-
-type PropertyPhoto = {
-    fieldname: string;
-    originalname: string;
-    encoding: string;
-    mimetype: string;
-    destination: string;
-    filename: string;
-    path: string;
-    size: number;
-    imageSrc: string | null;
-    imgCatg: string | null;
-    imgName: string | null;
-    userId: number;
-}
-
+// type CountryCity = {
+//     id: number | null;
+//     uuid: string | null;
+//     value: string;
+//     label: string;
+//     countryCode: string;
+//     latlng: string;
+    
+//     latitude: string;
+//     longitude: string;
+//     countryId: number | null;
+//     name: string;
+// }
 
 type CountryCity = {
     id: number;
     uuid: string | null;
-    value: string;
+    value: any;
     label: string;
-    countryCode: string;
-    latlngts: number;
+    countryCode: any;
+    latlngts: any;
     latitude: string;
     longitude: string;
     countryId: number;
     name: string;
+
+    //value, label, countryCode, latlngts
 }
 
 
@@ -98,23 +71,98 @@ type Country = {
     id: number | undefined | null;
     uuid: string | null;
     value: string;
-    isoCode: string;
-    name: string;
+    label: string;
     currency: string;
     phonecode: string;
     flag: string;
+    latlng: string | string[] | null;
     latitude: number;
     longitude: number;
     region: string;
+    isoCode: string;
+    name: string;
     timezones: string[];
 }
+
+// type Property = {
+//     id: number;
+//     uuid: string | null;
+//     token: string;
+//     title: string;
+//     description: string;
+//     category: string;
+//     countryCity: CountryCity;
+//     countryStateRegion: CountryStateRegion;
+//     country: Country
+//     roomCount: number;
+//     bathroomCount: number;
+//     guestCount: number;
+//     locationValue: string;
+//     imageSrc: string | null;
+//     imagesMultiSrc: string | null;
+//     price: string;
+//     userId: number;
+//     streetAddress: string | null;
+//     streetAddress2: string | null;
+//     streetCity: string | null;
+//     streetZipCode: string | null;
+//     countryId: number | undefined;
+//     countryStateRegionId: number | undefined;
+//     countryCityId: number |undefined;
+//     createdAt: Date;
+// }
+
+type Property = {
+    id: number;
+    uuid: string | null;
+    token: string;
+    title: string;
+    description: string;
+    category: string;
+    countryCity: CountryCity;
+    countryStateRegion: CountryStateRegion;
+    country: Country;
+    roomCount: number;
+    bathroomCount: number;
+    guestCount: number;
+    locationValue: string;
+    imageSrc: string | null;
+    imagesMultiSrc: string | null;
+    price: string;
+    userId: number;
+    streetAddress: string | null;
+    streetAddress2: string | null;
+    streetCity: string | null;
+    streetZipCode: string | null;
+    countryId: number | undefined;
+    countryStateRegionId: number | undefined;
+    countryCityId: number | undefined;
+    createdAt: Date;
+}
+
+type PropertyPhoto = {
+    fieldname: string;
+    originalname: string;
+    encoding: string;
+    mimetype: string;
+    destination: string;
+    filename: string;
+    path: string;
+    size: number;
+    imageSrc: string | null;
+    imgCatg: string | null;
+    imgName: string | null;
+    userId: number;
+}
+
+
 
 
 export const listPropertys = async (): Promise<Property[]> => {
 
 
     const properties = await orm.property.findMany({
-        select:{
+        select: {
             id: true,
             uuid: true,
             title: true,
@@ -135,45 +183,45 @@ export const listPropertys = async (): Promise<Property[]> => {
             userId: true,
             createdAt: true,
             countryId: true,
-            // country: { 
-            //     select: {
-            //         id: true,
-            //         isoCode: true,
-            //         name: true,
-            //         currency: true,
-            //         phonecode: true,
-            //         flag: true,
-            //         latitude: true,
-            //         longitude: true,
-            //         region: true,
-            //         timezones: true
-            //     }
-            // },
             countryStateRegionId: true,
-            // countryStateRegion: { 
-            //     select: {
-            //         id: true,
-            //         isoCode: true,
-            //         name: true,
-            //         latitude: true,
-            //         longitude: true,
-            //         countryId: true
-            //     }
-            // },
             countryCityId: true,
-            // countryCity: { 
-            //     select: {
-            //         id: true,
-            //         isoCode: true,
-            //         name: true,
-            //         latitude: true,
-            //         longitude: true,
-            //         countryId: true
-            //     }
-            // },
+            countryCity: { 
+                select: {
+                    id: true,
+                    isoCode: true,
+                    name: true,
+                    latitude: true,
+                    longitude: true,
+                    countryId: true
+                }
+            },
+            countryStateRegion: { 
+                select: {
+                    id: true,
+                    isoCode: true,
+                    name: true,
+                    latitude: true,
+                    longitude: true,
+                    countryId: true
+                }
+            },
+            country: { 
+                select: {
+                    id: true,
+                    isoCode: true,
+                    name: true,
+                    currency: true,
+                    phonecode: true,
+                    flag: true,
+                    latitude: true,
+                    longitude: true,
+                    region: true,
+                    timezones: true
+                }
+            }
         }
-        
     });
+    
 
     // Map the fetched properties to match the Property type
     const mappedProperties: Property[] = properties.map(p => ({
@@ -183,6 +231,7 @@ export const listPropertys = async (): Promise<Property[]> => {
         token: p.token,
         description: p.description,
         category: p.category,
+        
         roomCount: p.roomCount,
         bathroomCount: p.bathroomCount,
         guestCount: p.guestCount,
@@ -195,11 +244,45 @@ export const listPropertys = async (): Promise<Property[]> => {
         streetAddress2: p.streetAddress2,
         streetCity: p.streetCity,
         streetZipCode: p.streetZipCode,
-        countryId: p.countryId,
-        countryStateRegionId: p.countryStateRegionId || undefined, // Make optional if necessary
-        countryCityId: p.countryCityId || undefined, // Make optional if necessary
         createdAt: p.createdAt,
+        countryStateRegionId: p.countryStateRegionId,
+        countryStateRegion: {
+            id: p.countryStateRegionId,
+            isoCode: p.countryStateRegion.isoCode,
+            name: p.countryStateRegion.name,
+            latitude: p.countryStateRegion.latitude,
+            longitude: p.countryStateRegion.longitude,
+            countryId: p.countryStateRegion.countryId
+        },
+        countryId: p.countryId,
+        country: {
+            id: p.country.id,
+            isoCode: p.country.isoCode,
+            name: p.country.name,
+            currency: p.country.currency,
+            phonecode: p.country.phonecode,
+            flag: p.country.flag,
+            latitude: p.country.latitude,
+            longitude: p.country.longitude,
+            region: p.country.region,
+            timezones: p.country.timezones,
+            uuid:  p.country.latitude,
+            value:  p.country.value,
+            label:  p.country.label,
+            latlng:  p.country.latlng
+        },
+        countryCityId: p.countryCityId,
+        countryCity: {
+            id: p.countryCity.id,
+            isoCode: p.countryCity.isoCode,
+            name: p.countryCity.name,
+            latitude: p.countryCity.latitude,
+            longitude: p.countryCity.longitude,
+            countryId: p.countryCity.countryId
+        }
+
     }));
+    
 
     return mappedProperties;
 }
@@ -231,42 +314,8 @@ export const getPropertyId = async (id: number): Promise<Property | null> => {
             streetZipCode: true,
             userId: true,
             countryId: true,
-            country: { 
-                select: {
-                    id: true,
-                    isoCode: true,
-                    name: true,
-                    currency: true,
-                    phonecode: true,
-                    flag: true,
-                    latitude: true,
-                    longitude: true,
-                    region: true,
-                    timezones: true
-                }
-            },
             countryStateRegionId: true,
-            countryStateRegion: { 
-                select: {
-                    id: true,
-                    isoCode: true,
-                    name: true,
-                    latitude: true,
-                    longitude: true,
-                    countryId: true
-                }
-            },
             countryCityId: true,
-            countryCity: { 
-                select: {
-                    id: true,
-                    isoCode: true,
-                    name: true,
-                    latitude: true,
-                    longitude: true,
-                    countryId: true
-                }
-            },
             createdAt: true,
         },
     })
@@ -300,8 +349,11 @@ export const getPropertyUuId = async (uuid: string): Promise<Property | null> =>
             streetZipCode: true,
             userId: true,
             countryId: true,
+            country: true,
             countryCityId: true,
+            countryCity: true,
             countryStateRegionId: true,
+            countryStateRegion: true,
             createdAt: true,
         },
     })
@@ -651,6 +703,12 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
         const countryStateRegionId = property.countryStateRegionId !== undefined ? property.countryStateRegionId : 0;
         const countryCityId = property.countryCityId !== undefined ? property.countryCityId : 0;
 
+        const { countryCity, countryStateRegion, country } = property;
+
+        //const { value: countryCityName, countryCode: countryCityIsoCode } = countryCity;
+        const { value: countryStateName, countryCode: countryStateIsoCode } = countryStateRegion;
+        const { value: countryName, currency, phonecode, flag, latitude, longitude, region, isoCode, timezones } = country;
+
 
         let autoSaveCreateUpdateProperty
         let createdListing
@@ -659,7 +717,8 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
         //let existingProperty
 
         // Begin Country CountryState CountryCity Ripped
-        
+
+        console.log('find property.country in object please: ', property.countryCity)
         
         // End Country CountryState CountryCity Ripped
 
