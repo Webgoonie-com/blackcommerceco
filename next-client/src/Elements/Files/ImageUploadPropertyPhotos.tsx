@@ -31,12 +31,6 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
     listingId: propsListingId,
 }) => {
 
-    console.log('Line 30: currentUser', currentUser)
-    console.log('Line 31: userId', userId)
-    console.log('Line 32: propertyId', propertyId)
-    console.log('Line 33: propsListingId', propsListingId)
-
-
     const [selectedImages, setSelectedImages] = useState<string[]>(propSelectedImages);
     const [primaryPhoto, setPrimaryPhoto] = useState<boolean>(false);
 
@@ -45,7 +39,7 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
 
 
     const makePrimaryPhoto = (event: React.MouseEvent<HTMLButtonElement>) => {
-        console.log('MakePrimary Photos', event);
+
         setPrimaryPhoto(!primaryPhoto);
     }
 
@@ -114,62 +108,6 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
         }
     };
 
-    // const removeImage = async (index: number) => {
-
-    //             console.log('Updated index: ', index);
-
-    //             const updatedImages = [...selectedImages];
-    //             updatedImages.splice(index, 1);
-                
-    //             console.log('Updated index: ', index);
-    //             console.log('Updated Images: ', updatedImages);
-        
-
-        
-
-    //     // Pass the command to API Move to top after tested and retuns success or failure.
-    //     try {
-
-    //         // const response = await axios.post(
-                
-    //         //     //`${process.env.NEXT_PUBLIC_API_URL}/api/propertys/createpropertyphotos`,
-
-    //         //     `${process.env.NEXT_PUBLIC_API_URL}/api/propertys/deletePropertyPhoto/:`+autoSaveToken, {
-    //         //         updatedImages,
-    //         //         autoSaveToken,
-    //         //         userId,
-
-
-    //         //     }
-
-    //         // );
-
-    //         //console.log('Line 122 = response: ', response);
-
-    //         await deletePropertyPhoto(
-    //                     updatedImages,
-    //                     autoSaveToken,
-    //                     userId
-    //         )
-
-            
-    //     } catch (error) {
-    //         console.log('Line 128 = error: ', error);
-    //     }
-
-
-
-    //     // setSelectedImages(prevImages => {
-    //     //     const updatedImages = [...prevImages];
-    //     //     updatedImages.splice(index, 1);
-    //     //     return updatedImages;
-    //     // });
-    
-    //     // // // Call the onChange callback with the updated images
-    //     // onChange(selectedImages.filter((_, i) => i !== index));
-
-
-    // };
 
     return (
         <>

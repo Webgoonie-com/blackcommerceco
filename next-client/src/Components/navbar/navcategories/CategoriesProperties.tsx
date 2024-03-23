@@ -114,7 +114,6 @@ export const CategoriesProperties  = () => {
     const isMainPage = pathname === '/'
     const isBapPage = pathname === '/bap'
     const isBapsPage = pathname === '/baps'
-    
 
     //console.log('pathname', pathname)
 
@@ -128,8 +127,6 @@ export const CategoriesProperties  = () => {
     // }
 
     const handleOpenMenu = () => {
-        
-        console.log('handleOpenMenu')
 
         setIsOpen(false)
 
@@ -138,8 +135,6 @@ export const CategoriesProperties  = () => {
     
     
     if(isMainPage){
-
-
     
         return (
             <div className="relative">
@@ -211,8 +206,9 @@ export const CategoriesProperties  = () => {
     
         return (
             <div className="w-full relative clearfix bg-gray-950">
+
                 <div className="w-full pt-4 flex flex-row items-center justify-evenly overflow-x-auto">
-                    {/* {Categories.slice(0, 5).map((item) => ( */}
+                    
                     {categories.map((item) => (
                         <div key={item.label} className='col-span-6 md:col-span-4'>
                             <CategoryBox
@@ -224,6 +220,7 @@ export const CategoriesProperties  = () => {
                             />
                         </div>
                     ))}
+
                     <div className='col-span-6 md:col-span-4'>
                         <CategoryBox 
                             pathname={pathname}
@@ -234,7 +231,9 @@ export const CategoriesProperties  = () => {
                             icon={BiPlus}
                         />
                     </div>
+
                 </div>
+
             </div>
         )
     }

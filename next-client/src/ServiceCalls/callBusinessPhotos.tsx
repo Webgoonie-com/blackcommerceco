@@ -1,14 +1,9 @@
-import axiosWithCredentials from '@/lib/axiosWithCredentials'
-import axios from 'axios'
-import React from 'react'
 
+import axios from 'axios'
 
 export const deleteAutoSaveBusinessPhoto = async (data: any, autoSaveToken: any, userId: any) => {
     
     const propertyPhotoData = await data
-
-    console.log('Line 25 deletePropertyPhoto', propertyPhotoData)
-    console.log('Line 26 userId', userId)
 
     try {
         
@@ -20,8 +15,6 @@ export const deleteAutoSaveBusinessPhoto = async (data: any, autoSaveToken: any,
          }
 
         const {data: propertyphotoResult} = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/businesses/deleteAutoSaveBusinessPhoto/:`+autoSaveToken, postPhotoData)
-
-        console.log('propertyphotoResult: ', propertyphotoResult)
         
         return propertyphotoResult
 

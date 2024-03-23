@@ -2,7 +2,6 @@
 "use client"
 
 import { Button } from '@/Components/ui/button';
-import axiosWithCredentials from '@/lib/axiosWithCredentials';
 import { deleteAutoSaveBusinessPhoto } from '@/ServiceCalls/callBusinessPhotos';
 import axios from 'axios';
 import Image from 'next/image';
@@ -32,19 +31,14 @@ const ImageUploadBusinessPhotos: React.FC<ImageUploadBusinessPhotosProps> = ({
     listingId: propsListingId,
 }) => {
 
-    console.log('Line 30: currentUser', currentUser)
-    console.log('Line 31: userId', userId)
-    console.log('Line 32: businessId', businessId)
-    console.log('Line 33: propsListingId', propsListingId)
-
-
     const [selectedImages, setSelectedImages] = useState<string[]>(propSelectedImages);
     const [primaryPhoto, setPrimaryPhoto] = useState<boolean>(false);
     const imageRef = useRef<HTMLInputElement>(null);
 
     const makePrimaryPhoto = (event: React.MouseEvent<HTMLButtonElement>) => {
-        console.log('MakePrimary Photos', event);
+
         setPrimaryPhoto(!primaryPhoto);
+
     }
 
 
@@ -93,22 +87,9 @@ const ImageUploadBusinessPhotos: React.FC<ImageUploadBusinessPhotosProps> = ({
         }
     }, [userId, autoSaveToken, businessId, propsListingId, onChange, selectedImages]);
     
-    
-
-    // const removeImage = (index: number) => {
-    //     setSelectedImages(prevImages => {
-    //         const updatedImages = [...prevImages];
-    //         updatedImages.splice(index, 1);
-    //         return updatedImages;
-    //     });
-    
-    //     // Call the onChange callback with the updated images
-    //     onChange(selectedImages.filter((_, i) => i !== index));
-    // };
 
     const removeImage = async (imageUrl: string) => {
 
-        console.log('imageUrl', imageUrl)
         try {
             // Call the API to delete the specific image
             await deleteAutoSaveBusinessPhoto(imageUrl, autoSaveToken, userId);

@@ -4,8 +4,6 @@ import React from 'react'
 
 import {CategoriesProperties} from '@/Components/navbar/navcategories/CategoriesProperties'
 
-import Container from '@/Components/Container'
-
 import CategoriesBusinessesBox from '@/Components/navbar/navcategories/CategoriesBusinesses'
 
 export const propertyCategories = {

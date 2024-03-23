@@ -12,7 +12,7 @@ const Hero = () => {
     const { data: session, status } = useSession();
 
 
-    const dataSessions = session;  
+    //  const dataSessions = session;  
 
    
     

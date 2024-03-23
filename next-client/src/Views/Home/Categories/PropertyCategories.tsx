@@ -1,8 +1,7 @@
 import React from "react";
 import { useSearchParams } from "next/navigation";
 import CategoryBox from "../../../Components/CategoryBox"
-//import { Categories } from "../../../Components/categories"
-//import  {categories } from "@/Components/categories/PropertyCategories"
+import { CategoriesOnlyProperties } from "@/Components/Categories/CategoriesOnly"
 import Container from "../../../Components/Container";
 
 const PropertyCategories = () => {
@@ -23,7 +22,7 @@ const PropertyCategories = () => {
                     </p>
                 </div>
                 <div className="mt-10 grid grid-cols-12 gap-4">
-                    {/* {Categories.map((item: any) => (
+                    {CategoriesOnlyProperties.map((item: any) => (
                         <div key={item.label} className="col-span-12 md:col-span-6 lg:col-span-3 bg-gray-900 border border-gray-800 rounded-md p-5">
                             <CategoryBox 
                                 key={item.label}
@@ -33,7 +32,7 @@ const PropertyCategories = () => {
                                 icon={item.icon}
                             />
                         </div>
-                    ))} */}
+                    ))}
                 </div>
             </Container>
         </section>

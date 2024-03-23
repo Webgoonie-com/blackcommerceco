@@ -23,3 +23,10 @@ node_modules/.prisma/client/index.js
 node_modules/.prisma/client/query_engine-windows.dll.node
 node_modules/.prisma/client/wasm.d.ts
 node_modules/.prisma/client/wasm.js
+
+next-client/testRest/*
+next-client/testRest/*.rest
+next-client/testRest/admin.rest
+next-client/testRest/listing.rest
+next-client/testRest/property.rest
+next-client/testRest/users.rest

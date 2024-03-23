@@ -26,10 +26,11 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
         let currentQuery = {};
 
         // This gives the ability to combine of ton of parameters upon click
-        console.log('parmas are', params)
+        //console.log('parmas are', params)
+
         if (params) {
             currentQuery = qs.parse(params.toString())
-            console.log('currentQuery',  currentQuery)
+            //console.log('currentQuery',  currentQuery)
         }
 
         // This make the current clicked category to be in the url

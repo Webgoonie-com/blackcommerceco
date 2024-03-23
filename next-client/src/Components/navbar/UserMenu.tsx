@@ -55,8 +55,9 @@ const UserMenu: React.FC<UserMenuProps> = ({
   
 
     const onQuickLogin = useCallback(() => {
+
         if(!currentUser){
-            console.log('Detected Not Logged In Opening Login Modal')
+
             return loginModal.onOpen()
         }
 

@@ -10,7 +10,7 @@ export const callUsers = async () => {
         
         const {data: users} = await axiosWithCredentials.get(`${apiURL}/api/users/all`)
 
-        console.log('users', users)
+        //console.log('users', users)
         return users
 
     } catch (error) {

@@ -100,15 +100,10 @@ const CategoriesBusinesses = () => {
     }, [])
 
     const handleOpenMenu = () => {
-        
-        console.log('handleOpenMenu')
 
         setIsOpen(false)
 
-    }
-
-
-   
+    } 
     
     if(isMainPage || isBbsPage){
         return (
