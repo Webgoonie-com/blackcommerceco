@@ -15,7 +15,7 @@
     "mobile": "start yarn startMobile && start yarn startClient",
     "open-browser": "start http://localhost:3333 --exit",
     "startApi": "cd api-prisma && yarn dev",
-    "startClient": "cd next-client && yarn dev exit",
+    "startClient": "cd next-client && yarn dev",
     "startMobile": "cd mobile/expo-mobile && npx expo start -c --tunnel",
     "installWithStartUp": "start yarn install && start yarn dev",
     "install": "start yarn installClient && start yarn installApi && start yarn apiPrismaDbPush",

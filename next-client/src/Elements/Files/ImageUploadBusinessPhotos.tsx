@@ -1,7 +1,9 @@
 
 "use client"
 
+import { Button } from '@/Components/ui/button';
 import axiosWithCredentials from '@/lib/axiosWithCredentials';
+import { deleteAutoSaveBusinessPhoto } from '@/ServiceCalls/callBusinessPhotos';
 import axios from 'axios';
 import Image from 'next/image';
 import React, { useCallback, useState, useRef } from 'react';
@@ -37,7 +39,13 @@ const ImageUploadBusinessPhotos: React.FC<ImageUploadBusinessPhotosProps> = ({
 
 
     const [selectedImages, setSelectedImages] = useState<string[]>(propSelectedImages);
+    const [primaryPhoto, setPrimaryPhoto] = useState<boolean>(false);
     const imageRef = useRef<HTMLInputElement>(null);
+
+    const makePrimaryPhoto = (event: React.MouseEvent<HTMLButtonElement>) => {
+        console.log('MakePrimary Photos', event);
+        setPrimaryPhoto(!primaryPhoto);
+    }
 
 
     const onImageChange = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,15 +95,32 @@ const ImageUploadBusinessPhotos: React.FC<ImageUploadBusinessPhotosProps> = ({
     
     
 
-    const removeImage = (index: number) => {
-        setSelectedImages(prevImages => {
-            const updatedImages = [...prevImages];
-            updatedImages.splice(index, 1);
-            return updatedImages;
-        });
+    // const removeImage = (index: number) => {
+    //     setSelectedImages(prevImages => {
+    //         const updatedImages = [...prevImages];
+    //         updatedImages.splice(index, 1);
+    //         return updatedImages;
+    //     });
     
-        // Call the onChange callback with the updated images
-        onChange(selectedImages.filter((_, i) => i !== index));
+    //     // Call the onChange callback with the updated images
+    //     onChange(selectedImages.filter((_, i) => i !== index));
+    // };
+
+    const removeImage = async (imageUrl: string) => {
+
+        console.log('imageUrl', imageUrl)
+        try {
+            // Call the API to delete the specific image
+            await deleteAutoSaveBusinessPhoto(imageUrl, autoSaveToken, userId);
+            
+            // Update the state to remove the deleted image
+            setSelectedImages(prevImages => prevImages.filter(image => image !== imageUrl));
+            
+            // Call the onChange callback with the updated images
+            onChange(selectedImages.filter(image => image !== imageUrl));
+        } catch (error) {
+            console.error('Error deleting image:', error);
+        }
     };
 
     return (
@@ -134,14 +159,16 @@ const ImageUploadBusinessPhotos: React.FC<ImageUploadBusinessPhotosProps> = ({
                 </div>
 
                 <div className="relative">
-                    <div className="relative hover:opacity-70 transition border-dashed border-2 border-indigo-300 flex flex-row justify-start items-start text-white">
-                        {selectedImages.map((image, index) => (
+                    <div id="image-container" className="relative hover:opacity-70 transition border-dashed border-2 border-indigo-300 flex flex-row justify-start items-start text-white">
+                    {selectedImages.slice().reverse().map((image, index) => (
                             <div key={index} className="relative self-start p-2 ml-3">
-                                <IoMdClose
-                                    size={18}
-                                    className="relative cursor-pointer"
-                                    onClick={() => removeImage(index)}
-                                />
+                                {!primaryPhoto ? (
+                                      <IoMdClose
+                                      size={18}
+                                      className="absolute cursor-pointer z-50 text-white border-2 bg-red-600 border-red-100 rounded-full"
+                                      onClick={() => removeImage(image)}
+                                        />
+                                 ) : null }
                                 <Image
                                     src={image}
                                     alt={`Image ${index + 1}`}
@@ -150,6 +177,7 @@ const ImageUploadBusinessPhotos: React.FC<ImageUploadBusinessPhotosProps> = ({
                                     className="relative"
                                     style={{ objectFit: 'cover' }}
                                 />
+                                <Button className='w-full' onClick={makePrimaryPhoto} disabled={primaryPhoto} variant={'primary'}>Make Primary Photo</Button>
                             </div>
                         ))}
                     </div>

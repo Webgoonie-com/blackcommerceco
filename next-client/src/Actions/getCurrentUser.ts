@@ -1,4 +1,4 @@
-
+"use server"
 
 import { getServerSession } from 'next-auth/next';
 
@@ -28,7 +28,7 @@ export default async function getCurrentUsers(){
 
         const currentUser = session.user
 
-        //  console.log("Line 31 = currentUser", currentUser, "session.user", session.user);
+        console.log("Line 31 = currentUser", currentUser, "session.user", session.user);
 
         if(!currentUser){
             //console.log("Line 34 = !currentUserDetected")

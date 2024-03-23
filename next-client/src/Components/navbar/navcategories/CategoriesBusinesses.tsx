@@ -99,6 +99,14 @@ const CategoriesBusinesses = () => {
         setIsOpen((value) => !value)
     }, [])
 
+    const handleOpenMenu = () => {
+        
+        console.log('handleOpenMenu')
+
+        setIsOpen(false)
+
+    }
+
 
    
     
@@ -127,7 +135,7 @@ const CategoriesBusinesses = () => {
                             
                             <div className="border-t border-gray-700 col-span-12">
                                 <div className="px-4 pb-3 pt-3">
-                                    <Link href={'/bbs'}>
+                                    <Link  onClick={handleOpenMenu}  href={'/bbs'}>
                                         <p>View (All) - Black Business Everywhere</p>
                                     </Link>
                                 </div>

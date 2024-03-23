@@ -127,6 +127,14 @@ export const CategoriesProperties  = () => {
     //     return null
     // }
 
+    const handleOpenMenu = () => {
+        
+        console.log('handleOpenMenu')
+
+        setIsOpen(false)
+
+    }
+
     
     
     if(isMainPage){
@@ -157,7 +165,7 @@ export const CategoriesProperties  = () => {
                             
                             <div className="border-t border-gray-700 col-span-12">
                                 <div className="px-4 pb-3 pt-3">
-                                    <Link href={'/baps'}>
+                                    <Link onClick={handleOpenMenu} href={'/baps'}>
                                         <p>View (All) Black Air Propertiies</p>
                                     </Link>
                                 </div>

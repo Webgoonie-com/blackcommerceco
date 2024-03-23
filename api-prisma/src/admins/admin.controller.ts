@@ -21,8 +21,6 @@ type CreateAdminInput = Omit<Admin, "id"> & {
 
 
 export const createAdmin = async (admin: CreateAdminInput): Promise<Admin | any> => {
-    
-    console.log('Admin: ' , admin);
 
     const { firstName, lastName, email, hashedPassword } = admin;
 

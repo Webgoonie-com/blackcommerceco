@@ -17,7 +17,6 @@ const momentDay = moment().format('DD');
 
 
 //  Begin Multer File Types Config ----
-
 const MIME_TYPE_MAP = {
     'image/png': 'png',
     'image/jpeg': 'jpg',
@@ -56,19 +55,9 @@ const fileFilter = (
     //const ext = MIME_TYPE_MAP[file.mimetype];
     const ext = MIME_TYPE_MAP[file.mimetype as keyof typeof MIME_TYPE_MAP]
 
-    console.log('file', file)
-    console.log('ext', ext)
-    
     if(!ext){
         return callback(new Error('Error: Sorry fileFilter Only Images Are Allowed!'))
     }
-
-    // return error if the file type is not image
-    // if (!file || file.mimetype.split('/')[0] != 'image' ||) {
-    //     return callback(new Error('Only images allowed'));
-    // }
-
-    
 
     checkFileType(file, callback)
 
@@ -77,12 +66,12 @@ const fileFilter = (
 
 
 //  Begin Multer Photo Path And Config ----
-
-
 const propertyPhotoStorage = multer.diskStorage({
+
     destination: 'public/uploaded/propertyphotos/'+momentYear+'/'+momentMonth+'/'+momentDay,
     
     filename: function(req, file, cb) {
+
         // Extract the extension from MIME type
         const ext = MIME_TYPE_MAP[file.mimetype as keyof typeof MIME_TYPE_MAP];
 
@@ -108,9 +97,6 @@ const propertyPhotoStorage = multer.diskStorage({
 });
 
 
-
-
-
 const uploadPropertyPhotos = multer({ 
     
     storage: propertyPhotoStorage,
@@ -127,12 +113,8 @@ const uploadPropertyPhotos = multer({
 
 
 //  Begin Routes ----
-
-
-
 listingRouter.get('/all', async (request: Request, response: Response) => {
-    
-    console.log('We Hit All Only Listingss')
+
     try {
         const users = await ListingService.listPropertys()
         return response.status(200).json(users);
@@ -140,11 +122,11 @@ listingRouter.get('/all', async (request: Request, response: Response) => {
     } catch (error: any) {
         return response.status(500).json(error.message);
     }
+
 })
 
 listingRouter.get('/allProperties', async (request: Request, response: Response) => {
     
-    console.log('We Hit To Get A List Of all Properties')
     try {
         const users = await ListingService.listPropertys()
         return response.status(200).json(users);
@@ -152,11 +134,11 @@ listingRouter.get('/allProperties', async (request: Request, response: Response)
     } catch (error: any) {
         return response.status(500).json(error.message);
     }
+
 })
 
 listingRouter.get('/allBusinesses', async (request: Request, response: Response) => {
-    
-    console.log('We Hit To Get A List Of all Businesses')
+
     try {
         const users = await ListingService.listPropertys()
         return response.status(200).json(users);
@@ -164,11 +146,14 @@ listingRouter.get('/allBusinesses', async (request: Request, response: Response)
     } catch (error: any) {
         return response.status(500).json(error.message);
     }
+
 })
 
 
 listingRouter.post('/createpropertyphotos', uploadPropertyPhotos.array('files'), async (request: any, response: any) => {
+    
     try {
+
         // Combine both files and body data
         const listingData = {
             files: request.files,
@@ -178,9 +163,12 @@ listingRouter.post('/createpropertyphotos', uploadPropertyPhotos.array('files'),
         // Call the service function with the combined data
         const createdPropertyPhotos = await ListingService.createPropertyPhotos(listingData);
         
-        return response.status(200).json(createdPropertyPhotos);
+        return response.status(200).json(createdPropertyPhotos)
+
     } catch (error: any) {
-        return response.status(500).json({ error: error.message });
+
+        return response.status(500).json({ error: error.message })
+
     }
 });
 
@@ -190,12 +178,17 @@ listingRouter.get("/id/:id", async (request: Request, response: Response) => {
     const id: number = parseInt(request.params.id, 10)
 
     try {
+
         const user = await ListingService.getListingId(id)
+
         if(user) {
             return response.status(200).json(user)
         }
+
     } catch (error) {
-        return response.status(500).json("User Could Not Be Found Id");
+
+        return response.status(500).json("User Could Not Be Found Id")
+
     }
 
 })
@@ -205,12 +198,19 @@ listingRouter.get("/uuid/:uuid", async (request: Request, response: Response) =>
     const uuid: string = request.params.id
 
     try {
+
         const user = await ListingService.getListingUuId(uuid)
+
         if(user) {
+
             return response.status(200).json(user)
+
         }
+
     } catch (error) {
-        return response.status(500).json("User Could Not Be Found by Uuid");
+
+        return response.status(500).json("User Could Not Be Found by Uuid")
+
     }
 
 })

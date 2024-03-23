@@ -64,7 +64,7 @@ interface RentMyPropertyModalProps {
 
 const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) => {
 
-        //  console.log('Line 69: currentUser', currentUser)
+        console.log('Line 67: currentUser', currentUser?.id)
         //  const generateTokenToSave = makeToken(20)
 
         //  console.log('Business Make Id: ', generateTokenToSave);
@@ -75,8 +75,10 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
         const [step, setStep] = useState(STEPS.CATEGORY)
         const [propertyId, setPropertyId] = useState<number>(0)
         const [listingId, setListingId] = useState<number>(0)
-        const [userId, setUserId] = useState<number>(parseInt(currentUser?.id as string))
+        const [userId, setUserId] = useState<number>(parseInt(currentUser?.id as any))
         const [isLoading, setIsLoading] = useState(false)
+
+        console.log('userId', userId)
   
         const { register,
                 handleSubmit, 
@@ -107,7 +109,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                 title: '',
                 description: '',
                 token: autoSaveToken,
-                userId: currentUser?.id,
+                userId: userId,
                 propertyId: propertyId,
             }
         })
@@ -160,10 +162,10 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
 
 
         try {
-            const responseData = await autoSavePropertyData(data, autoSaveToken, userId); // Call the autoSavePropertyData function
+            const responseData = await autoSavePropertyData(data, autoSaveToken, currentUser?.id); // Call the autoSavePropertyData function
             // Your other submission logic
 
-            console.log('responseData: ', responseData)
+            console.log('Liine 166 responseData: ', responseData)
 
             const { id, listingId } = responseData;
 
@@ -172,7 +174,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
 
             setPropertyId(id)
             setListingId(listingId)
-            setCustomValue('', id)
+            setCustomValue('propertyId', id)
 
         } catch (error) {
             console.error('Error occurred while submitting data:', error);

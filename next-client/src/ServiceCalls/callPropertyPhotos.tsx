@@ -19,7 +19,7 @@ export const callPropertyPhotos = async () => {
 
 }
 
-export const deletePropertyPhoto = async (data: any, autoSaveToken: any, userId: any) => {
+export const deleteAutoSavePropertyPhoto = async (data: any, autoSaveToken: any, userId: any) => {
     
     const propertyPhotoData = await data
 
@@ -35,7 +35,7 @@ export const deletePropertyPhoto = async (data: any, autoSaveToken: any, userId:
 
          }
 
-        const {data: propertyphotoResult} = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/propertys/deletePhoto/:`+autoSaveToken, postPhotoData)
+        const {data: propertyphotoResult} = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/propertys/deleteAutoSavePropertyPhoto/:`+autoSaveToken, postPhotoData)
 
         console.log('propertyphotoResult: ', propertyphotoResult)
         

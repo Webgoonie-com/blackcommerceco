@@ -1,5 +1,4 @@
 import { orm } from "../utils/orm.server";
-import bcrypt from "bcrypt";
 import { Prisma } from '@prisma/client'; // Import Prisma types
 import { MIME_TYPE_MAP } from "../types";
 import path from 'path';
@@ -61,17 +60,10 @@ export const listPropertys = async (): Promise<Listing[]> => {
 
 
 export const createPropertyPhotos = async (listingData: any): Promise<ListingProptyPhoto[] | any> => {
-    console.log('Hit Create Property Photos', listingData);
-
-    const files = listingData.files; // Access the uploaded files
-    const body = listingData.body; // Access the body data
-
-    console.log('files:', files);
-    console.log('body:', body);
 
 
-
-
+        const files = listingData.files; // Access the uploaded files
+        const body = listingData.body; // Access the body data
 
         const createInputs: Prisma.PropertyphotoCreateInput[] = files.map((file: any) => {
             const fileTypeExt = MIME_TYPE_MAP[file?.mimetype as keyof typeof MIME_TYPE_MAP] || '';
@@ -107,9 +99,9 @@ export const createPropertyPhotos = async (listingData: any): Promise<ListingPro
     //console.log('createInput JSON data: ', JSON.stringify(createInputs));
 
     const lastImageIndex = files.length - 1;
-     const lastImageUrl = createInputs[lastImageIndex].imgUrl;
+     const lastImageUrl = createInputs[lastImageIndex]?.imgUrl;
 
-     console.log('lastImageIndex', lastImageUrl)
+
 
      // Update imageSrc for the last image
      createInputs[lastImageIndex].imageSrc = lastImageUrl;
@@ -129,6 +121,7 @@ export const createPropertyPhotos = async (listingData: any): Promise<ListingPro
                 imgUrl: true,
                 imageSrc: true,
                 createdAt: true,
+                property: true,
             }
         })
 

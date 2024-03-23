@@ -1,6 +1,5 @@
 import express from 'express'
 import type { Request, Response } from 'express'
-import {body, validationResult} from 'express-validator'
 
 import * as BusinessController from "./business.controller";
 
@@ -9,14 +8,13 @@ export const businessRouter = express.Router();
 import multer, { FileFilterCallback } from 'multer'
 import moment from 'moment'
 import path from 'path'
-import { Business } from '@prisma/client';
+
 
 const momentYear = moment().format('YYYY');
 const momentMonth = moment().format('MM');
 const momentDay = moment().format('DD');
 
 //  Begin Multer File Types Config ----
-
 const MIME_TYPE_MAP = {
     'image/png': 'png',
     'image/jpeg': 'jpg',
@@ -27,7 +25,6 @@ const MIME_TYPE_MAP = {
 };
 
 async function checkFileType(file: Express.Multer.File, cb: multer.FileFilterCallback){
-    console.log('Checking file type', file)
 
     // Check if the file has a valid image extension
     const validExtension = /\.(jpeg|jpg|png|avif|gif|webp)$/.test(path.extname(file.originalname).toLowerCase());
@@ -52,22 +49,12 @@ const fileFilter = (
     callback: FileFilterCallback
 ) => {
 
-    //const ext = MIME_TYPE_MAP[file.mimetype];
+    
     const ext = MIME_TYPE_MAP[file.mimetype as keyof typeof MIME_TYPE_MAP]
-
-    console.log('file', file)
-    console.log('ext', ext)
     
     if(!ext){
         return callback(new Error('Error: Sorry fileFilter Only Images Are Allowed!'))
     }
-
-    // return error if the file type is not image
-    // if (!file || file.mimetype.split('/')[0] != 'image' ||) {
-    //     return callback(new Error('Only images allowed'));
-    // }
-
-    
 
     checkFileType(file, callback)
 
@@ -77,6 +64,7 @@ const fileFilter = (
 //  Begin Multer Photo Path And Config ----
 
 const businessPhotoStorage = multer.diskStorage({
+    
     destination: 'public/uploaded/businessphotos/'+momentYear+'/'+momentMonth+'/'+momentDay,
     
     filename: function(req, file, cb) {
@@ -122,10 +110,8 @@ const uploadBusinessPhotos = multer({
 
 //  Begin Routes ----
 
-
 businessRouter.get('/allbusinesses', async (request: Request, response: Response) => {
     
-    console.log('We Hit To Get A List Of all Businesses')
     try {
         const users = await BusinessController.listBusinesses()
         return response.status(200).json(users);
@@ -161,8 +147,6 @@ businessRouter.post('/autoSaveBusinessData', async (request, response) => {
     try {
         const businessData = request.body; // Assuming you're sending the business data in the request body
 
-        console.log('businessData 6:00: ', businessData)
-
         // Call the service function with the received data
         const createdBusiness = await BusinessController.autoSaveBusinessData(businessData, businessData);
 
@@ -176,9 +160,7 @@ businessRouter.post('/createBusiness', async (request, response) => {
 
 
     try {
-        const businessData = request.body; // Assuming you're sending the business data in the request body
-
-        console.log('businessData 6:00: ', businessData)
+        const businessData = request.body;
 
         // Call the service function with the received data
         const createdBusiness = await BusinessController.createBusiness(businessData, businessData);
@@ -219,3 +201,19 @@ businessRouter.get("/uuid/:uuid", async (request: Request, response: Response) =
     }
 
 })
+
+
+
+businessRouter.post('/deleteAutoSaveBusinessPhoto/:imageurl', async (request: Request, response: Response) => {    
+
+    try {
+        const businessData = request.body; // Assuming you're sending the business data in the request body
+
+        // Call the service function with the received data
+        const deleteAutoSavePhoto = await BusinessController.deleteAutoSavePhoto(businessData);
+
+        return response.status(200).json(deleteAutoSavePhoto);
+    } catch (error) {
+        return response.status(500).json({ error });
+    }
+});

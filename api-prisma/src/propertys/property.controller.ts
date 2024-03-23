@@ -1,8 +1,8 @@
 import { orm } from "../utils/orm.server";
-import bcrypt from "bcrypt";
-import { Prisma } from '@prisma/client'; // Import Prisma types
+import { Prisma } from '@prisma/client';
 import { MIME_TYPE_MAP } from "../types";
 import path from 'path';
+import { unlink } from "fs/promises";
 
 
 type Listing = {
@@ -136,42 +136,41 @@ export const listPropertys = async (): Promise<Property[]> => {
             userId: true,
             createdAt: true,
             countryId: true,
-            // country: { 
-            //     select: {
-            //         id: true,
-            //         isoCode: true,
-            //         name: true,
-            //         currency: true,
-            //         phonecode: true,
-            //         flag: true,
-            //         latitude: true,
-            //         longitude: true,
-            //         region: true,
-            //         timezones: true
-            //     }
-            // },
+            country: { 
+                select: {
+                    id: true,
+                    isoCode: true,
+                    name: true,
+                    currency: true,
+                    phonecode: true,
+                    flag: true,
+                    latitude: true,
+                    longitude: true,
+                    region: true,
+                    timezones: true
+                }
+            },
             countryStateRegionId: true,
-            // countryStateRegion: { 
-            //     select: {
-            //         id: true,
-            //         isoCode: true,
-            //         name: true,
-            //         latitude: true,
-            //         longitude: true,
-            //         countryId: true
-            //     }
-            // },
+            countryStateRegion: { 
+                select: {
+                    id: true,
+                    isoCode: true,
+                    name: true,
+                    latitude: true,
+                    longitude: true,
+                    countryId: true
+                }
+            },
             countryCityId: true,
-            // countryCity: { 
-            //     select: {
-            //         id: true,
-            //         isoCode: true,
-            //         name: true,
-            //         latitude: true,
-            //         longitude: true,
-            //         countryId: true
-            //     }
-            // },
+            countryCity: { 
+                select: {
+                    id: true,
+                    name: true,
+                    latitude: true,
+                    longitude: true,
+                    countryId: true
+                }
+            },
         }
         
     });
@@ -315,18 +314,14 @@ export const getPropertyUuId = async (uuid: string): Promise<Property | null> =>
 
 
 export const createProperty = async (property: Property): Promise<Property | any> => {
-    console.log('Hit Create Property Hit on line 96');
-
-    const price = property.price.toString();
+    
+        const price = property.price.toString();
 
         const imageSrcString = Array.isArray(property.imageSrc) ? property.imageSrc.join(',') : '';
 
         const autoSaveToken = property?.token
-        console.log('Line 142 autoSaveToken', autoSaveToken)
 
         const { token } = property;
-
-        console.log('Line 146 autoSaveToken', token)
 
         // Handle the possibility of countryId, countryStateRegionId, and countryCityId being undefined
         const countryId = property.countryId !== undefined ? property.countryId : 0; // Replace 0 with a default value if needed
@@ -409,7 +404,7 @@ export const createProperty = async (property: Property): Promise<Property | any
                     }
                 });
 
-                return autoSaveCreateUpdateProperty;
+                return autoSaveCreateUpdateProperty
 
             } catch (error) {
                 console.log('Error', error);
@@ -421,25 +416,16 @@ export const createProperty = async (property: Property): Promise<Property | any
 
 
 export const createPropertyPhotos = async (propertyData: any): Promise<PropertyPhoto[] | any> => {
-    console.log('Hit Create Property Photos', propertyData);
+    
 
-    const files = propertyData.files; // Access the uploaded files
-    const body = propertyData.body; // Access the body data
-
-    console.log('files:', files);
-    console.log('body:', body);
-
-
-
-
+        const files = propertyData.files
+        const body = propertyData.body
 
         const createInputs: Prisma.PropertyphotoCreateInput[] = files.map((file: any) => {
             const fileTypeExt = MIME_TYPE_MAP[file?.mimetype as keyof typeof MIME_TYPE_MAP] || '';
-            
-            //const destinationWithoutPublic = file?.destination.replace(/^public\//, '');
+                        
             const destinationWithoutPublic = file?.destination.replace(/^public\//, '');
             
-            //const imgUrl = body?.imgUrl + '/' + relativePath + '/' + file?.filename + '.' + body?.fileTypeExt;
             const imgUrl = body?.imgUrl + '/' + destinationWithoutPublic + '/' + file?.filename;
 
             const fullLocalPath = path.join(process.cwd(), file?.path)
@@ -451,7 +437,6 @@ export const createPropertyPhotos = async (propertyData: any): Promise<PropertyP
                 imgFileType: file?.mimetype,
                 imgFileOutputDir: file?.destination,
                 imgFileName: file?.filename,
-                //imgFilePath: file?.path,
                 imgFilePath: fullLocalPath,
                 imgFileSize: file?.size,
                 imageSrc: body?.imageSrc,
@@ -464,12 +449,8 @@ export const createPropertyPhotos = async (propertyData: any): Promise<PropertyP
             };
         });
 
-    //console.log('createInput JSON data: ', JSON.stringify(createInputs));
-
     const lastImageIndex = files.length - 1;
-     const lastImageUrl = createInputs[lastImageIndex].imgUrl;
-
-     //console.log('lastImageIndex', lastImageUrl)
+    const lastImageUrl = createInputs[lastImageIndex].imgUrl;
 
      // Update imageSrc for the last image
      createInputs[lastImageIndex].imageSrc = lastImageUrl;
@@ -477,7 +458,7 @@ export const createPropertyPhotos = async (propertyData: any): Promise<PropertyP
     await orm.property.update({
         where: { id: body?.propertyId },
         data: {
-            imageSrc: lastImageUrl, // Save the concatenated string           
+            imageSrc: lastImageUrl,
         }
     });
 
@@ -501,31 +482,47 @@ export const createPropertyPhotos = async (propertyData: any): Promise<PropertyP
 
     return saveMultipleUploadPropertyPhotos;
 } catch (error) {
-    console.error('Error creating property photos:', error);
+
     return { error: 'Failed to create property photos. Please check the provided data.' };
 }
 
 };
 
 
-export const deletePropertyPhoto = async (propertyData: any): Promise<PropertyPhoto[] | any> => {
-
+export const deleteAutoSavePropertyPhoto = async (propertyData: any): Promise<PropertyPhoto[] | any> => {
 
     if(!propertyData){
         throw new Error("Poperty Data Mising");
         
     }
 
-    console.log('Delete Controller propertyData', propertyData.propertyData)
-    console.log('Delete userId', propertyData.userId)
-    console.log('Delete autoSaveToken', propertyData.autoSaveToken)
+    const propertyPhotoData = propertyData.propertyPhotoData
+    const userId = propertyData.userId
+    const autoSaveToken = propertyData.autoSaveToken
 
-    const findPhoto = await orm.propertyphoto.findFirst({
-        where: { imageSrc: propertyData?.propertyData },
+    const deleteThisPhotoObject = await orm.propertyphoto.findFirst({
+        where: { 
+            imageSrc: propertyPhotoData,
+            token: autoSaveToken,
+            userId: parseInt(userId),
+        },
         
     })
 
-    console.log('Find Photo: = ', findPhoto)
+    
+    if(deleteThisPhotoObject){
+            
+        const fullLocalPath = path.join(process.cwd(), deleteThisPhotoObject.imgFilePath)
+
+        await unlink(deleteThisPhotoObject.imgFilePath)
+
+        const deletePropertyPhoto = await orm.propertyphoto.delete({
+            where: {
+              id: deleteThisPhotoObject.id,
+            },
+          })
+    }
+
     
     
 
@@ -559,7 +556,8 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
         let createdListing
         let existingListing
         let updatedProperty
-        //let existingProperty
+        var existingProperty
+        var existingProperty2
 
         // Begin Country CountryState CountryCity Ripped
 
@@ -691,6 +689,8 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
 
             if(!existingCountryCity){
 
+                console.log('Creating CountryCity')
+                
                 const neWCountryCodeLatlng = `${property.countryCity?.latitude},${property.countryCity?.longitude}`;
 
                 try {
@@ -724,11 +724,13 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
 
         }
 
+        console.log("Well ?????")
+
 
         // Handle the possibility of countryId, countryStateRegionId, and countryCityId being undefined
-        const countryId = property.countryId !== undefined ? property.countryId : 0; // Replace 0 with a default value if needed
-        const countryStateRegionId = property.countryStateRegionId !== undefined ? property.countryStateRegionId : 0;
-        const countryCityId = property.countryCityId !== undefined ? property.countryCityId : 0;
+        // const countryId = property.countryId !== undefined ? property.countryId : 0; // Replace 0 with a default value if needed
+        // const countryStateRegionId = property.countryStateRegionId !== undefined ? property.countryStateRegionId : 0;
+        // const countryCityId = property.countryCityId !== undefined ? property.countryCityId : 0;
 
 
        
@@ -737,27 +739,43 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
 
 
         // Begin Listing And Propety
-        const existingProperty = await orm.property.findFirst({
-            where: {
-                token: autoSaveToken || token,
-                userId: parseInt(property.userId as any)
-            }
-        });
+
+        console.log('Do you have autoSaveToken: ', autoSaveToken)
+
+        console.log("what is? existingProperty b4: ", existingProperty)
+
+        try {
+            
+
+            existingProperty = await orm.property.findFirst({
+                where: {
+                    token: autoSaveToken,
+                    userId: parseInt(property.userId as any)
+                }
+            });
+
+        } catch (error) {   
+                console.log('Line 761 on existingProperty Error', error)
+        }
+
+
+        console.log("Wassup Now? existingProperty: ", existingProperty)
 
         existingListing = await orm.listing.findFirst({
             where: {
-                token: autoSaveToken || token,
+                token: autoSaveToken,
                 userId: parseInt(property.userId as any)
             }
         });
 
-        //console.log('Line 322 existingListing', existingListing)
+        console.log('Line 754 existingListing', existingListing)
+        console.log('Line 755 existingProperty', existingProperty)
 
         
 
         if (existingProperty) {
 
-            console.log('Line 346 updating Property')
+            console.log('Line 761 updating Property')
 
             try {
 
@@ -821,9 +839,9 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
                         streetCity: property.streetCity,
                         streetZipCode: property.streetZipCode,
                         userId: property.userId,
-                        countryId: countryId, // Include countryId
-                        countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
-                        countryCityId: countryCityId, // Include countryCityId
+                        countryId: existingCountry?.id || 0, // Include countryId
+                        countryStateRegionId: existingCountryStateRegion?.id || 0, // Include countryStateRegionId
+                        countryCityId: existingCountryCity?.id || 0, // Include countryCityId
                     },
                     select: {
                         id: true,
@@ -865,7 +883,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
             }
         });
 
-        //console.log('Line 452 existingListing', existingListing)
+        console.log('Line 452 existingListing', existingListing)
 
         if(!existingProperty){
 
@@ -889,9 +907,9 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
                         imageSrc: imageSrcString, // Save the concatenated string
                         userId: listing.userId,
                         propertyId: existingProperty?.id,
-                        countryId: countryId, // Include countryId
-                        countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
-                        countryCityId: countryCityId, // Include countryCityId
+                        countryId: existingCountry?.id || 0, // Include countryId
+                        countryStateRegionId: existingCountryStateRegion?.id || 0, // Include countryStateRegionId
+                        countryCityId: existingCountryCity?.id || 0, // Include countryCityId
                     },
                     select: {
                         id: true,
@@ -917,7 +935,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
             }
         }else{
 
-            //console.log('Line 497 try Updating existingListing existingListing')
+            console.log('Line 497 try Updating existingListing existingListing')
 
             try {
                 
@@ -931,9 +949,9 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
                         imageSrc: imageSrcString, // Save the concatenated string
                         userId: listing.userId,
                         propertyId: existingProperty?.id,
-                        countryId: countryId, // Include countryId
-                        countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
-                        countryCityId: countryCityId, // Include countryCityId
+                        countryId: existingCountry?.id || 0, // Include countryId
+                        countryStateRegionId: existingCountryStateRegion?.id || 0, // Include countryStateRegionId
+                        countryCityId: existingCountryCity?.id || 0, // Include countryCityId
                     }
                 });
 
@@ -952,7 +970,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
 
         //  return createdListing
 
-        //console.log('autoSaveCreateUpdateProperty: ', autoSaveCreateUpdateProperty);
+        console.log('End autoSaveCreateUpdateProperty: ', autoSaveCreateUpdateProperty);
         return autoSaveCreateUpdateProperty;
 
 

@@ -46,7 +46,7 @@ export const autoSavePropertyData = async (data: any, autoSaveToken: any, userId
     
     // console.log('Line 27: autoSavePropertyData', data)
     // console.log('Line 28: autoSaveToken', autoSaveToken)
-    // console.log('Line 29: userId', userId)
+     console.log('Line 49: userId', userId)
 
     
 

@@ -1,15 +1,14 @@
 import express from 'express'
 import type { Request, Response } from 'express'
-import {body, validationResult} from 'express-validator'
-
 import * as PropertyService from "./property.controller";
+import multer, { FileFilterCallback } from 'multer'
+import moment from 'moment'
+import path from 'path'
+
 
 export const propertyRouter = express.Router();
 
 
-import multer, { FileFilterCallback } from 'multer'
-import moment from 'moment'
-import path from 'path'
 
 
 const momentYear = moment().format('YYYY');
@@ -29,7 +28,6 @@ const MIME_TYPE_MAP = {
 };
 
 async function checkFileType(file: Express.Multer.File, cb: multer.FileFilterCallback){
-    console.log('Checking file type', file)
 
     // Check if the file has a valid image extension
     const validExtension = /\.(jpeg|jpg|png|avif|gif|webp)$/.test(path.extname(file.originalname).toLowerCase());
@@ -56,20 +54,10 @@ const fileFilter = (
 
     //const ext = MIME_TYPE_MAP[file.mimetype];
     const ext = MIME_TYPE_MAP[file.mimetype as keyof typeof MIME_TYPE_MAP]
-
-    console.log('file', file)
-    console.log('ext', ext)
     
     if(!ext){
         return callback(new Error('Error: Sorry fileFilter Only Images Are Allowed!'))
-    }
-
-    // return error if the file type is not image
-    // if (!file || file.mimetype.split('/')[0] != 'image' ||) {
-    //     return callback(new Error('Only images allowed'));
-    // }
-
-    
+    }    
 
     checkFileType(file, callback)
 
@@ -77,9 +65,8 @@ const fileFilter = (
 };
 
 //  Begin Multer Photo Path And Config ----
-
-
 const propertyPhotoStorage = multer.diskStorage({
+
     destination: 'public/uploaded/propertyphotos/'+momentYear+'/'+momentMonth+'/'+momentDay,
     
     filename: function(req, file, cb) {
@@ -117,9 +104,6 @@ const uploadPropertyPhotos = multer({
 
     //  This is a custom fileFilter.
     fileFilter: fileFilter
-
-    
-    
 });
 
 
@@ -146,11 +130,8 @@ propertyRouter.get('/allProperties', async (request: Request, response: Response
 
 propertyRouter.post('/createProperty', async (request: Request, response: Response) => {
     
-    console.log('Hit Create Property')
     const propertyData = await request.body;
-    console.log('Hit Create propertyData', propertyData)
-
-    
+        
     try {
         const property = await PropertyService.createProperty(propertyData)
         return response.status(200).json(property);
@@ -162,13 +143,8 @@ propertyRouter.post('/createProperty', async (request: Request, response: Respon
 
 propertyRouter.post('/createpropertyphotos', uploadPropertyPhotos.array('files'), async (request: Request, response: Response) => {
     
-    console.log('Hit Create Property Photos')
-
     const propertyPhotoData = await request.body;
-
-    console.log('Hit Create propertyData', propertyPhotoData)
-
-    
+        
     try {
         const propertyPhoto = await PropertyService.createPropertyPhotos(propertyPhotoData)
         return response.status(200).json(propertyPhoto);
@@ -180,7 +156,6 @@ propertyRouter.post('/createpropertyphotos', uploadPropertyPhotos.array('files')
 
 propertyRouter.post('/autoSavePropertyData', async (request: Request, response: Response) => {
     
-    console.log('Hit AutoSavePropertyData: ', request.body)
     const propertyData = await request.body;
     
     try {
@@ -195,8 +170,6 @@ propertyRouter.post('/autoSavePropertyData', async (request: Request, response: 
 propertyRouter.get("/id/:id", async (request: Request, response: Response) => {
 
     const id: number = parseInt(request.params.id, 10)
-
-    console.log('Property Id', id)
 
     try {
         const property = await PropertyService.getPropertyId(id)
@@ -225,50 +198,16 @@ propertyRouter.get("/uuid/:uuid", async (request: Request, response: Response) =
 })
 
 
-propertyRouter.post('/deletePhoto/:imageurl', async (request: Request, response: Response) => {
+propertyRouter.post('/deleteAutoSavePropertyPhoto/:imageurl', async (request: Request, response: Response) => {
     
-    console.log('Hit delete Property Photo Router', request.params.imageurl as string)
-
-    const propertyPhotoData = await request.body;
-
-    
-
-    console.log('propertyPhotoData.updatedImages', propertyPhotoData.updatedImages)
-    console.log('propertyPhotoData.autoSaveToken', propertyPhotoData.autoSaveToken)
-    console.log('propertyPhotoData.userId', propertyPhotoData.autoSaveToken.userId)
-    
+    const propertyPhotoData = await request.body
 
     try {
-        const propertys = await PropertyService.deletePropertyPhoto(propertyPhotoData)
+        const propertys = await PropertyService.deleteAutoSavePropertyPhoto(propertyPhotoData)
         return response.status(200).json(propertys);
 
     } catch (error: any) {
         return response.status(500).json(error.message);
     }
-
-
-    
-    // try {
-    //     const { imageData } = await request.json();
-        
-
-    //     if(!imageData)  return NextResponse.json({ Error: false, message: 'File Empty' });
-
-    //      // Ensure imageData is an object and has a property 'local'
-    //     const localPath = imageData && imageData.local;
-        
-    //     if (!localPath) {
-    //         return NextResponse.json({ success: false, message: 'Local path not provided' });
-    //     }
-
-    //     // Delete the file from the file system
-    //     await unlink(localPath);
-
-    //     return NextResponse.json({ success: true, message: 'File deleted successfully' });
-    // } catch (error) {
-    //     console.error('Error deleting file:', error);
-    //     return NextResponse.json({ success: false, message: 'Error deleting file', error: error });
-    // }
-
 
 })

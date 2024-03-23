@@ -1,8 +1,8 @@
 import { orm } from "../utils/orm.server";
-import bcrypt from "bcrypt";
 import { Prisma } from '@prisma/client'; // Import Prisma types
 import { MIME_TYPE_MAP } from "../types";
 import path from 'path';
+import { unlink } from "fs/promises";
 
 
 type Business = {
@@ -122,8 +122,6 @@ type Country = {
 
 export const listBusinesses = async (): Promise<Business[]> => {
 
-    console.log('We Hit Controller now')
-
 
     try {
         
@@ -177,7 +175,7 @@ export const listBusinesses = async (): Promise<Business[]> => {
             },
             updatedAt: true,
             
-         }
+            }
         })
 
 
@@ -189,8 +187,6 @@ export const listBusinesses = async (): Promise<Business[]> => {
         
     }
 }
-
-
 
 
 export const getBusinessId = async (id: number): Promise<Business | null> => {
@@ -230,8 +226,6 @@ export const getBusinessId = async (id: number): Promise<Business | null> => {
         },
     })
 }
-
-
 
 
 export const getBusinessUuId = async (uuid: string): Promise<Business | null> => {
@@ -276,33 +270,19 @@ export const getBusinessUuId = async (uuid: string): Promise<Business | null> =>
 export const autoSaveBusinessData = async (business: Business, listing: Listing): Promise<Business | any> => {
 
 
-    console.log("Hit autoSavePropertyData Service.ts new Controller.ts", business)
-    //return business;
-
-        
-
         const imageSrcString = Array.isArray(business.imageSrc) ? business.imageSrc.join(',') : '';
 
         const autoSaveToken = business?.token
-        console.log('Line 142 autoSaveToken', autoSaveToken)
 
         const { token } = business;
 
-        console.log('Line 146 autoSaveToken', token)
 
         // Begin Country CountryState CountryCity Ripped
         let existingCountry
         let existingCountryStateRegion
         let existingCountryCity
 
-        console.log('Begin To Rip Out Country ON Insert Update',  business)
-
         if(business.country){
-
-            
-            console.log('Begin To Rip Out Country ON Insert Update',  business.country)
-
-            
 
             existingCountry = await orm.country.findFirst({
                 where: {
@@ -311,20 +291,11 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                 }
             });
 
-            console.log('1 Existing Country: ', existingCountry)
+
 
             if(!existingCountry){
-                //console.log("It's time to Create A New Country: ", existingCountry)
-                console.log("It's time to Create A New Country: ")
 
                 const neWCreateCountryLatlng = `${business.country?.latitude},${business.country?.longitude}`;
-
-                // const user = await prisma.user.create({
-                //     data: {
-                //       name: 'Alice',
-                //       email: 'alice@prisma.io',
-                //     },
-                //   })
 
                 try {
                     
@@ -345,24 +316,19 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                         },
                     });
 
-
-
-                    console.log("newCountry", existingCountry)
-
-
                 } catch (error) {
                     console.log("error", error)
                 }
 
             }
 
-            //console.log("2 Ater it's all said and done on country", existingCountry)
+            
 
 
         }
 
         if (business.countryStateRegion) {
-            //console.log("Let's Begin  countryStateRegion ", business.countryStateRegion);
+            
         
             existingCountryStateRegion = await orm.countryStateRegion.findFirst({
                 where: {
@@ -371,7 +337,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                 }
             });
         
-            //console.log('1 existingCountryStateRegion', existingCountryStateRegion);
+            
         
             const neWCreateCountryStateRegionLatlng = `${business.countryStateRegion?.latitude},${business.countryStateRegion?.longitude}`;
         
@@ -389,16 +355,10 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                             country: {
                                 connect: { id: existingCountry?.id } // Connect to the associated country
                             },
-                            // countryCity: {
-                            //     connect: { id: property.countryCityId } // Connect to the associated country city
-                            // }
-                            // countryCity:  property.countryCityId ? {
-                            //     connect: { id: property.countryCityId } // Connect to the associated country city
-                            // } : null
                         },
                     });
         
-                    console.log("new existingCountryStateRegion", existingCountryStateRegion);
+                    
                 } catch (error) {
                     console.log("error", error);
                 }
@@ -407,7 +367,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
 
         if(business.countryCity) {
 
-            console.log("countryCity damnit", business.countryCity)
+            
 
             existingCountryCity = await orm.countryCity.findFirst({
                 where: {
@@ -417,7 +377,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
             });
 
 
-            console.log("1 countryCity existingCountryCity", existingCountryCity)
+            
 
             if(!existingCountryCity){
 
@@ -442,7 +402,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                         },
                     });
         
-                    console.log("new existingCountryStateRegion", existingCountryStateRegion);
+                    
                 } catch (error) {
                     console.log("error", error);
                 }
@@ -484,19 +444,17 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
             }
         });
 
-        console.log('Line 322 existingListing', existingListing)
+        
 
         
 
         if (existingBusiness && existingListing) {
 
-            console.log('Line 346 updating business')
+            
 
             try {
 
-                // If business exists, update it
-               // updatedbusiness = await orm.business.update({
-
+               
                 autoSaveBusinessData = await orm.business.update({
                     where: { id: existingBusiness.id },
                     data: {
@@ -509,14 +467,14 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                         
                         listingId: existingListing.id,
                         
-                        imageSrc: imageSrcString, // Save the concatenated string
+                        imageSrc: imageSrcString,
                         streetAddress: business.streetAddress,
                         streetAddress2: business.streetAddress2,
                         streetCity: business.streetCity,
                         streetZipCode: business.streetZipCode,
                         userId: business.userId,
-                        countryId: existingCountry?.id, // Include countryId
-                        countryStateRegionId: existingCountryStateRegion?.id, // Include countryStateRegionId
+                        countryId: existingCountry?.id,
+                        countryStateRegionId: existingCountryStateRegion?.id,
                         countryCityId: existingCountryCity?.id,
                     }
                 });
@@ -524,7 +482,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                 
                 updatedBusiness = autoSaveBusinessData
                 
-                //return updatedbusiness;          
+            
                 
             } catch (error) {
                 console.log('Error', error);
@@ -533,7 +491,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
         } else {
            
             // If business doesn't exist, create it
-            console.log('business Creation attempt')
+            
 
             try {
                 
@@ -550,20 +508,16 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                         hasStore: business.hasStore,
                         hasProducts: business.hasProducts,
                         hasServices: business.hasServices,
-                        imageSrc: imageSrcString, // Save the concatenated string
+                        imageSrc: imageSrcString,
                         streetAddress: business.streetAddress,
                         streetAddress2: business.streetAddress2,
                         streetCity: business.streetCity,
                         streetZipCode: business.streetZipCode,
                         userId: business.userId,
-                        countryId: countryId, // Include countryId
-                        countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
-                        countryCityId: countryCityId, // Include countryCityId
-                        //user: { connect: { id: business?.userId  as any } },
+                        countryId: countryId,
+                        countryStateRegionId: countryStateRegionId,
+                        countryCityId: countryCityId,
                         
-                        // user: {
-                        //     connect: { id: business.userId } // Assuming you want to connect the business to an existing user
-                        // }
                     },
                     select: {
                         id: true,
@@ -614,14 +568,14 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
             }
         });
 
-        console.log('Line 452 existingListing', existingListing)
+        
 
 
         if(!existingListing){
 
             try {
                 
-                console.log('Line 455 try creating existingListing')
+                
 
                 createdListing = await orm.listing.create({
                     data: {
@@ -653,7 +607,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                     }
                 });
 
-                //return createdListing;
+                
 
             } catch (error) {
                 console.log('Error', error);
@@ -680,7 +634,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                     }
                 });
 
-                //return updatedListing;
+                
             } catch (error) {
                 console.log('Error on Updateing Listing')
             }
@@ -695,7 +649,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
 
         //  return createdListing
 
-        console.log('autoSaveCreateUpdateBusiness: ', autoSaveBusinessData);
+        
         return autoSaveBusinessData;
 
 
@@ -712,19 +666,16 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
 export const createBusiness = async (business: Business, listing: Listing): Promise<Business | any> => {
 
 
-    console.log("Hit autoSavePropertyData Service.ts new Controller.ts", business)
-    //return business;
-
-        
+       
 
         const imageSrcString = Array.isArray(business.imageSrc) ? business.imageSrc.join(',') : '';
 
         const autoSaveToken = business?.token
-        console.log('Line 142 autoSaveToken', autoSaveToken)
+        
 
         const { token } = business;
 
-        console.log('Line 146 autoSaveToken', token)
+        
 
         // Handle the possibility of countryId, countryStateRegionId, and countryCityId being undefined
         const countryId = business.countryId !== undefined ? business.countryId : 0; // Replace 0 with a default value if needed
@@ -752,18 +703,18 @@ export const createBusiness = async (business: Business, listing: Listing): Prom
             }
         });
 
-        console.log('Line 322 existingListing', existingListing)
+    
 
         
 
         if (existingBusiness) {
 
-            console.log('Line 346 updating business')
+   
 
             try {
 
                 // If business exists, update it
-               // updatedbusiness = await orm.business.update({
+               
 
                 autoSaveBusinessData = await orm.business.update({
                     where: { id: existingBusiness.id },
@@ -776,20 +727,20 @@ export const createBusiness = async (business: Business, listing: Listing): Prom
                         
                         
                         
-                        imageSrc: imageSrcString, // Save the concatenated string
+                        imageSrc: imageSrcString,
                         streetAddress: business.streetAddress,
                         streetAddress2: business.streetAddress2,
                         streetCity: business.streetCity,
                         streetZipCode: business.streetZipCode,
                         userId: business.userId,
-                        countryId: countryId, // Include countryId
-                        countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
-                        countryCityId: countryCityId, // Include countryCityId
+                        countryId: countryId,
+                        countryStateRegionId: countryStateRegionId,
+                        countryCityId: countryCityId,
                     }
                 });
 
                 
-                //return updatedbusiness;          
+ 
                 
             } catch (error) {
                 console.log('Error', error);
@@ -797,8 +748,8 @@ export const createBusiness = async (business: Business, listing: Listing): Prom
 
         } else {
            
-            // If business doesn't exist, create it
-            console.log('business Creation attempt')
+            //  If business doesn't exist, create it
+            //  console.log('business Creation attempt')
 
             try {
                 
@@ -815,20 +766,16 @@ export const createBusiness = async (business: Business, listing: Listing): Prom
                         hasStore: business.hasStore,
                         hasProducts: business.hasProducts,
                         hasServices: business.hasServices,
-                        imageSrc: imageSrcString, // Save the concatenated string
+                        imageSrc: imageSrcString,
                         streetAddress: business.streetAddress,
                         streetAddress2: business.streetAddress2,
                         streetCity: business.streetCity,
                         streetZipCode: business.streetZipCode,
                         userId: business.userId,
-                        countryId: countryId, // Include countryId
-                        countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
-                        countryCityId: countryCityId, // Include countryCityId
-                        //user: { connect: { id: business?.userId  as any } },
+                        countryId: countryId,
+                        countryStateRegionId: countryStateRegionId, 
+                        countryCityId: countryCityId, 
                         
-                        // user: {
-                        //     connect: { id: business.userId } // Assuming you want to connect the business to an existing user
-                        // }
                     },
                     select: {
                         id: true,
@@ -974,13 +921,13 @@ export const createBusiness = async (business: Business, listing: Listing): Prom
 
 export const createBusinessPhotos = async (businessPhotoData: any): Promise<BusinessPhoto[] | any> => {
     
-    console.log('Hit Create Business Photos', businessPhotoData);
+    //console.log('Hit Create Business Photos', businessPhotoData);
 
     const files = businessPhotoData.files; // Access the uploaded files
     const body = businessPhotoData.body; // Access the body data
 
-    console.log('files:', files);
-    console.log('body:', body);
+    // console.log('files:', files);
+    // console.log('body:', body);
 
 
 
@@ -994,6 +941,8 @@ export const createBusinessPhotos = async (businessPhotoData: any): Promise<Busi
             
             //const imgUrl = body?.imgUrl + '/' + relativePath + '/' + file?.filename + '.' + body?.fileTypeExt;
             const imgUrl = body?.imgUrl + '/' + destinationWithoutPublic + '/' + file?.filename;
+
+            const fullLocalPath = path.join(process.cwd(), file?.path)
     
             return {
                 imgAlbumName: file?.fieldname,
@@ -1002,7 +951,8 @@ export const createBusinessPhotos = async (businessPhotoData: any): Promise<Busi
                 imgFileType: file?.mimetype,
                 imgFileOutputDir: file?.destination,
                 imgFileName: file?.filename,
-                imgFilePath: file?.path,
+                //imgFilePath: file?.path,
+                imgFilePath: fullLocalPath,
                 imgFileSize: file?.size,
                 imageSrc: body?.imageSrc,
                 imagesMultiSrc: body?.imageSrc,
@@ -1016,42 +966,50 @@ export const createBusinessPhotos = async (businessPhotoData: any): Promise<Busi
             };
         });
 
-    console.log('createInput JSON data: ', JSON.stringify(createInputs));
+        // console.log('createInput JSON data: ', createInputs);
 
      // Determine the last image URL
      const lastImageIndex = files.length - 1;
-     const lastImageUrl = createInputs[lastImageIndex].imgUrl;
+     const lastImageUrl = createInputs[lastImageIndex]?.imgUrl;
+
+    //  console.log('lastImageIndex', lastImageUrl)
 
      // Update imageSrc for the last image
      createInputs[lastImageIndex].imageSrc = lastImageUrl;
 
 
-        console.log('createInput JSON data: ', JSON.stringify(createInputs));
+        
 
-        await orm.business.update({
-            where: { id: body?.businessId },
-            data: {
-                imageSrc: lastImageUrl, // Save the concatenated string           
-            }
-        });
 
 
     try {
-    const createdBusinessPhotos = await Promise.all(createInputs.map(createInput =>
-        orm.businessphoto.create({
-            data: {
-                ...(createInput as Prisma.BusinessphotoCreateInput),
-            },
-            select: {
-                id: true,
-                uuid: true,
-                imgUrl: true,
-                imageSrc: true,
-                createdAt: true,
-            }
-        })
-    ));
+        const createdBusinessPhotos = await Promise.all(createInputs.map(createInput =>
+            orm.businessphoto.create({
+                data: {
+                    ...(createInput as Prisma.BusinessphotoCreateInput),
+                },
+                select: {
+                    id: true,
+                    uuid: true,
+                    imgUrl: true,
+                    imageSrc: true,
+                    createdAt: true,
+                }
+            })
+        ));
 
+        try {
+            
+            await orm.business.update({
+                where: { id: parseInt(body?.businessId) },
+                data: {
+                    imageSrc: lastImageUrl, // Save the concatenated string           
+                }
+            });
+
+        } catch (error) {
+            console.log('Error on Updating Last Image Photo', error)
+        }
 
     body?.businessId
 
@@ -1062,3 +1020,61 @@ export const createBusinessPhotos = async (businessPhotoData: any): Promise<Busi
 }
 
 };
+
+
+export const deleteAutoSavePhoto  = async (businessData: any): Promise<BusinessPhoto[] | any> => {
+    
+    
+
+
+    const propertyPhotoData = businessData.propertyPhotoData
+    const userId = businessData.userId
+    const autoSaveToken = businessData.autoSaveToken
+
+
+    try {
+        
+
+        
+
+        const deleteThisPhotoObject = await orm.businessphoto.findFirst({
+            where: {
+                imageSrc: propertyPhotoData,
+                token: autoSaveToken,
+                userId: parseInt(userId),
+            }
+        });
+
+        
+        if(deleteThisPhotoObject){
+            
+            
+            
+            const fullLocalPath = path.join(process.cwd(), deleteThisPhotoObject.imgFilePath)
+    
+            
+    
+            await unlink(deleteThisPhotoObject.imgFilePath)
+
+            
+
+
+            const deleteBusinessPhoto = await orm.businessphoto.delete({
+                where: {
+                  id: deleteThisPhotoObject.id,
+                },
+              })
+
+              
+        }
+
+
+
+        
+    } catch (error) {
+        console.log('Error deleting', error)
+    }
+
+    return businessData;
+}
+

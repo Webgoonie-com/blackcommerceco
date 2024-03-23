@@ -2,7 +2,7 @@
 
 import { Button } from '@/Components/ui/button';
 import axiosWithCredentials from '@/lib/axiosWithCredentials';
-import { deletePropertyPhoto } from '@/ServiceCalls/callPropertyPhotos';
+import { deleteAutoSavePropertyPhoto } from '@/ServiceCalls/callPropertyPhotos';
 import axios from 'axios';
 import Image from 'next/image';
 import React, { useCallback, useState, useRef } from 'react';
@@ -102,7 +102,7 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
     const removeImage = async (imageUrl: string) => {
         try {
             // Call the API to delete the specific image
-            await deletePropertyPhoto(imageUrl, autoSaveToken, userId);
+            await deleteAutoSavePropertyPhoto(imageUrl, autoSaveToken, userId);
             
             // Update the state to remove the deleted image
             setSelectedImages(prevImages => prevImages.filter(image => image !== imageUrl));
@@ -210,11 +210,15 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
                     <div id="image-container" className="relative hover:opacity-70 transition border-dashed border-2 border-indigo-300 flex flex-row self-start items-start text-white">
                         {selectedImages.slice().reverse().map((image, index) => (
                             <div key={index} className="relative self-start p-2 ml-3">
-                                <IoMdClose
-                                    size={18}
-                                    className="absolute cursor-pointer z-50 text-white border-2 bg-red-600 border-red-100 rounded-full"
-                                    onClick={() => removeImage(image)}
-                                />
+                                {!primaryPhoto ? (
+                                      <IoMdClose
+                                      size={18}
+                                      className="absolute cursor-pointer z-50 text-white border-2 bg-red-600 border-red-100 rounded-full"
+                                      onClick={() => removeImage(image)}
+                                        />
+                                 ) : null }
+                                  
+                                
                                 <Image
                                     src={image}
                                     alt={`Image ${index + 1}`}
