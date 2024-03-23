@@ -1,18 +1,20 @@
 'use client'
 
 import React, { useCallback, useMemo, useEffect, useState } from 'react';
-import { CurrentUser, IUser } from '@/Types/nextauth';
 import { currentUser, User } from '@/Types';
-import useCountries from '@/Hooks/useCountries';
 import { useRouter } from 'next/navigation';
 
+import useCountries from '@/Hooks/useCountries';
 import { format } from 'date-fns'
+
 import Image from 'next/image';
 import HeartIconButton from '@/Elements/Icons/HeartIconButton';
 import Button from '@/Elements/Button';
 
 import useFavorite from '@/Hooks/useFavorite';
 import getCurrentUser from "@/Actions/getCurrentUser"
+
+
 
 // interface User {
 //     firstName: string;
@@ -27,17 +29,17 @@ import getCurrentUser from "@/Actions/getCurrentUser"
 //     usrImage: string;
 //     // ... other properties of Property
 // }
-interface Property {
+interface Business {
     Id: number;
     uuid: string;
-    bathroomCount: number;
+    
     category: string;
     description: string;
-    guestCount: number;
+    
     imageSrc: string | undefined | null;
     locationValue: string;
-    price: number;
-    roomCount: number;
+    sellPrice: number;
+    
     title: string;
     userId: number;
     createdAt: Date;
@@ -46,14 +48,14 @@ interface Property {
 
     // ... other properties of Property
 }
-interface Businesses {
+interface Business {
     uuid: string;
     token: string;
     acctStatus: number;
     namePublicDisplay: string;
     nameDBA: string;
     nameLegal: string;
-    imageSrc: string;
+    imageSrc: string | null | undefined;
     isAFranchise: number;
     isTheFranchiseParent: number;
     ownsOtherBusinesses: number;
@@ -88,13 +90,12 @@ interface ListingBbCardProps {
         ListingId: number;
         ServiceListingId: number;
         User: User;
-        Property: Property;
+        Business: Business;
         imageSrc: string;
         category: string;
         title: string;
         description: string;
         locationValue: string;
-        Businesses: Businesses;
         updatedAt: Date;
         // ... other properties of data
     } | null;
@@ -123,10 +124,11 @@ const ListingBbCard: React.FC<ListingBbCardProps> =  ({
 }) => {
 
     
-    console.log('Line 120 on ListingBbCard Data', data)
+    //console.log('Line 120 on ListingBbCard Data', data)
     
 
     const router = useRouter()
+
     const { getByValue } = useCountries();
 
     const listingId = data?.uuid || 0;
@@ -149,13 +151,13 @@ const ListingBbCard: React.FC<ListingBbCardProps> =  ({
         }, [onAction, actionId, disabled]
     )
 
-    const price = useMemo(() => {
+    const sellPrice = useMemo(() => {
         if(reservation){
             return reservation?.Reservation?.totalPrice;
         }
 
-        return  data?.Property?.price
-    }, [reservation,  data?.Property?.price])
+        return  data?.Business?.sellPrice
+    }, [reservation,  data?.Business?.sellPrice])
 
     const reservationDate = useMemo(() => {
 
@@ -172,16 +174,17 @@ const ListingBbCard: React.FC<ListingBbCardProps> =  ({
     }, [reservation])
 
     
-    {JSON.stringify(data)}
+    // {JSON.stringify(data)}
+
     return (
         
         <div
-            onClick={() => router.push(`/bbs/${data?.uuid}`)} 
+            onClick={() => router.push(`/bb/${data?.uuid}`)} 
             className='col-span-1 cursor-pointer group text-white'
         >
             
 
-            <div  
+            <div id={"card"}
                 className='flex flex-col gap-2 w-full'
             >
                 <div className="aspect-square w-full relative overflow-hidden rounded-xl">
@@ -190,7 +193,7 @@ const ListingBbCard: React.FC<ListingBbCardProps> =  ({
     
                     <Image
                         fill
-                        alt="Listing"
+                        alt="Business Listing"
                         src={`${data?.imageSrc}`}
                         className="
                             object-cover 
@@ -222,10 +225,10 @@ const ListingBbCard: React.FC<ListingBbCardProps> =  ({
                 </div>
                 <div className="flex flex-row items-center gap-1">
                     <div className="font-semibold">
-                        $ {price}
+                        $ {sellPrice}
                     </div>
                     {!reservation && (
-                        <div className="font-light">night</div>
+                        <div className="font-light">By Owner</div>
                     )}
                 </div>
                 {onAction && actionLabel && (

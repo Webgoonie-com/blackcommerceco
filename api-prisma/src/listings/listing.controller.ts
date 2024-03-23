@@ -54,6 +54,27 @@ export const listPropertys = async (): Promise<Listing[]> => {
     })
 }
 
+export const listBusinesses = async (): Promise<Listing[]> => {
+    return orm.business.findMany({
+        select:{
+            id: true,
+            uuid: true,
+            token: true,
+            title: true,
+            description: true,
+            category: true,
+            imageSrc: true,
+            sellPrice: true,
+            userId: true,
+            countryId: true,
+            countryStateRegionId: true,
+            createdAt: true,
+            updatedAt: true,
+        }
+    })
+}
+
+
 
 
 
@@ -173,6 +194,7 @@ export const getListingId = async (id: number): Promise<Listing | null> => {
 
 
 export const getListingUuId = async (uuid: string): Promise<Listing | null> => {
+    
     return orm.listing.findUnique({
         where: {
             uuid,
@@ -191,5 +213,76 @@ export const getListingUuId = async (uuid: string): Promise<Listing | null> => {
             createdAt: true,
             updatedAt: true,
         },
+    })
+}
+
+export const getPropertyListingUuId = async (uuid: string): Promise<Listing | null> => {
+    
+    return orm.property.findUnique({
+        where: {
+            uuid,
+        },
+        select: {
+            id: true,
+            uuid: true,
+            token: true,
+            title: true,
+            description: true,
+            category: true,
+            imageSrc: true,
+            userId: true,
+            countryId: true,
+            countryStateRegionId: true,
+            createdAt: true,
+            updatedAt: true,
+        },
+    })
+}
+
+
+
+export const getListingFavoriteByListingId = async (id: number): Promise<Listing[]> => {
+
+    console.log('getListingFavoriteByListingId', id)
+    return orm.listing.findMany({
+        where: { id: id},
+        select:{
+            id: true,
+            uuid: true,
+            token: true,
+            title: true,
+            description: true,
+            category: true,
+            imageSrc: true,
+            userId: true,
+            countryId: true,
+            countryStateRegionId: true,
+            createdAt: true,
+            updatedAt: true,
+        }
+    })
+}
+
+
+export const deleteListingFavoriteByListingId = async (id: number): Promise<Listing[]> => {
+
+    console.log('deleteListingFavoriteByListingId', id)
+
+    return orm.listing.findMany({
+        where: { id: id},
+        select:{
+            id: true,
+            uuid: true,
+            token: true,
+            title: true,
+            description: true,
+            category: true,
+            imageSrc: true,
+            userId: true,
+            countryId: true,
+            countryStateRegionId: true,
+            createdAt: true,
+            updatedAt: true,
+        }
     })
 }

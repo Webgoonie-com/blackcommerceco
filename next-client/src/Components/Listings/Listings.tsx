@@ -2,14 +2,14 @@
 
 import React, { useEffect, useState } from 'react';
 import { useSession } from "next-auth/react"
-import getListings from '@/ServiceCalls/callListings';
+import getListings, { getBusinessListings, getPropertyListings } from '@/ServiceCalls/callListings';
 import ClientOnly from '@/Components/ClientOnly';
 import EmptyState from '@/Components/EmptyStates/EmptyState';
 import ListingCard from '@/Components/Listings/ListingCard';
 import getCurrentUser from '@/Actions/getCurrentUser';
 import EmptyStateBap from '../EmptyStates/EmptyStateBap';
 import ListingBapCard from './ListingBapCard';
-import ListingBbCard from './ListingBBCard';
+import ListingBbCard from './ListingBbCard';
 
 
 
@@ -46,10 +46,18 @@ export default function Listings() {
 
     useEffect(() => {
         const fetchData = async () => {
+            
+            const propertyData = await getPropertyListings();
+            
+            const businessData = await getBusinessListings();
+            
             const data = await getListings();
-            console.log('data from Listings', data)
-            setBapListings(data);
-            setBbListings(data);
+            
+            console.log('data from Listings propertyData', propertyData)
+            console.log('data from Listings businessData', businessData)
+
+            setBapListings(propertyData);
+            setBbListings(businessData);
         };
     
         fetchData();

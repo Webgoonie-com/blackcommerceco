@@ -20,8 +20,8 @@ const HearticonButton: React.FC<HeartIconButtonProps> = ({
 
 
     
-    // const hasFavorited = false  // when true heart will turn read
-    // const toggleFavorite = () => {}
+    //const hasFavorited = false  // when true heart will turn read
+    //const toggleFavorite = () => {}
 
     const { hasFavorited, toggleFavorite } = useFavorite({
         listingId,

@@ -54,8 +54,8 @@ model Admin {
 model Business {
   id                                  Int                      @id @default(autoincrement())
   uuid                                String                   @default(uuid()) @unique
+  token                               String                   @unique
   title                               String
-  token                               String
   description                         String
   
   isAFranchise                        Boolean
@@ -343,7 +343,7 @@ model Listing {
 model Property {
   id                                  Int                     @id @default(autoincrement())
   uuid                                String                  @default(uuid()) @unique
-  token                               String
+  token                               String                  @unique
   title                               String
   description                         String
   imageSrc                            String?

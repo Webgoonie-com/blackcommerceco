@@ -140,7 +140,7 @@ listingRouter.get('/allProperties', async (request: Request, response: Response)
 listingRouter.get('/allBusinesses', async (request: Request, response: Response) => {
 
     try {
-        const users = await ListingService.listPropertys()
+        const users = await ListingService.listBusinesses()
         return response.status(200).json(users);
 
     } catch (error: any) {
@@ -195,11 +195,82 @@ listingRouter.get("/id/:id", async (request: Request, response: Response) => {
 
 listingRouter.get("/uuid/:uuid", async (request: Request, response: Response) => {
 
-    const uuid: string = request.params.id
+    console.log('Hit Listing UUID 3/23/2024 ')
+    const uuid: string = request.params.uuid
 
     try {
 
-        const user = await ListingService.getListingUuId(uuid)
+        const listing = await ListingService.getListingUuId(uuid)
+
+        if(listing) {
+
+            return response.status(200).json(listing)
+
+        }
+
+    } catch (error) {
+
+        return response.status(500).json("Listing Could Not Be Found by Uuid")
+
+    }
+
+})
+
+listingRouter.get("/propertyuuid/:uuid", async (request: Request, response: Response) => {
+
+    const uuid: string = request.params.uuid
+
+    console.log('Hit Property Listing UUID 3/23/2024 ', uuid)
+
+    try {
+
+        const listing = await ListingService.getPropertyListingUuId(uuid)
+
+        if(listing) {
+
+            return response.status(200).json(listing)
+
+        }
+
+    } catch (error) {
+
+        return response.status(500).json("Listing Could Not Be Found by Uuid")
+
+    }
+
+})
+
+listingRouter.post("/favorites/:listingId", async (request: Request, response: Response) => {
+
+    //const listingId: string = request.params.listingId
+    const listingId: string = request.body.listingId
+
+    try {
+
+        const user = await ListingService.getListingFavoriteByListingId(parseInt(listingId))
+
+        if(user) {
+
+            return response.status(200).json(user)
+
+        }
+
+    } catch (error) {
+
+        return response.status(500).json("User Could Not Be Found by Uuid")
+
+    }
+
+})
+
+listingRouter.delete("/favorites/:listingId", async (request: Request, response: Response) => {
+
+    //const listingId: string = request.params.listingId
+    const listingId: string = request.body.listingId
+
+    try {
+
+        const user = await ListingService.deleteListingFavoriteByListingId(parseInt(listingId))
 
         if(user) {
 

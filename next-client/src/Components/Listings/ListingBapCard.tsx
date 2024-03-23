@@ -176,7 +176,7 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
     return (
         
         <div
-            onClick={() => router.push(`/bbs/${data?.uuid}`)} 
+            onClick={() => router.push(`/bap/${data?.uuid}`)} 
             className='col-span-1 cursor-pointer group text-white'
         >
             

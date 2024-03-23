@@ -6,6 +6,21 @@ GET http://localhost:3334/api/listings/allProperties
 
 ###
 
+
+GET http://localhost:3334/api/listings/propertyuuid/8d33c643-4eda-4fd2-913a-1cad3598d666
+
+###
+
+
+GET http://localhost:3334/api/listings/uuid/8d33c643-4eda-4fd2-913a-1cad3598d666
+
+###
+
+GET http://localhost:3334/api/listings/allBusinesses
+
+
+###
+
 POST http://localhost:3334/api/upload
 Content-Type: application/json
 

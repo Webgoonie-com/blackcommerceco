@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { useSession } from "next-auth/react"
-import getListings from '@/ServiceCalls/callListings';
+import { getBusinessListings } from '@/ServiceCalls/callListings';
 import ClientOnly from '@/Components/ClientOnly';
 import EmptyStateBb from '@/Components/EmptyStates/EmptyStateBb';
 import getCurrentUser from '@/Actions/getCurrentUser';
-import ListingBbCard from './ListingBBCard';
+import ListingBbCard from './ListingBbCard';
 
 
 
@@ -32,8 +32,8 @@ export default function Listings() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await getListings();
-            console.log('data from Listings', data)
+            const data = await getBusinessListings();
+            console.log('data from Buiness Listings', data)
             setBbListings(data);
         };
     

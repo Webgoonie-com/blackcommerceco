@@ -20,7 +20,7 @@ export const callListings = async () => {
 
 
 
-const getListings = async () => {
+export const getPropertyListings = async () => {
     
     console.log(`${process.env.NEXT_PUBLIC_API_URL} + '/api/listings/all`)
 
@@ -34,4 +34,20 @@ const getListings = async () => {
     }
 };
 
-export default getListings;
+
+export const getBusinessListings = async () => {
+    
+    console.log(`${process.env.NEXT_PUBLIC_API_URL} + '/api/listings/allBusinesses`)
+
+    try {
+        const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/listings/allBusinesses');
+        console.log('Line 44 /api/listings/allBusinesses response', response.data)
+        return response.data; // Assuming the API returns an array of listings
+    } catch (error) {
+        //console.error('Error fetching listings:', error);
+        return []; // Return an empty array or handle the error as needed
+    }
+};
+
+
+export default callListings 
