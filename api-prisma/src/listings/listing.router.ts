@@ -240,6 +240,30 @@ listingRouter.get("/propertyuuid/:uuid", async (request: Request, response: Resp
 
 })
 
+listingRouter.get("/businessuuid/:uuid", async (request: Request, response: Response) => {
+
+    const uuid: string = request.params.uuid
+
+    console.log('Hit Business Listing UUID 3/23/2024 ', uuid)
+
+    try {
+
+        const listing = await ListingService.getBusinessListingUuId(uuid)
+
+        if(listing) {
+
+            return response.status(200).json(listing)
+
+        }
+
+    } catch (error) {
+
+        return response.status(500).json("Listing Could Not Be Found by Uuid")
+
+    }
+
+})
+
 listingRouter.post("/favorites/:listingId", async (request: Request, response: Response) => {
 
     //const listingId: string = request.params.listingId

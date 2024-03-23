@@ -239,6 +239,30 @@ export const getPropertyListingUuId = async (uuid: string): Promise<Listing | nu
     })
 }
 
+export const getBusinessListingUuId = async (uuid: string): Promise<Listing | null> => {
+    
+    return orm.business.findUnique({
+        where: {
+            uuid,
+        },
+        select: {
+            id: true,
+            uuid: true,
+            token: true,
+            title: true,
+            description: true,
+            category: true,
+            imageSrc: true,
+            userId: true,
+            countryId: true,
+            countryStateRegionId: true,
+            createdAt: true,
+            updatedAt: true,
+        },
+    })
+}
+
+
 
 
 export const getListingFavoriteByListingId = async (id: number): Promise<Listing[]> => {

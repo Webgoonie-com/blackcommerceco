@@ -16,7 +16,7 @@ const BapsListingPage = async ({ params }: {params: IParams }) => {
 
   const stringUrlUuid = params
 
-  //console.log('stringUrlUuid', stringUrlUuid)
+  console.log('stringUrlUuid', stringUrlUuid)
 
   console.log('Line 21 Page Bap params', params)
 
