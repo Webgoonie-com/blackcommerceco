@@ -1,13 +1,3 @@
-export interface UploadedFile {
-    fieldname: string;
-    originalname: string;
-    encoding: string;
-    mimetype: string;
-    destination: string;
-    filename: string;
-    path: string;
-    size: number;
-}
 
 export const MIME_TYPE_MAP = {
     'image/png': 'png',
@@ -20,6 +10,68 @@ export interface MimeTypeMap {
     [key: string]: string;
 }
 
+export interface UploadedFile {
+    fieldname: string;
+    originalname: string;
+    encoding: string;
+    mimetype: string;
+    destination: string;
+    filename: string;
+    path: string;
+    size: number;
+}
+
+
+type Business = {
+    id: number;
+    uuid: string | null;
+    token: string;
+    title: string;
+    description: string;
+    imageSrc: string | null;
+    imagesMultiSrc: string | null;
+    category: string;
+    hasStore: number;
+    hasProducts: number;
+    hasServices: number;
+    userId: number;
+    
+    countryId: number;
+    country: any;
+    countryCityId: number | undefined;
+    countryCity: any;
+    countryStateRegionId: number | undefined;
+    countryStateRegion: any;
+
+    listingId: number | undefined | null;
+    streetAddress: string | null;
+    streetAddress2: string | null;
+    streetCity: string | null;
+    streetZipCode: string | null;
+    sellPrice?: string;
+    
+    createdAt: Date;
+    updatedAt: Date;
+
+    isAFranchise: boolean;
+    isTheFranchiseParent: boolean;
+    ownsOtherBusinesses: boolean;
+}
+
+type BusinessPhoto = {
+    fieldname: string;
+    originalname: string;
+    encoding: string;
+    mimetype: string;
+    destination: string;
+    filename: string;
+    path: string;
+    size: number;
+    imageSrc: string | null;
+    imgCatg: string | null;
+    imgName: string | null;
+    userId: number;
+}
 
 export type Country = {
     id: number;
