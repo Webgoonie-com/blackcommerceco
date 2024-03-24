@@ -1,99 +1,70 @@
 import { orm } from "../utils/orm.server";
 import { Prisma } from '@prisma/client'; // Import Prisma types
-import { MIME_TYPE_MAP } from "../types";
+import { 
+    MIME_TYPE_MAP,
+    ListingPropertyPhoto,
+    Listing,
+    Property,
+    
+} from "../types";
 import path from 'path';
 
-type Listing = {
-    id: number;
-    uuid: string | null;
-    token: string;
-    title: string;
-    description: string;
-    imageSrc: string | null;
-    category: string;
-    userId: number;
-    countryId: number;
-    countryStateRegionId: number
-    createdAt: Date;
-    updatedAt: Date;
-}
 
 
-type ListingProptyPhoto = {
-    fieldname: string;
-    originalname: string;
-    encoding: string;
-    mimetype: string;
-    destination: string;
-    filename: string;
-    path: string;
-    size: number;
-    imageSrc: string | null;
-    imgCatg: string | null;
-    imgName: string | null;
-    userId: number;
-}
 
-type Country = {
-    id: number;
-    uuid: string | null;
-    value: string;
-    label: string;
-    currency: string;
-    phonecode: string;
-    flag: string;
-    latlng: string;
-    latitude: string;
-    longitude: string;
-    region: string;
-    isoCode: string;
-    name: string;
-    countryStateRegions: string[];
-    countryCities: string[];
-    timezones: string[];
-    listings: string[];
-}
 
-export const listPropertys = async (): Promise<Listing[]> => {
+
+
+
+
+
+export const listPropertys = async (): Promise<Property[]> => {
 
     
     
     return orm.property.findMany({
+        
         select:{
             id: true,
             uuid: true,
             token: true,
             title: true,
             description: true,
-            category: true,
             imageSrc: true,
+            imagesMultiSrc: true,
+
+            category: true,
+            roomCount: true,
+            bathroomCount: true,
+            guestCount: true,
+            locationValue: true,
             price: true,
-            userId: true,
-            countryId: true,
-            countryStateRegionId: true,
+            
+            streetAddress: true,
+            streetAddress2: true,
+            streetCity: true,
+            streetZipCode: true,
             createdAt: true,
             updatedAt: true,
+            
+            user: true,
+            userId: true,
+            
+            countryId: true,
+            countryStateRegionId: true,
+            countryCityId: true,
         }
     })
 }
 
 export const listBusinesses = async (): Promise<Listing[]> => {
     return orm.business.findMany({
-        select:{
-            id: true,
-            uuid: true,
-            token: true,
-            title: true,
-            description: true,
-            category: true,
-            imageSrc: true,
-            sellPrice: true,
-            userId: true,
-            countryId: true,
-            countryStateRegionId: true,
-            createdAt: true,
-            updatedAt: true,
-        }
+        where: {
+            imageSrc: {
+                not: null
+            }
+        },
+        
     })
 }
 
@@ -103,7 +74,7 @@ export const listBusinesses = async (): Promise<Listing[]> => {
 
 
 
-export const createPropertyPhotos = async (listingData: any): Promise<ListingProptyPhoto[] | any> => {
+export const createPropertyPhotos = async (listingData: any): Promise<ListingPropertyPhoto[] | any> => {
 
 
         const files = listingData.files; // Access the uploaded files
@@ -192,23 +163,7 @@ export const createPropertyPhotos = async (listingData: any): Promise<ListingPro
 export const getListingId = async (id: number): Promise<Listing | null> => {
     return orm.listing.findUnique({
         where: {
-            id,
-        },
-        select: {
-            id: true,
-            uuid: true,
-            token: true,
-            title: true,
-            description: true,
-            imageSrc: true,
-            category: true,
-            userId: true,
-            countryId: true,
-            countryStateRegionId: true,
-            propertyId: true,
-            businessId: true,
-            createdAt: true,
-            updatedAt: true,
+            id: id,
         },
     })
 }
@@ -220,7 +175,7 @@ export const getListingUuId = async (uuid: string): Promise<Listing | null> => {
     
     return orm.listing.findUnique({
         where: {
-            uuid,
+            uuid: uuid.toString(),
         },
         select: {
             id: true,
@@ -245,31 +200,36 @@ export const getPropertyListingUuId = async (uuid: string): Promise<Listing | nu
         where: {
             uuid,
         },
-        select: {
+        select:{
             id: true,
             uuid: true,
             token: true,
             title: true,
             description: true,
-            category: true,
             imageSrc: true,
-            userId: true,
-            listingId: true,
-            listing: true,
-            country: true,
-            countryStateRegion: true,
-            countryCity: true,
-            countryId: true,
-            countryStateRegionId: true,
-            Propertyphotos: true,
-            reservations: true,
+            imagesMultiSrc: true,
+
+            category: true,
+            roomCount: true,
+            bathroomCount: true,
+            guestCount: true,
+            locationValue: true,
+            price: true,
+            
             streetAddress: true,
             streetAddress2: true,
             streetCity: true,
             streetZipCode: true,
             createdAt: true,
             updatedAt: true,
-        },
+            
+            user: true,
+            userId: true,
+            
+            countryId: true,
+            countryStateRegionId: true,
+            countryCityId: true,
+        }
     })
 
     console.log('return findProperty', findProperty)
@@ -306,7 +266,8 @@ export const getBusinessListingUuId = async (uuid: string): Promise<Listing | nu
 export const getListingFavoriteByListingId = async (id: number): Promise<Listing[]> => {
 
     console.log('getListingFavoriteByListingId', id)
-    return orm.listing.findMany({
+    
+    const favorite = await orm.listing.findMany({
         where: { id: id},
         select:{
             id: true,
@@ -323,6 +284,13 @@ export const getListingFavoriteByListingId = async (id: number): Promise<Listing
             updatedAt: true,
         }
     })
+
+    // handle the favorite logic
+
+    console.log('favorite', favorite);
+    
+
+    return favorite
 }
 
 
@@ -330,7 +298,7 @@ export const deleteListingFavoriteByListingId = async (id: number): Promise<List
 
     console.log('deleteListingFavoriteByListingId', id)
 
-    return orm.listing.findMany({
+    const listings = await  orm.listing.findMany({
         where: { id: id},
         select:{
             id: true,
@@ -347,4 +315,7 @@ export const deleteListingFavoriteByListingId = async (id: number): Promise<List
             updatedAt: true,
         }
     })
+
+    
+    return listings;
 }

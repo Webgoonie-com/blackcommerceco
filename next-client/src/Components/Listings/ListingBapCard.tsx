@@ -109,6 +109,7 @@ interface ListingBapCardProps {
         ServiceListingId: number;
         User: User;
         Property: Property;
+        Country: Country;
         imageSrc: string;
         category: string;
         title: string;
@@ -147,7 +148,7 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
     
 
     const router = useRouter()
-    
+
     const { getByValue } = useCountries();
 
     const listingId = data?.uuid || 0;
@@ -251,12 +252,12 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
                     )}
                 </div>
                 {onAction && actionLabel && (
-                <Button
-                    disabled={disabled}
-                    small
-                    label={actionLabel} 
-                    onClick={handleCancel}
-                />
+                    <Button
+                        disabled={disabled}
+                        small
+                        label={actionLabel} 
+                        onClick={handleCancel}
+                    />
                 )}
 
             </div>

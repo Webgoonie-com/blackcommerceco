@@ -1,8 +1,43 @@
 
 ###
 
+GET http://localhost:3334/api/listings/all
+
+
+###
+
 GET http://localhost:3334/api/listings/allProperties
 
+
+###
+
+
+GET http://localhost:3334/api/listings/allBusinesses
+
+
+###
+
+
+
+
+POST http://localhost:3334/api/listings/createpropertyphotos
+Content-Type: application/json
+
+{
+
+}
+
+
+###
+
+
+//GET http://localhost:3334/api/listings/id/:id
+GET http://localhost:3334/api/listings/id/1
+
+###
+
+//GET http://localhost:3334/api/listings/uuid/:uuid
+GET http://localhost:3334/api/listings/uuid/3b4734fd-8607-43c3-968b-06735a5504e5
 
 ###
 
@@ -11,17 +46,18 @@ GET http://localhost:3334/api/listings/propertyuuid/8d33c643-4eda-4fd2-913a-1cad
 
 ###
 
+GET http://localhost:3334/api/listings/businessuuid/22a5da83-94de-4f7f-9370-5f2ae2c0e5b3
+
+###
+
 
 GET http://localhost:3334/api/listings/uuid/8d33c643-4eda-4fd2-913a-1cad3598d666
 
 ###
 
-GET http://localhost:3334/api/listings/allBusinesses
 
-
-###
-
-POST http://localhost:3334/api/upload
+//POST http://localhost:3334/api/favorites/:listingId
+POST http://localhost:3334/api/listings/favorites/1
 Content-Type: application/json
 
 {
@@ -29,24 +65,14 @@ Content-Type: application/json
     "hashedPassword": "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
 }
 
-###
-
-POST http://localhost:3334/api/admins/loginadmin
-Content-Type: application/json
-
-{
-    "email": "webgoonie@gmail.com",
-    "hashedPassword": "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
-}
-
-###
 
 POST http://localhost:3334/api/listings/createpropertyphotos
 Content-Type: application/json
 
 {
-    "url1": "webgoonie@gmail.com",
-    "url2": "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
+   "file": {
+
+   }
 }
 
 

@@ -149,7 +149,6 @@ listingRouter.get('/allBusinesses', async (request: Request, response: Response)
 
 })
 
-
 listingRouter.post('/createpropertyphotos', uploadPropertyPhotos.array('files'), async (request: any, response: any) => {
     
     try {
@@ -171,7 +170,6 @@ listingRouter.post('/createpropertyphotos', uploadPropertyPhotos.array('files'),
 
     }
 });
-
 
 listingRouter.get("/id/:id", async (request: Request, response: Response) => {
 
@@ -220,7 +218,7 @@ listingRouter.get("/propertyuuid/:uuid", async (request: Request, response: Resp
 
     const uuid: string = request.params.uuid
 
-    
+    console.log('Hit Property Listing UUID 3/23/2024 ', uuid)
 
     try {
 
@@ -281,7 +279,7 @@ listingRouter.post("/favorites/:listingId", async (request: Request, response: R
 
     } catch (error) {
 
-        return response.status(500).json("User Could Not Be Found by Uuid")
+        return response.status(500).json("Sorry Listing By Favorite Could Not Be Found")
 
     }
 

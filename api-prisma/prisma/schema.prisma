@@ -313,27 +313,30 @@ model Listing {
   user                                User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId                              Int
 
-  country                             Country?                @relation(fields: [countryId], references: [id])
+  
   countryId                           Int
+  country                             Country[]
 
-  countryStateRegion                  CountryStateRegion?     @relation(fields: [countryStateRegionId], references: [id])
-  countryStateRegionId                Int
+  countryStateRegionId                Int?
+  countryStateRegion                  CountryStateRegion[]
 
-  countryCity                         CountryCity?            @relation(fields: [countryCityId], references: [id])
-  countryCityId                       Int
+  countryCityId                       Int?
+  countryCity                         CountryCity[]
 
+  reservationId                       Int?
   reservations                        Reservation[]
   favorites                           Favorite[]
 
-  property                            Property?               @relation(fields: [propertyId], references: [id])
+  property                            Property[]
   propertyId                          Int?
 
 
-  business                            Business?               @relation(fields: [businessId], references: [id])
+  business                            Business[]
   businessId                          Int?
 
   Propertyphotos                      Propertyphoto[]
   Businessphotos                      Businessphoto[]
+  
 }
 
 
