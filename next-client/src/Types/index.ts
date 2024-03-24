@@ -5,6 +5,7 @@ import Categories from "@/Components/Categories/PropertyCategories";
 import { CurrentUser } from '@/Types/nextauth';
 import { DefaultSession, DefaultUser} from "next-auth";
 import { IUser } from '@/Types/nextauth';
+import { Country } from "country-state-city";
 
 ;
 
@@ -116,18 +117,18 @@ import { IUser } from '@/Types/nextauth';
     }
     export interface Listing {
         Id: number;
-        uuid: string;
-        UserId: number;
-        PropertyId: number;
-        BusinessId: number;
-        ServiceId: number;
-        ProductId: number;
-        ListingId: number;
-        ServiceListingId: number;
-        User: User;
-        Property: Property;
-        Businesses: Businesses;
+        uuid: string | null;
+        token: string;
+        title: string;
+        description: string;
+        imageSrc: string | null;
+        category: string;
+        countryId: number | null;
+        countryStateRegionId: number | null;
+        createdAt: Date;
         updatedAt: Date;
+
+        locationValue: string | null;
         reservation?: {
             Reservation: Reservation;
                 // ... other properties of data

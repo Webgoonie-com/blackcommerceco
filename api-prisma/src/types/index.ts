@@ -43,6 +43,36 @@ export type Country = {
     businesses: string[];
 }
 
+export type CountryCity = {
+    id: number;
+    uuid: string | null;
+    value: string;
+    label: string;
+    countryCode: string;
+    latlngts: number;
+    latitude: string;
+    longitude: string;
+    countryId: number;
+    name: string;
+}
+
+export type CountryStateRegion = {
+    id: number | null;
+    uuid: string | null;
+    value: string;
+    label: string;
+    countryCode: string;
+    latlng: string;
+    
+    latitude: string;
+    longitude: string;
+    name: string;
+    
+    countryId: number | null;
+    isoCode: string;
+}
+
+
 export type Property = {
     id: number;
     uuid: string | null;
@@ -87,6 +117,7 @@ export type Listing = {
 
     property?: Property | null;
     country?: Country | null;
+    countryCity?: Country | null;
     userId: number;
 }
 
@@ -104,3 +135,12 @@ export type ListingPropertyPhoto = {
     imgName: string | null;
     userId: number;
 }
+
+export type countrytimezone = {
+    id: number;
+    countryId: number;
+    timezone:  string[]
+  
+  }
+  
+  
