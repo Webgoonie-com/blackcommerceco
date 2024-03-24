@@ -29,6 +29,11 @@ Set This up on the package.json under scripts.  On package.json
     npx prisma init
 ```
 
+```sh
+
+    npx prisma db seed
+```
+
 set up prisma schema
 
 
