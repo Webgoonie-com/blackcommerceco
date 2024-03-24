@@ -29,6 +29,9 @@ Set This up on the package.json under scripts.  On package.json
     npx prisma init
 ```
 
+For Prisma up to date seeder file.
+https://www.prisma.io/docs/orm/prisma-migrate/workflows/seeding
+
 ```sh
 
     npx prisma db seed

@@ -4,10 +4,14 @@
   "main": "index.js",
   "license": "MIT",
   "description": "",
+  "prisma":{
+    "seed":"ts-node prisma/seed.ts"
+  },
   "scripts": {
     "cleanClean": "rm -rf node_modules",
     "dev": "nodemon ./src/index.ts",
-    "devv": "tsnd --respawn --pretty --transpile-only ./src/index.ts"
+    "devv": "tsnd --respawn --pretty --transpile-only ./src/index.ts",
+    "ts-node": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' prisma/seed.ts "
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

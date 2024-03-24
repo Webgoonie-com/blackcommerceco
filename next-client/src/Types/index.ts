@@ -184,3 +184,54 @@ import { Country } from "country-state-city";
         'image/webp': 'webp'
     };
     
+
+    export type CountryStateRegion = {
+        id: number | null;
+        uuid: string | null;
+        value: string;
+        label: string;
+        countryCode: string;
+        latlng: string;
+        
+        latitude: string;
+        longitude: string;
+        name: string;
+        
+        countryId: number | null;
+        isoCode: string;
+    }
+
+    export type Country = {
+        id: number;
+        uuid: string | null;
+        value: string;
+        label: string;
+        currency: string;
+        phonecode: string;
+        flag: string;
+        latlng: string;
+        latitude: string;
+        longitude: string;
+        region: string;
+        isoCode: string;
+        name: string;
+        countryStateRegions: string[];
+        countryCities: string[];
+        timezones: string[];
+        listings: string[];
+        propertys: string[];
+        businesses: string[];
+    }
+    
+    export type CountryCity = {
+        id: number;
+        uuid: string | null;
+        value: string;
+        label: string;
+        countryCode: string;
+        latlngts: number;
+        latitude: string;
+        longitude: string;
+        countryId: number;
+        name: string;
+    }

@@ -2,7 +2,7 @@
 
 import React, { useCallback, useMemo, useEffect, useState } from 'react';
 import { CurrentUser, IUser } from '@/Types/nextauth';
-import { currentUser, User } from '@/Types';
+import { CountryStateRegion, currentUser, User } from '@/Types';
 import useCountries from '@/Hooks/useCountries';
 import { useRouter } from 'next/navigation';
 
@@ -100,20 +100,35 @@ interface ListingBapCardProps {
     data: {
         Id: number;
         uuid: string;
-        UserId: number;
-        PropertyId: number;
-        BusinessId: number;
-        ServiceId: number;
-        ProductId: number;
-        ListingId: number;
-        ServiceListingId: number;
-        User: User;
-        Property: Property;
+        userId: number;
+        
+        
+        
+        
+        
+        
+        user: User;
+        
+        
+        countryCityId: number;
         Country: Country;
+        countryStateRegion: CountryStateRegion;
+        countryStateRegionId: number;
+
         imageSrc: string;
         category: string;
         title: string;
         description: string;
+        streetCity: string;
+        roomCount: number;
+        guestCount: number;
+        bathroomCount: number;
+
+        price: string;
+
+        streetAddress: string;
+        streetAddress2: string;
+        streetZipCode: string;
         locationValue: string;
         Businesses: Businesses;
         updatedAt: Date;
@@ -176,8 +191,8 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
             return reservation?.Reservation?.totalPrice;
         }
 
-        return  data?.Property?.price
-    }, [reservation,  data?.Property?.price])
+        return  data?.price
+    }, [reservation,  data?.price])
 
     const reservationDate = useMemo(() => {
 
@@ -235,12 +250,18 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
                 </div>
 
                 <div className="font-semibold text-lg">
-                    { data?.country?.label}, { data?.description}
+                    { data?.streetCity}, { data?.streetZipCode}
                 </div>
-                <div className="font-semibold text-lg">
-                    {location?.region}, {location?.label}
+                <div className="text-white">
+                    <span className='font-semibold'>Rooms: </span> <span className='italic'>({data?.roomCount}), </span>
+                    <span className='font-semibold'> Guest: </span> <span className='italic'>({data?.guestCount})</span>
+                </div>
+                <div className="text-white">
+                    <span className='font-semibold'>Bathrooms: </span>
+                    <span className='italic'>({data?.bathroomCount})</span>
                 </div>
                 <div className="font-light text-white">
+                    <span className='font-semibold'>Property Type: </span>
                     {reservationDate || data?.category}
                 </div>
                 <div className="flex flex-row items-center gap-1">
@@ -248,7 +269,7 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
                         $ {price}
                     </div>
                     {!reservation && (
-                        <div className="font-light">night</div>
+                        <div className="font-light italc"> Day & Night </div>
                     )}
                 </div>
                 {onAction && actionLabel && (

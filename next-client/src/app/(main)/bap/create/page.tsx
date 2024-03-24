@@ -65,7 +65,7 @@ const BusinessPropertyCreation = () => {
  
     const watchCountryStateRegion  = watch('countryStateRegion')
 
-    const watchCityinfo  = watch('cityinfo')
+    const watchCityinfo  = watch('countryCity')
 
     
 

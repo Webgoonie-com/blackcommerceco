@@ -2,9 +2,6 @@
   "name": "next-client",
   "version": "0.1.0",
   "private": true,
-  "prisma":{
-    "seed":"node --require esbuild-register prisma/seed.ts"
-  },
   "scripts": {
     "cleanClient": "rm -rf .next",
     "cleanupClient": "rm -rf node_modules && rm -rf .next",

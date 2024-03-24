@@ -73,8 +73,8 @@ model Business {
 
   sellPrice                           String?
 
-  imageSrc                            String?
-  imagesMultiSrc                      String?
+  imageSrc                            String?                 @db.VarChar(1000)
+  imagesMultiSrc                      String?                 @db.VarChar(1000)
 
   createdAt                           DateTime                @default(now())
   updatedAt                           DateTime                @default(now()) @updatedAt
@@ -346,8 +346,8 @@ model Property {
   token                               String                  @unique
   title                               String
   description                         String
-  imageSrc                            String?
-  imagesMultiSrc                      String?
+  imageSrc                            String?                 @db.VarChar(1000)
+  imagesMultiSrc                      String?                 @db.VarChar(1000)
 
 
   category                            String

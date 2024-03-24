@@ -44,7 +44,7 @@ export default function Listings() {
 
     
     
-    //console.log('Line 43 on Listings.tsx: ', listings[0])
+    console.log('Line 47 on Listings.tsx: ', listings[0])
 
 
     //console.log('listing info', JSON.stringify(listings, null, 2));

@@ -3,7 +3,7 @@ import React from 'react'
 
 const Baps = () => {
   return (
-    <div className='bg-gray-950 h-screen text-white px-10'>
+    <div className='bg-gray-950 h-screen text-white px-10 pb-20'>
       
       <h2>Baps</h2>
       
