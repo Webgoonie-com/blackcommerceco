@@ -22,10 +22,10 @@ export const callListings = async () => {
 
 export const getPropertyListings = async () => {
     
-    console.log(`${process.env.NEXT_PUBLIC_API_URL} + '/api/listings/all`)
+    
 
     try {
-        const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/listings/all');
+        const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/listings/allProperties');
         //console.log('/listings/all response', response.data)
         return response.data; // Assuming the API returns an array of listings
     } catch (error) {

@@ -34,7 +34,30 @@ type ListingProptyPhoto = {
     userId: number;
 }
 
+type Country = {
+    id: number;
+    uuid: string | null;
+    value: string;
+    label: string;
+    currency: string;
+    phonecode: string;
+    flag: string;
+    latlng: string;
+    latitude: string;
+    longitude: string;
+    region: string;
+    isoCode: string;
+    name: string;
+    countryStateRegions: string[];
+    countryCities: string[];
+    timezones: string[];
+    listings: string[];
+}
+
 export const listPropertys = async (): Promise<Listing[]> => {
+
+    
+    
     return orm.property.findMany({
         select:{
             id: true,
@@ -218,7 +241,7 @@ export const getListingUuId = async (uuid: string): Promise<Listing | null> => {
 
 export const getPropertyListingUuId = async (uuid: string): Promise<Listing | null> => {
     
-    return orm.property.findUnique({
+    const findProperty =  await orm.property.findUnique({
         where: {
             uuid,
         },
@@ -231,12 +254,27 @@ export const getPropertyListingUuId = async (uuid: string): Promise<Listing | nu
             category: true,
             imageSrc: true,
             userId: true,
+            listingId: true,
+            listing: true,
+            country: true,
+            countryStateRegion: true,
+            countryCity: true,
             countryId: true,
             countryStateRegionId: true,
+            Propertyphotos: true,
+            reservations: true,
+            streetAddress: true,
+            streetAddress2: true,
+            streetCity: true,
+            streetZipCode: true,
             createdAt: true,
             updatedAt: true,
         },
     })
+
+    console.log('return findProperty', findProperty)
+
+    return findProperty
 }
 
 export const getBusinessListingUuId = async (uuid: string): Promise<Listing | null> => {

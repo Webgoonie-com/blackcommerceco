@@ -51,7 +51,7 @@ export default function Listings() {
             
             const businessData = await getBusinessListings();
             
-            const data = await getListings();
+            //const propertyData = await getListings();
             
             console.log('data from Listings propertyData', propertyData)
             console.log('data from Listings businessData', businessData)

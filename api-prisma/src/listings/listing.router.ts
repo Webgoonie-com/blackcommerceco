@@ -220,7 +220,7 @@ listingRouter.get("/propertyuuid/:uuid", async (request: Request, response: Resp
 
     const uuid: string = request.params.uuid
 
-    console.log('Hit Property Listing UUID 3/23/2024 ', uuid)
+    
 
     try {
 

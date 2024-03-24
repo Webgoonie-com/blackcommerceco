@@ -2,11 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 import { useSession } from "next-auth/react"
-import getListings from '@/ServiceCalls/callListings';
+import { getPropertyListings } from '@/ServiceCalls/callListings';
 import ClientOnly from '@/Components/ClientOnly';
 import EmptyStateBap from '@/Components/EmptyStates/EmptyStateBap';
 import ListingCard from '@/Components/Listings/ListingCard';
 import getCurrentUser from '@/Actions/getCurrentUser';
+import ListingBapCard from './ListingBapCard';
 
 
 
@@ -32,7 +33,7 @@ export default function Listings() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await getListings();
+            const data = await getPropertyListings();
             console.log('data from Listings', data)
             setListings(data);
         };
@@ -81,7 +82,7 @@ export default function Listings() {
                                 gap-8
                             "> 
                             {listings.map((listing: any) => (
-                                <ListingCard 
+                                <ListingBapCard
                                     key={listing.uuid}
                                     currentUser={listing.currentUser}
                                     data={listing}

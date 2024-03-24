@@ -50,7 +50,6 @@ model Admin {
   createdAt                           DateTime                 @default(now())
 }
 
-
 model Business {
   id                                  Int                      @id @default(autoincrement())
   uuid                                String                   @default(uuid()) @unique
@@ -210,7 +209,6 @@ model CountryTimezone {
   timezone                            String
 } 
   
-  
 model Favorite {  
   id                                  Int                     @id @default(autoincrement())
   uuid                                String                  @default(uuid()) @unique
@@ -228,8 +226,6 @@ model Favorite {
   business                            Business                @relation(fields: [businessId], references:[id], onDelete: Cascade)
   businessId                          Int          
 }       
-  
-  
   
 model Reservation { 
   id                                  Int                     @id @default(autoincrement())
@@ -252,6 +248,7 @@ model Reservation {
   business                            Business                @relation(fields: [businessId], references:[id], onDelete: Cascade)
   businessId                          Int
 }
+
 model User {            
   id                                  Int                     @id @default(autoincrement())
   uuid                                String?                 @default(uuid()) @unique

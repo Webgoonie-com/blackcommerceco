@@ -60,6 +60,7 @@ export const getBusinessListingByUuId = async function  getBusinessListingUuId(
     const { listingUuid } = params;
 
     console.log('Line 13 on getListyingbyid  params: ', params)
+    
     console.log('Line 14 on getListyingbyid  listingId: ', listingUuid)
 
     try {

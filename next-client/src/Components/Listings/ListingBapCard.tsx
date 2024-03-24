@@ -27,6 +27,23 @@ import getCurrentUser from "@/Actions/getCurrentUser"
 //     usrImage: string;
 //     // ... other properties of Property
 // }
+
+
+interface Country {
+    id: number;
+    uuid: string;
+    value: string;
+    label: string;
+    currency: string;
+    phonecode: string;
+    flag: string;
+    latlng: string;
+    latitude: string;
+    longitude: string;
+    region: string;
+    isoCode: string;
+    name: string;
+}
 interface Property {
     Id: number;
     uuid: string;
@@ -40,12 +57,15 @@ interface Property {
     roomCount: number;
     title: string;
     userId: number;
+    country: Country;
     createdAt: Date;
     updatedAt: Date;
 
 
     // ... other properties of Property
 }
+
+
 interface Businesses {
     uuid: string;
     token: string;
@@ -96,7 +116,7 @@ interface ListingBapCardProps {
         locationValue: string;
         Businesses: Businesses;
         updatedAt: Date;
-        // ... other properties of data
+        country: Country;
     } | null;
     reservation?: {
         Reservation: Reservation;
@@ -127,6 +147,7 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
     
 
     const router = useRouter()
+    
     const { getByValue } = useCountries();
 
     const listingId = data?.uuid || 0;
@@ -173,6 +194,7 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
 
     
     {JSON.stringify(data)}
+    
     return (
         
         <div
@@ -212,7 +234,7 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
                 </div>
 
                 <div className="font-semibold text-lg">
-                    { data?.title}, { data?.description}
+                    { data?.country?.label}, { data?.description}
                 </div>
                 <div className="font-semibold text-lg">
                     {location?.region}, {location?.label}

@@ -4,6 +4,8 @@ import getCurrentUser from '@/Actions/getCurrentUser';
 import getListingByUuId, { getPropertyListingByUuId } from '@/Actions/getListingById';
 import React from 'react'
 import Image from 'next/image';
+import ClientOnly from '@/Components/ClientOnly';
+import EmptyStateBap from '@/Components/EmptyStates/EmptyStateBap';
 
 interface IParams {
   listingUuid?: string;
@@ -20,6 +22,8 @@ const BapsListingPage = async ({ params }: {params: IParams }) => {
 
   console.log('Line 21 Page Bap params', params)
 
+  console.log('Line 23 Page Bap listingUuid', listingUuid)
+
 
   const Propertylisting = await getPropertyListingByUuId(params)
 
@@ -28,20 +32,32 @@ const BapsListingPage = async ({ params }: {params: IParams }) => {
 
   console.log('Line 12 = Propertylisting', Propertylisting)
 
+
+  
+  if(!Propertylisting){
+    return(
+    <ClientOnly>
+        <EmptyStateBap />
+    </ClientOnly>
+    )
+  }
+
   return (
-    <div>
+    <div className='relative'>
       
+
       <h2>Black Air Property Details Page View </h2>
       
       <h2>{Propertylisting.category} </h2>
 
       <h2>{Propertylisting.imageSrc} </h2>
-
       <div className='w-50'>
               <Image
-                  fill
+                  //fill
                   alt="Business Listing"
                   src={`${Propertylisting?.imageSrc}`}
+                  width={100}
+                  height={100}
                   className="
                       object-cover 
                       h-full 
