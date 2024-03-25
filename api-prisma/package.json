@@ -4,8 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "description": "",
+  "type": "module",
   "prisma":{
-    "seed":"ts-node --compiler-options '{\"module\":\"CommonJS\"}' prisma/seed.js"
+    "seed":"ts-node prisma/seed.js"
   },
   "scripts": {
     "cleanClean": "rm -rf node_modules",
