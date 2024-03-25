@@ -74,6 +74,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                 
                 guestCount: 1,
                 imageSrc: [],
+                imagesMultiSrc: [],
                 countryStateRegion: null,
                 country: null,
                 price: 10.00,
@@ -135,6 +136,8 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
     const onChangeImages = (images: string[]) => {
 
         setCustomValue('imageSrc', images);
+        
+        setCustomValue('imagesMultiSrc', images);
 
         setSelectedImages(images);
 

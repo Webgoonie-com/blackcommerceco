@@ -486,12 +486,7 @@ export const createPropertyPhotos = async (propertyData: any): Promise<PropertyP
      // Update imageSrc for the last image
      createInputs[lastImageIndex].imageSrc = lastImageUrl;
 
-    await orm.property.update({
-        where: { id: body?.propertyId },
-        data: {
-            imageSrc: lastImageUrl,
-        }
-    });
+   
 
     try {
     const saveMultipleUploadPropertyPhotos = await Promise.all(createInputs.map(createInput =>
@@ -509,6 +504,13 @@ export const createPropertyPhotos = async (propertyData: any): Promise<PropertyP
         })
     ));
 
+    await orm.property.update({
+        where: { id: parseInt(body?.propertyId) },
+        data: {
+            imageSrc: lastImageUrl,
+        }
+    });
+
     
 
     return saveMultipleUploadPropertyPhotos;
@@ -519,6 +521,25 @@ export const createPropertyPhotos = async (propertyData: any): Promise<PropertyP
 
 };
 
+
+
+export const updatetePropertyPrimaryPhoto = async (propertyPhotoData: any): Promise<Property[] | any> => {
+
+
+    const primaryPhoto = await orm.property.update({
+        where: { id: parseInt(propertyPhotoData?.propertyId) },
+        data: {
+            imageSrc: propertyPhotoData.primaryPhoto, // Save the concatenated string           
+        }
+    })
+
+
+
+    return primaryPhoto
+
+
+
+}
 
 // export const createPropertyReservation = async (propertyReservationData: any): Promise<PropertyPhoto[] | any> => {
 

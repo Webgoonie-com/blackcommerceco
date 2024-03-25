@@ -10,28 +10,18 @@ import getCurrentUser from '@/Actions/getCurrentUser';
 import EmptyStateBap from '../EmptyStates/EmptyStateBap';
 import ListingBapCard from './ListingBapCard';
 import ListingBbCard from './ListingBbCard';
+import EmptyStateBb from '../EmptyStates/EmptyStateBb';
 
 
 
 interface BbListingProp {
     Id: number;
     uuid: string;
-    // ... other properties
-    Businesses: {
-        namePublicDisplay: string;
-        // ... other properties
-    };
-    // ... other properties
 }
 interface BapListingProp {
     Id: number;
     uuid: string;
-    // ... other properties
-    Businesses: {
-        namePublicDisplay: string;
-        // ... other properties
-    };
-    // ... other properties
+    
 }
 
 export default function Listings() {
@@ -53,8 +43,8 @@ export default function Listings() {
             
             //const propertyData = await getListings();
             
-            console.log('data from Listings propertyData', propertyData)
-            console.log('data from Listings businessData', businessData)
+            // console.log('data from Listings propertyData', propertyData)
+            // console.log('data from Listings businessData', businessData)
 
             setBapListings(propertyData);
             setBbListings(businessData);
@@ -64,7 +54,8 @@ export default function Listings() {
     }, []);
 
 
-    
+    const bapsLength = baplistings.length
+    const bbsLength = bblistings.length
     
     //console.log('Line 43 on Listings.tsx: ', listings[0])
 
@@ -72,20 +63,17 @@ export default function Listings() {
     //console.log('listing info', JSON.stringify(listings, null, 2));
 
 
-    if(baplistings.length === 0){
-        return(
-            <ClientOnly>
-                <div className='text-white pt-28 bg-gray-950'>
-                    <EmptyStateBap showReset />
-                </div>
-            </ClientOnly>
-        )
-    }
+   
 
     return (
         <ClientOnly>
             
-            <div 
+            {bapsLength === 0 ? (
+                <div className='text-white pt-28 bg-gray-950'>
+                <EmptyStateBap showReset />
+                </div>
+            ): (
+                <div 
                 className='relative bg-gray-950 pb-20 pt-28 px-5 py-20 mx-auto flex items-center md:flex-row flex-col'
                 //className=' px-32 py-20 bg-gray-950 pb-20 pt-28'
             >
@@ -115,12 +103,20 @@ export default function Listings() {
                     </div>
                 
             </div>
+            )}
+            
 
 
-            <div 
+            {bbsLength === 0 ? (
+                
+                <div className='text-white pt-28 bg-gray-950'>
+                    <EmptyStateBb showReset />
+                </div>
+            ) : (
+                <div 
                 className='relative bg-gray-950 pb-20 pt-28 px-5 py-20 mx-auto flex items-center md:flex-row flex-col'
                 //className=' px-32 py-20 bg-gray-950 pb-20 pt-28'
-            >
+                >
                 
                     <div className='container text-white'>
                         <div
@@ -146,7 +142,9 @@ export default function Listings() {
                         </div>
                     </div>
                 
-            </div>
+                </div>
+            )}
+            
 
             
         </ClientOnly>

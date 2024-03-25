@@ -121,6 +121,7 @@ export const createPropertyPhotos = async (listingData: any): Promise<ListingPro
      // Update imageSrc for the last image
      createInputs[lastImageIndex].imageSrc = lastImageUrl;
 
+     console.log('suppose to be the last image instead of an array lastImageUrl: ', lastImageUrl)
     
 
 

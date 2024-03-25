@@ -9,6 +9,7 @@ import React, { useCallback, useState, useRef } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { TbPhotoPlus } from 'react-icons/tb';
 
+import toast from 'react-hot-toast';
 
 interface ImageUploadPropertyPhotosProps {
     onChange: (images: string[]) => void;
@@ -38,9 +39,37 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
 
 
 
-    const makePrimaryPhoto = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const makePrimaryPhoto = async (imageUrl: string) => {
 
-        setPrimaryPhoto(!primaryPhoto);
+       
+
+        try {
+            
+
+            axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/propertys/makePrimaryPhoto/`+propsListingId, {
+                primaryPhoto: imageUrl,
+                autoSaveToken: autoSaveToken,
+                propertyId: propertyId,
+                listingId: propsListingId
+              })
+              .then(function (response) {
+                console.log(response);
+                setPrimaryPhoto(!primaryPhoto);
+                
+                toast.success('Primary Photo Set', {
+                    duration: 7000,
+                    position: 'bottom-right',
+                })
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+
+               
+              
+        } catch (error) {
+            console.log('Error on Setting Primary Photo')
+        }
     }
 
     const onImageChange = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -148,6 +177,7 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
                     <div id="image-container" className="relative hover:opacity-70 transition border-dashed border-2 border-indigo-300 flex flex-row self-start items-start text-white">
                         {selectedImages.slice().reverse().map((image, index) => (
                             <div key={index} className="relative self-start p-2 ml-3">
+                                
                                 {!primaryPhoto ? (
                                       <IoMdClose
                                       size={18}
@@ -165,7 +195,8 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
                                     className="relative"
                                     style={{ objectFit: 'cover' }}
                                 />
-                                <Button className='w-full' onClick={makePrimaryPhoto} disabled={primaryPhoto} variant={'primary'}>Make Primary Photo</Button>
+
+                                <Button className='w-full' onClick={() => makePrimaryPhoto(image)} disabled={primaryPhoto} variant={'primary'}>Make Primary Photo</Button>
                             </div>
                         ))}
                     </div>

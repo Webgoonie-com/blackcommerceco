@@ -10,7 +10,7 @@ async function main() {
 
 
     await prisma.user.createMany({
-                data: users
+                data: users,
     })
 
     await prisma.business.createMany({

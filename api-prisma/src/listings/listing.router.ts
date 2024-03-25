@@ -171,6 +171,7 @@ listingRouter.post('/createpropertyphotos', uploadPropertyPhotos.array('files'),
     }
 });
 
+
 listingRouter.get("/id/:id", async (request: Request, response: Response) => {
 
     const id: number = parseInt(request.params.id, 10)

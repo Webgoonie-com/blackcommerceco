@@ -168,6 +168,23 @@ propertyRouter.post('/autoSavePropertyData', async (request: Request, response: 
     }
 })
 
+propertyRouter.post("/makePrimaryPhoto/:listingId", async (request: Request, response: Response) => {
+
+    const propertyPhotoData = await request.body;
+
+    console.log('propertyPhotoData', propertyPhotoData)
+
+    try {
+        const property = await PropertyService.updatetePropertyPrimaryPhoto(propertyPhotoData)
+        return response.status(200).json(property);
+
+    } catch (error: any) {
+        return response.status(500).json(error.message);
+    }
+
+})
+
+
 propertyRouter.get("/id/:id", async (request: Request, response: Response) => {
 
     const id: number = parseInt(request.params.id, 10)
@@ -200,6 +217,8 @@ propertyRouter.get("/uuid/:uuid", async (request: Request, response: Response) =
     }
 
 })
+
+
 
 propertyRouter.get("/reservationsproperty/:uuid", async (request: Request, response: Response) => {
 
