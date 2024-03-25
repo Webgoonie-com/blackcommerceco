@@ -4,6 +4,7 @@ import * as PropertyService from "./property.controller";
 import multer, { FileFilterCallback } from 'multer'
 import moment from 'moment'
 import path from 'path'
+import { listAdmins } from '../admins/admin.controller';
 
 
 export const propertyRouter = express.Router();
@@ -184,19 +185,61 @@ propertyRouter.get("/id/:id", async (request: Request, response: Response) => {
 
 propertyRouter.get("/uuid/:uuid", async (request: Request, response: Response) => {
 
-    const uuid: string = request.params.id
+    const uuid: string = request.params.uuid
 
     try {
         const property = await PropertyService.getPropertyUuId(uuid)
+        
         if(property) {
             return response.status(200).json(property)
         }
+
     } catch (error) {
+        
         return response.status(500).json("Property Could Not Be Found by Uuid");
     }
 
 })
 
+propertyRouter.get("/reservationsproperty/:uuid", async (request: Request, response: Response) => {
+
+    const uuid: string = request.params.uuid
+
+    try {
+        const property = await PropertyService.getPropertyReservationUuId(uuid)
+        if(property) {
+            return response.status(200).json(property)
+        }
+    } catch (error) {
+        return response.status(500).json("Reservation Could Not Be Found by Uuid");
+    }
+
+})
+
+propertyRouter.post('/reservations/:createPropertyReservation', async (request: Request, response: Response) => {
+    
+    const propertyPhotoData = await request.body
+
+    const checkBody = await request.body
+
+    //console.log('Hit Create Property Reservation: ', propertyPhotoData);
+
+    const {listingId, userId, totalPrice, startDate, endDate, propertyUuid } = checkBody;
+
+    if (!userId || !totalPrice || !startDate || !endDate || !propertyUuid) {
+        return response.status(500).json("Error On Reservationractions")
+    }
+
+
+    try {
+        const propertys = await PropertyService.createPropertyReservation(propertyPhotoData)
+        return response.status(200).json(propertys);
+
+    } catch (error: any) {
+        return response.status(500).json(error.message);
+    }
+
+})
 
 propertyRouter.post('/deleteAutoSavePropertyPhoto/:imageurl', async (request: Request, response: Response) => {
     

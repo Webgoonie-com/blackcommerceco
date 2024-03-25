@@ -6,7 +6,8 @@ import React from 'react'
 // use the interface for Range
 import { Range } from 'react-date-range'
 
-import Calendar from '@/Elements/Calendars/CalendarProperty';
+import CalendarProperty from '@/Elements/Calendars/CalendarProperty';
+import Button from '@/Elements/Button';
 
 interface ListingBapPropertyReservationProps {
     price: number;
@@ -37,8 +38,19 @@ const ListingBapPropertyReservation: React.FC<ListingBapPropertyReservationProps
             "
         >
             <div className="flex flex-row p-4">
-                <h2>Property Reservation Spot on the right...</h2>
+                
+                <h2>Select A Date To Set Your Reservation For This Property.</h2>
+                
+                <hr />
+
                 <br />
+
+                <div className='flex flex-row'>
+                    <small>Select Dates Below</small>
+                </div>
+               
+
+                <hr />
             </div>
             <div className="
                     flex flex-row items-center gap-1 p-4
@@ -47,7 +59,7 @@ const ListingBapPropertyReservation: React.FC<ListingBapPropertyReservationProps
                     ${price}
                 </div>
                 <div className="font-light text-text-neutral-500">
-                    per night
+                    per day & night
                 </div>
             </div>
 
@@ -59,20 +71,31 @@ const ListingBapPropertyReservation: React.FC<ListingBapPropertyReservationProps
 
             </div>
 
-            <Calendar
+            <CalendarProperty
                 value={dateRange}
                 disabledDates={disabledDates}
                 onChange={(value) => onChangeDate(value.selection)}
             />
+            
             <hr />
+
+            <div className='p-4'>
+                <Button
+                    disabled={disabled}
+                    label="Reserve"
+                    onClick={onSubmit}
+                />
+
+            </div>
+
             <div
                 className="p-4 flex flex-row items-center justify-between font-semibold text-lg"
             >
                 <div>
-                    Total
+                    Total Price:
                 </div>
                 <div>
-                    $ {totalPrice}
+                    $ {totalPrice.toFixed(2)}
                 </div>
             </div>
         </div>

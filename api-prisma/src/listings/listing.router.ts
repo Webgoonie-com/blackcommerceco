@@ -193,7 +193,8 @@ listingRouter.get("/id/:id", async (request: Request, response: Response) => {
 
 listingRouter.get("/uuid/:uuid", async (request: Request, response: Response) => {
 
-    console.log('Hit Listing UUID 3/23/2024 ')
+    //console.log('Hit Listing UUID 3/23/2024 ')
+
     const uuid: string = request.params.uuid
 
     try {
@@ -218,7 +219,7 @@ listingRouter.get("/propertyuuid/:uuid", async (request: Request, response: Resp
 
     const uuid: string = request.params.uuid
 
-    console.log('Hit Property Listing UUID 3/23/2024 ', uuid)
+    //console.log('Hit Property Listing UUID 3/23/2024 ', uuid)
 
     try {
 

@@ -232,7 +232,7 @@ export const getPropertyListingUuId = async (uuid: string): Promise<Listing | nu
         }
     })
 
-    console.log('return findProperty', findProperty)
+    //console.log('return findProperty', findProperty)
 
     return findProperty
 }

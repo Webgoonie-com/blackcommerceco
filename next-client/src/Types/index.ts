@@ -12,7 +12,7 @@ import { Country } from "country-state-city";
     export interface currentUser {
         firstName?: string | null | undefined;
         lastName: string | null | undefined;
-        Id?: number | null | undefined;
+        id?: number | null | undefined;
         uuid: string;
         token: string | null | undefined;
         favoriteIds: string | null | undefined;
@@ -28,7 +28,7 @@ import { Country } from "country-state-city";
         name: string;
         firstName: string;
         lastName: number;
-        Id: number;
+        id: number;
         uuid: string;
         token: string;
         favoriteIds: string;
@@ -39,7 +39,7 @@ import { Country } from "country-state-city";
         // ... other properties of Property
     }
     export interface Property {
-        Id: number;
+        id: number;
         uuid: string;
         bathroomCount: number;
         category: string;
@@ -58,6 +58,7 @@ import { Country } from "country-state-city";
         // ... other properties of Property
     }
     export interface Businesses {
+        id: number;
         uuid: string;
         token: string;
         acctStatus: number;
@@ -79,6 +80,7 @@ import { Country } from "country-state-city";
     }
     
     export interface Reservation {
+        id: number;
         locationValue: string;
         totalPrice: number;
         startDate: Date,

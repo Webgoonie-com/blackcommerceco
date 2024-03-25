@@ -22,7 +22,7 @@ const CalendarProperty: React.FC<CalendarPropertyProps> = ({
                 
             <div className="grid grid-cols-1 divide-y">
                 <div>
-                    <h2 className="fw-bold p-2">CalendarProperty</h2>
+                    <h2 className="fw-bold p-2">Reservation Calendar For This Property</h2>
                 </div>
                 <div className="text-center items-center p-2">
                     <DateRange
@@ -38,7 +38,7 @@ const CalendarProperty: React.FC<CalendarPropertyProps> = ({
                     
                 </div>
                 <div className="p-2">
-                    <p>Below CalendarProperty</p>
+                    <p>Pack Your Bags For Your Stay</p>
                 </div>
             </div>
     )

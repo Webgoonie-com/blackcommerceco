@@ -82,7 +82,7 @@ model Business {
   user                                User?                   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId                              Int
 
-  reservations                        Reservation[]
+  reservations                        ReservationBusiness[]
   favorites                           Favorite[]
 
   listing                             Listing[]
@@ -227,7 +227,7 @@ model Favorite {
   businessId                          Int          
 }       
   
-model Reservation { 
+model ReservationBusiness { 
   id                                  Int                     @id @default(autoincrement())
   uuid                                String                  @default(uuid()) @unique
   startDate                           DateTime
@@ -239,14 +239,32 @@ model Reservation {
   user                                User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId                              Int
   
-  listing                             Listing                 @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listing                             Listing?                 @relation(fields: [listingId], references: [id], onDelete: Cascade)
   listingId                           Int
   
-  property                            Property                @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  
+  business                            Business?                @relation(fields: [businessId], references:[id], onDelete: Cascade)
+  businessId                          Int
+}
+  
+model ReservationProperty { 
+  id                                  Int                     @id @default(autoincrement())
+  uuid                                String                  @default(uuid()) @unique
+  startDate                           DateTime
+  endDate                             DateTime
+  totalPrice                          Decimal                 @db.Decimal(10, 2)
+  createdAt                           DateTime                @default(now())
+  updatedAt                           DateTime                @default(now()) @updatedAt
+  
+  user                                User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                              Int
+  
+  listing                             Listing?                 @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId                           Int
+  
+  property                            Property?               @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   propertyId                          Int
 
-  business                            Business                @relation(fields: [businessId], references:[id], onDelete: Cascade)
-  businessId                          Int
 }
 
 model User {            
@@ -268,7 +286,8 @@ model User {
   userPhotos                          UserPhoto[]
   accounts                            Account[]
   listings                            Listing[]
-  reservations                        Reservation[]
+  reservationProperty                 ReservationProperty[]
+  reservationBusiness                 ReservationBusiness[]
   Propertys                           Property[]
   Propertyphotos                      Propertyphoto[]
   Business                            Business[]
@@ -324,7 +343,8 @@ model Listing {
   countryCity                         CountryCity[]
 
   reservationId                       Int?
-  reservations                        Reservation[]
+  reservationProperty                 ReservationProperty[]
+  ReservationBusiness                 ReservationBusiness[]
   favorites                           Favorite[]
 
   property                            Property[]
@@ -367,7 +387,7 @@ model Property {
   user                                User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId                              Int
 
-  reservations                        Reservation[]
+  reservations                        ReservationProperty[]
   favorites                           Favorite[]
 
   Propertyphotos                      Propertyphoto[]

@@ -12,13 +12,8 @@ import { eachDayOfInterval, differenceInCalendarDays } from "date-fns";
 import axios from "axios";
 import toast from "react-hot-toast";
 import ListingBapPropertyReservation from "@/Components/Listings/ListingBapPropertyReservation";
+import { Range } from "react-date-range"
 
-
-interface Range {
-    startDate: Date;
-    endDate: Date;
-    key: string;
-}
 
 const initialDateRange: Range = {
     startDate: new Date(),
@@ -81,11 +76,13 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
 
         setIsLoading(true)
 
-        axios.post('/api/reservations', {
+        axios.post(process.env.NEXT_PUBLIC_API_URL+'/api/propertys/reservations/create', {
             totalPrice,
             startDate: dateRange.startDate,
             endDate: dateRange.endDate,
-            listingId: propertylistingByUuid?.id
+            listingId: propertylistingByUuid?.id,
+            propertyUuid: propertylistingByUuid?.uuid,
+            userId: currentUser.id
         })
         .then(() => {
             toast.success('Listing Reserved!')
@@ -154,19 +151,19 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
                 
 
                <div className="grid grid-cols-1 md:grid-cols-7 md:gap-10 mt-6">
-                    <ListingBapPropertyInfo 
-                        user={currentUser as any}
-                        description={""}
-                        guestCount={0}
-                        roomCount={0}
-                        bathroomCount={0}
-                        category={category}
-                        locationValue={propertylistingByUuid?.locationValue as any}
-                    />
+
+                        <ListingBapPropertyInfo 
+                            user={currentUser as any}
+                            description={""}
+                            guestCount={0}
+                            roomCount={0}
+                            bathroomCount={0}
+                            category={category}
+                            locationValue={propertylistingByUuid?.locationValue as any}
+                        />
                         
-                        <div
-                            className="order-first mb-10 md:order-last md:col-span-3"
-                        >
+                        <div className="order-first mb-10 md:order-last md:col-span-3">
+
                             <ListingBapPropertyReservation
                                 price={parseFloat(propertylistingByUuid?.price)}
                                 totalPrice={totalPrice}
@@ -176,6 +173,7 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
                                 disabled={isLoading}
                                 disabledDates={disabledDates}
                             />
+
                         </div>
 
 

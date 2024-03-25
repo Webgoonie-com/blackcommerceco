@@ -3,6 +3,7 @@ import { Prisma } from '@prisma/client';
 import { MIME_TYPE_MAP } from "../types";
 import path from 'path';
 import { unlink } from "fs/promises";
+import { Decimal } from "@prisma/client/runtime/library";
 
 
 type Listing = {
@@ -21,6 +22,13 @@ type Listing = {
     updatedAt: Date;
 }
 
+interface PropertyReservation {
+    id: number;
+    uuid: string;
+    startDate: Date;
+    endDate: Date;
+    totalPrice: Decimal;
+}
 
 type Property = {
     [x: string]: any;
@@ -278,6 +286,27 @@ export const getPropertyId = async (id: number): Promise<Property | null> => {
 
 
 
+export const getPropertyReservationUuId = async (uuid: string): Promise<PropertyReservation | null> => {
+    
+    console.log('Hit PropertyReservationUuId: ', uuid)
+    
+    return orm.reservationProperty.findUnique({
+        
+        where: {
+            uuid,
+        },
+        select: {
+            id: true,
+            uuid: true,
+            startDate: true,
+            endDate: true,
+            totalPrice: true,
+        }
+        
+    })
+}
+
+
 
 export const getPropertyUuId = async (uuid: string): Promise<Property | null> => {
     return orm.property.findUnique({
@@ -310,6 +339,8 @@ export const getPropertyUuId = async (uuid: string): Promise<Property | null> =>
         },
     })
 }
+
+
 
 
 
@@ -489,6 +520,149 @@ export const createPropertyPhotos = async (propertyData: any): Promise<PropertyP
 };
 
 
+// export const createPropertyReservation = async (propertyReservationData: any): Promise<PropertyPhoto[] | any> => {
+
+//     if(!propertyReservationData){
+//         throw new Error("PropertyReservationData Data Mising");
+        
+//     }
+
+
+
+//     // const propertyPhotoData = propertyReservationData.propertyPhotoData
+//     // const userId = propertyReservationData.userId
+//     // const autoSaveToken = propertyReservationData.autoSaveToken
+
+//     console.log('Line 503 - propertyReservationDatav: ', propertyReservationData)
+
+//     const listingAndReservation = await  orm.property.update({
+//         where: {
+//             uuid: propertyReservationData.propertyUuid,
+//         },
+//         data: {
+//             reservations: {
+//                 create: {
+//                     userId: propertyReservationData.userId,
+//                     startDate: propertyReservationData.startDate,
+//                     endDate: propertyReservationData.endDate,
+//                     totalPrice: propertyReservationData.totalPrice,
+
+//                 }
+//             }
+//         },
+//         include: {
+//             reservations: true // Include reservations in the response
+//         }
+//     })
+
+//     return listingAndReservation
+
+    
+
+    
+    
+
+
+//     return propertyReservationData
+
+// }
+
+
+// export const createPropertyReservation = async (propertyReservationData: any): Promise<any> => {
+//     if (!propertyReservationData) {
+//         throw new Error("PropertyReservationData is missing");
+//     }
+
+//     try {
+//         // Fetch user, listing, business related to the reservation
+//         const user = await orm.user.findUnique({ where: { id: propertyReservationData.userId } });
+//         const listing = await orm.listing.findUnique({ where: { id: propertyReservationData.listingId } });
+//         const business = await orm.business.findUnique({ where: { id: propertyReservationData.businessId } });
+
+//         // Update property based on UUID
+//         const updatedProperty = await orm.property.update({
+//             where: {
+//                 uuid: propertyReservationData.propertyUuid,
+//             },
+//             data: {
+//                 reservations: {
+//                     create: {
+//                         userId: propertyReservationData.userId,
+//                         startDate: propertyReservationData.startDate,
+//                         endDate: propertyReservationData.endDate,
+//                         totalPrice: propertyReservationData.totalPrice,
+//                         // Include user, listing, business in the reservation data
+//                         user: { connect: { id: propertyReservationData.userId } },
+//                         listing: { connect: { id: propertyReservationData.listingId } },
+//                         business: { connect: { id: propertyReservationData.id || 0 } },
+//                     }
+//                 }
+//             },
+//             include: {
+//                 reservations: true // Include reservations in the response
+//             }
+//         });
+
+//         return updatedProperty.reservations; // Return the created reservation
+//     } catch (error) {
+//         // Handle any errors
+//         console.error("Error creating property reservation:", error);
+//         throw new Error("Failed to create property reservation");
+//     }
+// }
+
+
+
+export const createPropertyReservation = async (propertyReservationData: any): Promise<any> => {
+    if (!propertyReservationData) {
+        throw new Error("PropertyReservationData is missing");
+    }
+
+    try {
+        
+
+        // Update property based on UUID
+        const updatedProperty = await orm.property.update({
+
+            where: {
+                uuid: propertyReservationData.propertyUuid,
+            },
+
+            data: {
+
+                reservations: {
+                    
+                    create: {
+                        
+                        startDate: propertyReservationData.startDate,
+                        
+                        endDate: propertyReservationData.endDate,
+                        
+                        totalPrice: propertyReservationData.totalPrice,
+                        
+                        user: { connect: { id: propertyReservationData.userId } },
+                        
+                        listing: { connect: { id: propertyReservationData.listingId } },
+                    }
+
+                }
+            },
+
+            include: {
+                reservations: true
+            }
+
+        });
+
+        return updatedProperty // Return the created reservation
+    } catch (error) {
+        // Handle any errors
+        console.error("Error creating property reservation:", error);
+        throw new Error("Failed to create property reservation");
+    }
+}
+
+
 export const deleteAutoSavePropertyPhoto = async (propertyData: any): Promise<PropertyPhoto[] | any> => {
 
     if(!propertyData){
@@ -538,7 +712,8 @@ export const deleteAutoSavePropertyPhoto = async (propertyData: any): Promise<Pr
 export const autoSavePropertyData = async (property: Property, listing: Listing): Promise<Property | any> => {
 
 
-    console.log("Hit autoSavePropertyData Service.ts new Controller.ts", property)
+    //console.log("Hit autoSavePropertyData Service.ts new Controller.ts", property)
+
     //return property;
 
         const price = property.price.toString();

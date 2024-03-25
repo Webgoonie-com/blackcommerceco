@@ -5,8 +5,48 @@ GET http://localhost:3334/api/propertys/allproperties
 
 
 ###
+###
+
+GET http://localhost:3334/api/propertys/reservationsproperty/87aa2ee6-6b64-4139-a01b-9d394dbfbb5e
 
 
+
+###
+
+###
+
+POST http://localhost:3334/api/propertys/reservations/create
+Content-Type: application/json
+
+{
+
+    "totalPrice": 108.49,
+    "startDate": "2024-03-26T04:35:45.015Z",
+    "endDate": "2024-03-29T04:35:45.015Z",
+    "listingId": 6,
+    "propertyUuid": "401d0976-ee08-4648-b5c5-ddbc3324ae6f",
+    "userId": 2
+
+
+}
+
+###
+
+
+POST http://localhost:3334/api/propertys/reservations/create
+Content-Type: application/json
+
+{
+
+    "totalPrice": 78.54,
+    "startDate": "2024-03-25T04:35:45.015Z",
+    "endDate": "2024-03-25T04:35:45.015Z",
+    "listingId": 6,
+    "propertyUuid": "401d0976-ee08-4648-b5c5-ddbc3324ae6f",
+    "userId": 1
+
+
+}
 
 ###
 
