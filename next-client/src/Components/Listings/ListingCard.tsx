@@ -28,7 +28,7 @@ import getCurrentUser from "@/Actions/getCurrentUser"
 //     // ... other properties of Property
 // }
 interface Property {
-    Id: number;
+    id: number;
     uuid: string;
     bathroomCount: number;
     category: string;
@@ -78,7 +78,7 @@ interface Reservation {
 
 interface ListingCardProps {
     data: {
-        Id: number;
+        id: number;
         uuid: string;
         UserId: number;
         PropertyId: number;
@@ -205,7 +205,7 @@ const ListingCard: React.FC<ListingCardProps> =  ({
                     />
                     <div className="absolute top-3 right-3">
                         <HeartIconButton 
-                            listingId={listingId?.toString()}
+                            listingId={parseInt(listingId as any)}
                             currentUser={currentUser as any}
                         />
                     </div>

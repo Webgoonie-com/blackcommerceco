@@ -25,6 +25,7 @@ import { Country } from "country-state-city";
     
 
     export interface User {
+        name: string;
         firstName: string;
         lastName: number;
         Id: number;
@@ -116,7 +117,7 @@ import { Country } from "country-state-city";
     
     }
     export interface Listing {
-        Id: number;
+        id: number;
         uuid: string | null;
         token: string;
         title: string;
@@ -127,7 +128,7 @@ import { Country } from "country-state-city";
         countryStateRegionId: number | null;
         createdAt: Date;
         updatedAt: Date;
-
+        price: string,
         locationValue: string | null;
         reservation?: {
             Reservation: Reservation;

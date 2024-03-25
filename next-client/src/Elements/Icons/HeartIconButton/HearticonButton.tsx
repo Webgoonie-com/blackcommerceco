@@ -9,7 +9,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import getCurrentUser from "@/Actions/getCurrentUser"
 
 interface HeartIconButtonProps {
-    listingId: string;
+    listingId: number;
     currentUser?: User | null
 }
 
