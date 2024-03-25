@@ -378,7 +378,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                             />
 
                             <Input 
-                                    id="streetAddress"
+                                    id="streetAddress2"
                                     label="Street Address 2"
                                     type="string"
                                     value={watchStreetAddress2}
