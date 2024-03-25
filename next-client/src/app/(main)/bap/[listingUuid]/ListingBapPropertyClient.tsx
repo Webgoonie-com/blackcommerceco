@@ -85,7 +85,12 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
             userId: currentUser.id
         })
         .then(() => {
-            toast.success('Listing Reserved!')
+
+            toast.success('Your Reservation Has Just Been Reserved!', {
+                duration: 7000,
+                position: 'bottom-right',
+            })
+
             setDateRange(initialDateRange)
 
             // Redirect to /trips
