@@ -385,7 +385,7 @@ export const createProperty = async (property: Property): Promise<Property | any
                         bathroomCount: property.bathroomCount,
                         locationValue: property.locationValue || 'placeholder_value',
                         guestCount: property.guestCount,
-                        imageSrc: imageSrcString, // Save the concatenated string
+                        //imageSrc: imageSrcString, // Save the concatenated string
                         price: price, // Pass the price as a number
                         streetAddress: property.streetAddress,
                         streetAddress2: property.streetAddress2,
@@ -989,7 +989,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
                         bathroomCount: property.bathroomCount,
                         locationValue: property.locationValue || 'placeholder_value',
                         guestCount: property.guestCount,
-                        imageSrc: imageSrcString, // Save the concatenated string
+                        //imageSrc: imageSrcString, // Save the concatenated string
                         price: price, // Pass the price as a number
                         streetAddress: property.streetAddress,
                         streetAddress2: property.streetAddress2,
@@ -1028,7 +1028,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
                         bathroomCount: property.bathroomCount,
                         locationValue: property.locationValue || 'placeholder_value',
                         guestCount: property.guestCount,
-                        imageSrc: imageSrcString, // Save the concatenated string
+                        //imageSrc: imageSrcString, // Save the concatenated string
                         price: price, // Pass the price as a number
                         streetAddress: property.streetAddress,
                         streetAddress2: property.streetAddress2,
@@ -1142,7 +1142,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
                         token: listing.token || token,
                         description: listing.description,
                         category: listing.category,
-                        imageSrc: imageSrcString, // Save the concatenated string
+                        //imageSrc: imageSrcString, // Save the concatenated string
                         userId: listing.userId,
                         propertyId: existingProperty?.id,
                         countryId: existingCountry?.id || 0, // Include countryId

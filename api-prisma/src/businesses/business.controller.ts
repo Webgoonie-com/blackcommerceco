@@ -432,14 +432,14 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
 
         existingBusiness = await orm.business.findFirst({
             where: {
-                token: autoSaveToken || token,
+                token: autoSaveToken,
                 userId: parseInt(business.userId as any)
             }
         });
 
         existingListing = await orm.listing.findFirst({
             where: {
-                token: autoSaveToken || token,
+                token: autoSaveToken,
                 userId: parseInt(business.userId as any)
             }
         });
@@ -459,7 +459,6 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                     where: { id: existingBusiness.id },
                     data: {
                         title: business.title,
-                        token: business.token || token,
                         description: business.description,
                         category: business.category,
                         
@@ -467,7 +466,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                         
                         listingId: existingListing.id,
                         
-                        imageSrc: imageSrcString,
+                        //imageSrc: imageSrcString,
                         streetAddress: business.streetAddress,
                         streetAddress2: business.streetAddress2,
                         streetCity: business.streetCity,
@@ -499,7 +498,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                 autoSaveBusinessData = await orm.business.create({
                     data: {
                         title: business.title,
-                        token: business.token || token,
+                        token: business.token,
                         description: business.description,
                         category: business.category,
                         isAFranchise: business.isAFranchise,
@@ -508,7 +507,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                         hasStore: business.hasStore,
                         hasProducts: business.hasProducts,
                         hasServices: business.hasServices,
-                        imageSrc: imageSrcString,
+                        //imageSrc: imageSrcString,
                         streetAddress: business.streetAddress,
                         streetAddress2: business.streetAddress2,
                         streetCity: business.streetCity,

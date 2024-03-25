@@ -339,7 +339,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                         required
                     />
 
-                {/* <Input 
+                <Input 
                         id="streetAddress"
                         label="Street Address 2"
                         type="string"
@@ -349,7 +349,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                         register={register}
                         errors={errors}
                         required
-                    /> */}
+                    />
                     
                 
 

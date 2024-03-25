@@ -47,7 +47,7 @@ const Input: React.FC<InputProps> = ({
                 id={id}
                 disabled={disabled}
                 {...register(id, { required })}
-                value={value} // Bind value prop
+                value={(value)} // Bind value prop
                 placeholder={placeholder || ' '}
                 type={type}
                 onChange={handleChange} // Attach handleChange function to onChange event

@@ -142,7 +142,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
 
             {isOpen && (
                 <div
-                    className="absolute rounded-xl shadow-md w-[60vw] md:w-[300px] bg-white overflow-hidden right-0 top-12 text-sm z-50]"
+                    className="absolute rounded-xl shadow-md w-[60vw] md:w-[300px] bg-white overflow-hidden right-0 top-12 text-sm z-50"
                 >
                     <div className='flex flex-col cursor-pointer'>
                         {currentUser ? (
