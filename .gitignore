@@ -30,3 +30,4 @@ next-client/testRest/admin.rest
 next-client/testRest/listing.rest
 next-client/testRest/property.rest
 next-client/testRest/users.rest
+next-client/package-lock.json
