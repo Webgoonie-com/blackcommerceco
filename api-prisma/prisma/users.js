@@ -1,0 +1,28 @@
+export const users = [
+    {
+        id: 1,
+        uuid: "ab66f11d-25ca-48ee-9f3d-7dc20f1a48d8",
+        name: "John Doe",
+        firstName: "John",
+        lastName: "Doe",
+        email: "johndoe@emmail.com",
+        image: "",
+        phone: "+1(404) 555-1234",
+        role: "both",
+        emailVerified: new Date(),
+        hashedPassword: "$2b$12$AneafNv7kkiVLsyLITXnUe.JWip9/74TyUaaotcJhZ2vZVAS96mSS",
+    },
+    {
+        id: 2,
+        uuid: "ed6d84fc-df84-4db9-a104-2b60bb296ea1",
+        name: "ane Doe",
+        firstName: "Jan",
+        lastName: "Doe",
+        email: "janedoe@email.com",
+        image: "",
+        phone: "+1 (404) 555-1235",
+        role: "both",
+        emailVerified: new Date(),
+        hashedPassword: "$2b$12$kI.rtHYnatU2cqsZMK8BZuNjQ3bPpfqUxi7O0d.I/JWZYz7uSpldu",
+    },
+];
