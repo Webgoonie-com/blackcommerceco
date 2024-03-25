@@ -14,6 +14,13 @@ import Button from '@/Elements/Button';
 import useFavorite from '@/Hooks/useFavorite';
 import getCurrentUser from "@/Actions/getCurrentUser"
 
+import logo from '../../../public/images/logo.png'
+
+const logoPlaceHolder = `${process.env.NEXT_PUBLIC_URL}` + logo.src
+
+// console.log('logo', logo.src)
+// console.log('logoPlaceHolder', logoPlaceHolder)
+
 // interface User {
 //     firstName: string;
 //     lastName: number;
@@ -229,7 +236,7 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
                     <Image
                         fill
                         alt="Listing"
-                        src={`${data?.imageSrc}`}
+                        src={data?.imageSrc as string ? data?.imageSrc as string : logoPlaceHolder}
                         className="
                             object-cover 
                             h-full 
@@ -243,7 +250,7 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
                     />
                     <div className="absolute top-3 right-3">
                         <HeartIconButton 
-                            listingId={listingId?.toString()}
+                            listingId={parseInt(listingId as string)}
                             currentUser={currentUser as any}
                         />
                     </div>

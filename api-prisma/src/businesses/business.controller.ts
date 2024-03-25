@@ -582,7 +582,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                         token: listing.token || token,
                         description: listing.description,
                         category: listing.category,
-                        imageSrc: imageSrcString, // Save the concatenated string
+                        //imageSrc: imageSrcString, // Save the concatenated string
                         userId: listing.userId,
                         businessId: existingBusiness?.id,
                         countryId: countryId, // Include countryId
@@ -624,7 +624,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                         token: listing.token || token,
                         description: listing.description,
                         category: listing.category,
-                        imageSrc: imageSrcString, // Save the concatenated string
+                        //imageSrc: imageSrcString, // Save the concatenated string
                         userId: listing.userId,
                         businessId: existingBusiness?.id,
                         countryId: countryId, // Include countryId

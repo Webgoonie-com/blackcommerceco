@@ -349,6 +349,8 @@ export const createProperty = async (property: Property): Promise<Property | any
         const price = property.price.toString();
 
         const imageSrcString = Array.isArray(property.imageSrc) ? property.imageSrc.join(',') : '';
+        
+        const newLocationValue = Array.isArray(property.locationValue) ? property.locationValue.join(',') : '';
 
         const autoSaveToken = property?.token
 
@@ -383,7 +385,7 @@ export const createProperty = async (property: Property): Promise<Property | any
                         category: property.category,
                         roomCount: property.roomCount,
                         bathroomCount: property.bathroomCount,
-                        locationValue: property.locationValue || 'placeholder_value',
+                        locationValue: newLocationValue,
                         guestCount: property.guestCount,
                         //imageSrc: imageSrcString, // Save the concatenated string
                         price: price, // Pass the price as a number
@@ -420,7 +422,7 @@ export const createProperty = async (property: Property): Promise<Property | any
                         category: property.category,
                         roomCount: property.roomCount,
                         bathroomCount: property.bathroomCount,
-                        locationValue: property.locationValue || 'placeholder_value',
+                        locationValue: newLocationValue,
                         guestCount: property.guestCount,
                         imageSrc: imageSrcString, // Save the concatenated string
                         price: price, // Pass the price as a number
@@ -741,6 +743,8 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
 
         const imageSrcString = Array.isArray(property.imageSrc) ? property.imageSrc.join(',') : '';
 
+        const newLocationValue = Array.isArray(property.locationValue) ? property.locationValue.join(',') : '';
+        
         const autoSaveToken = property?.token
         //console.log('Line 142 autoSaveToken', autoSaveToken)
 
@@ -987,7 +991,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
                         category: property.category,
                         roomCount: property.roomCount,
                         bathroomCount: property.bathroomCount,
-                        locationValue: property.locationValue || 'placeholder_value',
+                        locationValue: newLocationValue,
                         guestCount: property.guestCount,
                         //imageSrc: imageSrcString, // Save the concatenated string
                         price: price, // Pass the price as a number
@@ -1026,7 +1030,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
                         category: property.category,
                         roomCount: property.roomCount,
                         bathroomCount: property.bathroomCount,
-                        locationValue: property.locationValue || 'placeholder_value',
+                        locationValue: newLocationValue,
                         guestCount: property.guestCount,
                         //imageSrc: imageSrcString, // Save the concatenated string
                         price: price, // Pass the price as a number

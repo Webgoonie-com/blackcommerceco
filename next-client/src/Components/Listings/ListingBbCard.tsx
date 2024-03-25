@@ -13,7 +13,9 @@ import Button from '@/Elements/Button';
 
 import useFavorite from '@/Hooks/useFavorite';
 import getCurrentUser from "@/Actions/getCurrentUser"
+import logo from '../../../public/images/logo.png'
 
+const logoPlaceHolder = `${process.env.NEXT_PUBLIC_URL}` + logo.src
 
 
 // interface User {
@@ -194,7 +196,8 @@ const ListingBbCard: React.FC<ListingBbCardProps> =  ({
                     <Image
                         fill
                         alt="Business Listing"
-                        src={`${data?.imageSrc}`}
+                        //src={`${data?.imageSrc}`}
+                        src={data?.imageSrc as string ? data?.imageSrc as string : logoPlaceHolder}
                         className="
                             object-cover 
                             h-full 
@@ -208,7 +211,7 @@ const ListingBbCard: React.FC<ListingBbCardProps> =  ({
                     />
                     <div className="absolute top-3 right-3">
                         <HeartIconButton 
-                            listingId={listingId?.toString()}
+                            listingId={parseInt(listingId as string)}
                             currentUser={currentUser as any}
                         />
                     </div>

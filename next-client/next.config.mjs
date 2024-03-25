@@ -3,15 +3,15 @@ const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
     images: {
-      domains: [
-        "next/image",
-        "tailwindui.com",
-        "images.unsplash.com",
-        "uko-react.vercel.app",
-        "localhost",
-        "localhost:3333",
-        "localhost:3334",
-    ],
+    //   domains: [
+    //     "next/image",
+    //     "tailwindui.com",
+    //     "images.unsplash.com",
+    //     "uko-react.vercel.app",
+    //     "localhost",
+    //     "localhost:3333",
+    //     "localhost:3334",
+    // ],
     remotePatterns: [
       {
         protocol: "https",

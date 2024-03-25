@@ -71,7 +71,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                 bathroomCount: 1,
                 category: '',
                 countryCity: null,
-                
+                locationValue: [],
                 guestCount: 1,
                 imageSrc: [],
                 imagesMultiSrc: [],
@@ -83,7 +83,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                 streetAddress2: '',
                 streetCity: '',
                 streetZipCode: '',
-                exactBusinessGeoLocation: [],
+                exactPropertyGeoLocation: [],
                 title: '',
                 description: '',
                 token: autoSaveToken,
@@ -105,15 +105,41 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
     const watchRoomCount = watch('roomCount')
     const watchBathroomCount = watch('bathroomCount')
     const watchImageSrc = watch('imageSrc')
+    const watchlocationValue = watch('locationValue')
+    const watchExactPropertyGeoLocation = watch('exactPropertyGeoLocation')
     
 
     const  Map = useMemo(() => dynamic(() => import("@/Components/maps/Map"), {
         ssr: false
     }), [])
 
+
+    const  MapSmall = useMemo(() => dynamic(() => import("@/Components/maps/MapSmall"), {
+        ssr: false
+    }), [])
+
     const setCustomValue = (id: string, value: any) => {
         
         setValue(id, value, {
+            shouldValidate: true,
+            shouldDirty: true,
+            shouldTouch: true,
+        })
+
+        
+
+        const newLocationValue = watchCountryCity?.latitude && watchCountryCity?.longitude ? [watchCountryCity?.latitude, watchCountryCity?.longitude] :
+                                watchCountryStateRegion?.latitude && watchCountryStateRegion?.longitude ? [watchCountryStateRegion?.latitude, watchCountryStateRegion?.longitude] :
+                                watchCountry?.latitude && watchCountry?.longitude ? [watchCountry?.latitude, watchCountry?.longitude] : [32.1652613142917, -54.72682487791673]
+
+
+        setValue("locationValue", newLocationValue, {
+            shouldValidate: true,
+            shouldDirty: true,
+            shouldTouch: true,
+        })
+
+        setValue("exactPropertyGeoLocation", newLocationValue, {
             shouldValidate: true,
             shouldDirty: true,
             shouldTouch: true,
@@ -144,6 +170,9 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
     };
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+
+
+        //console.log('data being submited', data)
 
 
         try {
@@ -313,6 +342,8 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
         )
     }
 
+    
+
     if (step === STEPS.LOCALINFO){
         bodyContent = (
             <div
@@ -321,73 +352,85 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                     text-white
                 `}
             >
-                <ModalHeading 
-                    title={"What is the address to this property?"}
-                    subtitle={"Help guest find you!"}
-                />
-                <div className="grid md:grid-cols-3 xl:grid-cols-3 grid-flow-row auto-rows-max z-50">
-                    
-                <Input 
-                        id="streetAddress"
-                        label="Street Address"
-                        type="string"
-                        value={watchStreetAddress}
-                        onChange={(value) => setCustomValue('streetAddress', value)}
-                        disabled={isLoading}
-                        register={register}
-                        errors={errors}
-                        required
-                    />
-
-                <Input 
-                        id="streetAddress"
-                        label="Street Address 2"
-                        type="string"
-                        value={watchStreetAddress2}
-                        onChange={(value) => setCustomValue('streetAddress2', value)}
-                        disabled={isLoading}
-                        register={register}
-                        errors={errors}
-                        required
-                    />
-                    
+                
+                
                 
 
-                <Input 
-                        id="streetCity"
-                        label="City or Town"
-                        type="string"
-                        value={watchStreetCity}
-                        onChange={(value) => setCustomValue('streetCity', value)}
-                        disabled={isLoading}
-                        register={register}
-                        errors={errors}
+                <ModalHeading 
+                    title={ watchCountryStateRegion?.name ? "What is the address to this property? in "+watchCountryStateRegion.name : "What is the address to this property? in "+watchCountry?.value
+                    }
+                    subtitle={"Help guest find you!"}
+                />
+                <div className='flex flex-col gap-4'>
+                
+                    <div className="flex items-center gap-2">
+
+                            <Input 
+                                id="streetAddress"
+                                label="Street Address"
+                                type="string"
+                                value={watchStreetAddress}
+                                onChange={(value) => setCustomValue('streetAddress', value)}
+                                disabled={isLoading}
+                                register={register}
+                                errors={errors}
+                                required
+                            />
+
+                            <Input 
+                                    id="streetAddress"
+                                    label="Street Address 2"
+                                    type="string"
+                                    value={watchStreetAddress2}
+                                    onChange={(value) => setCustomValue('streetAddress2', value)}
+                                    disabled={isLoading}
+                                    register={register}
+                                    errors={errors}
+                                    required
+                            />
+                    </div>
+                    
+                    <div className="flex items-center gap-2">
+
+                        <Input 
+                                id="streetCity"
+                                label="City or Town"
+                                type="string"
+                                value={watchStreetCity}
+                                onChange={(value) => setCustomValue('streetCity', value)}
+                                disabled={isLoading}
+                                register={register}
+                                errors={errors}
+                                
+                                required
+                        />
                         
-                        required
-                    />
-                <Input 
-                        id="streetZipCode"
-                        label="Postal Code"
-                        type="string"
-                        value={watchStreetZipCode}
-                        onChange={(value) => setCustomValue('streetZipCode', value)}
-                        disabled={isLoading}
-                        register={register}
-                        errors={errors}
-                        required
-                    />
+                        <Input 
+                                id="streetZipCode"
+                                label="Postal Code"
+                                type="string"
+                                value={watchStreetZipCode}
+                                onChange={(value) => setCustomValue('streetZipCode', value)}
+                                disabled={isLoading}
+                                register={register}
+                                errors={errors}
+                                required
+                        />
+                    </div>
                     
                 </div>
                 
                     <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3'>
-                            <Map
+                            <MapSmall
                                 mapCenterReasonTxt={"Your Rental Property is about here.."}
                                 center={
                                 watchCountryCity?.latitude && watchCountryCity?.longitude ? [watchCountryCity?.latitude, watchCountryCity?.longitude] :
                                 watchCountryStateRegion?.latitude && watchCountryStateRegion?.longitude ? [watchCountryStateRegion?.latitude, watchCountryStateRegion?.longitude] :
                                 watchCountry?.latitude && watchCountry?.longitude ? [watchCountry?.latitude, watchCountry?.longitude] : [32.1652613142917, -54.72682487791673]
                             }
-                            />
+                    />
+
+
                 </div>
             </div>
         )
