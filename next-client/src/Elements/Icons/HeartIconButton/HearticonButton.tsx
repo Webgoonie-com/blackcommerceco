@@ -10,7 +10,7 @@ import getCurrentUser from "@/Actions/getCurrentUser"
 
 interface HeartIconButtonProps {
     listingId: number;
-    currentUser?: User | null
+    currentUser?: User
 }
 
 const HearticonButton: React.FC<HeartIconButtonProps> = ({
@@ -19,13 +19,14 @@ const HearticonButton: React.FC<HeartIconButtonProps> = ({
 }) => {
 
 
+    console.log('currentUser: ', JSON.stringify(currentUser))
     
     //const hasFavorited = false  // when true heart will turn read
     //const toggleFavorite = () => {}
 
     const { hasFavorited, toggleFavorite } = useFavorite({
         listingId,
-        currentUser: null
+        currentUser: currentUser as any,
     })
 
 

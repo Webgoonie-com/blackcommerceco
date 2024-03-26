@@ -1021,6 +1021,28 @@ export const createBusinessPhotos = async (businessPhotoData: any): Promise<Busi
 };
 
 
+
+
+export const updateteBusinessPrimaryPhoto = async (businessPhotoData: any): Promise<Business[] | any> => {
+
+    // console.log('return businessPhotoData', businessPhotoData)
+
+    const primaryPhoto = await orm.business.update({
+        where: { id: parseInt(businessPhotoData?.businessId) },
+        data: {
+            imageSrc: businessPhotoData.primaryPhoto, // Save the concatenated string           
+        }
+    })
+
+    // console.log('return primaryPhoto', primaryPhoto)
+
+    return primaryPhoto
+
+
+
+}
+
+
 export const deleteAutoSavePhoto  = async (businessData: any): Promise<BusinessPhoto[] | any> => {
     
     
@@ -1045,9 +1067,11 @@ export const deleteAutoSavePhoto  = async (businessData: any): Promise<BusinessP
         });
 
         
+       
         if(deleteThisPhotoObject){
             
-            
+
+        
             
             const fullLocalPath = path.join(process.cwd(), deleteThisPhotoObject.imgFilePath)
     
@@ -1063,6 +1087,9 @@ export const deleteAutoSavePhoto  = async (businessData: any): Promise<BusinessP
                   id: deleteThisPhotoObject.id,
                 },
               })
+
+
+              return deleteBusinessPhoto
 
               
         }

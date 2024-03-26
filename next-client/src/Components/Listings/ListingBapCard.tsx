@@ -14,9 +14,12 @@ import Button from '@/Elements/Button';
 import useFavorite from '@/Hooks/useFavorite';
 import getCurrentUser from "@/Actions/getCurrentUser"
 
+//import logo from '../../../public/images/logo.png'
 import logo from '../../../public/images/logo.png'
 
 const logoPlaceHolder = `${process.env.NEXT_PUBLIC_URL}` + logo.src
+
+
 
 // console.log('logo', logo.src)
 // console.log('logoPlaceHolder', logoPlaceHolder)
@@ -150,7 +153,7 @@ interface ListingBapCardProps {
     actionLabel?: string;
     actionId?: string;
     //currentUser?: IUser | null
-    currentUser?: currentUser | null
+    currentUser?: currentUser
 
 }
 
@@ -166,7 +169,7 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
 }) => {
 
     
-    console.log('Line 120 on ListingBapCard Data', data)
+    // console.log('Line 120 on ListingBapCard Data', data)
     
 
     const router = useRouter()

@@ -16,6 +16,23 @@
 } */
 
 
+.react-tel-input, .react-tel-input > .form-control {
+  background-color: rgb(17 24 39 / var(--tw-bg-opacity)) !important;
+  width: 100% !important;
+  color: #fff;
+  margin-left: 15px;
+  margin-right: 10px;
+  height: 4.0rem !important;
+}
+
+.react-tel-input .country-list .country{
+  color: #000; 
+}
+
+ul.country-list{
+  width: 50rem !important;
+}
+
 #page-container {
   position: relative;
   min-height: 100vh;

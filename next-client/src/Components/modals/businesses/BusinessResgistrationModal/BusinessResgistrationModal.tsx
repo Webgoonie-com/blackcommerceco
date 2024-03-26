@@ -490,7 +490,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
                     </div>
 
                     <div className='position-relative md:px-2 xl:px-2 mb-3'>
-                        <h2 className='px-2'>Bldg/Suite/Apt#?</h2>
+                        <h2 className='px-2'>Bldg/Suite/Unit/Floor#?</h2>
                         <Input
                             id="streetAddress2"
                             label="Address2"
@@ -500,7 +500,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
                             disabled={isLoading}
                             register={register}
                             errors={errors}
-                            required
+                            
                             />
                     </div>
 

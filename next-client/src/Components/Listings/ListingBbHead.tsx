@@ -7,7 +7,7 @@ import Heading from "../Heading";
 import Image from 'next/image';
 import HeartIconButton from '@/Elements/Icons/HeartIconButton';
 
-interface ListingHeadProps {
+interface ListingBbHeadProps {
     id: number;
     title: string;
     locationValue: string;
@@ -15,7 +15,7 @@ interface ListingHeadProps {
     currentUser: currentUser;
 }
 
-const ListingBapHead: React.FC<ListingHeadProps> = ({
+const ListingBbHead: React.FC<ListingBbHeadProps> = ({
     id,
     title,
     locationValue,
@@ -57,4 +57,4 @@ const ListingBapHead: React.FC<ListingHeadProps> = ({
      );
 }
  
-export default ListingBapHead;
+export default ListingBbHead;

@@ -202,7 +202,21 @@ businessRouter.get("/uuid/:uuid", async (request: Request, response: Response) =
 
 })
 
+businessRouter.post("/makePrimaryPhoto/:listingId", async (request: Request, response: Response) => {
 
+    const businessPhotoData = await request.body;
+
+    // console.log('businessPhotoData', businessPhotoData)
+
+    try {
+        const property = await BusinessController.updateteBusinessPrimaryPhoto(businessPhotoData)
+        return response.status(200).json(property);
+
+    } catch (error: any) {
+        return response.status(500).json(error.message);
+    }
+
+})
 
 businessRouter.post('/deleteAutoSaveBusinessPhoto/:imageurl', async (request: Request, response: Response) => {    
 

@@ -14,7 +14,7 @@ import { User, currentUser } from '@/Types';
 
 interface useFavorite {
     listingId: number | string;
-    currentUser?: currentUser | null;
+    currentUser: User;
 }
 
 const useFavorite = ({

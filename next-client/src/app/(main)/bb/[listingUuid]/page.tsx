@@ -1,16 +1,13 @@
 import React from 'react'
-// import getCurrentUser from '../../../actions/getCurrentUser';
-// import getListingById from '../../../actions/getListingById'
-// import ClientOnly from '../../../components/ClientOnly';
-// import EmptyState from '../../../components/EmptyState';
-
-// import ListingBapClient from './ListingBapClient';
-// import ListingBapPropertyClient from './ListingBapPropertyClient';
 
 import getCurrentUser from '@/Actions/getCurrentUser';
 import { getBusinessListingByUuId } from '@/Actions/getListingById';
 
+import ClientOnly from '@/Components/ClientOnly';
+import EmptyStateBap from '@/Components/EmptyStates/EmptyStateBap';
 import Image from 'next/image';
+import EmptyStateBb from '@/Components/EmptyStates/EmptyStateBb';
+import ListingBbBusinessClient from './ListingBbBusinessClient';
 
 interface IParams {
   listingUuid?: string;
@@ -30,40 +27,31 @@ const BbsListingPage = async ({ params }: {params: IParams }) => {
     console.log('30  Page Bap params', params)
 
 
-  const BusinessListing = await getBusinessListingByUuId(params)
+  const businessListingByUuid = await getBusinessListingByUuId(params)
+
+  console.log('Line 32 = getBusinessListingByUuId', getBusinessListingByUuId)
 
   const currentUser = await getCurrentUser()
   //console.log('currentUser on line 20 on BapPage.tsx ', currentUser)
 
-  console.log('Line 38 = BusinessListing', BusinessListing)
+  console.log('Line 38 = BusinessListing', businessListingByUuid)
 
-    return (
-      <div className=''>
-        Black Business Listing Details Page Viewing
+  if(!businessListingByUuid){
+    return(
+    <ClientOnly>
+        <EmptyStateBb />
+    </ClientOnly>
+    )
+  }
 
-        <h2>{BusinessListing.category} </h2>
-
-        <h2>{BusinessListing.imageSrc} </h2>
-
-        <div className='w-50'>
-              <Image
-                  fill
-                  alt="Business Listing"
-                  src={`${BusinessListing?.imageSrc}`}
-                  className="
-                      object-cover 
-                      h-full 
-                      w-full 
-                      group-hover:scale-110 
-                      transition
-                      "
-                      placeholder = 'empty'
-                      priority={true}
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // has "fill" but is missing "sizes" prop. Please add it to improve page performance.
-              />
-      </div>
-
-      </div>
+   
+  return(
+    <ClientOnly>
+        <ListingBbBusinessClient
+            propertylistingByUuid={businessListingByUuid}
+            currentUser={currentUser as any }
+        />
+    </ClientOnly>
     )
 }
 

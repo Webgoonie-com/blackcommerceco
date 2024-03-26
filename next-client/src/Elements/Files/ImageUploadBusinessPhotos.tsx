@@ -6,6 +6,7 @@ import { deleteAutoSaveBusinessPhoto } from '@/ServiceCalls/callBusinessPhotos';
 import axios from 'axios';
 import Image from 'next/image';
 import React, { useCallback, useState, useRef } from 'react';
+import { toast } from 'react-hot-toast';
 import { IoMdClose } from 'react-icons/io';
 import { TbPhotoPlus } from 'react-icons/tb';
 
@@ -35,9 +36,37 @@ const ImageUploadBusinessPhotos: React.FC<ImageUploadBusinessPhotosProps> = ({
     const [primaryPhoto, setPrimaryPhoto] = useState<boolean>(false);
     const imageRef = useRef<HTMLInputElement>(null);
 
-    const makePrimaryPhoto = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const makePrimaryPhoto =  async (imageUrl: string) => {
 
-        setPrimaryPhoto(!primaryPhoto);
+      
+
+        try {
+            
+
+            axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/businesses/makePrimaryPhoto/`+propsListingId, {
+                primaryPhoto: imageUrl,
+                autoSaveToken: autoSaveToken,
+                businessId: businessId,
+                listingId: propsListingId
+              })
+              .then(function (response) {
+                console.log(response);
+                setPrimaryPhoto(!primaryPhoto);
+                
+                toast.success('Primary Photo Set', {
+                    duration: 7000,
+                    position: 'bottom-right',
+                })
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+
+               
+              
+        } catch (error) {
+            console.log('Error on Setting Primary Photo')
+        }
 
     }
 
@@ -89,6 +118,8 @@ const ImageUploadBusinessPhotos: React.FC<ImageUploadBusinessPhotosProps> = ({
     
 
     const removeImage = async (imageUrl: string) => {
+
+        console.log('Remove Image', imageUrl)
 
         try {
             // Call the API to delete the specific image
@@ -158,7 +189,7 @@ const ImageUploadBusinessPhotos: React.FC<ImageUploadBusinessPhotosProps> = ({
                                     className="relative"
                                     style={{ objectFit: 'cover' }}
                                 />
-                                <Button className='w-full' onClick={makePrimaryPhoto} disabled={primaryPhoto} variant={'primary'}>Make Primary Photo</Button>
+                                <Button className='w-full' onClick={() => makePrimaryPhoto(image)} disabled={primaryPhoto} variant={'primary'}>Make Primary Photo</Button>
                             </div>
                         ))}
                     </div>

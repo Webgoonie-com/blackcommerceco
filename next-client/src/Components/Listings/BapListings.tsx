@@ -12,24 +12,25 @@ import ListingBapCard from './ListingBapCard';
 
 
 interface BapListingProp {
-    Id: number;
+    id: number;
     uuid: string;
     // ... other properties
-    Businesses: {
-        namePublicDisplay: string;
-        // ... other properties
-    };
+    currentUser: any,
     // ... other properties
 }
 
-export default function Listings() {
+const BapListings: React.FC<BapListingProp> = ({
+    id,
+    uuid,
+    currentUser,
+}) => {
 
     const [listings, setListings] = useState<BapListingProp[]>([]);
 
 
-    const { data: session, status } = useSession();
+    //const { data: session, status } = useSession();
     //const currentUser = session?.user;
-    const currentUser = getCurrentUser();
+    
 
     useEffect(() => {
         const fetchData = async () => {
@@ -68,8 +69,9 @@ export default function Listings() {
                 //className=' px-32 py-20 bg-gray-950 pb-20 pt-28'
             >
                 
-                    <div className='container text-white'>
+                    <div className='container text-white' id={uuid}>
                         <div
+                            
                             className="
                                 pt-24 
                                 grid
@@ -98,3 +100,4 @@ export default function Listings() {
     )
 }
 
+export default BapListings
