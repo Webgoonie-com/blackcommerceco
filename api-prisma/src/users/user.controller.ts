@@ -7,10 +7,12 @@ type User = {
     firstName: string | null;
     lastName: string | null;
     email: string;
+    
     createdAt: Date;
 }
 
 type CreateUserInput = Omit<User, "id"> & {
+    phone: string,
     hashedPassword: string;
 };
 
@@ -21,6 +23,7 @@ type FindUserResult = {
     firstName: string | null;
     lastName: string | null;
     email: string;
+    
     hashedPassword: string | null;
     createdAt: Date;
 };
@@ -33,6 +36,7 @@ export const listUsers = async (): Promise<User[]> => {
             uuid: true,
             firstName: true,
             lastName: true,
+            phone: true,
             email: true,
             createdAt: true,
         }
@@ -49,6 +53,7 @@ export const getUserEmail = async (email: string): Promise<User | null> => {
             uuid: true,
             firstName: true,
             lastName: true,
+            phone: true,
             hashedPassword: true,
             email: true,
             createdAt: true,
@@ -106,6 +111,7 @@ export const createUser = async (user: CreateUserInput): Promise<User | any> => 
             firstName,
             lastName,
             email,
+            phone: user?.phone,
             hashedPassword: hashed,
         },
         select: {
@@ -113,6 +119,7 @@ export const createUser = async (user: CreateUserInput): Promise<User | any> => 
             name: true,
             firstName: true,
             lastName: true,
+            phone: true,
             email: true,
             hashedPassword: true,
         }
@@ -137,6 +144,7 @@ export const loginUser = async (user: CreateUserInput): Promise<User | null> => 
             firstName: true,
             lastName: true,
             email: true,
+            phone: true,
             role: true,
             hashedPassword: true,
             image: true,

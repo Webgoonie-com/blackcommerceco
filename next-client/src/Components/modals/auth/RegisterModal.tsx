@@ -19,6 +19,7 @@ import Input from '@/Elements/Inputs/Input';
 import InputPassword from '@/Elements/Inputs/InputPassword';
 
 import Button from '@/Elements/Button'
+import InputPhoneNumberGlobal from "@/Elements/Inputs/InputPhoneNumberGlobal";
 
 const RegisterModal = () => {
     const router = useRouter();
@@ -28,6 +29,8 @@ const RegisterModal = () => {
     const loginModal = useLoginModal();
     
     const [isLoading, setIsLoading] = useState(false);
+    const [phone, setPhone] = useState("");
+
 
     const { 
             register, 
@@ -41,61 +44,101 @@ const RegisterModal = () => {
                     firstName: '',
                     lastName: '',
                     email: '',
-                    phone: '',
+                    phone: phone,
                     password: '',
                     hashedPassword: '',
                 }
             }
         );
     
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        setIsLoading(true);
-        //console.log('onSubmit Posting Here', data)
-        //console.log(`process.env.NEXT_PUBLIC_API_URL +'api/users/createUser/: `, process.env.NEXT_PUBLIC_API_URL +'api/users/createUser/')
+    // const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    //     setIsLoading(true);
+    //     console.log('onSubmit Posting Here', data)
+    //     //console.log(`process.env.NEXT_PUBLIC_API_URL +'api/users/createUser/: `, process.env.NEXT_PUBLIC_API_URL +'api/users/createUser/')
         
         
-        //console.log(`Line 58: `, process.env.NEXT_PUBLIC_API_URL)
-        //console.log(`Line 59: `, `${process.env.NEXT_PUBLIC_API_URL}`)
+    //     //console.log(`Line 58: `, process.env.NEXT_PUBLIC_API_URL)
+    //     //console.log(`Line 59: `, `${process.env.NEXT_PUBLIC_API_URL}`)
         
-        console.log(`Line 61: http://localhost:3333/api/register/`)
+    //     console.log(`Line 61: http://localhost:3333/api/register/`)
 
-            axios.post(
-                `${process.env.NEXT_PUBLIC_API_URL}/api/users/createUser/`,
-                data
-            ).then(() => {
-                router.refresh();
-                registerModal.onClose();
-                reset()
+    //         axios.post(
+    //             `${process.env.NEXT_PUBLIC_API_URL}/api/users/createUser/`,
+    //             data
+    //         ).then(() => {
+    //             // router.refresh();
+    //             // registerModal.onClose();
+    //             // reset()
 
-                toast.success('User Created successfully! Check your email for verfication please.', {
-                    duration: 7000,
-                    position: 'bottom-right',
-                })
-            })
-            .catch((error) => {
-                //console.log('Error', error)
-                //console.log('Error', error.message)
-                resetField('password');
-                resetField('hashedPassword');
-                if(error.response?.data?.message)
-                {
-                    toast.error(error.response.data.message, {
-                        duration: 7000,
-                        position: 'bottom-right',
-                    });
-                }
-                else {
-                    toast.error(error.message, {
-                        duration: 7000,
-                        position: 'bottom-right',
-                    });
-                }
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-    };
+    //             toast.success('User Created successfully! Check your email for verfication please.', {
+    //                 duration: 7000,
+    //                 position: 'bottom-right',
+    //             })
+    //         })
+    //         .catch((error) => {
+    //             //console.log('Error', error)
+    //             //console.log('Error', error.message)
+    //             // resetField('password');
+    //             // resetField('hashedPassword');
+    //             if(error.response?.data?.message)
+    //             {
+    //                 toast.error(error.response.data.message, {
+    //                     duration: 7000,
+    //                     position: 'bottom-right',
+    //                 });
+    //             }
+    //             else {
+    //                 toast.error(error.message, {
+    //                     duration: 7000,
+    //                     position: 'bottom-right',
+    //                 });
+    //             }
+    //         })
+    //         .finally(() => {
+    //             setIsLoading(false);
+    //         });
+    // };
 
+   // Inside RegisterModal component
+
+   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    setIsLoading(true);
+    
+    
+
+    console.log('onSubmit Posting Here', data);
+    
+    try {
+      // Make sure phone number is not empty before including it in the data
+      
+      const formData = {
+        ...data, // Include other form data
+        phone: '+'+phone, // Add phone number
+      };
+
+      console.log(formData)
+      
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/users/createUser/`, formData);
+      // Handle success response
+      toast.success('User Created successfully! Check your email for verification please.', {
+        duration: 7000,
+        position: 'bottom-right',
+      });
+    } catch (error) {
+      // Handle error response
+      console.log('Error on Register modal submit', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  const onPhoneChange = (value: string) => {
+    console.log('onPhoneChange value: ', value);
+    // You can perform any additional logic here if needed
+        setPhone(value as any)
+  };
+  
+      
     const toggleModal = useCallback(() => {
         registerModal.onClose();
         loginModal.onOpen();
@@ -114,11 +157,23 @@ const RegisterModal = () => {
                 <Input id='firstName' label='Your First Name' disabled={isLoading} register={register} errors={errors} required  />
                 <Input id='lastName' label='Your Last Name (or Tribe Name)' disabled={isLoading} register={register} errors={errors} required  />
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 z-10">
                 <Input id='email' type='email' label='Primary Email' disabled={isLoading} register={register} errors={errors} required  />
-                <Input id='phone' type="text" label='Mobile Number' disabled={isLoading} register={register} errors={errors} required  />
+
+                {/* <Input id='phone' type="text" label='Mobile Number' disabled={isLoading} register={register} errors={errors} required  /> */}
+                {phone}
+                <InputPhoneNumberGlobal 
+                    id="phone"
+                    label="Mobile Phone"
+                    disabled={isLoading}
+                    register={register}
+                    errors={errors}
+                    placeholder="+countryCode number"
+                    onChange={onPhoneChange }
+                    required
+                />
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 z-0">
                 <InputPassword id='password' type='password' label='Create Your Password' disabled={isLoading} register={register} errors={errors} required  />
                 <InputPassword id='hashedPassword' type='password' label='Retype That Password' disabled={isLoading} register={register} errors={errors} required  />
             </div>
