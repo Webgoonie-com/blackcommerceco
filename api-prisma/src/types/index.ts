@@ -169,7 +169,8 @@ export type Listing = {
 
     property?: Property | null;
     country?: Country | null;
-    countryCity?: Country | null;
+    countryStateRegion?: CountryStateRegion | null;
+    countryCity?: CountryCity | null;
     userId: number;
 }
 

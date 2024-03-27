@@ -31,7 +31,7 @@ type Business = {
     streetAddress2: string | null;
     streetCity: string | null;
     streetZipCode: string | null;
-    sellPrice?: string;
+    sellPrice?: string | null | undefined;
     
     createdAt: Date;
     updatedAt: Date;
@@ -137,6 +137,7 @@ export const listBusinesses = async (): Promise<Business[]> => {
             category: true,
             imageSrc: true,
             imagesMultiSrc: true,
+            locationValue: true,
             listingId: true,
             country: true,
             countryStateRegion: true,
@@ -147,6 +148,7 @@ export const listBusinesses = async (): Promise<Business[]> => {
             hasStore: true,
             hasProducts: true,
             hasServices: true,
+            sellPrice: true,
             streetAddress: true,
             streetAddress2: true,
             streetCity: true,
@@ -190,6 +192,8 @@ export const listBusinesses = async (): Promise<Business[]> => {
 
 
 export const getBusinessId = async (id: number): Promise<Business | null> => {
+    
+    
     return orm.business.findUnique({
         where: {
             id,
@@ -204,6 +208,7 @@ export const getBusinessId = async (id: number): Promise<Business | null> => {
             imagesMultiSrc: true,
             category: true,
             listingId: true,
+            locationValue: true,
             country: true,
             countryStateRegion: true,
             countryCity: true,
@@ -229,39 +234,46 @@ export const getBusinessId = async (id: number): Promise<Business | null> => {
 
 
 export const getBusinessUuId = async (uuid: string): Promise<Business | null> => {
+    
+    
+    
+
     return orm.business.findUnique({
         where: {
             uuid,
         },
         select: {
-            id: true,
-            uuid: true,
-            token: true,
-            title: true,
-            description: true,
-            category: true,
-            imageSrc: true,
-            imagesMultiSrc: true,
-            country: true,
-            countryStateRegion: true,
-            countryCity: true,
-            isAFranchise: true,
-            isTheFranchiseParent: true,
-            ownsOtherBusinesses: true,
-            hasStore: true,
-            hasProducts: true,
-            hasServices: true,
-            streetAddress: true,
-            streetAddress2: true,
-            streetCity: true,
-            streetZipCode: true,
-            userId: true,
-            listingId: true,
-            countryId: true,
-            countryStateRegionId: true,
-            countryCityId: true,
-            createdAt: true,
-            updatedAt: true,
+                id: true,
+                uuid: true,
+                token: true,
+                title: true,
+                description: true,
+                imageSrc: true,
+                imagesMultiSrc: true,
+                category: true,
+                locationValue: true,
+                listingId: true,
+                isAFranchise: true,
+                isTheFranchiseParent: true,
+                ownsOtherBusinesses: true,
+                hasStore: true,
+                hasProducts: true,
+                hasServices: true,
+                sellPrice: true,
+                streetAddress: true,
+                streetAddress2: true,
+                streetCity: true,
+                streetZipCode: true,
+                userId: true,
+                countryId: true,
+                countryStateRegionId: true,
+                countryCityId: true,
+                country: true,
+                countryStateRegion: true,
+                countryCity: true,
+                createdAt: true,
+                updatedAt: true,
+
         },
     })
 }
@@ -567,6 +579,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
             }
         });
 
+       
         
 
 

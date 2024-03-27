@@ -212,77 +212,51 @@ export const listPropertys = async (): Promise<Property[]> => {
     return mappedProperties;
 }
 
+
 export const getPropertyId = async (id: number): Promise<Property | null> => {
-    
-    
-    return orm.property.findUnique({
-        where: {
-            id,
-        },
-        select: {
-            id: true,
-            uuid: true,
-            token: true,
-            title: true,
-            description: true,
-            category: true,
-            roomCount: true,
-            bathroomCount: true,
-            guestCount: true,
-            locationValue: true,
-            imageSrc: true,
-            imagesMultiSrc: true,
-            price: true,
-            streetAddress: true,
-            streetAddress2: true,
-            streetCity: true,
-            streetZipCode: true,
-            userId: true,
-            countryId: true,
-            country: { 
-                select: {
-                    id: true,
-                    isoCode: true,
-                    name: true,
-                    currency: true,
-                    phonecode: true,
-                    flag: true,
-                    latitude: true,
-                    longitude: true,
-                    region: true,
-                    timezones: true
-                }
+    try {
+        const properties = await orm.property.findUnique({
+            where: {
+                id,
             },
-            countryStateRegionId: true,
-            countryStateRegion: { 
-                select: {
-                    id: true,
-                    isoCode: true,
-                    name: true,
-                    latitude: true,
-                    longitude: true,
-                    countryId: true
-                }
+            select: {
+                id: true,
+                uuid: true,
+                token: true,
+                title: true,
+                description: true,
+                category: true,
+                roomCount: true,
+                bathroomCount: true,
+                guestCount: true,
+                locationValue: true,
+                imageSrc: true,
+                imagesMultiSrc: true,
+                price: true,
+                streetAddress: true,
+                streetAddress2: true,
+                streetCity: true,
+                streetZipCode: true,
+                userId: true,
+                countryId: true,
+                countryStateRegionId: true,
+                countryCityId: true,
+                country: true,
+                countryStateRegion: true,
+                countryCity: true,
+                createdAt: true,
             },
-            countryCityId: true,
-            countryCity: { 
-                select: {
-                    id: true,
-                    uuid: true,
-                    label: true,
-                    value: true,
-                    countryCode: true,
-                    name: true,
-                    latlng: true,
-                    latitude: true,
-                    longitude: true,
-                    countryId: true
-                }
-            },
-            createdAt: true,
-        },
-    })
-}
+        });
+
+        return properties;
+    } catch (error) {
+        console.log('Error', error);
+        // Return null or rethrow the error
+        throw error; // Rethrow the error
+        // return null; // Or return null
+    }
+};
+
 
 
 
@@ -309,6 +283,8 @@ export const getPropertyReservationUuId = async (uuid: string): Promise<Property
 
 
 export const getPropertyUuId = async (uuid: string): Promise<Property | null> => {
+    
+    
     return orm.property.findUnique({
         where: {
             uuid,
@@ -333,8 +309,11 @@ export const getPropertyUuId = async (uuid: string): Promise<Property | null> =>
             streetZipCode: true,
             userId: true,
             countryId: true,
-            countryCityId: true,
             countryStateRegionId: true,
+            countryCityId: true,
+            country: true,
+            countryStateRegion: true,
+            countryCity: true,
             createdAt: true,
         },
     })

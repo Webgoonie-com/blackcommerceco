@@ -189,7 +189,9 @@ businessRouter.get("/id/:id", async (request: Request, response: Response) => {
 
 businessRouter.get("/uuid/:uuid", async (request: Request, response: Response) => {
 
-    const uuid: string = request.params.id
+    const uuid: string = request.params.uuid
+
+    
 
     try {
         const user = await BusinessController.getBusinessUuId(uuid)
@@ -197,7 +199,7 @@ businessRouter.get("/uuid/:uuid", async (request: Request, response: Response) =
             return response.status(200).json(user)
         }
     } catch (error) {
-        return response.status(500).json("User Could Not Be Found by Uuid");
+        return response.status(500).json("Sorry This Business Could Not Be Found by Uuid");
     }
 
 })
