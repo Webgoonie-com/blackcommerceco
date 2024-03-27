@@ -190,13 +190,13 @@ GET http://localhost:3334/api/propertys/all
 ###
 
 
-GET http://localhost:3334/api/propertys/id/1
+GET http://localhost:3334/api/propertys/id/6
 
 
 
 ###
 
 
-GET http://localhost:3334/api/propertys/uuid/adfadfadf
+GET http://localhost:3334/api/propertys/uuid/18d206d4-9faf-45f3-b63b-9154461a30a8
 
 ###

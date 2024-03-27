@@ -1,18 +1,17 @@
 "use client"
 
-import { currentUser, Listing, Reservation, SafeListing, SafeUser, User } from "@/Types";
+import { BuisinessListing, Reservation, User } from "@/Types";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import Image from 'next/image';
-import { categories } from "@/Components/navbar/navcategories/CategoriesProperties";
-import ListingBapHead from "@/Components/Listings/ListingBapHead";
-import ListingBapPropertyInfo from "@/Components/Listings/ListingBapPropertyInfo";
+import { businessesCategories } from "@/Components/navbar/navcategories/CategoriesBusinesses";
+import ListingBbHead from "@/Components/Listings/ListingBbHead";
+import ListingBbBusinessInfo from "@/Components/Listings/ListingBbBusinessInfo";
 import useLoginModal from "@/Hooks/useLoginModal";
 import { useRouter } from 'next/navigation';
 import { eachDayOfInterval, differenceInCalendarDays } from "date-fns";
 import axios from "axios";
 import toast from "react-hot-toast";
-import ListingBapPropertyReservation from "@/Components/Listings/ListingBapPropertyReservation";
 import { Range } from "react-date-range"
+import ListingBbBusinessReservation from "@/Components/Listings/ListingBbBusinessReservation";
 
 
 const initialDateRange: Range = {
@@ -23,8 +22,8 @@ const initialDateRange: Range = {
 
 interface ListingBbBusinessClientProps {
     reservations?: Reservation[];
-    propertylistingByUuid: Listing & {
-        user: Listing & {
+    businessListingByUuid: BuisinessListing & {
+        user: BuisinessListing & {
             user: User
         }
     };
@@ -32,7 +31,7 @@ interface ListingBbBusinessClientProps {
 }
 
 const ListingBbBusinessClient: React.FC<ListingBbBusinessClientProps> = ({
-    propertylistingByUuid,
+    businessListingByUuid,
     reservations = [],
     currentUser
 }) => {
@@ -66,7 +65,7 @@ const ListingBbBusinessClient: React.FC<ListingBbBusinessClientProps> = ({
 
 
     const [isLoading, setIsLoading] = useState(false)
-    const [totalPrice, setTotalPrice] = useState(parseFloat(propertylistingByUuid?.price))
+    const [totalPrice, setTotalPrice] = useState(parseFloat(businessListingByUuid?.sellPrice) || 100.00)
     const [dateRange, setDateRange] = useState<Range>(initialDateRange)
 
     const onCreateReservation = useCallback(() => {
@@ -80,8 +79,8 @@ const ListingBbBusinessClient: React.FC<ListingBbBusinessClientProps> = ({
             totalPrice,
             startDate: dateRange.startDate,
             endDate: dateRange.endDate,
-            listingId: propertylistingByUuid?.id,
-            propertyUuid: propertylistingByUuid?.uuid,
+            listingId: businessListingByUuid?.id,
+            propertyUuid: businessListingByUuid?.uuid,
             userId: currentUser.id
         })
         .then(() => {
@@ -103,13 +102,13 @@ const ListingBbBusinessClient: React.FC<ListingBbBusinessClientProps> = ({
             setIsLoading(false)
         })
 
-    }, [currentUser, totalPrice, dateRange.startDate, dateRange.endDate, propertylistingByUuid?.id, propertylistingByUuid?.uuid, loginModal, router])
+    }, [currentUser, totalPrice, dateRange.startDate, dateRange.endDate, businessListingByUuid?.id, businessListingByUuid?.uuid, loginModal, router])
 
 
     const category = useMemo(() => {
-        return categories.find((item) => 
-        item.label === propertylistingByUuid.category as any);
-    }, [propertylistingByUuid.category]);
+        return businessesCategories.find((item) => 
+        item.label === businessListingByUuid.category as any);
+    }, [businessListingByUuid.category]);
 
 
     // For Everytime There is a change on Reservation Calendar
@@ -122,17 +121,19 @@ const ListingBbBusinessClient: React.FC<ListingBbBusinessClientProps> = ({
                 dateRange.startDate
             )
             
+            const newPrice = 100.00
+
             // It's gonna count how many days per night is selected
-            if(dayCount && propertylistingByUuid?.price){
-                setTotalPrice(dayCount * parseFloat(propertylistingByUuid?.price))
+            if(dayCount && newPrice){
+                setTotalPrice(dayCount * parseFloat(newPrice as any))
             }else{
                 // If no multiple day count
-                setTotalPrice(parseFloat(propertylistingByUuid?.price))
+                setTotalPrice(parseFloat(newPrice as any))
             }
         }
     
         
-    }, [dateRange, propertylistingByUuid?.price])
+    }, [dateRange, businessListingByUuid?.sellPrice])
     
 
     
@@ -144,33 +145,39 @@ const ListingBbBusinessClient: React.FC<ListingBbBusinessClientProps> = ({
             <div className="flex flex-col gap-6">
             
               
-
-                <ListingBapHead 
-                    title={propertylistingByUuid?.title}
-                    imageSrc={propertylistingByUuid?.imageSrc || null}
-                    locationValue={propertylistingByUuid?.locationValue as any}
-                    id={propertylistingByUuid?.id}
+           
+                <ListingBbHead 
+                    title={businessListingByUuid?.title}
+                    imageSrc={businessListingByUuid?.imageSrc || null}
+                    locationValue={businessListingByUuid?.locationValue as any}
+                    country={businessListingByUuid?.country?.label as any}
+                    countryStateRegion={businessListingByUuid?.countryStateRegion?.name as any}
+                    countryCity={businessListingByUuid?.countryCity?.name as any}
+                    id={businessListingByUuid?.id}
                     currentUser={currentUser as any}
                 />
 
                 
-
-               <div className="grid grid-cols-1 md:grid-cols-7 md:gap-10 mt-6">
-
-                        <ListingBapPropertyInfo 
+                        <ListingBbBusinessInfo 
                             user={currentUser as any}
                             description={""}
                             guestCount={0}
                             roomCount={0}
                             bathroomCount={0}
                             category={category}
-                            locationValue={propertylistingByUuid?.locationValue as any}
+                            locationValue={businessListingByUuid as any}
+                            country={businessListingByUuid?.country?.latlng}
+                            countryStateRegion={businessListingByUuid?.countryStateRegion?.latlng}
+                            countryCity={businessListingByUuid?.countryCity?.latlng}
                         />
-                        
+
+               <div className="grid grid-cols-1 md:grid-cols-7 md:gap-10 mt-6">
+
+                        {/*                         
                         <div className="order-first mb-10 md:order-last md:col-span-3">
 
-                            <ListingBapPropertyReservation
-                                price={parseFloat(propertylistingByUuid?.price)}
+                            <ListingBbBusinessReservation
+                                sellPrice={parseFloat(businessListingByUuid?.sellPrice) || 100.00}
                                 totalPrice={totalPrice}
                                 onChangeDate={(value) => setDateRange(value)}
                                 dateRange={dateRange}
@@ -179,7 +186,8 @@ const ListingBbBusinessClient: React.FC<ListingBbBusinessClientProps> = ({
                                 disabledDates={disabledDates}
                             />
 
-                        </div>
+                        </div> */
+                        }
 
 
                </div>

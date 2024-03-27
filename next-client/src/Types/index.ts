@@ -118,6 +118,36 @@ import { Country } from "country-state-city";
         currentUser?: CurrentUser | null
     
     }
+    export interface BuisinessListing {
+        id: number;
+        uuid: string | null;
+        token: string;
+        title: string;
+        description: string;
+        imageSrc: string | null;
+        category: string;
+        country: any | null;
+        countryId: number | null;
+        countryStateRegion: any | null;
+        countryStateRegionId: number | null;
+        countryCity: any | null;
+        countryCityId: number | null;
+        createdAt: Date;
+        updatedAt: Date;
+        sellPrice: string,
+        locationValue: string | null;
+        reservation?: {
+            Reservation: Reservation;
+                // ... other properties of data
+        } | null;
+        onAction?: (Id: string) => void;
+        disabled?: boolean
+        actionLabel?: string;
+        actionId?: string;
+        //currentUser?: IUser | null
+        currentUser?: CurrentUser | null
+    
+    }
     export interface Listing {
         id: number;
         uuid: string | null;
@@ -126,8 +156,12 @@ import { Country } from "country-state-city";
         description: string;
         imageSrc: string | null;
         category: string;
+        country: any | null;
         countryId: number | null;
+        countryStateRegion: any | null;
         countryStateRegionId: number | null;
+        countryCity: any | null;
+        countryCityId: number | null;
         createdAt: Date;
         updatedAt: Date;
         price: string,

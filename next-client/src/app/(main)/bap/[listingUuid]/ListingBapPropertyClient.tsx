@@ -1,8 +1,7 @@
 "use client"
 
-import { currentUser, Listing, Reservation, SafeListing, SafeUser, User } from "@/Types";
+import { Listing, Reservation, User } from "@/Types";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import Image from 'next/image';
 import { categories } from "@/Components/navbar/navcategories/CategoriesProperties";
 import ListingBapHead from "@/Components/Listings/ListingBapHead";
 import ListingBapPropertyInfo from "@/Components/Listings/ListingBapPropertyInfo";
@@ -103,7 +102,7 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
             setIsLoading(false)
         })
 
-    }, [currentUser, totalPrice, dateRange.startDate, dateRange.endDate, propertylistingByUuid?.id, loginModal, router])
+    }, [currentUser, totalPrice, dateRange.startDate, dateRange.endDate, propertylistingByUuid?.id, propertylistingByUuid?.uuid, loginModal, router])
 
 
     const category = useMemo(() => {
@@ -144,11 +143,15 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
             <div className="flex flex-col gap-6">
             
               
+            
 
                 <ListingBapHead 
                     title={propertylistingByUuid?.title}
                     imageSrc={propertylistingByUuid?.imageSrc || null}
                     locationValue={propertylistingByUuid?.locationValue as any}
+                    country={propertylistingByUuid?.country?.label as any}
+                    countryStateRegion={propertylistingByUuid?.countryStateRegion?.name as any}
+                    countryCity={propertylistingByUuid?.countryCity?.name as any}
                     id={propertylistingByUuid?.id}
                     currentUser={currentUser as any}
                 />
@@ -164,7 +167,10 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
                             roomCount={0}
                             bathroomCount={0}
                             category={category}
-                            locationValue={propertylistingByUuid?.locationValue as any}
+                            locationValue={propertylistingByUuid as any}
+                            country={propertylistingByUuid?.country?.latlng}
+                            countryStateRegion={propertylistingByUuid?.countryStateRegion?.latlng}
+                            countryCity={propertylistingByUuid?.countryCity?.latlng}
                         />
                         
                         <div className="order-first mb-10 md:order-last md:col-span-3">

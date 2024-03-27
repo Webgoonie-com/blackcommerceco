@@ -2,7 +2,7 @@
 import { Country, State, City }  from 'country-state-city';
 
 const countries =  Country.getAllCountries()
-//console.log('Line 5: countries', countries)
+console.log('Line 5: countries', countries)
 
 const formattedCountries = countries.map((country) => ({
     value: country.isoCode,
@@ -18,9 +18,17 @@ const formattedCountries = countries.map((country) => ({
 }))
 
 const useCountries = () => {
+    console.log('Activated Use Countries')
+
     const getAllCountries = () => formattedCountries;
 
+    console.log('getAllCountries', getAllCountries)
+
     const getByValue = (value: string) => {
+        
+        console.log('Before get value', value)
+        // console.log('formattedCountries', formattedCountries.find((item) => item.value === value))
+
         return formattedCountries.find((item) => item.value === value);
     }
 

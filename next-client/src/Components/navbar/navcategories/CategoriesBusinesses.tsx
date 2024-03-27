@@ -15,7 +15,7 @@ import { BiPlus } from 'react-icons/bi';
 import Link from 'next/link';
 
 
-export const businesses = [
+export const businessesCategories = [
     {
         label: 'Dinning',
         icon: CiForkAndKnife,
@@ -143,7 +143,7 @@ const CategoriesBusinesses = () => {
                                     </div>
                                 </div>
                                 
-                                {businesses.slice(0, 5).map((item, i) => (
+                                {businessesCategories.slice(0, 5).map((item, i) => (
                                     <div key={item.label} className='col-span-6 md:col-span-4'>
                                         <BusinessBox 
                                             //description={item.description}
@@ -180,7 +180,7 @@ const CategoriesBusinesses = () => {
                 <div className="w-full pt-4 flex flex-row items-center justify-evenly overflow-x-auto">
 
 
-                    {businesses.map((item, i) => (
+                    {businessesCategories.map((item, i) => (
                         <div key={item.label} className='col-span-6 md:col-span-4'>
                             <BusinessBox 
                                 //description={item.description}
@@ -240,7 +240,7 @@ const CategoriesBusinesses = () => {
                                     </div>
                                 </div>
                                 
-                                {businesses.slice(0, 5).map((item, i) => (
+                                {businessesCategories.slice(0, 5).map((item, i) => (
                                     <div key={item.label} className='col-span-6 md:col-span-4'>
                                         <BusinessBox
                                             key="more"

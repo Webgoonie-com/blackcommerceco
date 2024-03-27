@@ -174,7 +174,8 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
                 </div>
 
                 <div className="relative">
-                    <div id="image-container" className="relative hover:opacity-70 transition border-dashed border-2 border-indigo-300 flex flex-row self-start items-start text-white">
+                    {/* <div id="image-container" className="relative hover:opacity-70 transition border-dashed border-2 border-indigo-300 flex flex-row self-start items-start text-white"> */}
+                    <div id="image-container" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 text-white">
                         {selectedImages.slice().reverse().map((image, index) => (
                             <div key={index} className="relative self-start p-2 ml-3">
                                 
@@ -192,7 +193,7 @@ const ImageUploadPropertyPhotos: React.FC<ImageUploadPropertyPhotosProps> = ({
                                     alt={`Image ${index + 1}`}
                                     width={600}
                                     height={600}
-                                    className="relative"
+                                    className="relative hover:opacity-70 transition border-dashed border-2 border-indigo-300 text-white"
                                     style={{ objectFit: 'cover' }}
                                 />
 

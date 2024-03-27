@@ -35,6 +35,7 @@ const BbsListingPage = async ({ params }: {params: IParams }) => {
   //console.log('currentUser on line 20 on BapPage.tsx ', currentUser)
 
   console.log('Line 38 = BusinessListing', businessListingByUuid)
+  
 
   if(!businessListingByUuid){
     return(
@@ -48,7 +49,7 @@ const BbsListingPage = async ({ params }: {params: IParams }) => {
   return(
     <ClientOnly>
         <ListingBbBusinessClient
-            propertylistingByUuid={businessListingByUuid}
+            businessListingByUuid={businessListingByUuid}
             currentUser={currentUser as any }
         />
     </ClientOnly>

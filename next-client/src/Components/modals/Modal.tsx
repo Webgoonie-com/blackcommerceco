@@ -69,7 +69,7 @@ const Modal : React.FC<ModalProps> = ({
                 flex 
                 overflow-x-hidden 
                 overflow-y-auto 
-                fixed 
+                fixed
                 inset-0 
                 z-[900] 
                 outline-none 

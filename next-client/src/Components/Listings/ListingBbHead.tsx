@@ -6,6 +6,7 @@ import ModalHeading from "../modals/ModalHeading";
 import Heading from "../Heading";
 import Image from 'next/image';
 import HeartIconButton from '@/Elements/Icons/HeartIconButton';
+import useCountryStateZip from "@/Hooks/useCountryStateZip";
 
 interface ListingBbHeadProps {
     id: number;
@@ -13,6 +14,9 @@ interface ListingBbHeadProps {
     locationValue: string;
     imageSrc: string | null;
     currentUser: currentUser;
+    country: string | null;
+    countryStateRegion: string | null;
+    countryCity: string | null;
 }
 
 const ListingBbHead: React.FC<ListingBbHeadProps> = ({
@@ -20,19 +24,26 @@ const ListingBbHead: React.FC<ListingBbHeadProps> = ({
     title,
     locationValue,
     imageSrc,
-    currentUser
+    currentUser,
+    country,
+    countryStateRegion,
+    countryCity
 }) => {
     
-    const { getByValue } = useCountries();
+    //  const { getByValue } = useCountries();
+    // const { getByValue } = useCountryStateZip();
+    
+    // console.log('locationValue', locationValue)
 
-    const location = getByValue(locationValue)
+    // const location = getByValue(locationValue)
 
+    console.log('after locationValue location', location)
     return ( 
         <div className="relative mt-10">
 
             <Heading 
                 title={title}
-                subtitle={`${location?.region}, ${location?.label}`}
+                subtitle={`${country}, ${countryStateRegion}, ${countryCity}`}
             />
 
                 <div className="w-full h-[60vh] overflow-hidden rounded-xl relative">

@@ -206,15 +206,17 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                     duration: 7000,
                     position: 'bottom-right',
                 })
-                router.refresh()
+               
                 reset()
                 setStep(STEPS.CATEGORY)
                 rentMyPropertyModalModal.onClose()
+                router.refresh()
             })
             .catch(() => {
                 toast.error('Sorry Something went Wrong');
             }).finally(() => {
                 setIsLoading(false)
+                 router.refresh()
             })
             
         } catch (error) {
@@ -386,7 +388,6 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                                     disabled={isLoading}
                                     register={register}
                                     errors={errors}
-                                    required
                             />
                     </div>
                     

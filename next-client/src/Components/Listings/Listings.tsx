@@ -28,12 +28,15 @@ export default function Listings() {
 
     const [baplistings, setBapListings] = useState<BapListingProp[]>([]);
     const [bblistings, setBbListings] = useState<BbListingProp[]>([]);
+    const [loading, setLoading] = useState(true);
+
 
 
     const { data: session, status } = useSession();
     //const currentUser = session?.user;
     const currentUser = getCurrentUser();
 
+    
     useEffect(() => {
         const fetchData = async () => {
             
@@ -46,8 +49,11 @@ export default function Listings() {
             // console.log('data from Listings propertyData', propertyData)
             // console.log('data from Listings businessData', businessData)
 
+            
+
             setBapListings(propertyData);
             setBbListings(businessData);
+            setLoading(false);
         };
     
         fetchData();
@@ -62,8 +68,12 @@ export default function Listings() {
 
     //console.log('listing info', JSON.stringify(listings, null, 2));
 
-
+    if (loading) {
+        return null;
+    }
    
+
+    
 
     return (
         <ClientOnly>

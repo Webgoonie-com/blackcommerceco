@@ -32,7 +32,7 @@ const BapsListingPage = async ({ params }: {params: IParams }) => {
   const currentUser = await getCurrentUser()
   //console.log('currentUser on line 20 on BapPage.tsx ', currentUser)
 
-  console.log('Line 12 = Propertylisting', propertylistingByUuid)
+  console.log('Line 35 page.tsx bap = propertylistingByUuid', propertylistingByUuid)
 
 
   
@@ -45,12 +45,12 @@ const BapsListingPage = async ({ params }: {params: IParams }) => {
   }
 
   return(
-    <ClientOnly>
+    
         <ListingBapPropertyClient
             propertylistingByUuid={propertylistingByUuid}
             currentUser={currentUser as any }
         />
-    </ClientOnly>
+    
     )
 }
 

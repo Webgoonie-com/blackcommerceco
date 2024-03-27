@@ -7,12 +7,19 @@ import Heading from "../Heading";
 import Image from 'next/image';
 import HeartIconButton from '@/Elements/Icons/HeartIconButton';
 
+import logo from '../../../public/images/logo.png'
+
+const logoPlaceHolder = `${process.env.NEXT_PUBLIC_URL}` + logo.src
+
 interface ListingHeadProps {
     id: number;
     title: string;
     locationValue: string;
     imageSrc: string | null;
     currentUser: currentUser;
+    country: string | null;
+    countryStateRegion: string | null;
+    countryCity: string | null;
 }
 
 const ListingBapHead: React.FC<ListingHeadProps> = ({
@@ -20,7 +27,11 @@ const ListingBapHead: React.FC<ListingHeadProps> = ({
     title,
     locationValue,
     imageSrc,
-    currentUser
+    currentUser,
+    country,
+    countryStateRegion,
+    countryCity
+
 }) => {
     
     const { getByValue } = useCountries();
@@ -32,14 +43,14 @@ const ListingBapHead: React.FC<ListingHeadProps> = ({
 
             <Heading 
                 title={title}
-                subtitle={`${location?.region}, ${location?.label}`}
+                subtitle={`${country}, ${countryStateRegion}, ${countryCity}`}
             />
 
                 <div className="w-full h-[60vh] overflow-hidden rounded-xl relative">
                     <Image
                         priority
                         alt="Image"
-                        src={imageSrc || ""}
+                        src={imageSrc || logoPlaceHolder}
                         fill
                         className="object-cover w-full"
                     />

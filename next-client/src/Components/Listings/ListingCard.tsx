@@ -172,7 +172,8 @@ const ListingCard: React.FC<ListingCardProps> =  ({
     }, [reservation])
 
     
-    {JSON.stringify(data)}
+    {'JSON.stringify(data)' + JSON.stringify(data)}
+    
     return (
         
         <div
