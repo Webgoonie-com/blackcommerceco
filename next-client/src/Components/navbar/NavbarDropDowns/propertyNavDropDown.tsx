@@ -105,7 +105,8 @@ const PropertyNavDropDown = () => {
                                     {CategoriesOnlyProperties.slice(0, 5).map((item) => (
                                         <div key={item.label} className='col-span-6 md:col-span-4'>
                                             <CategoryBox 
-                                                //description={item.description}
+                                                key="more"
+                                                description={item.description}
                                                 selected={category == item.label}
                                                 label={item.label}
                                                 icon={item.icon}

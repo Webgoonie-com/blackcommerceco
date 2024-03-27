@@ -8,12 +8,14 @@ import qs from 'query-string'
 interface BusinessBoxProps {
     icon: IconType
     label: string
+    pathname?: string
     description?: string
     selected?: boolean
 }
 
 const BusinessBox: React.FC<BusinessBoxProps> = ({
     icon: Icon,
+    pathname,
     label,
     selected
 }) => {
@@ -26,6 +28,7 @@ const BusinessBox: React.FC<BusinessBoxProps> = ({
         // This gives the ability to combine of ton of parameters upon click
         if (params) {
             currentQuery = qs.parse(params.toString())
+            //console.log('currentQuery',  currentQuery)
         }
 
         const updatedQeury: any = {
@@ -35,13 +38,17 @@ const BusinessBox: React.FC<BusinessBoxProps> = ({
 
         // Scroll to section if we click on more
         if (label === 'More') {
-            delete updatedQeury.business
+            
+
             const element = document.getElementById("allBusinessesSection");
             
-            if(element)
-            {
-                element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-            }
+            element?.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+            
+            // if(element)
+            // {
+            // }
+
+            delete updatedQeury.business
         }
         else {
             // lets check if already clicked on business to set and rest upon select like a toogle
@@ -79,6 +86,7 @@ const BusinessBox: React.FC<BusinessBoxProps> = ({
                 ${selected ? 'text-gray-200' : 'text-gray-400'}
             `}
         >
+            
             <Icon size={26} />
             <div className='font-medium text-sm'>
                 {label}

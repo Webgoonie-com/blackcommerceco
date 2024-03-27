@@ -51,14 +51,26 @@ export const CategoriesBusinesses = () => {
 
                         {CategoriesOnlyBusinesses.map((item, i) => (
                             <div key={item.label} className='col-span-6 md:col-span-4'>
-                                <BusinessBox 
-                                    //description={item.description}
+                                <BusinessBox
+                                    pathname={pathname}
+                                    description={item.description}
                                     selected={business == item.label}
                                     label={item.label}
                                     icon={item.icon}
                                 />
                             </div>
                         ))}
+
+                            <div  className='col-span-6 md:col-span-4'>
+                                <BusinessBox
+                                    pathname={pathname}
+                                    key="more"
+                                    // description={item.description}
+                                    selected={business == "more"}
+                                    label={"More"}
+                                    icon={BiPlus}
+                                />
+                            </div>
 
                     </div>
 
