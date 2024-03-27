@@ -10,7 +10,7 @@ import useBusinessRegistrationModal from '@/Hooks/useBusinessRegistrationModal'
 
 import ModalHeading from '../../ModalHeading';
 
-import { businessesCategories } from '@/Components/navbar/navcategories/CategoriesBusinesses'
+import { CategoriesOnlyBusinesses } from '@/Components/Categories/CategoriesOnly';
 
 import CategoryInput from '@/Elements/Inputs/CategoryInput';
 
@@ -296,7 +296,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
                 '
                 >
                     
-                    {businessesCategories.map((item) => (
+                    {CategoriesOnlyBusinesses.map((item) => (
 
                         <div
                             className='cursor-pointer col-col-span-1'

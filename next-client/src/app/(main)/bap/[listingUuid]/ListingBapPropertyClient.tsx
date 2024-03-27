@@ -2,7 +2,7 @@
 
 import { Listing, Reservation, User } from "@/Types";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { categories } from "@/Components/navbar/navcategories/CategoriesProperties";
+import { CategoriesOnlyProperties } from '@/Components/Categories/CategoriesOnly';
 import ListingBapHead from "@/Components/Listings/ListingBapHead";
 import ListingBapPropertyInfo from "@/Components/Listings/ListingBapPropertyInfo";
 import useLoginModal from "@/Hooks/useLoginModal";
@@ -106,7 +106,7 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
 
 
     const category = useMemo(() => {
-        return categories.find((item) => 
+        return CategoriesOnlyProperties.find((item) => 
         item.label === propertylistingByUuid.category as any);
     }, [propertylistingByUuid.category]);
 

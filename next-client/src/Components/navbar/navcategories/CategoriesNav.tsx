@@ -4,7 +4,10 @@ import React from 'react'
 
 import {CategoriesProperties} from '@/Components/navbar/navcategories/CategoriesProperties'
 
-import CategoriesBusinessesBox from '@/Components/navbar/navcategories/CategoriesBusinesses'
+import CategoriesBusinesses from '@/Components/navbar/navcategories/CategoriesBusinesses'
+
+import BusinessNavDropDown from '../NavbarDropDowns/businessNavDropDown'
+import PropertyNavDropDown from '../NavbarDropDowns/propertyNavDropDown'
 
 export const propertyCategories = {
 
@@ -13,15 +16,20 @@ export const propertyCategories = {
 
 const CategoriesNav = () => {
   return (
-    <div className='w-full flex flex-row'>
-        <div className='w-full pt-4 flex flex-row'>
+    <div className='flex flex-col'>
+        
             
             
             <CategoriesProperties />
 
-            <CategoriesBusinessesBox />
+            <CategoriesBusinesses />
             
-        </div>
+            
+            <div className="ms-5 flex items-start mt-5">
+                <PropertyNavDropDown />
+                <BusinessNavDropDown />
+            </div>
+        
     </div>
   )
 }

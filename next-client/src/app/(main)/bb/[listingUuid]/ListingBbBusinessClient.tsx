@@ -2,7 +2,7 @@
 
 import { BuisinessListing, Reservation, User } from "@/Types";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { businessesCategories } from "@/Components/navbar/navcategories/CategoriesBusinesses";
+import { CategoriesOnlyBusinesses } from '@/Components/Categories/CategoriesOnly';
 import ListingBbHead from "@/Components/Listings/ListingBbHead";
 import ListingBbBusinessInfo from "@/Components/Listings/ListingBbBusinessInfo";
 import useLoginModal from "@/Hooks/useLoginModal";
@@ -106,7 +106,7 @@ const ListingBbBusinessClient: React.FC<ListingBbBusinessClientProps> = ({
 
 
     const category = useMemo(() => {
-        return businessesCategories.find((item) => 
+        return CategoriesOnlyBusinesses.find((item) => 
         item.label === businessListingByUuid.category as any);
     }, [businessListingByUuid.category]);
 
