@@ -230,15 +230,17 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
                     duration: 7000,
                     position: 'bottom-right',
                 })
-                router.refresh()
+                
                 reset()
                 setStep(STEPS.CATEGORY)
                 businessRegistrationModal.onClose()
+                router.refresh()
             })
             .catch(() => {
                 toast.error('Sorry Something went Wrong');
             }).finally(() => {
                 setIsLoading(false)
+                router.refresh()
             })
 
     
@@ -381,7 +383,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
                     
                     
                 </div>
-                <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3'>
+                {/* <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3'>
                         <Map
                             mapCenterReasonTxt={"The Location Of Your Business"}
                             center={
@@ -391,7 +393,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
                               watchCountry?.latitude && watchCountry?.longitude ? [watchCountry?.latitude, watchCountry?.longitude] : [32.1652613142917, -54.72682487791673]
                           }
                       />
-                </div>
+                </div> */}
             </div>
         )
     }

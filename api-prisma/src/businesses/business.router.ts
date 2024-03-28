@@ -233,3 +233,20 @@ businessRouter.post('/deleteAutoSaveBusinessPhoto/:imageurl', async (request: Re
         return response.status(500).json({ error });
     }
 });
+
+businessRouter.post('/delete/uuid/:uuid', async (request: Request, response: Response) => {    
+
+    try {
+        const businessData = request.body; // Assuming you're sending the business data in the request body
+
+            console.log('Business data Used For Deletetion: ', businessData)
+
+
+        // Call the service function with the received data
+        const deleteAutoSavePhoto = await BusinessController.deleteBusiness(businessData);
+
+        return response.status(200).json(deleteAutoSavePhoto);
+    } catch (error) {
+        return response.status(500).json({ error });
+    }
+});

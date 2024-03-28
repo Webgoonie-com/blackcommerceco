@@ -126,10 +126,10 @@ const ImageUploadBusinessPhotos: React.FC<ImageUploadBusinessPhotosProps> = ({
             await deleteAutoSaveBusinessPhoto(imageUrl, autoSaveToken, userId);
             
             // Update the state to remove the deleted image
-            setSelectedImages(prevImages => prevImages.filter(image => image !== imageUrl));
+            //setSelectedImages(prevImages => prevImages.filter(image => image !== imageUrl));
             
             // Call the onChange callback with the updated images
-            onChange(selectedImages.filter(image => image !== imageUrl));
+            //onChange(selectedImages.filter(image => image !== imageUrl));
         } catch (error) {
             console.error('Error deleting image:', error);
         }
@@ -171,7 +171,7 @@ const ImageUploadBusinessPhotos: React.FC<ImageUploadBusinessPhotosProps> = ({
                 </div>
 
                 <div className="relative">
-                    <div id="image-container" className="relative hover:opacity-70 transition border-dashed border-2 border-indigo-300 flex flex-row justify-start items-start text-white">
+                <div id="image-container" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 text-white">
                     {selectedImages.slice().reverse().map((image, index) => (
                             <div key={index} className="relative self-start p-2 ml-3">
                                 {!primaryPhoto ? (

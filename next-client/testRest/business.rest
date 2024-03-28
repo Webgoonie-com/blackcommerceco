@@ -132,3 +132,13 @@ GET http://localhost:3334/api/businesses/uuid/5e311e20-942d-4dd8-847f-9e692af015
 //GET http://localhost:3334/api/businesses/uuid/22a5da83-94de-4f7f-9370-5f2ae2c0e5b3
 
 ###
+
+ 
+POST http://localhost:3334/api/businesses/delete/uuid/5e311e20-942d-4dd8-847f-9e692af01574
+Content-Type: application/json
+
+{
+    "uuid": "5e311e20-942d-4dd8-847f-9e692af01574",
+    "userId": 2,
+    "businessId": 2
+}

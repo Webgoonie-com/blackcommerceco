@@ -676,7 +676,7 @@ export const deleteAutoSavePropertyPhoto = async (propertyData: any): Promise<Pr
     const userId = propertyData.userId
     const autoSaveToken = propertyData.autoSaveToken
 
-    const deleteThisPhotoObject = await orm.propertyphoto.findFirst({
+    const property = await orm.propertyphoto.findFirst({
         where: { 
             imageSrc: propertyPhotoData,
             token: autoSaveToken,
@@ -686,15 +686,15 @@ export const deleteAutoSavePropertyPhoto = async (propertyData: any): Promise<Pr
     })
 
     
-    if(deleteThisPhotoObject){
+    if(property){
             
-        const fullLocalPath = path.join(process.cwd(), deleteThisPhotoObject.imgFilePath)
+        const fullLocalPath = path.join(process.cwd(), property.imgFilePath)
 
-        await unlink(deleteThisPhotoObject.imgFilePath)
+        await unlink(property.imgFilePath)
 
         const deletePropertyPhoto = await orm.propertyphoto.delete({
             where: {
-              id: deleteThisPhotoObject.id,
+              id: property.id,
             },
           })
     }
@@ -706,7 +706,6 @@ export const deleteAutoSavePropertyPhoto = async (propertyData: any): Promise<Pr
     return propertyData
 
 }
-
 
 
 
@@ -934,7 +933,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
             });
 
         } catch (error) {   
-                console.log('Line 761 on existingProperty Error', error)
+                console.log('Line 936 on existingProperty Error', error)
         }
 
 
@@ -1159,3 +1158,71 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
 
 
 }
+
+
+export const deleteProperty = async (propertyData: any): Promise<PropertyPhoto[] | any> => {
+
+    if(!propertyData){
+        throw new Error("Poperty Data Mising");
+        
+    }
+
+            const propertyId = propertyData.propertyId;
+            const userId = propertyData.userId;
+            const uuid = propertyData.uuid;
+
+
+
+            try {
+                
+           
+                const checkIfMainBusinessPhoto = await orm.property.findFirst({
+                    where: {
+                        id: propertyId,
+                        userId: parseInt(userId),
+                    },
+                    include: {
+                        Propertyphotos: true, // Include related Businessphotos
+                    },
+                });
+        
+                if (checkIfMainBusinessPhoto) {
+                    // Delete the business
+                    await orm.property.delete({
+                        where: {
+                            id: checkIfMainBusinessPhoto.id,
+                        },
+                    });
+        
+                    // Delete associated Businessphotos
+                    await orm.businessphoto.deleteMany({
+                        where: {
+                            businessId: checkIfMainBusinessPhoto.id,
+                        },
+                    });
+        
+                    // Delete physical files associated with Businessphotos
+                    for (const photo of checkIfMainBusinessPhoto.Propertyphotos) {
+                        try {
+                            await unlink(photo.imgFilePath); // Unlink physical file
+                        } catch (error) {
+                            console.error(`Error deleting file ${photo.imgFilePath}:`, error);
+                        }
+                    }
+                }
+
+            } catch (error) {
+                    
+            }
+    
+
+
+    return propertyData
+
+            
+
+
+}
+
+
+

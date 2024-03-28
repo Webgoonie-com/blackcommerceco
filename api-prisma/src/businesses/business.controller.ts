@@ -6,9 +6,7 @@ import { unlink } from "fs/promises";
 
 
 type Business = {
-    countryCity: any;
-    countryStateRegion: any;
-    country: any;
+    [x: string]: any;
     id: number;
     uuid: string | null;
     token: string;
@@ -20,12 +18,12 @@ type Business = {
     hasStore: number;
     hasProducts: number;
     hasServices: number;
-    userId: number;
+    userId: number | null;
     
     countryId: number;
     countryCityId: number | undefined;
     countryStateRegionId: number | undefined;
-
+    
     listingId: number | undefined | null;
     streetAddress: string | null;
     streetAddress2: string | null;
@@ -33,12 +31,16 @@ type Business = {
     streetZipCode: string | null;
     sellPrice?: string | null | undefined;
     
-    createdAt: Date;
-    updatedAt: Date;
-
+    countryCity: any;
+    countryStateRegion: any;
+    country: any;
+    
     isAFranchise: boolean;
     isTheFranchiseParent: boolean;
     ownsOtherBusinesses: boolean;
+
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 type BusinessPhoto = {
@@ -288,6 +290,9 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
 
         const { token } = business;
 
+        console.log('autoSaveToken', autoSaveToken)
+        console.log('token', token)
+        console.log('postin business for Auto Save: ', business)
 
         // Begin Country CountryState CountryCity Ripped
         let existingCountry
@@ -430,9 +435,9 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
 
 
         // Handle the possibility of countryId, countryStateRegionId, and countryCityId being undefined
-        const countryId = business.countryId !== undefined ? business.countryId : 0; // Replace 0 with a default value if needed
-        const countryStateRegionId = business.countryStateRegionId !== undefined ? business.countryStateRegionId : 0;
-        const countryCityId = business.countryCityId !== undefined ? business.countryCityId : 0;
+        // const countryId = business.countryId !== undefined ? business.countryId : 0; // Replace 0 with a default value if needed
+        // const countryStateRegionId = business.countryStateRegionId !== undefined ? business.countryStateRegionId : 0;
+        // const countryCityId = business.countryCityId !== undefined ? business.countryCityId : 0;
 
 
         let autoSaveBusinessData
@@ -442,12 +447,20 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
         let existingListing
         let updatedBusiness
 
-        existingBusiness = await orm.business.findFirst({
-            where: {
-                token: autoSaveToken,
-                userId: parseInt(business.userId as any)
-            }
-        });
+
+        try {
+        
+            existingBusiness = await orm.business.findFirst({
+                where: {
+                    token: autoSaveToken,
+                    userId: parseInt(business.userId as any)
+                }
+            });
+
+        } catch (error) {
+            console.log('Line 459 on existingBusiness Error', error)
+        }
+        
 
         existingListing = await orm.listing.findFirst({
             where: {
@@ -456,13 +469,16 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
             }
         });
 
-        
+        console.log('Line 754 existingListing', existingListing)
+        console.log('Line 755 existingProperty', existingBusiness)
 
         
 
-        if (existingBusiness && existingListing) {
+        
 
-            
+        if (existingBusiness) {
+
+            console.log('Line 479 updating Business')
 
             try {
 
@@ -476,14 +492,14 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                         
                         
                         
-                        listingId: existingListing.id,
+                        listingId: existingListing?.id,
                         
                         //imageSrc: imageSrcString,
                         streetAddress: business.streetAddress,
                         streetAddress2: business.streetAddress2,
                         streetCity: business.streetCity,
                         streetZipCode: business.streetZipCode,
-                        userId: business.userId,
+                        userId: parseInt(business.userId as any),
                         countryId: existingCountry?.id,
                         countryStateRegionId: existingCountryStateRegion?.id,
                         countryCityId: existingCountryCity?.id,
@@ -499,159 +515,168 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                 console.log('Error', error);
             }
 
+
+
+
+
+
         } else {
            
             // If business doesn't exist, create it
             
+            if(!existingBusiness){}
 
-            try {
+            //Create Property And Listing Back to Back
+
+                try {
+                    
+            
+                    autoSaveBusinessData = await orm.business.create({
+                        data: {
+                            title: business.title,
+                            token: business.token,
+                            description: business.description,
+                            category: business.category,
+                            isAFranchise: business.isAFranchise,
+                            isTheFranchiseParent: business.isTheFranchiseParent,
+                            ownsOtherBusinesses: business.ownsOtherBusinesses,
+                            hasStore: business.hasStore,
+                            hasProducts: business.hasProducts,
+                            hasServices: business.hasServices,
+                            //imageSrc: imageSrcString,
+                            streetAddress: business.streetAddress,
+                            streetAddress2: business.streetAddress2,
+                            streetCity: business.streetCity,
+                            streetZipCode: business.streetZipCode,
+                            userId: parseInt(business.userId as any),
+                            countryId: existingCountry?.id || 0, // Include countryId
+                            countryStateRegionId: existingCountryStateRegion?.id || 0, // Include countryStateRegionId
+                            countryCityId: existingCountryCity?.id || 0,
+                            
+                            
+                        },
+                        select: {
+                            id: true,
+                            uuid: true,
+                            title: true,
+                            token: true,
+                            description: true,
+                            category: true,
+                            hasStore: true,
+                            hasProducts: true,
+                            hasServices: true,
+                            imageSrc: true,
+                            user: true,
+                            isAFranchise: true,
+                            isTheFranchiseParent: true,
+                            ownsOtherBusinesses: true,
+                            streetAddress: true,
+                            streetCity: true,
+                            streetZipCode: true,
+                            userId: true,
+                            countryId: true,
+                            countryStateRegionId: true,
+                            countryCityId: true,
+                            createdAt: true,
+                            updatedAt: true,
+                        }
+                    });
+
+                //return autoSaveCreateUpdatebusiness;
+
+                createdBusiness = autoSaveBusinessData
+
+                } catch (error) {
+                    console.log('Error', error);
+                }
                 
-           
-                autoSaveBusinessData = await orm.business.create({
-                    data: {
-                        title: business.title,
-                        token: business.token,
-                        description: business.description,
-                        category: business.category,
-                        isAFranchise: business.isAFranchise,
-                        isTheFranchiseParent: business.isTheFranchiseParent,
-                        ownsOtherBusinesses: business.ownsOtherBusinesses,
-                        hasStore: business.hasStore,
-                        hasProducts: business.hasProducts,
-                        hasServices: business.hasServices,
-                        //imageSrc: imageSrcString,
-                        streetAddress: business.streetAddress,
-                        streetAddress2: business.streetAddress2,
-                        streetCity: business.streetCity,
-                        streetZipCode: business.streetZipCode,
-                        userId: business.userId,
-                        countryId: countryId,
-                        countryStateRegionId: countryStateRegionId,
-                        countryCityId: countryCityId,
-                        
-                    },
-                    select: {
-                        id: true,
-                        uuid: true,
-                        title: true,
-                        token: true,
-                        description: true,
-                        category: true,
-                        hasStore: true,
-                        hasProducts: true,
-                        hasServices: true,
-                        imageSrc: true,
-                        
-                        isAFranchise: true,
-                        isTheFranchiseParent: true,
-                        ownsOtherBusinesses: true,
-                        streetAddress: true,
-                        streetCity: true,
-                        streetZipCode: true,
-                        userId: true,
-                        countryId: true,
-                        countryStateRegionId: true,
-                        countryCityId: true,
-                        createdAt: true,
-                        updatedAt: true,
+
+}
+
+                existingListing = await orm.listing.findFirst({
+                    where: {
+                        token: autoSaveToken || token,
+                        userId: parseInt(business.userId as any)
                     }
                 });
 
-            //return autoSaveCreateUpdatebusiness;
+                
+                if(!existingBusiness){
 
-            createdBusiness = autoSaveBusinessData
+                    return new Error("Uncessfull Property Exist");
+                    
 
-            } catch (error) {
-                console.log('Error', error);
-            }
-        }
-
-        if(!existingBusiness){
-            return new Error("Uncessfull Business Exist");
+                }
+           
+                try {
+                    
+                    
+    
+                    createdListing = await orm.listing.create({
+                        data: {
+                            title: listing.title,
+                            token: listing.token || token,
+                            description: listing.description,
+                            category: listing.category,
+                            //imageSrc: imageSrcString, // Save the concatenated string
+                            userId: listing.userId,
+                            businessId: existingBusiness?.id,
+                            countryId: existingCountry?.id || 0, // Include countryId
+                            countryStateRegionId: existingCountryStateRegion?.id, // Include countryStateRegionId
+                            countryCityId: existingCountryCity?.id || 0, // Include countryCityId
+                        },
+                        select: {
+                            id: true,
+                            uuid: true,
+                            title: true,
+                            token: true,
+                            description: true,
+                            category: true,
+                            imageSrc: true,
+                            userId: true,
+                            countryId: true,
+                            countryStateRegionId: true,
+                            countryCityId: true,
+                            createdAt: true,
+                            updatedAt: true,
+                        }
+                    });
+    
+                    
+    
+                } catch (error) {
+                    console.log('Error', error);
+                }
             
 
-        }
-
-        existingListing = await orm.listing.findFirst({
-            where: {
-                token: autoSaveToken || token,
-                userId: parseInt(business.userId as any)
-            }
-        });
-
-       
+            // End Business Controller
         
 
+                                    // if(!existingBusiness){
+                                    //     return new Error("Uncessfull Business Exist");
+                                        
 
-        if(!existingListing){
+                                    // }
 
-            try {
-                
-                
+                                    // existingListing = await orm.listing.findFirst({
+                                    //     where: {
+                                    //         token: autoSaveToken || token,
+                                    //         userId: parseInt(business.userId as any)
+                                    //     }
+                                    // });
 
-                createdListing = await orm.listing.create({
-                    data: {
-                        title: listing.title,
-                        token: listing.token || token,
-                        description: listing.description,
-                        category: listing.category,
-                        //imageSrc: imageSrcString, // Save the concatenated string
-                        userId: listing.userId,
-                        businessId: existingBusiness?.id,
-                        countryId: countryId, // Include countryId
-                        countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
-                        countryCityId: countryCityId, // Include countryCityId
-                    },
-                    select: {
-                        id: true,
-                        uuid: true,
-                        title: true,
-                        token: true,
-                        description: true,
-                        category: true,
-                        imageSrc: true,
-                        userId: true,
-                        countryId: true,
-                        countryStateRegionId: true,
-                        countryCityId: true,
-                        createdAt: true,
-                        updatedAt: true,
-                    }
-                });
+                                
+                                    
 
-                
 
-            } catch (error) {
-                console.log('Error', error);
-            }
-        }else{
+                                    // if(!existingListing){
 
-            console.log('Line 497 try Updating existingListing existingListing', existingListing.id)
+                                    
+                                    // }else{
 
-            try {
-                
-                createdListing = await orm.listing.update({
-                    where: { id: existingListing?.id},
-                    data: {
-                        title: listing.title,
-                        token: listing.token || token,
-                        description: listing.description,
-                        category: listing.category,
-                        //imageSrc: imageSrcString, // Save the concatenated string
-                        userId: listing.userId,
-                        businessId: existingBusiness?.id,
-                        countryId: countryId, // Include countryId
-                        countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
-                        countryCityId: countryCityId, // Include countryCityId
-                    }
-                });
+                                        
 
-                
-            } catch (error) {
-                console.log('Error on Updateing Listing')
-            }
-
-        }
+                                    // }
 
 
 
@@ -739,12 +764,12 @@ export const createBusiness = async (business: Business, listing: Listing): Prom
                         
                         
                         
-                        imageSrc: imageSrcString,
+                        
                         streetAddress: business.streetAddress,
                         streetAddress2: business.streetAddress2,
                         streetCity: business.streetCity,
                         streetZipCode: business.streetZipCode,
-                        userId: business.userId,
+                        userId: parseInt(business.userId as any),
                         countryId: countryId,
                         countryStateRegionId: countryStateRegionId,
                         countryCityId: countryCityId,
@@ -778,12 +803,11 @@ export const createBusiness = async (business: Business, listing: Listing): Prom
                         hasStore: business.hasStore,
                         hasProducts: business.hasProducts,
                         hasServices: business.hasServices,
-                        imageSrc: imageSrcString,
                         streetAddress: business.streetAddress,
                         streetAddress2: business.streetAddress2,
                         streetCity: business.streetCity,
                         streetZipCode: business.streetZipCode,
-                        userId: business.userId,
+                        userId: parseInt(business.userId as any),
                         countryId: countryId,
                         countryStateRegionId: countryStateRegionId, 
                         countryCityId: countryCityId, 
@@ -851,7 +875,6 @@ export const createBusiness = async (business: Business, listing: Listing): Prom
                         token: listing.token || token,
                         description: listing.description,
                         category: listing.category,
-                        imageSrc: imageSrcString, // Save the concatenated string
                         userId: listing.userId,
                         businessId: existingBusiness?.id,
                         countryId: countryId, // Include countryId
@@ -893,7 +916,6 @@ export const createBusiness = async (business: Business, listing: Listing): Prom
                         token: listing.token || token,
                         description: listing.description,
                         category: listing.category,
-                        imageSrc: imageSrcString, // Save the concatenated string
                         userId: listing.userId,
                         businessId: existingBusiness?.id,
                         countryId: countryId, // Include countryId
@@ -938,8 +960,10 @@ export const createBusinessPhotos = async (businessPhotoData: any): Promise<Busi
     const files = businessPhotoData.files; // Access the uploaded files
     const body = businessPhotoData.body; // Access the body data
 
-    // console.log('files:', files);
-    // console.log('body:', body);
+    console.log('files:', files);
+    console.log('body:', body);
+
+    console.log('bodyListing Id: ', body?.listingId)
 
 
 
@@ -1070,6 +1094,34 @@ export const deleteAutoSavePhoto  = async (businessData: any): Promise<BusinessP
         
 
         
+        const checkIfMainBusinessPhoto = await orm.business.findFirst({
+            where: {
+                imageSrc: propertyPhotoData,
+                userId: parseInt(userId as any)
+            }
+        });
+
+        
+
+        if(checkIfMainBusinessPhoto){
+            
+            try {
+                
+                const primaryPhoto = await orm.business.update({
+                    where: { id: checkIfMainBusinessPhoto?.id },
+                    data: {
+                        imageSrc: '', 
+                    }
+                })
+                
+            } catch (error) {
+                console.log('Business primaryPhoto error', error)
+            }
+        }
+        
+
+       // return checkIfMainBusinessPhoto
+
 
         const deleteThisPhotoObject = await orm.businessphoto.findFirst({
             where: {
@@ -1116,4 +1168,53 @@ export const deleteAutoSavePhoto  = async (businessData: any): Promise<BusinessP
 
     return businessData;
 }
+
+
+
+
+export const deleteBusiness = async (businessData: any): Promise<void> => {
+    const userId = businessData.userId;
+    const businessId = businessData.businessId;
+
+    try {
+        // Find the business to be deleted
+        const checkIfMainBusinessPhoto = await orm.business.findFirst({
+            where: {
+                userId: parseInt(userId),
+                id: parseInt(businessId),
+            },
+            include: {
+                Businessphotos: true, // Include related Businessphotos
+            },
+        });
+
+        if (checkIfMainBusinessPhoto) {
+            // Delete the business
+            await orm.business.delete({
+                where: {
+                    id: checkIfMainBusinessPhoto.id,
+                },
+            });
+
+            // Delete associated Businessphotos
+            await orm.businessphoto.deleteMany({
+                where: {
+                    businessId: checkIfMainBusinessPhoto.id,
+                },
+            });
+
+            // Delete physical files associated with Businessphotos
+            for (const photo of checkIfMainBusinessPhoto.Businessphotos) {
+                try {
+                    await unlink(photo.imgFilePath); // Unlink physical file
+                } catch (error) {
+                    console.error(`Error deleting file ${photo.imgFilePath}:`, error);
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error deleting business:', error);
+    }
+};
+
 

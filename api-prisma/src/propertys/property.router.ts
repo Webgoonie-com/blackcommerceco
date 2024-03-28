@@ -273,3 +273,19 @@ propertyRouter.post('/deleteAutoSavePropertyPhoto/:imageurl', async (request: Re
     }
 
 })
+
+propertyRouter.post('/deleteProperty/uuid/:uuid', async (request: Request, response: Response) => {
+    
+    const propertyPhotoData = await request.body
+
+    console.log('Hit /deleteProperty/uuid/:uuid')
+
+    try {
+        const propertys = await PropertyService.deleteProperty(propertyPhotoData)
+        return response.status(200).json(propertys);
+
+    } catch (error: any) {
+        return response.status(500).json(error.message);
+    }
+
+})
