@@ -50,8 +50,8 @@ const useFavorite = ({
                 request = () => {
 
                     axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/delfavorites/${listingId}`, {
-                        userId: 'Fred',
-                        lastName: 'Flintstone'
+                        userId: currentUser?.id,
+                        listingId: listingId,
                       })
 
                 }
@@ -59,8 +59,8 @@ const useFavorite = ({
                 request =() => {
                     
                     axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/addfavorites/${listingId}`, {
-                        firstName: 'Fred',
-                        lastName: 'Flintstone'
+                        userId: currentUser?.id,
+                        listingId: listingId,
                       })
 
                 }

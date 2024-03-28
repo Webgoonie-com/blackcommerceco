@@ -70,17 +70,23 @@ const RegisterModal = () => {
 
       //console.log(formData)
       
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/users/createUser/`, formData);
-      // Handle success response
-      toast.success('User Created successfully! Check your email for verification please.', {
-        duration: 7000,
-        position: 'bottom-right',
-      });
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/users/createUser/`, formData);
+        // Handle success response
+        toast.success('User Created successfully! Check your email for verification please.', {
+            duration: 7000,
+            position: 'bottom-right',
+        });
+
+       
+
+
     } catch (error) {
       // Handle error response
       console.log('Error on Register modal submit', error);
     } finally {
       setIsLoading(false);
+      router.refresh()
+      registerModal.onClose()
     }
   };
   

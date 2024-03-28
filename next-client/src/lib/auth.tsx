@@ -1,7 +1,7 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import NextAuth, { NextAuthOptions } from "next-auth";
-import { useSession, getSession } from "next-auth/react";
-import { redirect } from "next/navigation"
+import NextAuth, { AuthOptions  } from "next-auth";
+import { getSession } from "next-auth/react";
+
 
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github"
@@ -9,8 +9,8 @@ import GoogleProvider from "next-auth/providers/google"
 
 import { orm } from "./orm"
 
-export const authOptions: NextAuthOptions = {
-    adapter: PrismaAdapter(orm),
+export const authOptions: AuthOptions  = {
+    adapter: PrismaAdapter(orm as any),
     providers: [
         CredentialsProvider({
             name: "Credentials",
@@ -134,10 +134,10 @@ export const authOptions: NextAuthOptions = {
     },
     pages: {
         signIn: '/',
-        // signOut: '/auth/logout',
-        // error: '/auth/error',
-        // verifyRequest: '/auth/verify-request',
-        // newUser: '/auth/new-user'
+        signOut: '/auth/logout',
+    //     // error: '/auth/error',
+    //     // verifyRequest: '/auth/verify-request',
+    //     // newUser: '/auth/new-user'
     
     },
     // Enable debug messages in the console if we are having problems

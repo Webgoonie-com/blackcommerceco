@@ -314,7 +314,7 @@ export const addBbsistingFavoriteByListingId = async (id: number, listingData: a
 export const delBbsListingFavoriteByListingId = async (id: number, listingData: any): Promise<Favorite[]> => {
     console.log('deleteListingFavoriteByListingId', id);
 
-    const listing = await orm.favorite.create({
+    const favoritedBusiness = await orm.favorite.create({
         data: {
             userId: listingData?.userId,
             listingId: listingData?.listingId,
@@ -331,7 +331,7 @@ export const delBbsListingFavoriteByListingId = async (id: number, listingData: 
         }
     });
 
-    return [listing as any]; // Return the created listing as an array
+    return [favoritedBusiness as any]; // Return the created listing as an array
 }
 
 
