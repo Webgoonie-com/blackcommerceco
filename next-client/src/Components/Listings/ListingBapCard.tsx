@@ -21,24 +21,6 @@ const logoPlaceHolder = `${process.env.NEXT_PUBLIC_URL}` + logo.src
 
 
 
-// console.log('logo', logo.src)
-// console.log('logoPlaceHolder', logoPlaceHolder)
-
-// interface User {
-//     firstName: string;
-//     lastName: number;
-//     Id: number;
-//     uuid: string;
-//     token: string;
-//     favoriteIds: string;
-//     acctStatus: number;
-//     role: number;
-//     emailVerified: number;
-//     usrImage: string;
-//     // ... other properties of Property
-// }
-
-
 interface Country {
     id: number;
     uuid: string;
@@ -71,8 +53,6 @@ interface Property {
     createdAt: Date;
     updatedAt: Date;
 
-
-    // ... other properties of Property
 }
 
 
@@ -95,7 +75,7 @@ interface Businesses {
     userId: number;
     businessId: number;
     BusinessUploads: string;
-    // ... other properties of Property
+   
 }
 
 interface Reservation {
@@ -103,7 +83,6 @@ interface Reservation {
     totalPrice: number;
     startDate: Date,
     endDate: Date,
-    // ... other properties of Property
 }
 
 interface ListingBapCardProps {
@@ -112,13 +91,7 @@ interface ListingBapCardProps {
         uuid: string;
         userId: number;
         
-        
-        
-        
-        
-        
         user: User;
-        
         
         countryCityId: number;
         Country: Country;
@@ -146,13 +119,11 @@ interface ListingBapCardProps {
     } | null;
     reservation?: {
         Reservation: Reservation;
-            // ... other properties of data
     } | null;
     onAction?: (Id: string) => void;
     disabled?: boolean
     actionLabel?: string;
     actionId?: string;
-    //currentUser?: IUser | null
     currentUser?: currentUser
 
 }
@@ -169,7 +140,7 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
 }) => {
 
     
-    // console.log('Line 120 on ListingBapCard Data', data)
+ 
     
 
     const router = useRouter()
@@ -178,9 +149,8 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
 
     const listingId = data?.uuid || 0;
     
-    //const location = data?.Property?.locationValue || '';
 
-    const location = getByValue(data?.locationValue || '');
+    
 
 
     // For trips reserverations
@@ -218,8 +188,6 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
 
     }, [reservation])
 
-    
-    {JSON.stringify(data)}
     
     return (
         

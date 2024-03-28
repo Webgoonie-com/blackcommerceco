@@ -14,9 +14,7 @@ import ListingBapCard from './ListingBapCard';
 interface BapListingProp {
     id: number;
     uuid: string;
-    // ... other properties
-    currentUser: any,
-    // ... other properties
+    currentUser: any;
 }
 
 const BapListings: React.FC<BapListingProp> = ({
@@ -28,27 +26,20 @@ const BapListings: React.FC<BapListingProp> = ({
     const [listings, setListings] = useState<BapListingProp[]>([]);
 
 
-    //const { data: session, status } = useSession();
-    //const currentUser = session?.user;
     
 
     useEffect(() => {
+
         const fetchData = async () => {
+
             const data = await getPropertyListings();
-            console.log('data from Listings', data)
+
             setListings(data);
         };
     
         fetchData();
+
     }, []);
-
-
-    
-    
-    console.log('Line 47 on Listings.tsx: ', listings[0])
-
-
-    //console.log('listing info', JSON.stringify(listings, null, 2));
 
 
     if(listings.length === 0){
@@ -65,9 +56,7 @@ const BapListings: React.FC<BapListingProp> = ({
         <ClientOnly>
             
             <div 
-                className='relative bg-gray-950 pb-20 pt-28 px-5 py-20 mx-auto flex items-center md:flex-row flex-col'
-                //className=' px-32 py-20 bg-gray-950 pb-20 pt-28'
-            >
+                className='relative bg-gray-950 pb-20 pt-28 px-5 py-20 mx-auto flex items-center md:flex-row flex-col'>
                 
                     <div className='container text-white' id={uuid}>
                         <div
@@ -86,7 +75,7 @@ const BapListings: React.FC<BapListingProp> = ({
                             {listings.map((listing: any) => (
                                 <ListingBapCard
                                     key={listing.uuid}
-                                    currentUser={listing.currentUser}
+                                    currentUser={currentUser}
                                     data={listing}
                                 />
                             ))}

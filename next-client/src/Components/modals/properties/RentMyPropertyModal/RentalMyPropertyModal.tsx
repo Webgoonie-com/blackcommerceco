@@ -30,6 +30,7 @@ enum STEPS {
   PRICE = 6,
 }
 
+
 const makeToken = (length: number)  => {
     var result           = '';
     var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -46,6 +47,7 @@ interface RentMyPropertyModalProps {
 
 const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) => {
 
+       
 
         const router = useRouter()
         const rentMyPropertyModalModal = useRentMyPropertyModal();
@@ -54,8 +56,10 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
         const [step, setStep] = useState(STEPS.CATEGORY)
         const [propertyId, setPropertyId] = useState<number>(0)
         const [listingId, setListingId] = useState<number>(0)
-        const [userId, setUserId] = useState<number>(parseInt(currentUser?.id as any))
+        const [userId, setUserId] = useState(currentUser?.id)
         const [isLoading, setIsLoading] = useState(false)
+
+        
   
         const { register,
                 handleSubmit, 
@@ -262,6 +266,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                         max-h-[50vh]
                         overflow-y-auto'
                     >
+
                         {CategoriesOnlyProperties.map((item) => (
 
                         <div

@@ -2,15 +2,14 @@
 
 import React from 'react'
 import useFavorite from '@/Hooks/useFavorite';
-import { IUser } from "@/Types/nextauth"
-import { SafeUser, User, currentUser  } from '@/Types';
+import { currentUser  } from '@/Types';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 
-import getCurrentUser from "@/Actions/getCurrentUser"
+
 
 interface HeartIconButtonProps {
     listingId: number;
-    currentUser?: User
+    currentUser?: currentUser
 }
 
 const HearticonButton: React.FC<HeartIconButtonProps> = ({
@@ -18,11 +17,6 @@ const HearticonButton: React.FC<HeartIconButtonProps> = ({
     currentUser
 }) => {
 
-
-    console.log('currentUser: ', JSON.stringify(currentUser))
-    
-    //const hasFavorited = false  // when true heart will turn read
-    //const toggleFavorite = () => {}
 
     const { hasFavorited, toggleFavorite } = useFavorite({
         listingId,

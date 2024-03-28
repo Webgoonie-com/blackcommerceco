@@ -33,7 +33,8 @@ const ListingBapHead: React.FC<ListingHeadProps> = ({
     countryCity
 
 }) => {
-    
+
+
     const { getByValue } = useCountries();
 
     const location = getByValue(locationValue)

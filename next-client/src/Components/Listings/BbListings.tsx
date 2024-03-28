@@ -5,48 +5,43 @@ import { useSession } from "next-auth/react"
 import { getBusinessListings } from '@/ServiceCalls/callListings';
 import ClientOnly from '@/Components/ClientOnly';
 import EmptyStateBb from '@/Components/EmptyStates/EmptyStateBb';
-import getCurrentUser from '@/Actions/getCurrentUser';
 import ListingBbCard from './ListingBbCard';
 
 
 
-interface BbListing {
-    Id: number;
+interface BbListingProp {
+    id: number;
     uuid: string;
     // ... other properties
     Businesses: {
         namePublicDisplay: string;
         // ... other properties
     };
-    // ... other properties
+    currentUser: any,
 }
 
-export default function Listings() {
+const BbListings: React.FC<BbListingProp> = ({
+    id,
+    uuid,
+    currentUser,
+}) => {
 
-    const [bBlistings, setBbListings] = useState<BbListing[]>([]);
+    const [bBlistings, setBbListings] = useState([]);
 
 
-    const { data: session, status } = useSession();
-    //const currentUser = session?.user;
-    const currentUser = getCurrentUser();
-
+    
     useEffect(() => {
+        
         const fetchData = async () => {
-            const data = await getBusinessListings();
-            console.log('data from Buiness Listings', data)
-            setBbListings(data);
+            
+            const data = await getBusinessListings()
+            
+            setBbListings(data)
         };
     
-        fetchData();
+        fetchData()
+
     }, []);
-
-
-    
-    
-    //console.log('Line 43 on Listings.tsx: ', listings[0])
-
-
-    //console.log('listing info', JSON.stringify(listings, null, 2));
 
 
     if(bBlistings.length === 0){
@@ -63,9 +58,11 @@ export default function Listings() {
         <ClientOnly>
             
             <div 
-                className='relative bg-gray-950 pb-20 pt-28 px-5 py-20 mx-auto flex items-center md:flex-row flex-col'
-                //className=' px-32 py-20 bg-gray-950 pb-20 pt-28'
-            >
+                className="
+                            relative bg-gray-950 
+                            pb-20 pt-28 px-5 py-20 mx-auto 
+                            flex items-center md:flex-row flex-col
+            ">
                 
                     <div className='container text-white'>
                         <div
@@ -83,7 +80,7 @@ export default function Listings() {
                             {bBlistings.map((listing: any) => (
                                 <ListingBbCard 
                                     key={listing.uuid}
-                                    currentUser={listing.currentUser}
+                                    currentUser={currentUser as any}
                                     data={listing}
                                 />
                             ))}
@@ -97,3 +94,4 @@ export default function Listings() {
     )
 }
 
+export default BbListings

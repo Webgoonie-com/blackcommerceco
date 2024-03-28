@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useCallback, useMemo, useEffect, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { currentUser, User } from '@/Types';
 import { useRouter } from 'next/navigation';
 
@@ -11,45 +11,13 @@ import Image from 'next/image';
 import HeartIconButton from '@/Elements/Icons/HeartIconButton';
 import Button from '@/Elements/Button';
 
-import useFavorite from '@/Hooks/useFavorite';
-import getCurrentUser from "@/Actions/getCurrentUser"
+
 import logo from '../../../public/images/logo.png'
 
 const logoPlaceHolder = `${process.env.NEXT_PUBLIC_URL}` + logo.src
 
 
-// interface User {
-//     firstName: string;
-//     lastName: number;
-//     Id: number;
-//     uuid: string;
-//     token: string;
-//     favoriteIds: string;
-//     acctStatus: number;
-//     role: number;
-//     emailVerified: number;
-//     usrImage: string;
-//     // ... other properties of Property
-// }
-interface Business {
-    Id: number;
-    uuid: string;
-    
-    category: string;
-    description: string;
-    
-    imageSrc: string | undefined | null;
-    locationValue: string;
-    sellPrice: number;
-    
-    title: string;
-    userId: number;
-    createdAt: Date;
-    updatedAt: Date;
 
-
-    // ... other properties of Property
-}
 interface Business {
     uuid: string;
     token: string;
@@ -62,6 +30,7 @@ interface Business {
     isTheFranchiseParent: number;
     ownsOtherBusinesses: number;
     taxNumber: string;
+    sellPrice: number;
     address: string;
     city: string;
     stateProvince: string;
@@ -69,7 +38,7 @@ interface Business {
     userId: number;
     businessId: number;
     BusinessUploads: string;
-    // ... other properties of Property
+    
 }
 
 interface Reservation {
@@ -77,7 +46,7 @@ interface Reservation {
     totalPrice: number;
     startDate: Date,
     endDate: Date,
-    // ... other properties of Property
+   
 }
 
 interface ListingBbCardProps {
@@ -99,18 +68,16 @@ interface ListingBbCardProps {
         description: string;
         locationValue: string;
         updatedAt: Date;
-        // ... other properties of data
+       
     } | null;
     reservation?: {
         Reservation: Reservation;
-            // ... other properties of data
     } | null;
     onAction?: (Id: string) => void;
     disabled?: boolean
     actionLabel?: string;
     actionId?: string;
-    //currentUser?: IUser | null
-    currentUser?: currentUser | null
+    currentUser: currentUser | null
 
 }
 
@@ -125,20 +92,14 @@ const ListingBbCard: React.FC<ListingBbCardProps> =  ({
     
 }) => {
 
-    
-    //console.log('Line 120 on ListingBbCard Data', data)
-    
 
     const router = useRouter()
 
     const { getByValue } = useCountries();
 
     const listingId = data?.uuid || 0;
-    
-    //const location = data?.Property?.locationValue || '';
 
     const location = getByValue(data?.locationValue || '');
-
 
     // For trips reserverations
     const handleCancel = useCallback(
@@ -176,8 +137,6 @@ const ListingBbCard: React.FC<ListingBbCardProps> =  ({
     }, [reservation])
 
     
-    // {JSON.stringify(data)}
-
     return (
         
         <div
@@ -196,7 +155,6 @@ const ListingBbCard: React.FC<ListingBbCardProps> =  ({
                     <Image
                         fill
                         alt="Business Listing"
-                        //src={`${data?.imageSrc}`}
                         src={data?.imageSrc as string ? data?.imageSrc as string : logoPlaceHolder}
                         className="
                             object-cover 

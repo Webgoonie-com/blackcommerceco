@@ -73,7 +73,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
 
     const [listingId, setListingId] = useState<number>(0)
 
-    const [userId, setUserId] = useState<number>(parseInt(currentUser?.id as string))
+    const [userId, setUserId] = useState(currentUser?.id)
 
     const [isLoading, setIsLoading] = useState(false)
   
@@ -146,8 +146,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
     }), [])
 
     const onSwitchChange = (id: string, value: any) => {
-        console.log('onSwitchChange id: ', id)
-        console.log('onSwitchChange value: ', value)
+       
         setCustomValue(id, value); // Update the value in the parent component
     };
 
@@ -169,16 +168,18 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
     }
 
     const onChangeImages = (images: string[]) => {
-        //console.log('onParent component onChangeImages in Effect ' + images)
+        
         setCustomValue('imageSrc', images);
+
         setSelectedImages(images);
+
     };
 
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
             
     
-        console.log('DATA: on onSubmit: ', data)
+       
 
         
         if(step === STEPS.CATEGORY){
@@ -187,17 +188,16 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
             
                 try {
         
-                    // Calling Directly To Internal API Route
+                   
         
-                    const responseData = await autoSaveBusinessData(data, autoSaveToken, userId); // Call the autoSaveBusinessData function
-                    // Your other submission logic
+                    const responseData = await autoSaveBusinessData(data, autoSaveToken, userId);
+                    
         
                     console.log('responseData: ', responseData)
         
                     const { id, listingId } = responseData;
         
-                    //console.log('propertyId: id -', id)
-                    //console.log('propertyId: listingId -', listingId)
+                  
         
                     setBusinessId(id)
                     setListingId(listingId)
@@ -304,7 +304,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
                             className='cursor-pointer col-col-span-1'
                             key={item.label}
                         >
-                            {/* item.label  */}
+                            
                             <CategoryInput
                                 onClick={(category) =>
                                     setCustomValue('category', category)}
@@ -321,7 +321,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
         </div>
     )
 
-    // Begin Steps
+    
 
    
 
@@ -383,17 +383,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
                     
                     
                 </div>
-                {/* <div className='relative md:w-full xl:w-full md:px-2 xl:px-2 mb-3'>
-                        <Map
-                            mapCenterReasonTxt={"The Location Of Your Business"}
-                            center={
-                              watchCountryCity?.latitude && watchCountryCity?.longitude ? [watchCountryCity?.latitude, watchCountryCity?.longitude] :
-                              //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :
-                              watchCountryStateRegion?.latitude && watchCountryStateRegion?.longitude ? [watchCountryStateRegion?.latitude, watchCountryStateRegion?.longitude] :
-                              watchCountry?.latitude && watchCountry?.longitude ? [watchCountry?.latitude, watchCountry?.longitude] : [32.1652613142917, -54.72682487791673]
-                          }
-                      />
-                </div> */}
+               
             </div>
         )
     }
@@ -448,7 +438,6 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
                             mapCenterReasonTxt={"Your Business Market Area"}
                             center={
                                 watchCountryCity?.latitude && watchCountryCity?.longitude ? [watchCountryCity?.latitude, watchCountryCity?.longitude] :
-                                //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :
                                 watchCountryStateRegion?.latitude && watchCountryStateRegion?.longitude ? [watchCountryStateRegion?.latitude, watchCountryStateRegion?.longitude] :
                                 watchCountry?.latitude && watchCountry?.longitude ? [watchCountry?.latitude, watchCountry?.longitude] : [32.1652613142917, -54.72682487791673]
                             }
@@ -546,7 +535,6 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
                             mapCenterReasonTxt={'Your Business Address is about here....'}
                           center={
                               watchCountryCity?.latitude && watchCountryCity?.longitude ? [watchCountryCity?.latitude, watchCountryCity?.longitude] :
-                              //cityinfo?.Latitude && cityinfo?.Longitude ? [cityinfo?.Latitude, cityinfo?.Longitude] :
                               watchCountryStateRegion?.latitude && watchCountryStateRegion?.longitude ? [watchCountryStateRegion?.latitude, watchCountryStateRegion?.longitude] :
                               watchCountry?.latitude && watchCountry?.longitude ? [watchCountry?.latitude, watchCountry?.longitude] : [32.1652613142917, -54.72682487791673]
                           }
@@ -568,7 +556,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
 
                 <ImageUploadBusinessPhotos
                     value={watchImageSrc as any}
-                    //onChange={(value) => setCustomValue('imageSrc', value)} 
+                    
                     autoSaveToken={autoSaveToken}
                     onChange={onChangeImages}
                     userId={'' + currentUser?.id}
@@ -578,11 +566,6 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
                     listingId={listingId}
                 />
 
-                {/* <ImageUpload
-                    dirs={[]}
-                    value={imagesSrc}
-                    onChange={(value) => setCustomValue('imagesSrc', value)}
-                /> */}
             </div>
         )
 

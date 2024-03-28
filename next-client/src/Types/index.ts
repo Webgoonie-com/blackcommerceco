@@ -10,13 +10,14 @@ import { Country } from "country-state-city";
 ;
 
     export interface currentUser {
-        firstName?: string | null | undefined;
-        lastName: string | null | undefined;
         id?: number | null | undefined;
         uuid: string;
         token: string | null | undefined;
         favoriteIds: string | null | undefined;
         acctStatus?: number | null | undefined;
+        name?: string | null | undefined;
+        firstName?: string | null | undefined;
+        lastName: string | null | undefined;
         role?: number | null | undefined; // Change the type to number
         emailVerified?: number | null | undefined;
         usrImage?: string | null | undefined;

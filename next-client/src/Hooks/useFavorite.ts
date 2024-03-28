@@ -4,27 +4,24 @@ import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { toast } from "react-hot-toast";
 
-import { IUser } from '@/Types/nextauth';
-import getCurrentUser from "@/Actions/getCurrentUser"
 
 import  useLoginModal  from '@/Hooks/useLoginModal';
-import { User, currentUser } from '@/Types';
+import { currentUser } from '@/Types';
+
 
 
 
 interface useFavorite {
     listingId: number | string;
-    currentUser: User;
+    currentUser: currentUser;
 }
 
 const useFavorite = ({
     listingId,
-    currentUser
+    currentUser,
 }: useFavorite) => {
 
-    //const currentUser = getCurrentUser();
-
-    console.log('currentUser: ', currentUser)
+    
     
     const router = useRouter()
     const loginModal =  useLoginModal()
@@ -50,9 +47,9 @@ const useFavorite = ({
             let request
 
             if(hasFavorited){
-                request = () => axios.delete(process.env.NEXT_PUBLIC_API_URL + `/api/listing/favorites/${listingId}`)
+                request = () => axios.delete(process.env.NEXT_PUBLIC_API_URL + `/api/listings/delfavorites/${listingId}`)
             }else{
-                request =() => axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listing/favorites/${listingId}`)
+                request =() => axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/addfavorites/${listingId}`)
             }
 
             await request();

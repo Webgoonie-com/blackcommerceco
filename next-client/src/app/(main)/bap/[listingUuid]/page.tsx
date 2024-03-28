@@ -19,20 +19,13 @@ const BapsListingPage = async ({ params }: {params: IParams }) => {
 
   const stringUrlUuid = params
 
-  console.log('stringUrlUuid', stringUrlUuid)
-
-  console.log('Line 21 Page Bap params', params)
-
-  console.log('Line 23 Page Bap listingUuid', listingUuid)
-
-
 
   const propertylistingByUuid = await getPropertyListingByUuId(params)
 
   const currentUser = await getCurrentUser()
-  //console.log('currentUser on line 20 on BapPage.tsx ', currentUser)
+  
 
-  console.log('Line 35 page.tsx bap = propertylistingByUuid', propertylistingByUuid)
+  
 
 
   

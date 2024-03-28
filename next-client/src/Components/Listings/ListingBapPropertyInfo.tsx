@@ -1,5 +1,5 @@
 import useCountries from '@/Hooks/useCountries';
-import { User } from '@/Types';
+import { currentUser, User } from '@/Types';
 import React from 'react'
 import { IconType } from 'react-icons';
 import Avatar from '../Avatar';
@@ -11,7 +11,7 @@ import Map from '@/Components/maps/Map'
 
 
 interface ListingBapPropertyInfoProps {
-    user: User;
+    user: currentUser;
     description:string;
     guestCount: number;
     roomCount: number;

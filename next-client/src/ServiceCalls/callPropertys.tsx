@@ -10,6 +10,8 @@ export const callPropertys = async () => {
             `${process.env.NEXT_PUBLIC_API_URL}/api/propertys/allproperties`
         )
 
+        
+
         return propertys
 
     } catch (error) {
@@ -28,6 +30,7 @@ export const createProperty = async (data: any) => {
             data
         )
         
+
         return propertys
 
     } catch (error) {
@@ -47,6 +50,7 @@ export const autoSavePropertyData = async (data: any, autoSaveToken: any, userId
     }
     
     try {
+
         const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/propertys/autoSavePropertyData`, postData)
 
         return response.data

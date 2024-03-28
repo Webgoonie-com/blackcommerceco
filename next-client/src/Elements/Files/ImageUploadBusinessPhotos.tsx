@@ -49,8 +49,8 @@ const ImageUploadBusinessPhotos: React.FC<ImageUploadBusinessPhotosProps> = ({
                 businessId: businessId,
                 listingId: propsListingId
               })
-              .then(function (response) {
-                console.log(response);
+              .then(() => {
+
                 setPrimaryPhoto(!primaryPhoto);
                 
                 toast.success('Primary Photo Set', {
@@ -119,17 +119,17 @@ const ImageUploadBusinessPhotos: React.FC<ImageUploadBusinessPhotosProps> = ({
 
     const removeImage = async (imageUrl: string) => {
 
-        console.log('Remove Image', imageUrl)
+
 
         try {
             // Call the API to delete the specific image
             await deleteAutoSaveBusinessPhoto(imageUrl, autoSaveToken, userId);
             
             // Update the state to remove the deleted image
-            //setSelectedImages(prevImages => prevImages.filter(image => image !== imageUrl));
+            setSelectedImages(prevImages => prevImages.filter(image => image !== imageUrl));
             
             // Call the onChange callback with the updated images
-            //onChange(selectedImages.filter(image => image !== imageUrl));
+            onChange(selectedImages.filter(image => image !== imageUrl));
         } catch (error) {
             console.error('Error deleting image:', error);
         }

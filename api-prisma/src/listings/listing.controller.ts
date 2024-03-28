@@ -295,6 +295,58 @@ export const getListingFavoriteByListingId = async (id: number): Promise<Listing
 }
 
 
+export const addListingFavoriteByListingId = async (id: number): Promise<Listing[]> => {
+
+    console.log('deleteListingFavoriteByListingId', id)
+
+    const listings = await  orm.listing.findMany({
+        where: { id: id},
+        select:{
+            id: true,
+            uuid: true,
+            token: true,
+            title: true,
+            description: true,
+            category: true,
+            imageSrc: true,
+            userId: true,
+            countryId: true,
+            countryStateRegionId: true,
+            createdAt: true,
+            updatedAt: true,
+        }
+    })
+
+    
+    return listings;
+}
+
+export const delListingFavoriteByListingId = async (id: number): Promise<Listing[]> => {
+
+    console.log('deleteListingFavoriteByListingId', id)
+
+    const listings = await  orm.listing.findMany({
+        where: { id: id},
+        select:{
+            id: true,
+            uuid: true,
+            token: true,
+            title: true,
+            description: true,
+            category: true,
+            imageSrc: true,
+            userId: true,
+            countryId: true,
+            countryStateRegionId: true,
+            createdAt: true,
+            updatedAt: true,
+        }
+    })
+
+    
+    return listings;
+}
+
 export const deleteListingFavoriteByListingId = async (id: number): Promise<Listing[]> => {
 
     console.log('deleteListingFavoriteByListingId', id)

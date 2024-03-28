@@ -7,8 +7,6 @@ export const callListings = async () => {
         
         const {data: listings} = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/listings/all`)
 
-        console.log('listings', listings)
-        
         return listings
 
     } catch (error) {
@@ -25,58 +23,62 @@ export const getPropertyListings = async () => {
     
 
     try {
+
         const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/listings/allProperties');
-        //console.log('/listings/all response', response.data)
-        return response.data; // Assuming the API returns an array of listings
+
+        return response.data;
+
     } catch (error) {
-        //console.error('Error fetching listings:', error);
-        return []; // Return an empty array or handle the error as needed
+
+        console.error('Error fetching listings:', error);
+
+        return [];
+
     }
 };
 
 
 export const getBusinessListings = async () => {
     
-    console.log(`${process.env.NEXT_PUBLIC_API_URL} + '/api/listings/allBusinesses`)
-
     try {
-        const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/listings/allBusinesses');
-        console.log('Line 44 /api/listings/allBusinesses response', response.data)
-        return response.data; // Assuming the API returns an array of listings
+        
+        const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/listings/allBusinesses');    
+        
+        return response.data;
+
     } catch (error) {
-        //console.error('Error fetching listings:', error);
-        return []; // Return an empty array or handle the error as needed
+        console.error('Error fetching listings:', error);
+        return [];
     }
 };
 
 export const getPropertyListingsByUuid = async (listingUuid: any) => {
     
-    console.log(`${process.env.NEXT_PUBLIC_API_URL} + '/api/listings/allBusinesses`)
-
     try {
-        //const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/listings/allBusinesses');
+        
         const response = await axios.get(process.env.NEXT_PUBLIC_API_URL +'/api/listings/propertyuuid/'+listingUuid);
-        console.log('Line 44 /api/listings/allBusinesses response', response.data)
-        return response.data; // Assuming the API returns an array of listings
+
+        return response.data;
+
     } catch (error) {
-        //console.error('Error fetching listings:', error);
-        return []; // Return an empty array or handle the error as needed
+        console.error('Error fetching listings:', error);
+        return [];
     }
 };
 
 export const getBusinessListingsByUuid = async (listingUuid: any) => {
     
-    console.log(process.env.NEXT_PUBLIC_API_URL + '/api/listings/propertyuuid/'+listingUuid)
-
     try {
         
         const response = await axios.get(process.env.NEXT_PUBLIC_API_URL +'/api/listings/businessuuid/'+listingUuid);
 
-        console.log('Line 44 /api/listings/allBusinesses response', response.data)
-        return response.data; // Assuming the API returns an array of listings
+
+        return response.data
+
     } catch (error) {
-        //console.error('Error fetching listings:', error);
-        return []; // Return an empty array or handle the error as needed
+
+        return [];
+
     }
 };
 

@@ -325,6 +325,11 @@ export const getPropertyUuId = async (uuid: string): Promise<Property | null> =>
 
 export const createProperty = async (property: Property): Promise<Property | any> => {
     
+
+        console.log('property: ', property)
+
+        let autoSaveCreateUpdateProperty
+
         const price = property.price.toString();
 
         const imageSrcString = Array.isArray(property.imageSrc) ? property.imageSrc.join(',') : '';
@@ -380,7 +385,7 @@ export const createProperty = async (property: Property): Promise<Property | any
                 });
 
 
-                return updatedProperty;          
+                autoSaveCreateUpdateProperty  = updatedProperty;          
                 
             } catch (error) {
                 console.log('Error', error);
@@ -393,7 +398,7 @@ export const createProperty = async (property: Property): Promise<Property | any
             try {
                 
            
-                const autoSaveCreateUpdateProperty = await orm.property.create({
+                 autoSaveCreateUpdateProperty = await orm.property.create({
                     data: {
                         title: property.title,
                         token: property.token || token,
@@ -416,12 +421,15 @@ export const createProperty = async (property: Property): Promise<Property | any
                     }
                 });
 
-                return autoSaveCreateUpdateProperty
+               
 
             } catch (error) {
                 console.log('Error', error);
             }
         }
+
+
+        return autoSaveCreateUpdateProperty
 };
 
 

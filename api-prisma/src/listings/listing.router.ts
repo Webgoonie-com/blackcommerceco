@@ -264,14 +264,43 @@ listingRouter.get("/businessuuid/:uuid", async (request: Request, response: Resp
 
 })
 
-listingRouter.post("/favorites/:listingId", async (request: Request, response: Response) => {
+listingRouter.delete("/delfavorites/:listingId", async (request: Request, response: Response) => {
+
+    const listingId: string = request.params.listingId
+    //const listingId: string = request.body.listingId
+
+    console.log('delfavorites', listingId)
+
+
+    try {
+
+        const user = await ListingService.delListingFavoriteByListingId(parseInt(listingId))
+
+        if(user) {
+
+            return response.status(200).json(user)
+
+        }
+
+    } catch (error) {
+
+        return response.status(500).json("Sorry Listing By Favorite Could Not Be Found")
+
+    }
+
+})
+
+listingRouter.post("/addfavorites/:listingId", async (request: Request, response: Response) => {
 
     //const listingId: string = request.params.listingId
     const listingId: string = request.body.listingId
 
+    console.log('listingId', listingId)
+
+
     try {
 
-        const user = await ListingService.getListingFavoriteByListingId(parseInt(listingId))
+        const user = await ListingService.addListingFavoriteByListingId(parseInt(listingId))
 
         if(user) {
 
