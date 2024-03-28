@@ -5,13 +5,13 @@
   "license": "MIT",
   "description": "",
   "prisma":{
-    "seed":"ts-node prisma/seed.js"
+    "seed":"ts-node prisma/seed.mjs"
   },
   "scripts": {
     "cleanClean": "rm -rf node_modules",
     "dev": "nodemon ./src/index.ts",
     "devv": "tsnd --respawn --pretty --transpile-only ./src/index.ts",
-    "seed": "ts-node prisma/seed.js",
+    "seed": "ts-node prisma/seed.mjs",
     "ts-node": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' prisma/seed.js "
   },
   "dependencies": {

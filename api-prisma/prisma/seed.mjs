@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client"
-import { users } from './users.js'
-import { businesses } from './businesses.js'
+import { users } from './users.mjs'
+import { businesses } from './businesses.mjs'
 
 
 const prisma = new PrismaClient()
