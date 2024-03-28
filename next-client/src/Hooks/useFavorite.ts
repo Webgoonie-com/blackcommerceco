@@ -47,9 +47,23 @@ const useFavorite = ({
             let request
 
             if(hasFavorited){
-                request = () => axios.delete(process.env.NEXT_PUBLIC_API_URL + `/api/listings/delfavorites/${listingId}`)
+                request = () => {
+
+                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/delfavorites/${listingId}`, {
+                        userId: 'Fred',
+                        lastName: 'Flintstone'
+                      })
+
+                }
             }else{
-                request =() => axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/addfavorites/${listingId}`)
+                request =() => {
+                    
+                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/addfavorites/${listingId}`, {
+                        firstName: 'Fred',
+                        lastName: 'Flintstone'
+                      })
+
+                }
             }
 
             await request();

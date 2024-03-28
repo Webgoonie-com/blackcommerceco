@@ -1,13 +1,14 @@
 import { orm } from "../utils/orm.server";
-import { Prisma } from '@prisma/client'; // Import Prisma types
 import { 
     MIME_TYPE_MAP,
     ListingPropertyPhoto,
     Listing,
     Property,
+    Favorite,
     
 } from "../types";
 import path from 'path';
+import { Prisma } from "@prisma/client";
 
 
 
@@ -295,57 +296,45 @@ export const getListingFavoriteByListingId = async (id: number): Promise<Listing
 }
 
 
-export const addListingFavoriteByListingId = async (id: number): Promise<Listing[]> => {
+export const addBbsistingFavoriteByListingId = async (id: number, listingData: any ): Promise<Listing[]> => {
 
-    console.log('deleteListingFavoriteByListingId', id)
+    console.log('addListingFavoriteByListingId', id)
+    console.log('listingData', listingData)
 
-    const listings = await  orm.listing.findMany({
-        where: { id: id},
-        select:{
-            id: true,
-            uuid: true,
-            token: true,
-            title: true,
-            description: true,
-            category: true,
-            imageSrc: true,
-            userId: true,
-            countryId: true,
-            countryStateRegionId: true,
-            createdAt: true,
-            updatedAt: true,
-        }
-    })
+    // const listings = await  orm.favorite.create({
+    //    data: {
+    //     userId: userId,
+    //    }
+    // })
 
     
-    return listings;
+    return listingData;
 }
 
-export const delListingFavoriteByListingId = async (id: number): Promise<Listing[]> => {
+export const delBbsListingFavoriteByListingId = async (id: number, listingData: any): Promise<Favorite[]> => {
+    console.log('deleteListingFavoriteByListingId', id);
 
-    console.log('deleteListingFavoriteByListingId', id)
-
-    const listings = await  orm.listing.findMany({
-        where: { id: id},
-        select:{
+    const listing = await orm.favorite.create({
+        data: {
+            userId: listingData?.userId,
+            listingId: listingData?.listingId,
+            businessId: listingData?.listingId, // This seems like it should be businessId instead of listingId
+            propertyId: listingData?.propertyId,
+        },
+        select: {
             id: true,
             uuid: true,
-            token: true,
-            title: true,
-            description: true,
-            category: true,
-            imageSrc: true,
             userId: true,
-            countryId: true,
-            countryStateRegionId: true,
-            createdAt: true,
-            updatedAt: true,
+            listingId: true,
+            propertyId: false,
+            business: true,
         }
-    })
+    });
 
-    
-    return listings;
+    return [listing as any]; // Return the created listing as an array
 }
+
+
 
 export const deleteListingFavoriteByListingId = async (id: number): Promise<Listing[]> => {
 

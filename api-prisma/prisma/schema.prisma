@@ -214,17 +214,17 @@ model Favorite {
   uuid                                String                  @default(uuid()) @unique
   user                                User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId                              Int
-  listingId                           Int
+  listingId                           Int?                    
   listing                             Listing[]
   
-  property                            Property                @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-  propertyId                          Int
+  propertyId                          Int?
+  propertys                           Property[]
   
   createdAt                           DateTime                @default(now())
   updatedAt                           DateTime                @default(now())  @updatedAt
   
-  business                            Business                @relation(fields: [businessId], references:[id], onDelete: Cascade)
-  businessId                          Int          
+  business                            Business?                @relation(fields: [businessId], references:[id], onDelete: Cascade)
+  businessId                          Int?          
 }       
   
 model ReservationBusiness { 
@@ -388,7 +388,8 @@ model Property {
   userId                              Int
 
   reservations                        ReservationProperty[]
-  favorites                           Favorite[]
+  favorite                            Favorite?               @relation(fields: [favoriteId], references: [id])
+  favoriteId                          Int?
 
 
   listing                             Listing[]

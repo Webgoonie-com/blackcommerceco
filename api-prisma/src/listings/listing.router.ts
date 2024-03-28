@@ -264,17 +264,22 @@ listingRouter.get("/businessuuid/:uuid", async (request: Request, response: Resp
 
 })
 
-listingRouter.delete("/delfavorites/:listingId", async (request: Request, response: Response) => {
+listingRouter.post("/delfavorites/:listingId", async (request: Request, response: Response) => {
 
     const listingId: string = request.params.listingId
     //const listingId: string = request.body.listingId
 
     console.log('delfavorites', listingId)
 
+    const listingData = {
+        files: request.files,
+        body: request.body
+    };
+
 
     try {
 
-        const user = await ListingService.delListingFavoriteByListingId(parseInt(listingId))
+        const user = await ListingService.delBbsListingFavoriteByListingId(parseInt(listingId), listingData)
 
         if(user) {
 
@@ -292,15 +297,22 @@ listingRouter.delete("/delfavorites/:listingId", async (request: Request, respon
 
 listingRouter.post("/addfavorites/:listingId", async (request: Request, response: Response) => {
 
-    //const listingId: string = request.params.listingId
-    const listingId: string = request.body.listingId
+    const listingId: string = request.params.listingId
+    
+    const body: string = request.body
 
-    console.log('listingId', listingId)
+    console.log('addfavorites listingId', listingId)
+    console.log('addfavorites body', body)
+
+    const listingData = {
+        files: request.files,
+        body: request.body
+    };
 
 
     try {
 
-        const user = await ListingService.addListingFavoriteByListingId(parseInt(listingId))
+        const user = await ListingService.addBbsistingFavoriteByListingId(parseInt(listingId), listingData)
 
         if(user) {
 

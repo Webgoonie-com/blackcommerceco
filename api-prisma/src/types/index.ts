@@ -124,6 +124,17 @@ export type CountryStateRegion = {
     isoCode: string;
 }
 
+export type Favorite = {
+    id: number;
+    uuid: string;
+    userId: number;
+    listingId: number | undefined | null;
+    propertyId: number | undefined | null;
+    businessId: number | undefined | null;
+    createdAt: Date;
+    updatedAt: Date;
+
+}
 
 export type Property = {
     id: number;
