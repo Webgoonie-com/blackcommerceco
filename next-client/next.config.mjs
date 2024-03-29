@@ -36,7 +36,7 @@ const nextConfig = {
   
       return config;
     },
-    output: 'export',
+    //output: 'export',
     //distDir: 'dist',
     images: {
     //   domains: [
@@ -48,6 +48,7 @@ const nextConfig = {
     //     "localhost:3333",
     //     "localhost:3334",
     // ],
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
