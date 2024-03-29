@@ -2,43 +2,46 @@
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-    generateBuildId: async () => {
+  generateBuildId: async () => {
     // This could be anything, using the latest git hash
-      return process.env.GIT_HASH
-    },
-    eslint: {
-      // Warning: This allows production builds to successfully complete even if
-      // your project has ESLint errors.
-      ignoreDuringBuilds: true,
-    },
-    reactStrictMode: true,
-    swcMinify: true,
-    webpack(config) {
+    return process.env.GIT_HASH;
+  },
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
+  reactStrictMode: true,
+  swcMinify: true,
+  webpack(config, { webpack }) {
     config.resolve.fallback = {
       ...config.resolve.fallback,
       fs: false,
     };
-    
+
     config.infrastructureLogging = { debug: /PackFileCache/ };
-  
-    let  modularizeImports = null;
-         config.module.rules.some((rule) =>
-         rule.oneOf?.some((oneOf) => {
-         modularizeImports =
-           oneOf?.use?.options?.nextConfig?.modularizeImports;
-         return modularizeImports;
-      }),
-     );
-  
-     if (modularizeImports?.["@headlessui/react"]) {
-       delete modularizeImports["@headlessui/react"];
-     }
-  
-      return config;
-    },
-    //output: 'export',
-    //distDir: 'dist',
-    images: {
+
+    let modularizeImports = null;
+    config.module.rules.some((rule) =>
+      rule.oneOf?.some((oneOf) => {
+        modularizeImports =
+          oneOf?.use?.options?.nextConfig?.modularizeImports;
+        return modularizeImports;
+      })
+    );
+
+    if (modularizeImports?.["@headlessui/react"]) {
+      delete modularizeImports["@headlessui/react"];
+    }
+
+    // Limit webpack workers to 1
+    config.plugins.push(new webpack.LoaderOptionsPlugin({ options: { maxWorkers: 1 } }));
+
+    return config;
+  },
+  //output: 'export',
+  //distDir: 'dist',
+  images: {
     //   domains: [
     //     "next/image",
     //     "tailwindui.com",
@@ -91,7 +94,7 @@ const nextConfig = {
         hostname: "localhost:3334",
       },
     ],
-  }
+  },
 };
 
 export default nextConfig;
