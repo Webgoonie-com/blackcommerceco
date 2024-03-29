@@ -14,7 +14,7 @@ import QueryProvider from '@/Providers/QueryProvider'
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "BlackCommerce Root",
+  title: "BlackCommerce Official",
   description: "A app made for a miniority group of people on planet earth deprived far for too long.",
 };
 
