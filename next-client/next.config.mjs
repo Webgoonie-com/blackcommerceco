@@ -29,6 +29,7 @@ const nextConfig = {
   
       return config;
     },
+    distDir: 'dist',
     images: {
     //   domains: [
     //     "next/image",
