@@ -29,7 +29,8 @@ const nextConfig = {
   
       return config;
     },
-    distDir: 'dist',
+    output: 'export',
+    //distDir: 'dist',
     images: {
     //   domains: [
     //     "next/image",
