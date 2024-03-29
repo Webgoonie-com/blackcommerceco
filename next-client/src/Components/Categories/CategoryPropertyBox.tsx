@@ -5,7 +5,7 @@ import React, { useCallback } from 'react'
 import { IconType } from 'react-icons'
 import qs from 'query-string'
 
-interface CategoryBoxProps {
+interface CategoryPropertyBoxProps {
     icon: IconType
     label: string
     pathname?: string
@@ -13,7 +13,7 @@ interface CategoryBoxProps {
     selected?: boolean
 }
 
-const CategoryBox: React.FC<CategoryBoxProps> = ({
+const CategoryPropertyBox: React.FC<CategoryPropertyBoxProps> = ({
     icon: Icon,
     pathname,
     label,
@@ -93,4 +93,4 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
     )
 }
 
-export default CategoryBox
+export default CategoryPropertyBox

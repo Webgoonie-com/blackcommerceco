@@ -1,7 +1,7 @@
 "use client"
 
 import { useSearchParams } from "next/navigation";
-import CategoryBox from "@/Components/CategoryBox"
+import CategoryPropertyBox from "@/Components/Categories/CategoryPropertyBox"
 import { CategoriesOnlyProperties } from "@/Components/Categories/CategoriesOnly"
 import Container from "@/Components/Container";
 
@@ -25,7 +25,7 @@ export const PropertyCategories = () => {
                 <div className="mt-10 grid grid-cols-12 gap-4">
                     {CategoriesOnlyProperties.map((item: any) => (
                         <div key={item.label} className="col-span-12 md:col-span-6 lg:col-span-3 bg-gray-900 border border-gray-800 rounded-md p-5">
-                            <CategoryBox 
+                            <CategoryPropertyBox 
                                 key={item.label}
                                 //description={item.description}
                                 selected={category == item.label}

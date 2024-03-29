@@ -1,19 +1,17 @@
+"use client"
+
 import React, { useCallback, useState } from 'react'
 
-import { IoDiamond } from 'react-icons/io5'
-import { BsSnow } from 'react-icons/bs'
-import { FaSkiing } from 'react-icons/fa'
-import { TbBeach, TbChevronDown, TbMountainOff, TbPool } from 'react-icons/tb'
-import { GiBarn, GiBoatFishing, GiCactus, GiCastle, GiCaveEntrance, GiForestCamp, GiIsland, GiWindmill, GiVillage  } from 'react-icons/gi'
-import { MdOutlineVilla } from 'react-icons/md'
-import CategoryBox from '@/Components/CategoryBox'
+import { TbChevronDown} from 'react-icons/tb'
+
+
 import { usePathname, useSearchParams } from 'next/navigation'
 import { BiPlus } from 'react-icons/bi'
 import Link from 'next/link'
 
 
 import { CategoriesOnlyBusinesses } from '@/Components/Categories/CategoriesOnly';
-import BusinessBox from '@/Components/BusinessBox'
+import CategoryBusinessBox from '@/Components/Categories/CategoryBusinessBox'
 
 const BusinessNavDropDown = () => {
 
@@ -96,7 +94,7 @@ const BusinessNavDropDown = () => {
                                 
                                 {CategoriesOnlyBusinesses.slice(0, 5).map((item, i) => (
                                     <div key={item.label} className='col-span-6 md:col-span-4'>
-                                        <BusinessBox
+                                        <CategoryBusinessBox
                                             key="more"
                                             description={item.description}
                                             selected={business == item.label}
@@ -106,7 +104,7 @@ const BusinessNavDropDown = () => {
                                     </div>
                                 ))}
                                 <div className='col-span-6 md:col-span-4'>
-                                    <BusinessBox 
+                                    <CategoryBusinessBox 
                                         key="more"
                                         //description={item.description}
                                         selected={business == 'more'}

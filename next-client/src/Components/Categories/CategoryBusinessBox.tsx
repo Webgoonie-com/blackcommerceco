@@ -5,7 +5,10 @@ import React, { useCallback } from 'react'
 import { IconType } from 'react-icons'
 import qs from 'query-string'
 
-interface BusinessBoxProps {
+// CategoryPropertyBox
+//CategoryBusinessBox
+
+interface CategoryBusinessBoxProps {
     icon: IconType
     label: string
     pathname?: string
@@ -13,7 +16,7 @@ interface BusinessBoxProps {
     selected?: boolean
 }
 
-const BusinessBox: React.FC<BusinessBoxProps> = ({
+const CategoryBusinessBox: React.FC<CategoryBusinessBoxProps> = ({
     icon: Icon,
     pathname,
     label,
@@ -33,7 +36,7 @@ const BusinessBox: React.FC<BusinessBoxProps> = ({
 
         const updatedQeury: any = {
             ...currentQuery,
-            business: label
+            category: label
         }
 
         // Scroll to section if we click on more
@@ -95,4 +98,4 @@ const BusinessBox: React.FC<BusinessBoxProps> = ({
     )
 }
 
-export default BusinessBox
+export default CategoryBusinessBox

@@ -10,7 +10,7 @@ import {GiRingmaster, GiHomeGarage } from 'react-icons/gi'
 import { FaHandsWash } from 'react-icons/fa';
 import { TbChevronDown } from 'react-icons/tb';
 
-import BusinessBox from '../../BusinessBox';
+import CategoryBusinessBox from '@/Components/Categories/CategoryBusinessBox';
 import { BiPlus } from 'react-icons/bi';
 import Link from 'next/link';
 import { CategoriesOnlyBusinesses } from '@/Components/Categories/CategoriesOnly';
@@ -51,7 +51,7 @@ export const CategoriesBusinesses = () => {
 
                         {CategoriesOnlyBusinesses.map((item, i) => (
                             <div key={item.label} className='col-span-6 md:col-span-4'>
-                                <BusinessBox
+                                <CategoryBusinessBox
                                     pathname={pathname}
                                     description={item.description}
                                     selected={business == item.label}
@@ -62,7 +62,7 @@ export const CategoriesBusinesses = () => {
                         ))}
 
                             <div  className='col-span-6 md:col-span-4'>
-                                <BusinessBox
+                                <CategoryBusinessBox
                                     pathname={pathname}
                                     key="more"
                                     // description={item.description}

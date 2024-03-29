@@ -8,7 +8,7 @@ import { FaSkiing } from 'react-icons/fa'
 import { TbBeach, TbChevronDown, TbMountainOff, TbPool } from 'react-icons/tb'
 import { GiBarn, GiBoatFishing, GiCactus, GiCastle, GiCaveEntrance, GiForestCamp, GiIsland, GiWindmill, GiVillage  } from 'react-icons/gi'
 import { MdOutlineVilla } from 'react-icons/md'
-import CategoryBox from '@/Components/CategoryBox'
+import CategoryPropertyBox from '@/Components/Categories/CategoryPropertyBox'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { BiPlus } from 'react-icons/bi'
 import Link from 'next/link'
@@ -63,7 +63,7 @@ export const CategoriesProperties  = () => {
                         
                         {CategoriesOnlyProperties.map((item) => (
                             <div key={item.label} className='col-span-6 md:col-span-4'>
-                                <CategoryBox
+                                <CategoryPropertyBox
                                     pathname={pathname}
                                     description={item.description}
                                     selected={category == item.label}   //This the magic that makes the selected label have a selected underscore in ui
@@ -74,7 +74,7 @@ export const CategoriesProperties  = () => {
                         ))}
     
                         <div className='col-span-6 md:col-span-4'>
-                            <CategoryBox 
+                            <CategoryPropertyBox 
                                 pathname={pathname}
                                 key="more"
                                 //description={item.description}

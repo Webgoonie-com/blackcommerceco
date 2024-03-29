@@ -1,8 +1,7 @@
 "use client"
 
 import { useSearchParams } from "next/navigation";
-import BusinessBox from "../BusinessBox"
-//import { businesses } from "../navbar/navcategories/CategoriesBusinesses"
+import CategoryBusinessBox from "@/Components/Categories/CategoryBusinessBox"
 import { CategoriesOnlyBusinesses } from '@/Components/Categories/CategoriesOnly';
 import Container from "@/Components/Container";
 
@@ -25,7 +24,7 @@ const BusinessCategories = () => {
                     <div className="mt-10 grid grid-cols-12 gap-4">
                         {CategoriesOnlyBusinesses.map((item) => (
                             <div key={item.label} className="col-span-12 md:col-span-6 lg:col-span-3 bg-gray-900 border border-gray-800 rounded-md p-5">
-                                <BusinessBox 
+                                <CategoryBusinessBox 
                                     description={item.description}
                                     selected={business == item.label}
                                     label={item.label}
