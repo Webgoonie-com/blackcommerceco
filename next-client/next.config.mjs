@@ -1,7 +1,34 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    generateBuildId: async () => {
+    // This could be anything, using the latest git hash
+      return process.env.GIT_HASH
+    },
     reactStrictMode: true,
     swcMinify: true,
+    webpack(config) {
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+    };
+    
+    config.infrastructureLogging = { debug: /PackFileCache/ };
+  
+    let  modularizeImports = null;
+         config.module.rules.some((rule) =>
+         rule.oneOf?.some((oneOf) => {
+         modularizeImports =
+           oneOf?.use?.options?.nextConfig?.modularizeImports;
+         return modularizeImports;
+      }),
+     );
+  
+     if (modularizeImports?.["@headlessui/react"]) {
+       delete modularizeImports["@headlessui/react"];
+     }
+  
+      return config;
+    },
     images: {
     //   domains: [
     //     "next/image",
