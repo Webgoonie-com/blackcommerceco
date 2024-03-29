@@ -12,7 +12,7 @@
     "build:development": "env-cmd -f .env.development next build",
     "build:staging": "env-cmd -f .env.staging next build",
     "build:production": "env-cmd -f .env.production next build",
-    "export": "next build && next export",
+    "export": "next export",
     "gostart": "NODE_ENV=production node server.mjs -p 3333",
     "go": "NODE_ENV=production node server.mjs -p 3333",
     "start": "next start  -p 3333",

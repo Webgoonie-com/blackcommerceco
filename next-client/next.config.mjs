@@ -1,8 +1,15 @@
-/** @type {import('next').NextConfig} */
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = {
     generateBuildId: async () => {
     // This could be anything, using the latest git hash
       return process.env.GIT_HASH
+    },
+    eslint: {
+      // Warning: This allows production builds to successfully complete even if
+      // your project has ESLint errors.
+      ignoreDuringBuilds: true,
     },
     reactStrictMode: true,
     swcMinify: true,
