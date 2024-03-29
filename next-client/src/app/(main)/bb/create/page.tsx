@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react"
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 
-import { businesses } from '@/Components/navbar/navcategories/CategoriesBusinesses'
+import { CategoriesOnlyBusinesses } from '@/Components/Categories/CategoriesOnly';
 import ModalHeading from '@/Components/modals/ModalHeading';
 
 import CategoryInput from '@/Elements/Inputs/CategoryInput';
@@ -144,7 +144,7 @@ const BusinessCreation = () => {
                 '
                 >
                     
-                    {businesses.map((item) => (
+                    {CategoriesOnlyBusinesses.map((item) => (
 
                         <div
                             className='cursor-pointer col-col-span-1'
