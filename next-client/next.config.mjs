@@ -4,32 +4,32 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  webpack(config, { webpack }) {
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      fs: false,
-    };
+  // webpack(config, { webpack }) {
+  //   config.resolve.fallback = {
+  //     ...config.resolve.fallback,
+  //     fs: false,
+  //   };
 
-    config.infrastructureLogging = { debug: /PackFileCache/ };
+  //   config.infrastructureLogging = { debug: /PackFileCache/ };
 
-    let modularizeImports = null;
-    config.module.rules.some((rule) =>
-      rule.oneOf?.some((oneOf) => {
-        modularizeImports =
-          oneOf?.use?.options?.nextConfig?.modularizeImports;
-        return modularizeImports;
-      })
-    );
+  //   let modularizeImports = null;
+  //   config.module.rules.some((rule) =>
+  //     rule.oneOf?.some((oneOf) => {
+  //       modularizeImports =
+  //         oneOf?.use?.options?.nextConfig?.modularizeImports;
+  //       return modularizeImports;
+  //     })
+  //   );
 
-    if (modularizeImports?.["@headlessui/react"]) {
-      delete modularizeImports["@headlessui/react"];
-    }
+  //   if (modularizeImports?.["@headlessui/react"]) {
+  //     delete modularizeImports["@headlessui/react"];
+  //   }
 
-    // Limit webpack workers to 1
-    config.plugins.push(new webpack.LoaderOptionsPlugin({ options: { maxWorkers: 1 } }));
+  //   // Limit webpack workers to 1
+  //   config.plugins.push(new webpack.LoaderOptionsPlugin({ options: { maxWorkers: 1 } }));
 
-    return config;
-  },
+  //   return config;
+  // },
   distDir: 'dist',
   images: {
     remotePatterns: [

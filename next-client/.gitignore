@@ -13,6 +13,9 @@
 /.next/
 /out/
 /.next/*
+/out/
+dist/*
+dist/index*
 
 # production
 /build
