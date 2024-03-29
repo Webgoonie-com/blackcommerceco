@@ -1,6 +1,4 @@
-//SelectStateRegion.tsx
-
-'use client'
+"use client"
 
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 import React, { useEffect, useState, useRef } from 'react'

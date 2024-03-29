@@ -5,7 +5,7 @@ import { Country, State, City }  from 'country-state-city';
 // console.log(Country.getAllCountries())
 // console.log(State.getAllStates())
 
-import { ICountry, IState, ICity } from 'country-state-city'
+//import { ICountry, IState, ICity } from 'country-state-city'
 
 //console.log('Line 10 city', csc)
 
