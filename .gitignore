@@ -31,3 +31,7 @@ next-client/testRest/listing.rest
 next-client/testRest/property.rest
 next-client/testRest/users.rest
 next-client/package-lock.json
+next-client/.env.production
+api-prisma/.env.production
+next-client/yarn.lock
+
