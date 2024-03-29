@@ -14,7 +14,7 @@
     "build:production": "env-cmd -f .env.production next build",
     "export": "next export",
     "gostart": "NODE_ENV=production node server.mjs -p 3333",
-    "go": "NODE_ENV=production node server.mjs -p 3333",
+    "go": "NODE_ENV=production node ./src/server.mjs -p 3333",
     "start": "next start  -p 3333",
     "lint": "next lint"
   },
