@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
-import useCities from '../../../hooks/useCities'
+import useCities from '@/Hooks/useCities'
 
 import { ICountry, IState, ICity } from 'country-state-city'
 import makeAnimated from 'react-select/animated';
