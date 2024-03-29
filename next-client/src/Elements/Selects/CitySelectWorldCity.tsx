@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Select from 'react-select'
-import useCities from '../../../hooks/useCities_worldCities'
+import useCities from '@/Hooks/useCities_worldCities'
 
 // const cities = require('all-the-cities');
 // cities.filter((city: { name: string; }) => city.name.match('Albuquerque'));
