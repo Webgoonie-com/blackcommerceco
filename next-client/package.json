@@ -2,6 +2,9 @@
   "name": "next-client",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://blackcommerce.co",
+  "main": "dist/index",
+  "types": "dist/index",
   "scripts": {
     "cleanClient": "rm -rf .next",
     "cleanupClient": "rm -rf node_modules && rm -rf .next",
@@ -13,7 +16,7 @@
     "build:staging": "env-cmd -f .env.staging next build",
     "build:production": "env-cmd -f .env.production next build",
     "export": "next export",
-    "gostart": "NODE_ENV=production node server.mjs -p 3333",
+    "gostart": "NODE_ENV=production node ./src/server.mjs -p 3333",
     "go": "NODE_ENV=production node ./src/server.mjs -p 3333",
     "start": "next start  -p 3333",
     "lint": "next lint"
