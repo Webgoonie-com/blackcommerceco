@@ -1,122 +1,59 @@
 import { orm } from "../utils/orm.server";
 import { Prisma } from '@prisma/client';
-import { MIME_TYPE_MAP } from "../types";
+import { Listing, MIME_TYPE_MAP, Property, PropertyPhoto, PropertyReservation } from "../types";
 import path from 'path';
 import { unlink } from "fs/promises";
 import { Decimal } from "@prisma/client/runtime/library";
 
 
-type Listing = {
-    propertyId: any;
-    id: number;
-    uuid: string | null;
-    token: string;
-    title: string;
-    description: string;
-    imageSrc: string;
-    category: string;
-    userId: number;
-    countryId: number;
-    countryStateRegionId: number
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-interface PropertyReservation {
-    id: number;
-    uuid: string;
-    startDate: Date;
-    endDate: Date;
-    totalPrice: Decimal;
-}
-
-type Property = {
-    [x: string]: any;
-    id: number;
-    uuid: string | null;
-    token: string;
-    title: string;
-    description: string;
-    category: string;
-    roomCount: number;
-    bathroomCount: number;
-    guestCount: number;
-    locationValue: string;
-    imageSrc: string | null;
-    imagesMultiSrc: string | null;
-    price: string;
-    userId: number;
-    streetAddress: string | null;
-    streetAddress2: string | null;
-    streetCity: string | null;
-    streetZipCode: string | null;
-    countryId: number | undefined;
-    countryStateRegionId: number | undefined;
-    countryCityId: number |undefined;
-    createdAt: Date;
-}
 
 
-type PropertyPhoto = {
-    fieldname: string;
-    originalname: string;
-    encoding: string;
-    mimetype: string;
-    destination: string;
-    filename: string;
-    path: string;
-    size: number;
-    imageSrc: string | null;
-    imgCatg: string | null;
-    imgName: string | null;
-    userId: number;
-}
 
 
-type CountryCity = {
-    id: number;
-    uuid: string | null;
-    value: string;
-    label: string;
-    countryCode: string;
-    latlngts: number;
-    latitude: string;
-    longitude: string;
-    countryId: number;
-    name: string;
-}
+// type CountryCity = {
+//     id: number;
+//     uuid: string | null;
+//     value: string;
+//     label: string;
+//     countryCode: string;
+//     latlngts: number;
+//     latitude: string;
+//     longitude: string;
+//     countryId: number;
+//     name: string;
+// }
 
 
-type CountryStateRegion = {
-    id: number | null;
-    uuid: string | null;
-    value: string;
-    label: string;
-    countryCode: string;
-    latlng: string;
+// type CountryStateRegion = {
+//     id: number | null;
+//     uuid: string | null;
+//     value: string;
+//     label: string;
+//     countryCode: string;
+//     latlng: string;
     
-    latitude: string;
-    longitude: string;
-    name: string;
+//     latitude: string;
+//     longitude: string;
+//     name: string;
     
-    countryId: number | null;
-    isoCode: string;
-}
+//     countryId: number | null;
+//     isoCode: string;
+// }
 
-type Country = {
-    id: number | undefined | null;
-    uuid: string | null;
-    value: string;
-    isoCode: string;
-    name: string;
-    currency: string;
-    phonecode: string;
-    flag: string;
-    latitude: number;
-    longitude: number;
-    region: string;
-    timezones: string[];
-}
+// type Country = {
+//     id: number | undefined | null;
+//     uuid: string | null;
+//     value: string;
+//     isoCode: string;
+//     name: string;
+//     currency: string;
+//     phonecode: string;
+//     flag: string;
+//     latitude: number;
+//     longitude: number;
+//     region: string;
+//     timezones: string[];
+// }
 
 
 export const listPropertys = async (): Promise<Property[]> => {

@@ -1,3 +1,4 @@
+import { Decimal } from "@prisma/client/runtime/library";
 
 export const MIME_TYPE_MAP = {
     'image/png': 'png',
@@ -133,33 +134,6 @@ export type Favorite = {
 
 }
 
-export type Property = {
-    id: number;
-    uuid: string | null;
-    token: string;
-    title: string;
-    description: string;
-    imageSrc: string | null;
-    imagesMultiSrc: string | null;
-
-    category: string;
-    roomCount: number;
-    bathroomCount: number;
-    guestCount: number;
-    locationValue: string;
-    price: string;
-    
-    streetAddress: string | null;
-    streetAddress2: string | null;
-    streetCity: string | null;
-    streetZipCode: string | null;
-    countryId: number | undefined;
-    countryStateRegionId: number | undefined;
-    countryCityId: number |undefined;
-    
-    userId: number;
-    createdAt: Date;
-}
 
 
 export type Listing = {
@@ -182,7 +156,77 @@ export type Listing = {
     userId: number;
 }
 
+// type Listing = {
+//     propertyId: any;
+//     id: number;
+//     uuid: string | null;
+//     token: string;
+//     title: string;
+//     description: string;
+//     imageSrc: string;
+//     category: string;
+//     userId: number;
+//     countryId: number;
+//     countryStateRegionId: number
+//     createdAt: Date;
+//     updatedAt: Date;
+// }
+
 export type ListingPropertyPhoto = {
+    fieldname: string;
+    originalname: string;
+    encoding: string;
+    mimetype: string;
+    destination: string;
+    filename: string;
+    path: string;
+    size: number;
+    imageSrc: string | null;
+    imgCatg: string | null;
+    imgName: string | null;
+    userId: number;
+}
+
+
+export  type Property = {
+    [x: string]: any;
+    id: number;
+    uuid: string | null;
+    token: string;
+    title: string;
+    description: string;
+    category: string;
+    roomCount: number;
+    bathroomCount: number;
+    guestCount: number;
+    locationValue: string;
+    imageSrc: string | null;
+    imagesMultiSrc: string | null;
+    price: string;
+    userId: number;
+    streetAddress: string | null;
+    streetAddress2: string | null;
+    streetCity: string | null;
+    streetZipCode: string | null;
+    countryId: number | undefined;
+    countryStateRegionId: number | undefined;
+    countryCityId: number |undefined;
+    createdAt: Date;
+}
+
+
+export interface PropertyReservation {
+    id: number;
+    uuid: string;
+    startDate: Date;
+    endDate: Date;
+    totalPrice: Decimal;
+}
+
+
+
+
+export type PropertyPhoto = {
     fieldname: string;
     originalname: string;
     encoding: string;

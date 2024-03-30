@@ -188,7 +188,8 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
 
     }, [reservation])
 
-    
+    console.log('Line 191 data Bap Listing', data)
+
     return (
         
         <div
@@ -226,6 +227,7 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
                         />
                     </div>
                 </div>
+                
 
                 <div className="font-semibold text-lg">
                     { data?.streetCity}, { data?.streetZipCode}
