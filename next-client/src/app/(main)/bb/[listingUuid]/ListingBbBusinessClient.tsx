@@ -64,6 +64,8 @@ const ListingBbBusinessClient: React.FC<ListingBbBusinessClientProps> = ({
     }, [reservations])
 
 
+    console.log('businessListingByUuid', businessListingByUuid)
+
     const [isLoading, setIsLoading] = useState(false)
     const [totalPrice, setTotalPrice] = useState(parseFloat(businessListingByUuid?.sellPrice) || 100.00)
     const [dateRange, setDateRange] = useState<Range>(initialDateRange)
@@ -79,7 +81,7 @@ const ListingBbBusinessClient: React.FC<ListingBbBusinessClientProps> = ({
             totalPrice,
             startDate: dateRange.startDate,
             endDate: dateRange.endDate,
-            listingId: businessListingByUuid?.id,
+            listingId: businessListingByUuid?.listingId,
             propertyUuid: businessListingByUuid?.uuid,
             userId: currentUser.id
         })
@@ -102,7 +104,7 @@ const ListingBbBusinessClient: React.FC<ListingBbBusinessClientProps> = ({
             setIsLoading(false)
         })
 
-    }, [currentUser, totalPrice, dateRange.startDate, dateRange.endDate, businessListingByUuid?.id, businessListingByUuid?.uuid, loginModal, router])
+    }, [currentUser, totalPrice, dateRange.startDate, dateRange.endDate, businessListingByUuid?.listingId, businessListingByUuid?.uuid, loginModal, router])
 
 
     const category = useMemo(() => {
@@ -153,7 +155,7 @@ const ListingBbBusinessClient: React.FC<ListingBbBusinessClientProps> = ({
                     country={businessListingByUuid?.country?.label as any}
                     countryStateRegion={businessListingByUuid?.countryStateRegion?.name as any}
                     countryCity={businessListingByUuid?.countryCity?.name as any}
-                    id={businessListingByUuid?.id}
+                    id={businessListingByUuid?.listingId}
                     currentUser={currentUser as any}
                 />
 

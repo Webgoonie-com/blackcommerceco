@@ -8,6 +8,7 @@ import { adminRouter } from "./admins/admin.router"
 import { listingRouter } from "./listings/listing.router"
 import { propertyRouter } from "./propertys/property.router"
 import { businessRouter } from "./businesses/business.router"
+import { favoriteRouter } from "./favorites/favorite.router";
 
 
 dotenv.config()
@@ -42,6 +43,7 @@ app.use("/api/admins", adminRouter)
 app.use("/api/listings", listingRouter)
 app.use("/api/propertys", propertyRouter)
 app.use("/api/businesses", businessRouter)
+app.use("/api/favorites", favoriteRouter)
 
 app.use(express.static('public', {
     setHeaders: (res: Response, _path: string, _stat: any) => { // Type the parameters properly

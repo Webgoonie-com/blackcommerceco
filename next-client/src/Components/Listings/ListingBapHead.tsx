@@ -35,6 +35,8 @@ const ListingBapHead: React.FC<ListingHeadProps> = ({
 }) => {
 
 
+    console.log('Pased id as listingId: = ', id)
+
     const { getByValue } = useCountries();
 
     const location = getByValue(locationValue)

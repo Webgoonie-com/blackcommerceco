@@ -2,7 +2,7 @@ import express from 'express'
 import type { Request, Response } from 'express'
 import {body, validationResult} from 'express-validator'
 
-import * as ListingService from "./listing.controller";
+import * as ListingController from "./listing.controller";
 
 export const listingRouter = express.Router();
 
@@ -116,7 +116,7 @@ const uploadPropertyPhotos = multer({
 listingRouter.get('/all', async (request: Request, response: Response) => {
 
     try {
-        const users = await ListingService.listPropertys()
+        const users = await ListingController.listPropertys()
         return response.status(200).json(users);
 
     } catch (error: any) {
@@ -128,7 +128,7 @@ listingRouter.get('/all', async (request: Request, response: Response) => {
 listingRouter.get('/allProperties', async (request: Request, response: Response) => {
     
     try {
-        const users = await ListingService.listPropertys()
+        const users = await ListingController.listPropertys()
         return response.status(200).json(users);
 
     } catch (error: any) {
@@ -140,7 +140,7 @@ listingRouter.get('/allProperties', async (request: Request, response: Response)
 listingRouter.get('/allBusinesses', async (request: Request, response: Response) => {
 
     try {
-        const users = await ListingService.listBusinesses()
+        const users = await ListingController.listBusinesses()
         return response.status(200).json(users);
 
     } catch (error: any) {
@@ -160,7 +160,7 @@ listingRouter.post('/createpropertyphotos', uploadPropertyPhotos.array('files'),
         };
 
         // Call the service function with the combined data
-        const createdPropertyPhotos = await ListingService.createPropertyPhotos(listingData);
+        const createdPropertyPhotos = await ListingController.createPropertyPhotos(listingData);
         
         return response.status(200).json(createdPropertyPhotos)
 
@@ -178,7 +178,7 @@ listingRouter.get("/id/:id", async (request: Request, response: Response) => {
 
     try {
 
-        const user = await ListingService.getListingId(id)
+        const user = await ListingController.getListingId(id)
 
         if(user) {
             return response.status(200).json(user)
@@ -200,7 +200,7 @@ listingRouter.get("/uuid/:uuid", async (request: Request, response: Response) =>
 
     try {
 
-        const listing = await ListingService.getListingUuId(uuid)
+        const listing = await ListingController.getListingUuId(uuid)
 
         if(listing) {
 
@@ -224,7 +224,7 @@ listingRouter.get("/propertyuuid/:uuid", async (request: Request, response: Resp
 
     try {
 
-        const listing = await ListingService.getPropertyListingUuId(uuid)
+        const listing = await ListingController.getPropertyListingUuId(uuid)
 
         if(listing) {
 
@@ -248,7 +248,7 @@ listingRouter.get("/businessuuid/:uuid", async (request: Request, response: Resp
 
     try {
 
-        const listing = await ListingService.getBusinessListingUuId(uuid)
+        const listing = await ListingController.getBusinessListingUuId(uuid)
 
         if(listing) {
 
@@ -279,7 +279,7 @@ listingRouter.post("/delfavorites/:listingId", async (request: Request, response
 
     try {
 
-        const user = await ListingService.delBbsListingFavoriteByListingId(parseInt(listingId), listingData)
+        const user = await ListingController.delBbsListingFavoriteByListingId(parseInt(listingId), listingData)
 
         if(user) {
 
@@ -312,7 +312,7 @@ listingRouter.post("/addfavorites/:listingId", async (request: Request, response
 
     try {
 
-        const user = await ListingService.addBbsistingFavoriteByListingId(parseInt(listingId), listingData)
+        const user = await ListingController.addBbsistingFavoriteByListingId(parseInt(listingId), listingData)
 
         if(user) {
 
@@ -335,7 +335,7 @@ listingRouter.delete("/favorites/:listingId", async (request: Request, response:
 
     try {
 
-        const user = await ListingService.deleteListingFavoriteByListingId(parseInt(listingId))
+        const user = await ListingController.deleteListingFavoriteByListingId(parseInt(listingId))
 
         if(user) {
 

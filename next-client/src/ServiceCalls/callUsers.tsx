@@ -1,4 +1,5 @@
-import axiosWithCredentials from '@/lib/axiosWithCredentials'
+// import axiosWithCredentials from '@/lib/axiosWithCredentials'
+import axios from 'axios'
 import React from 'react'
 
 
@@ -8,7 +9,7 @@ export const callUsers = async () => {
 
     try {
         
-        const {data: users} = await axiosWithCredentials.get(`${apiURL}/api/users/all`)
+        const {data: users} = await axios.get(`${apiURL}/api/users/all`)
 
         //console.log('users', users)
         return users

@@ -1,6 +1,6 @@
 "use client"
 
-import { Listing, Reservation, User } from "@/Types";
+import { Listing, PropertyListing, Reservation, User } from "@/Types";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { CategoriesOnlyProperties } from '@/Components/Categories/CategoriesOnly';
 import ListingBapHead from "@/Components/Listings/ListingBapHead";
@@ -22,8 +22,8 @@ const initialDateRange: Range = {
 
 interface ListingBapPropertyClientProps {
     reservations?: Reservation[];
-    propertylistingByUuid: Listing & {
-        user: Listing & {
+    propertylistingByUuid: PropertyListing & {
+        user: PropertyListing & {
             user: User
         }
     };
@@ -134,6 +134,7 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
     }, [dateRange, propertylistingByUuid?.price])
     
 
+    console.log('propertylistingByUuid', propertylistingByUuid)
     
     
     return ( 
@@ -152,7 +153,7 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
                     country={propertylistingByUuid?.country?.label as any}
                     countryStateRegion={propertylistingByUuid?.countryStateRegion?.name as any}
                     countryCity={propertylistingByUuid?.countryCity?.name as any}
-                    id={propertylistingByUuid?.id}
+                    id={propertylistingByUuid?.listingId}
                     currentUser={currentUser as any}
                 />
 

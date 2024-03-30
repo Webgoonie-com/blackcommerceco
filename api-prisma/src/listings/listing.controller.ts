@@ -394,16 +394,68 @@ export const addBbsistingFavoriteByListingId = async (id: number, listingData: a
     console.log('addListingFavoriteByListingId', id)
     console.log('listingData', listingData)
 
+    const { listingId, userId } = listingData.body;
+
+    console.log('listingId:', listingId);
+    console.log('userId:', userId);
 
 
-    // const listings = await  orm.favorite.create({
-    //    data: {
-    //     userId: userId,
-    //    }
-    // })
+    if(!listingId || typeof listingId !== 'number'){
+        console.log('listingId is not a number or dont exist', listingId)
+        throw new Error("Invalid ListinId");
+        
+    }else{
+        console.log('listingId is a number', listingId)
+    }
+
+
+    console.log("Passed to Here LEt's finad a match:", listingId)
+
+    //  const { listingData } = params;
+
+    const checkForExistingFavorite = await orm.favorite.findFirst({
+        where: {
+            userId: userId,
+            listingId: listingId
+        }
+    });
+
+    console.log('Running New Check checkForExistingBusinessFromListing')
+    const checkForExistingBusinessFromListing = await orm.listing.findFirst({
+        where: {
+            
+            id: listingId
+        }
+    });
+
+    if(checkForExistingBusinessFromListing){
+        console.log('checkForExistingBusinessFromListing Exist: ', checkForExistingBusinessFromListing)
+    }else{
+        console.log('does not exist', checkForExistingBusinessFromListing)
+    }
+
+    if(checkForExistingFavorite){
+        console.log("Match Exist:", listingId)
+        return listingData;
+
+    }else{
+        const listings = await  orm.favorite.create({
+            data: {
+             userId: userId,
+             listingId: listingId
+            }
+         })
+     
+         listingData = listings
+
+         return listingData;  
+    }
+
 
     
-    return listingData;
+
+    
+    
 }
 
 export const delBbsListingFavoriteByListingId = async (id: number, listingData: any): Promise<Favorite[]> => {

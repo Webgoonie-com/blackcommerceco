@@ -120,6 +120,42 @@ import { Country } from "country-state-city";
         currentUser?: CurrentUser | null
     
     }
+
+    export interface PropertyListing {
+        id: number;
+        uuid: string | null;
+        token: string;
+        title: string;
+        description: string;
+        category: string;
+        roomCount: number;
+        bathroomCount: number;
+        guestCount: number;
+        locationValue: string;
+        imageSrc: string | null;
+        imagesMultiSrc: string | null;
+        price: string;
+        userId: number;
+        listingId: number;
+        streetAddress: string | null;
+        streetAddress2: string | null;
+        streetCity: string | null;
+        streetZipCode: string | null;
+        country: any | null;
+        countryId: number | null;
+        countryStateRegion: any | null;
+        countryStateRegionId: number | null;
+        countryCity: any | null;
+        countryCityId: number | null;
+        createdAt: Date;
+        updatedAt: Date;
+        onAction?: (Id: string) => void;
+        disabled?: boolean
+        actionLabel?: string;
+        actionId?: string;
+        //currentUser?: IUser | null
+        currentUser?: CurrentUser | null
+    }
     export interface BuisinessListing {
         id: number;
         uuid: string | null;
@@ -127,6 +163,7 @@ import { Country } from "country-state-city";
         title: string;
         description: string;
         imageSrc: string | null;
+        listingId: number;
         category: string;
         country: any | null;
         countryId: number | null;

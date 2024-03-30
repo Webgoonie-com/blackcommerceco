@@ -9,7 +9,7 @@ import HeartIconButton from '@/Elements/Icons/HeartIconButton';
 import useCountryStateZip from "@/Hooks/useCountryStateZip";
 
 interface ListingBbHeadProps {
-    id: number;
+    id: any;
     title: string;
     locationValue: string;
     imageSrc: string | null;
@@ -37,7 +37,8 @@ const ListingBbHead: React.FC<ListingBbHeadProps> = ({
 
     // const location = getByValue(locationValue)
 
-    console.log('after locationValue location', location)
+    // console.log('after locationValue location', location)
+
     return ( 
         <div className="relative mt-10">
 

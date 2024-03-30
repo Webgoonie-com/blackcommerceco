@@ -173,33 +173,7 @@ export const getPropertyUuId = async (uuid: string): Promise<Property | null> =>
         where: {
             uuid,
         },
-        select: {
-            id: true,
-            uuid: true,
-            token: true,
-            title: true,
-            description: true,
-            category: true,
-            roomCount: true,
-            bathroomCount: true,
-            guestCount: true,
-            locationValue: true,
-            imageSrc: true,
-            imagesMultiSrc: true,
-            price: true,
-            streetAddress: true,
-            streetAddress2: true,
-            streetCity: true,
-            streetZipCode: true,
-            userId: true,
-            countryId: true,
-            countryStateRegionId: true,
-            countryCityId: true,
-            country: true,
-            countryStateRegion: true,
-            countryCity: true,
-            createdAt: true,
-        },
+       
     })
 }
 
