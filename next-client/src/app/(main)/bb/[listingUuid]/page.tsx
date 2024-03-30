@@ -20,21 +20,21 @@ const BbsListingPage = async ({ params }: {params: IParams }) => {
 
     const stringUrlUuid = params
 
-    console.log('26 listingUuid', listingUuid)
+    // console.log('26 listingUuid', listingUuid)
 
-    console.log('28 stringUrlUuid', stringUrlUuid)
+    // console.log('28 stringUrlUuid', stringUrlUuid)
 
-    console.log('30  Page Bap params', params)
+    // console.log('30  Page Bap params', params)
 
 
   const businessListingByUuid = await getBusinessListingByUuId(params)
 
-  console.log('Line 32 = getBusinessListingByUuId', getBusinessListingByUuId)
+  //console.log('Line 32 = getBusinessListingByUuId', getBusinessListingByUuId)
 
   const currentUser = await getCurrentUser()
   //console.log('currentUser on line 20 on BapPage.tsx ', currentUser)
 
-  console.log('Line 38 = BusinessListing', businessListingByUuid)
+  //console.log('Line 38 = BusinessListing', businessListingByUuid)
   
 
   if(!businessListingByUuid){
