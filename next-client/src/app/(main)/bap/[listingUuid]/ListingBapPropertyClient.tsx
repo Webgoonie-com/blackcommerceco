@@ -162,7 +162,7 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
 
                         <ListingBapPropertyInfo 
                             user={currentUser as any}
-                            description={""}
+                            description={propertylistingByUuid?.description}
                             guestCount={0}
                             roomCount={0}
                             bathroomCount={0}
