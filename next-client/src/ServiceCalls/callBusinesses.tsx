@@ -24,9 +24,9 @@ export const callBusinesses = async (data: any) => {
 
 export const autoSaveBusinessData = async (data: any, autoSaveToken: any, userId: any) => {
     
-     console.log('Line 27: autoSaveBusinessData', data)
-     console.log('Line 28: autoSaveToken', autoSaveToken)
-     console.log('Line 29: userId', userId)
+    //  console.log('Line 27: autoSaveBusinessData', data)
+    //  console.log('Line 28: autoSaveToken', autoSaveToken)
+    //  console.log('Line 29: userId', userId)
 
     
 

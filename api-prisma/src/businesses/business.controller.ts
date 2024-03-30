@@ -1,125 +1,12 @@
 import { orm } from "../utils/orm.server";
 import { Prisma } from '@prisma/client'; // Import Prisma types
-import { MIME_TYPE_MAP } from "../types";
+import { Business, BusinessPhoto, Listing, MIME_TYPE_MAP } from "../types";
 import path from 'path';
 import { unlink } from "fs/promises";
+import { connect } from "http2";
 
 
-type Business = {
-    [x: string]: any;
-    id: number;
-    uuid: string | null;
-    token: string;
-    title: string;
-    description: string;
-    imageSrc: string | null;
-    imagesMultiSrc: string | null;
-    category: string;
-    hasStore: number;
-    hasProducts: number;
-    hasServices: number;
-    userId: number | null;
-    
-    countryId: number;
-    countryCityId: number | undefined;
-    countryStateRegionId: number | undefined;
-    
-    listingId: number | undefined | null;
-    streetAddress: string | null;
-    streetAddress2: string | null;
-    streetCity: string | null;
-    streetZipCode: string | null;
-    sellPrice?: string | null | undefined;
-    
-    countryCity: any;
-    countryStateRegion: any;
-    country: any;
-    
-    isAFranchise: boolean;
-    isTheFranchiseParent: boolean;
-    ownsOtherBusinesses: boolean;
 
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-type BusinessPhoto = {
-    fieldname: string;
-    originalname: string;
-    encoding: string;
-    mimetype: string;
-    destination: string;
-    filename: string;
-    path: string;
-    size: number;
-    imageSrc: string | null;
-    imgCatg: string | null;
-    imgName: string | null;
-    userId: number;
-}
-
-// We using listing to here to make a type for it
-type Listing = {
-    id: number;
-    businessId: any;
-    uuid: string | null;
-    token: string;
-    title: string;
-    description: string;
-    imageSrc: string;
-    category: string;
-    userId: number;
-    countryId: number;
-    countryStateRegionId: number
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-
-type CountryCity = {
-    id: number;
-    uuid: string | null;
-    value: string;
-    label: string;
-    countryCode: string;
-    latlngts: number;
-    latitude: string;
-    longitude: string;
-    countryId: number;
-    name: string;
-}
-
-
-type CountryStateRegion = {
-    id: number | null;
-    uuid: string | null;
-    value: string;
-    label: string;
-    countryCode: string;
-    latlng: string;
-    
-    latitude: string;
-    longitude: string;
-    name: string;
-    
-    countryId: number | null;
-    isoCode: string;
-}
-
-type Country = {
-    id: number | undefined | null;
-    uuid: string | null;
-    value: string;
-    isoCode: string;
-    name: string;
-    currency: string;
-    phonecode: string;
-    flag: string;
-    latitude: number;
-    longitude: number;
-    region: string;
-    timezones: string[];
-}
 
 
 export const listBusinesses = async (): Promise<Business[]> => {
@@ -528,67 +415,55 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
 
             //Create Property And Listing Back to Back
 
-                try {
-                    
+            try {
+                console.log('Line 533: business?.userId', business?.userId);
+                autoSaveBusinessData = await orm.business.create({
+                    data: {
+                        title: business.title,
+                        token: business.token,
+                        description: business.description,
+                        category: business.category,
+                        isAFranchise: business.isAFranchise,
+                        isTheFranchiseParent: business.isTheFranchiseParent,
+                        ownsOtherBusinesses: business.ownsOtherBusinesses,
+                        hasStore: business.hasStore,
+                        hasProducts: business.hasProducts,
+                        hasServices: business.hasServices,
+                        streetAddress: business.streetAddress,
+                        streetAddress2: business.streetAddress2,
+                        streetCity: business.streetCity,
+                        streetZipCode: business.streetZipCode,
+                        userId: business?.userId || 0,
+                        countryId: existingCountry?.id || 0,
+                        countryStateRegionId: existingCountryStateRegion?.id || 0,
+                        countryCityId: existingCountryCity?.id || 0,
+                        
+                    },
+                });
+
+
+                createdListing = await orm.listing.create({
+                    data: {
+                        title: listing.title,
+                        token: listing.token || token,
+                        description: listing.description,
+                        category: listing.category,
+                        //imageSrc: imageSrcString, // Save the concatenated string
+                        userId: listing.userId,
+                        businessId: business?.id,
+                        countryId: existingCountry?.id || 0, // Include countryId
+                        countryStateRegionId: existingCountryStateRegion?.id, // Include countryStateRegionId
+                        countryCityId: existingCountryCity?.id || 0, // Include countryCityId
+                    },
+                });
+                
+
+                createdBusiness = autoSaveBusinessData;
+} catch (error) {
+    console.log('Error', error);
+}
+
             
-                    autoSaveBusinessData = await orm.business.create({
-                        data: {
-                            title: business.title,
-                            token: business.token,
-                            description: business.description,
-                            category: business.category,
-                            isAFranchise: business.isAFranchise,
-                            isTheFranchiseParent: business.isTheFranchiseParent,
-                            ownsOtherBusinesses: business.ownsOtherBusinesses,
-                            hasStore: business.hasStore,
-                            hasProducts: business.hasProducts,
-                            hasServices: business.hasServices,
-                            //imageSrc: imageSrcString,
-                            streetAddress: business.streetAddress,
-                            streetAddress2: business.streetAddress2,
-                            streetCity: business.streetCity,
-                            streetZipCode: business.streetZipCode,
-                            userId: parseInt(business.userId as any),
-                            countryId: existingCountry?.id || 0, // Include countryId
-                            countryStateRegionId: existingCountryStateRegion?.id || 0, // Include countryStateRegionId
-                            countryCityId: existingCountryCity?.id || 0,
-                            
-                            
-                        },
-                        select: {
-                            id: true,
-                            uuid: true,
-                            title: true,
-                            token: true,
-                            description: true,
-                            category: true,
-                            hasStore: true,
-                            hasProducts: true,
-                            hasServices: true,
-                            imageSrc: true,
-                            user: true,
-                            isAFranchise: true,
-                            isTheFranchiseParent: true,
-                            ownsOtherBusinesses: true,
-                            streetAddress: true,
-                            streetCity: true,
-                            streetZipCode: true,
-                            userId: true,
-                            countryId: true,
-                            countryStateRegionId: true,
-                            countryCityId: true,
-                            createdAt: true,
-                            updatedAt: true,
-                        }
-                    });
-
-                //return autoSaveCreateUpdatebusiness;
-
-                createdBusiness = autoSaveBusinessData
-
-                } catch (error) {
-                    console.log('Error', error);
-                }
                 
 
 }
@@ -608,45 +483,6 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
 
                 }
            
-                try {
-                    
-                    
-    
-                    createdListing = await orm.listing.create({
-                        data: {
-                            title: listing.title,
-                            token: listing.token || token,
-                            description: listing.description,
-                            category: listing.category,
-                            //imageSrc: imageSrcString, // Save the concatenated string
-                            userId: listing.userId,
-                            businessId: existingBusiness?.id,
-                            countryId: existingCountry?.id || 0, // Include countryId
-                            countryStateRegionId: existingCountryStateRegion?.id, // Include countryStateRegionId
-                            countryCityId: existingCountryCity?.id || 0, // Include countryCityId
-                        },
-                        select: {
-                            id: true,
-                            uuid: true,
-                            title: true,
-                            token: true,
-                            description: true,
-                            category: true,
-                            imageSrc: true,
-                            userId: true,
-                            countryId: true,
-                            countryStateRegionId: true,
-                            countryCityId: true,
-                            createdAt: true,
-                            updatedAt: true,
-                        }
-                    });
-    
-                    
-    
-                } catch (error) {
-                    console.log('Error', error);
-                }
             
 
             // End Business Controller

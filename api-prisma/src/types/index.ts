@@ -22,7 +22,7 @@ export interface UploadedFile {
 }
 
 
-type Business = {
+export type Business = {
     id: number;
     uuid: string | null;
     token: string;
@@ -31,34 +31,31 @@ type Business = {
     imageSrc: string | null;
     imagesMultiSrc: string | null;
     category: string;
+    isAFranchise: boolean;
+    isTheFranchiseParent: boolean;
+    ownsOtherBusinesses: boolean;
     hasStore: number;
     hasProducts: number;
     hasServices: number;
-    userId: number;
-    
+    userId: number; // Ensure userId is always defined
     countryId: number;
     country: any;
     countryCityId: number | undefined;
     countryCity: any;
     countryStateRegionId: number | undefined;
     countryStateRegion: any;
-
     listingId: number | undefined | null;
     streetAddress: string | null;
     streetAddress2: string | null;
     streetCity: string | null;
     streetZipCode: string | null;
-    sellPrice?: string;
-    
+    sellPrice?: string | null;
     createdAt: Date;
     updatedAt: Date;
-
-    isAFranchise: boolean;
-    isTheFranchiseParent: boolean;
-    ownsOtherBusinesses: boolean;
 }
 
-type BusinessPhoto = {
+
+export type BusinessPhoto = {
     fieldname: string;
     originalname: string;
     encoding: string;

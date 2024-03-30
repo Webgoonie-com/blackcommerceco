@@ -77,7 +77,8 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
 
     const [isLoading, setIsLoading] = useState(false)
   
-    //console.log('Line 31 Current User ON Rental Modal', currentUser)
+    console.log('Line 80 currentUser ON Rental Modal', currentUser)
+    console.log('Line 81 userId  ON Rental Modal', userId)
 
     const { register,
             handleSubmit, 
@@ -95,9 +96,9 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
             country: null,
             countryStateRegion: null,
             cityinfo: null,
-            isAFranchise: null,
-            isTheFranchiseParent: null,
-            ownsOtherBusinesses: null,
+            isAFranchise: false,
+            isTheFranchiseParent: false,
+            ownsOtherBusinesses: false,
             exactBusinessGeoLocation: [],
             hasStore: 1,
             hasProducts: 1,
@@ -128,7 +129,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
     const watchStreetCity  = watch('streetCity')
     const watchStreetZipCode  = watch('streetZipCode')
     
-    const watchIsAFranchise  = watch('isAFranchise')
+    const watchisAFranchise  = watch('isAFranchise')
 
     const watchIsTheFranchiseParent  = watch('isTheFranchiseParent')
 
@@ -157,6 +158,24 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
             shouldDirty: true,
             shouldTouch: true,
         })
+
+        const newLocationValue = watchCountryCity?.latitude && watchCountryCity?.longitude ? [watchCountryCity?.latitude, watchCountryCity?.longitude] :
+                                watchCountryStateRegion?.latitude && watchCountryStateRegion?.longitude ? [watchCountryStateRegion?.latitude, watchCountryStateRegion?.longitude] :
+                                watchCountry?.latitude && watchCountry?.longitude ? [watchCountry?.latitude, watchCountry?.longitude] : [32.1652613142917, -54.72682487791673]
+
+        setValue("locationValue", newLocationValue, {
+            shouldValidate: true,
+            shouldDirty: true,
+            shouldTouch: true,
+        })
+
+        setValue("exactPropertyGeoLocation", newLocationValue, {
+            shouldValidate: true,
+            shouldDirty: true,
+            shouldTouch: true,
+        })
+
+       
     }
 
     const onBack = () => {
@@ -190,7 +209,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
         
                    
         
-                    const responseData = await autoSaveBusinessData(data, autoSaveToken, userId);
+                    const responseData = await autoSaveBusinessData(data, autoSaveToken, currentUser?.id);
                     
         
                     console.log('responseData: ', responseData)
@@ -201,7 +220,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
         
                     setBusinessId(id)
                     setListingId(listingId)
-                    setCustomValue('', id)
+                    setCustomValue('businessId', id)
             
                     
                 } catch (error) {
@@ -348,7 +367,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
                     title={'Is This Business A Franchise?'} 
                     subtitle={'Business owned by another parent company and/or apart of a chain of stores under a common parent company.'} 
                     onChange={(value) => setCustomValue('isAFranchise', value)}
-                    checked={watchIsAFranchise}
+                    checked={watchisAFranchise}
                     
                     errors={errors}
                     register={register}

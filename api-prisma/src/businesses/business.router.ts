@@ -146,6 +146,7 @@ businessRouter.post('/autoSaveBusinessData', async (request, response) => {
 
     try {
         const businessData = request.body; // Assuming you're sending the business data in the request body
+        console.log("businessData", businessData);
 
         // Call the service function with the received data
         const createdBusiness = await BusinessController.autoSaveBusinessData(businessData, businessData);
