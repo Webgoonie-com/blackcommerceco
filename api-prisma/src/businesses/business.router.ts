@@ -9,7 +9,6 @@ import multer, { FileFilterCallback } from 'multer'
 import moment from 'moment'
 import path from 'path'
 
-
 const momentYear = moment().format('YYYY');
 const momentMonth = moment().format('MM');
 const momentDay = moment().format('DD');
@@ -106,10 +105,7 @@ const uploadBusinessPhotos = multer({
     
 });
 
-
-
 //  Begin Routes ----
-
 businessRouter.get('/allbusinesses', async (request: Request, response: Response) => {
     
     try {
@@ -120,9 +116,6 @@ businessRouter.get('/allbusinesses', async (request: Request, response: Response
         return response.status(500).json(error.message);
     }
 })
-
-
-
 
 businessRouter.post('/createbusinessphotos', uploadBusinessPhotos.array('files'), async (request: any, response: any) => {
     try {
@@ -171,7 +164,6 @@ businessRouter.post('/createBusiness', async (request, response) => {
         return response.status(500).json({ error });
     }
 });
-
 
 businessRouter.get("/id/:id", async (request: Request, response: Response) => {
 

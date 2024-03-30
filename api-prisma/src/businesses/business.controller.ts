@@ -204,10 +204,6 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
 
         const { token } = business;
 
-        console.log('autoSaveToken', autoSaveToken)
-        console.log('token', token)
-        console.log('postin business for Auto Save: ', business)
-
         // Begin Country CountryState CountryCity Ripped
         let existingCountry
         let existingCountryStateRegion
@@ -383,8 +379,8 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
             }
         });
 
-        console.log('Line 754 existingListing', existingListing)
-        console.log('Line 755 existingProperty', existingBusiness)
+        // console.log('Line 754 existingListing', existingListing)
+        // console.log('Line 755 existingProperty', existingBusiness)
 
         
 
@@ -392,7 +388,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
 
         if (existingBusiness) {
 
-            console.log('Line 479 updating Business')
+            // console.log('Line 479 updating Business')
 
             try {
 
@@ -443,7 +439,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
             //Create Property And Listing Back to Back
 
             try {
-                console.log('Line 533: business?.userId', business?.userId);
+
                 autoSaveBusinessData = await orm.business.create({
                     data: {
                         title: business.title,
@@ -666,7 +662,7 @@ export const createBusiness = async (business: Business, listing: Listing): Prom
 
         //  return createdListing
 
-        console.log('autoSaveCreateUpdateBusiness: ', autoSaveBusinessData);
+        
         return autoSaveBusinessData;
 
 
@@ -684,10 +680,10 @@ export const createBusinessPhotos = async (businessPhotoData: any): Promise<Busi
     const files = businessPhotoData.files; // Access the uploaded files
     const body = businessPhotoData.body; // Access the body data
 
-    console.log('files:', files);
-    console.log('body:', body);
+    // console.log('files:', files);
+    // console.log('body:', body);
 
-    console.log('bodyListing Id: ', body?.listingId)
+    // console.log('bodyListing Id: ', body?.listingId)
 
 
 

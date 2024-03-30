@@ -277,9 +277,9 @@ export const getBusinessListingUuId = async (uuid: string): Promise<Listing | nu
 
 export const getListingFavoriteByListingId = async (id: number): Promise<Listing[]> => {
 
-    console.log('getListingFavoriteByListingId', id)
+    // console.log('getListingFavoriteByListingId', id)
     
-    const favorite = await orm.listing.findMany({
+    const favorites = await orm.listing.findMany({
         where: { id: id},
         select:{
             id: true,
@@ -299,10 +299,10 @@ export const getListingFavoriteByListingId = async (id: number): Promise<Listing
 
     // handle the favorite logic
 
-    console.log('favorite', favorite);
+    // console.log('favorite', favorite);
     
 
-    return favorite
+    return favorites
 }
 
 export const createPropertyPhotos = async (listingData: any): Promise<ListingPropertyPhoto[] | any> => {
@@ -312,6 +312,7 @@ export const createPropertyPhotos = async (listingData: any): Promise<ListingPro
     const body = listingData.body; // Access the body data
 
     const createInputs: Prisma.PropertyphotoCreateInput[] = files.map((file: any) => {
+
         const fileTypeExt = MIME_TYPE_MAP[file?.mimetype as keyof typeof MIME_TYPE_MAP] || '';
         
         //const destinationWithoutPublic = file?.destination.replace(/^public\//, '');
@@ -329,7 +330,6 @@ export const createPropertyPhotos = async (listingData: any): Promise<ListingPro
             imgFileType: file?.mimetype,
             imgFileOutputDir: file?.destination,
             imgFileName: file?.filename,
-            //imgFilePath: file?.path,
             imgFilePath: fullLocalPath,
             imgFileSize: file?.size,
             imageSrc: body?.imageSrc,
@@ -342,50 +342,50 @@ export const createPropertyPhotos = async (listingData: any): Promise<ListingPro
         };
     });
 
-//console.log('createInput JSON data: ', JSON.stringify(createInputs));
+    //  console.log('createInput JSON data: ', JSON.stringify(createInputs));
 
-const lastImageIndex = files.length - 1;
- const lastImageUrl = createInputs[lastImageIndex]?.imgUrl;
-
-
-
- // Update imageSrc for the last image
- createInputs[lastImageIndex].imageSrc = lastImageUrl;
-
- console.log('suppose to be the last image instead of an array lastImageUrl: ', lastImageUrl)
+    const lastImageIndex = files.length - 1;
+    const lastImageUrl = createInputs[lastImageIndex]?.imgUrl;
 
 
 
-try {
-const createdPropertyPhotos = await Promise.all(createInputs.map(createInput =>
-    orm.propertyphoto.create({
-        data: {
-            ...(createInput as Prisma.PropertyphotoCreateInput),
-        },
-        select: {
-            id: true,
-            uuid: true,
-            imgUrl: true,
-            imageSrc: true,
-            createdAt: true,
-            property: true,
-        }
-    })
+    // Update imageSrc for the last image
+    createInputs[lastImageIndex].imageSrc = lastImageUrl;
 
-    ));
-   
-    await orm.property.update({
-        where: { id: parseInt(body?.propertyId) },
-        data: {
-            imageSrc: lastImageUrl, // Save the concatenated string           
-        }
-    })
+ 
 
-return createdPropertyPhotos;
-} catch (error) {
-console.error('Error creating property photos:', error);
-return { error: 'Failed to create property photos. Please check the provided data.' };
-}
+
+
+    try {
+    const createdPropertyPhotos = await Promise.all(createInputs.map(createInput =>
+        orm.propertyphoto.create({
+            data: {
+                ...(createInput as Prisma.PropertyphotoCreateInput),
+            },
+            select: {
+                id: true,
+                uuid: true,
+                imgUrl: true,
+                imageSrc: true,
+                createdAt: true,
+                property: true,
+            }
+        })
+
+        ));
+    
+        await orm.property.update({
+            where: { id: parseInt(body?.propertyId) },
+            data: {
+                imageSrc: lastImageUrl, // Save the concatenated string           
+            }
+        })
+
+    return createdPropertyPhotos;
+    } catch (error) {
+        console.error('Error creating property photos:', error);
+        return { error: 'Failed to create property photos. Please check the provided data.' };
+    }
 
 };
 
@@ -393,6 +393,8 @@ export const addBbsistingFavoriteByListingId = async (id: number, listingData: a
 
     console.log('addListingFavoriteByListingId', id)
     console.log('listingData', listingData)
+
+
 
     // const listings = await  orm.favorite.create({
     //    data: {
@@ -405,7 +407,7 @@ export const addBbsistingFavoriteByListingId = async (id: number, listingData: a
 }
 
 export const delBbsListingFavoriteByListingId = async (id: number, listingData: any): Promise<Favorite[]> => {
-    console.log('deleteListingFavoriteByListingId', id);
+    
 
     const favoritedBusiness = await orm.favorite.create({
         data: {
@@ -429,7 +431,7 @@ export const delBbsListingFavoriteByListingId = async (id: number, listingData: 
 
 export const deleteListingFavoriteByListingId = async (id: number): Promise<Listing[]> => {
 
-    console.log('deleteListingFavoriteByListingId', id)
+    
 
     const listings = await  orm.listing.findMany({
         where: { id: id},

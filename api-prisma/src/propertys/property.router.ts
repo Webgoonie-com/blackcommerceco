@@ -4,21 +4,16 @@ import * as PropertyService from "./property.controller";
 import multer, { FileFilterCallback } from 'multer'
 import moment from 'moment'
 import path from 'path'
-import { listAdmins } from '../admins/admin.controller';
-
+//  import { listAdmins } from '../admins/admin.controller';
 
 export const propertyRouter = express.Router();
-
-
 
 
 const momentYear = moment().format('YYYY');
 const momentMonth = moment().format('MM');
 const momentDay = moment().format('DD');
 
-
 //  Begin Multer File Types Config ----
-
 const MIME_TYPE_MAP = {
     'image/png': 'png',
     'image/jpeg': 'jpg',
@@ -202,8 +197,6 @@ propertyRouter.post("/makePrimaryPhoto/:listingId", async (request: Request, res
 
     const propertyPhotoData = await request.body;
 
-    console.log('propertyPhotoData', propertyPhotoData)
-
     try {
         const property = await PropertyService.updatetePropertyPrimaryPhoto(propertyPhotoData)
         return response.status(200).json(property);
@@ -213,7 +206,6 @@ propertyRouter.post("/makePrimaryPhoto/:listingId", async (request: Request, res
     }
 
 })
-
 
 propertyRouter.get("/reservationsproperty/:uuid", async (request: Request, response: Response) => {
 
@@ -272,8 +264,6 @@ propertyRouter.post('/deleteAutoSavePropertyPhoto/:imageurl', async (request: Re
 propertyRouter.post('/deleteProperty/uuid/:uuid', async (request: Request, response: Response) => {
     
     const propertyPhotoData = await request.body
-
-    console.log('Hit /deleteProperty/uuid/:uuid')
 
     try {
         const propertys = await PropertyService.deleteProperty(propertyPhotoData)
