@@ -77,8 +77,8 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
 
     const [isLoading, setIsLoading] = useState(false)
   
-    console.log('Line 80 currentUser ON Rental Modal', currentUser)
-    console.log('Line 81 userId  ON Rental Modal', userId)
+    // console.log('Line 80 currentUser ON Rental Modal', currentUser)
+    // console.log('Line 81 userId  ON Rental Modal', userId)
 
     const { register,
             handleSubmit, 

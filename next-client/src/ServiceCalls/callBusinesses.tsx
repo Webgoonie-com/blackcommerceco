@@ -37,12 +37,12 @@ export const autoSaveBusinessData = async (data: any, autoSaveToken: any, userId
         
     }
     
-    console.log('Line 24: autoSaveToken', postData)
+    // console.log('Line 24: autoSaveToken', postData)
 
     try {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/businesses/autoSaveBusinessData`, postData);
         
-        console.log('Line 45 on Call Business AutoSave Response Data', response.data)
+        // console.log('Line 45 on Call Business AutoSave Response Data', response.data)
 
         return response.data;
 
