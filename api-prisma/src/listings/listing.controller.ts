@@ -8,12 +8,7 @@ import {
     
 } from "../types";
 import path from 'path';
-import { Prisma } from "@prisma/client";
-
-
-
-
-
+import { Business, Prisma } from "@prisma/client";
 
 
 
@@ -50,116 +45,137 @@ export const listPropertys = async (): Promise<Property[]> => {
             
             user: true,
             userId: true,
-            
             countryId: true,
+            country: { 
+                select: {
+                    id: true,
+                    isoCode: true,
+                    name: true,
+                    currency: true,
+                    phonecode: true,
+                    flag: true,
+                    latitude: true,
+                    longitude: true,
+                    region: true,
+                    timezones: true
+                }
+            },
             countryStateRegionId: true,
+            countryStateRegion: { 
+                select: {
+                    id: true,
+                    isoCode: true,
+                    name: true,
+                    latitude: true,
+                    longitude: true,
+                    countryId: true
+                }
+            },
             countryCityId: true,
+            countryCity: { 
+                select: {
+                    id: true,
+                    name: true,
+                    latitude: true,
+                    longitude: true,
+                    countryId: true
+                }
+            },
         }
     })
 }
 
-export const listBusinesses = async (): Promise<Listing[]> => {
-    return orm.business.findMany({
+export const listBusinesses = async (): Promise<Business[]> => {
+    return await  orm.business.findMany({
         where: {
             imageSrc: {
                 not: null
-            }
+            },
+            
         },
+        select:{
+            id: true,
+            uuid: true,
+            token: true,
+            title: true,
+            description: true,
+            category: true,
+            imageSrc: true,
+            imagesMultiSrc: true,
+            locationValue: true,
+            listingId: true,
+            isAFranchise: true,
+            isTheFranchiseParent: true,
+            ownsOtherBusinesses: true,
+            hasStore: true,
+            hasProducts: true,
+            hasServices: true,
+            sellPrice: true,
+            streetAddress: true,
+            streetAddress2: true,
+            streetCity: true,
+            streetZipCode: true,
+            userId: true,
+            countryId: true,
+            country: { 
+                select: {
+                    id: true,
+                    isoCode: true,
+                    name: true,
+                    currency: true,
+                    phonecode: true,
+                    flag: true,
+                    latitude: true,
+                    longitude: true,
+                    region: true,
+                    timezones: true
+                }
+            },
+            countryStateRegionId: true,
+            countryStateRegion: { 
+                select: {
+                    id: true,
+                    isoCode: true,
+                    name: true,
+                    latitude: true,
+                    longitude: true,
+                    countryId: true
+                }
+            },
+            countryCityId: true,
+            countryCity: { 
+                select: {
+                    id: true,
+                    name: true,
+                    latitude: true,
+                    longitude: true,
+                    countryId: true
+                }
+            },            
+            createdAt: true,
+            user: {
+                select: {
+                    id: true,
+                    uuid: true,
+                    name: true,
+                    role: false,
+                    email: false,
+                    emailVerified: false,
+                    hashedPassword: false,
+                    image: true,
+                    phone: false,
+                    firstName: true,
+                    lastName: true,
+                    updatedAt: true,
+                    createdAt: true,
+                }
+            },
+            updatedAt: true,
+            
+            },
         
     })
 }
-
-
-
-
-
-
-
-export const createPropertyPhotos = async (listingData: any): Promise<ListingPropertyPhoto[] | any> => {
-
-
-        const files = listingData.files; // Access the uploaded files
-        const body = listingData.body; // Access the body data
-
-        const createInputs: Prisma.PropertyphotoCreateInput[] = files.map((file: any) => {
-            const fileTypeExt = MIME_TYPE_MAP[file?.mimetype as keyof typeof MIME_TYPE_MAP] || '';
-            
-            //const destinationWithoutPublic = file?.destination.replace(/^public\//, '');
-            const destinationWithoutPublic = file?.destination.replace(/^public\//, '');
-            
-            //const imgUrl = body?.imgUrl + '/' + relativePath + '/' + file?.filename + '.' + body?.fileTypeExt;
-            const imgUrl = body?.imgUrl + '/' + destinationWithoutPublic + '/' + file?.filename;
-
-            const fullLocalPath = path.join(process.cwd(), file?.path)
-    
-            return {
-                imgAlbumName: file?.fieldname,
-                imgFileOrigName: file?.originalname,
-                imgEncoding: file?.encoding,
-                imgFileType: file?.mimetype,
-                imgFileOutputDir: file?.destination,
-                imgFileName: file?.filename,
-                //imgFilePath: file?.path,
-                imgFilePath: fullLocalPath,
-                imgFileSize: file?.size,
-                imageSrc: body?.imageSrc,
-                imgUrl: imgUrl,
-                imgName: body?.imgName,
-                imgCatg: body?.imgCatg,
-                token: body?.token,
-                property: { connect: { id: parseInt(body?.propertyId) } },
-                user: { connect: { id: parseInt(body?.userId) } },
-            };
-        });
-
-    //console.log('createInput JSON data: ', JSON.stringify(createInputs));
-
-    const lastImageIndex = files.length - 1;
-     const lastImageUrl = createInputs[lastImageIndex]?.imgUrl;
-
-
-
-     // Update imageSrc for the last image
-     createInputs[lastImageIndex].imageSrc = lastImageUrl;
-
-     console.log('suppose to be the last image instead of an array lastImageUrl: ', lastImageUrl)
-    
-
-
-    try {
-    const createdPropertyPhotos = await Promise.all(createInputs.map(createInput =>
-        orm.propertyphoto.create({
-            data: {
-                ...(createInput as Prisma.PropertyphotoCreateInput),
-            },
-            select: {
-                id: true,
-                uuid: true,
-                imgUrl: true,
-                imageSrc: true,
-                createdAt: true,
-                property: true,
-            }
-        })
-
-        ));
-       
-        await orm.property.update({
-            where: { id: parseInt(body?.propertyId) },
-            data: {
-                imageSrc: lastImageUrl, // Save the concatenated string           
-            }
-        })
-
-    return createdPropertyPhotos;
-} catch (error) {
-    console.error('Error creating property photos:', error);
-    return { error: 'Failed to create property photos. Please check the provided data.' };
-}
-
-};
-
-
 
 
 export const getListingId = async (id: number): Promise<Listing | null> => {
@@ -169,9 +185,6 @@ export const getListingId = async (id: number): Promise<Listing | null> => {
         },
     })
 }
-
-
-
 
 export const getListingUuId = async (uuid: string): Promise<Listing | null> => {
     
@@ -262,9 +275,6 @@ export const getBusinessListingUuId = async (uuid: string): Promise<Listing | nu
     })
 }
 
-
-
-
 export const getListingFavoriteByListingId = async (id: number): Promise<Listing[]> => {
 
     console.log('getListingFavoriteByListingId', id)
@@ -295,6 +305,89 @@ export const getListingFavoriteByListingId = async (id: number): Promise<Listing
     return favorite
 }
 
+export const createPropertyPhotos = async (listingData: any): Promise<ListingPropertyPhoto[] | any> => {
+
+
+    const files = listingData.files; // Access the uploaded files
+    const body = listingData.body; // Access the body data
+
+    const createInputs: Prisma.PropertyphotoCreateInput[] = files.map((file: any) => {
+        const fileTypeExt = MIME_TYPE_MAP[file?.mimetype as keyof typeof MIME_TYPE_MAP] || '';
+        
+        //const destinationWithoutPublic = file?.destination.replace(/^public\//, '');
+        const destinationWithoutPublic = file?.destination.replace(/^public\//, '');
+        
+        //const imgUrl = body?.imgUrl + '/' + relativePath + '/' + file?.filename + '.' + body?.fileTypeExt;
+        const imgUrl = body?.imgUrl + '/' + destinationWithoutPublic + '/' + file?.filename;
+
+        const fullLocalPath = path.join(process.cwd(), file?.path)
+
+        return {
+            imgAlbumName: file?.fieldname,
+            imgFileOrigName: file?.originalname,
+            imgEncoding: file?.encoding,
+            imgFileType: file?.mimetype,
+            imgFileOutputDir: file?.destination,
+            imgFileName: file?.filename,
+            //imgFilePath: file?.path,
+            imgFilePath: fullLocalPath,
+            imgFileSize: file?.size,
+            imageSrc: body?.imageSrc,
+            imgUrl: imgUrl,
+            imgName: body?.imgName,
+            imgCatg: body?.imgCatg,
+            token: body?.token,
+            property: { connect: { id: parseInt(body?.propertyId) } },
+            user: { connect: { id: parseInt(body?.userId) } },
+        };
+    });
+
+//console.log('createInput JSON data: ', JSON.stringify(createInputs));
+
+const lastImageIndex = files.length - 1;
+ const lastImageUrl = createInputs[lastImageIndex]?.imgUrl;
+
+
+
+ // Update imageSrc for the last image
+ createInputs[lastImageIndex].imageSrc = lastImageUrl;
+
+ console.log('suppose to be the last image instead of an array lastImageUrl: ', lastImageUrl)
+
+
+
+try {
+const createdPropertyPhotos = await Promise.all(createInputs.map(createInput =>
+    orm.propertyphoto.create({
+        data: {
+            ...(createInput as Prisma.PropertyphotoCreateInput),
+        },
+        select: {
+            id: true,
+            uuid: true,
+            imgUrl: true,
+            imageSrc: true,
+            createdAt: true,
+            property: true,
+        }
+    })
+
+    ));
+   
+    await orm.property.update({
+        where: { id: parseInt(body?.propertyId) },
+        data: {
+            imageSrc: lastImageUrl, // Save the concatenated string           
+        }
+    })
+
+return createdPropertyPhotos;
+} catch (error) {
+console.error('Error creating property photos:', error);
+return { error: 'Failed to create property photos. Please check the provided data.' };
+}
+
+};
 
 export const addBbsistingFavoriteByListingId = async (id: number, listingData: any ): Promise<Listing[]> => {
 
@@ -333,8 +426,6 @@ export const delBbsListingFavoriteByListingId = async (id: number, listingData: 
 
     return [favoritedBusiness as any]; // Return the created listing as an array
 }
-
-
 
 export const deleteListingFavoriteByListingId = async (id: number): Promise<Listing[]> => {
 

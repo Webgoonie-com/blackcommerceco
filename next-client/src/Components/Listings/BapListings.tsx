@@ -1,19 +1,18 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import { useSession } from "next-auth/react"
 import { getPropertyListings } from '@/ServiceCalls/callListings';
 import ClientOnly from '@/Components/ClientOnly';
 import EmptyStateBap from '@/Components/EmptyStates/EmptyStateBap';
-import ListingCard from '@/Components/Listings/ListingCard';
-import getCurrentUser from '@/Actions/getCurrentUser';
 import ListingBapCard from './ListingBapCard';
-
-
 
 interface BapListingProp {
     id: number;
     uuid: string;
+    Propertys: {
+        namePublicDisplay: string;
+    
+    };
     currentUser: any;
 }
 

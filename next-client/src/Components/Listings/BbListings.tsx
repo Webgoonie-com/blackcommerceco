@@ -12,10 +12,10 @@ import ListingBbCard from './ListingBbCard';
 interface BbListingProp {
     id: number;
     uuid: string;
-    // ... other properties
+    
     Businesses: {
         namePublicDisplay: string;
-        // ... other properties
+    
     };
     currentUser: any,
 }
@@ -26,7 +26,7 @@ const BbListings: React.FC<BbListingProp> = ({
     currentUser,
 }) => {
 
-    const [bBlistings, setBbListings] = useState([]);
+    const [bBlistings, setBbListings] = useState<BbListingProp[]>([]);
 
 
     
@@ -64,7 +64,7 @@ const BbListings: React.FC<BbListingProp> = ({
                             flex items-center md:flex-row flex-col
             ">
                 
-                    <div className='container text-white'>
+                    <div className='container text-white' id={uuid}>
                         <div
                             className="
                                 pt-24 

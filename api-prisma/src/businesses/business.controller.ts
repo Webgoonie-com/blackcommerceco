@@ -16,7 +16,7 @@ export const listBusinesses = async (): Promise<Business[]> => {
         
     
     return await orm.business.findMany({
-       
+        
         select:{
             id: true,
             uuid: true,
@@ -28,9 +28,6 @@ export const listBusinesses = async (): Promise<Business[]> => {
             imagesMultiSrc: true,
             locationValue: true,
             listingId: true,
-            country: true,
-            countryStateRegion: true,
-            countryCity: true,
             isAFranchise: true,
             isTheFranchiseParent: true,
             ownsOtherBusinesses: true,
@@ -44,8 +41,41 @@ export const listBusinesses = async (): Promise<Business[]> => {
             streetZipCode: true,
             userId: true,
             countryId: true,
+            country: { 
+                select: {
+                    id: true,
+                    isoCode: true,
+                    name: true,
+                    currency: true,
+                    phonecode: true,
+                    flag: true,
+                    latitude: true,
+                    longitude: true,
+                    region: true,
+                    timezones: true
+                }
+            },
             countryStateRegionId: true,
+            countryStateRegion: { 
+                select: {
+                    id: true,
+                    isoCode: true,
+                    name: true,
+                    latitude: true,
+                    longitude: true,
+                    countryId: true
+                }
+            },
             countryCityId: true,
+            countryCity: { 
+                select: {
+                    id: true,
+                    name: true,
+                    latitude: true,
+                    longitude: true,
+                    countryId: true
+                }
+            },            
             createdAt: true,
             user: {
                 select: {
@@ -66,7 +96,7 @@ export const listBusinesses = async (): Promise<Business[]> => {
             },
             updatedAt: true,
             
-            }
+            },
         })
 
 
@@ -78,7 +108,6 @@ export const listBusinesses = async (): Promise<Business[]> => {
         
     }
 }
-
 
 export const getBusinessId = async (id: number): Promise<Business | null> => {
     
@@ -120,7 +149,6 @@ export const getBusinessId = async (id: number): Promise<Business | null> => {
         },
     })
 }
-
 
 export const getBusinessUuId = async (uuid: string): Promise<Business | null> => {
     
@@ -166,7 +194,6 @@ export const getBusinessUuId = async (uuid: string): Promise<Business | null> =>
         },
     })
 }
-
 
 export const autoSaveBusinessData = async (business: Business, listing: Listing): Promise<Business | any> => {
 
@@ -533,9 +560,6 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
 
 }
 
-//  This should be the final wizard step from the auto save good time to take the business live and be sure to comb all the country data input properly.
-//  Hopefull you sent this to the api on setTimeOut In the front end.
-
 export const createBusiness = async (business: Business, listing: Listing): Promise<Business | any> => {
 
 
@@ -606,9 +630,19 @@ export const createBusiness = async (business: Business, listing: Listing): Prom
                         streetCity: business.streetCity,
                         streetZipCode: business.streetZipCode,
                         userId: parseInt(business.userId as any),
-                        countryId: countryId,
-                        countryStateRegionId: countryStateRegionId,
-                        countryCityId: countryCityId,
+                    }
+                });
+
+
+                createdListing = await orm.listing.update({
+                    where: { id: existingListing?.id},
+                    data: {
+                        title: listing.title,
+                        token: listing.token || token,
+                        description: listing.description,
+                        category: listing.category,
+                        userId: listing.userId,
+                        businessId: existingBusiness?.id,
                     }
                 });
 
@@ -619,153 +653,10 @@ export const createBusiness = async (business: Business, listing: Listing): Prom
                 console.log('Error', error);
             }
 
-        } else {
-           
-            //  If business doesn't exist, create it
-            //  console.log('business Creation attempt')
-
-            try {
-                
-           
-                autoSaveBusinessData = await orm.business.create({
-                    data: {
-                        title: business.title,
-                        token: business.token || token,
-                        description: business.description,
-                        category: business.category,
-                        isAFranchise: business.isAFranchise,
-                        isTheFranchiseParent: business.isTheFranchiseParent,
-                        ownsOtherBusinesses: business.ownsOtherBusinesses,
-                        hasStore: business.hasStore,
-                        hasProducts: business.hasProducts,
-                        hasServices: business.hasServices,
-                        streetAddress: business.streetAddress,
-                        streetAddress2: business.streetAddress2,
-                        streetCity: business.streetCity,
-                        streetZipCode: business.streetZipCode,
-                        userId: parseInt(business.userId as any),
-                        countryId: countryId,
-                        countryStateRegionId: countryStateRegionId, 
-                        countryCityId: countryCityId, 
-                        
-                    },
-                    select: {
-                        id: true,
-                        uuid: true,
-                        title: true,
-                        token: true,
-                        description: true,
-                        category: true,
-                        hasStore: true,
-                        hasProducts: true,
-                        hasServices: true,
-                        imageSrc: true,
-                        
-                        isAFranchise: true,
-                        isTheFranchiseParent: true,
-                        ownsOtherBusinesses: true,
-                        streetAddress: true,
-                        streetCity: true,
-                        streetZipCode: true,
-                        userId: true,
-                        countryId: true,
-                        countryStateRegionId: true,
-                        countryCityId: true,
-                        createdAt: true,
-                        updatedAt: true,
-                    }
-                });
-
-            //return autoSaveCreateUpdatebusiness;
-
-            } catch (error) {
-                console.log('Error', error);
-            }
-        }
+        } 
 
 
-        existingListing = await orm.listing.findFirst({
-            where: {
-                token: autoSaveToken || token,
-                userId: parseInt(business.userId as any)
-            }
-        });
-
-        console.log('Line 452 existingListing', existingListing)
-
-        if(!existingBusiness){
-            return new Error("Uncessfull Business Exist");
-            
-
-        }
-
-        if(!existingListing){
-
-            try {
-                
-                console.log('Line 455 try creating existingListing')
-
-                createdListing = await orm.listing.create({
-                    data: {
-                        title: listing.title,
-                        token: listing.token || token,
-                        description: listing.description,
-                        category: listing.category,
-                        userId: listing.userId,
-                        businessId: existingBusiness?.id,
-                        countryId: countryId, // Include countryId
-                        countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
-                        countryCityId: countryCityId, // Include countryCityId
-                    },
-                    select: {
-                        id: true,
-                        uuid: true,
-                        title: true,
-                        token: true,
-                        description: true,
-                        category: true,
-                        imageSrc: true,
-                        userId: true,
-                        countryId: true,
-                        countryStateRegionId: true,
-                        countryCityId: true,
-                        createdAt: true,
-                        updatedAt: true,
-                    }
-                });
-
-                //return createdListing;
-
-            } catch (error) {
-                console.log('Error', error);
-            }
-        }else{
-
-            console.log('Line 497 try Updating existingListing existingListing', existingListing.id)
-
-            try {
-                
-                createdListing = await orm.listing.update({
-                    where: { id: existingListing?.id},
-                    data: {
-                        title: listing.title,
-                        token: listing.token || token,
-                        description: listing.description,
-                        category: listing.category,
-                        userId: listing.userId,
-                        businessId: existingBusiness?.id,
-                        countryId: countryId, // Include countryId
-                        countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
-                        countryCityId: countryCityId, // Include countryCityId
-                    }
-                });
-
-                //return updatedListing;
-            } catch (error) {
-                console.log('Error on Updateing Listing')
-            }
-
-        }
+        
 
 
 
@@ -785,9 +676,6 @@ export const createBusiness = async (business: Business, listing: Listing): Prom
 
 
 }
-
-
-
 
 export const createBusinessPhotos = async (businessPhotoData: any): Promise<BusinessPhoto[] | any> => {
     
@@ -893,9 +781,6 @@ export const createBusinessPhotos = async (businessPhotoData: any): Promise<Busi
 
 };
 
-
-
-
 export const updateteBusinessPrimaryPhoto = async (businessPhotoData: any): Promise<Business[] | any> => {
 
     // console.log('return businessPhotoData', businessPhotoData)
@@ -914,7 +799,6 @@ export const updateteBusinessPrimaryPhoto = async (businessPhotoData: any): Prom
 
 
 }
-
 
 export const deleteAutoSavePhoto  = async (businessData: any): Promise<BusinessPhoto[] | any> => {
     
@@ -1004,9 +888,6 @@ export const deleteAutoSavePhoto  = async (businessData: any): Promise<BusinessP
 
     return businessData;
 }
-
-
-
 
 export const deleteBusiness = async (businessData: any): Promise<void> => {
     const userId = businessData.userId;

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useCallback, useMemo } from 'react';
-import { currentUser, User } from '@/Types';
+import { Businesses, Country, CountryStateRegion, currentUser, User } from '@/Types';
 import { useRouter } from 'next/navigation';
 
 import useCountries from '@/Hooks/useCountries';
@@ -50,25 +50,36 @@ interface Reservation {
 }
 
 interface ListingBbCardProps {
-    data: {
+     data: {
         Id: number;
         uuid: string;
-        UserId: number;
-        PropertyId: number;
-        BusinessId: number;
-        ServiceId: number;
-        ProductId: number;
-        ListingId: number;
-        ServiceListingId: number;
-        User: User;
-        Business: Business;
+        userId: number;
+        
+        user: User;
+        
+        countryCityId: number;
+        Country: Country;
+        countryStateRegion: CountryStateRegion;
+        countryStateRegionId: number;
+
         imageSrc: string;
         category: string;
         title: string;
         description: string;
+        streetCity: string;
+        roomCount: number;
+        guestCount: number;
+        bathroomCount: number;
+
+        price: string | null;
+
+        streetAddress: string;
+        streetAddress2: string;
+        streetZipCode: string;
         locationValue: string;
+        Businesses: Businesses;
         updatedAt: Date;
-       
+        country: Country;
     } | null;
     reservation?: {
         Reservation: Reservation;
@@ -77,7 +88,7 @@ interface ListingBbCardProps {
     disabled?: boolean
     actionLabel?: string;
     actionId?: string;
-    currentUser: currentUser | null
+    currentUser?: currentUser
 
 }
 
@@ -98,6 +109,7 @@ const ListingBbCard: React.FC<ListingBbCardProps> =  ({
     const { getByValue } = useCountries();
 
     const listingId = data?.uuid || 0;
+    console.log('BbCard listingId', listingId)
 
     const location = getByValue(data?.locationValue || '');
 
@@ -119,8 +131,8 @@ const ListingBbCard: React.FC<ListingBbCardProps> =  ({
             return reservation?.Reservation?.totalPrice;
         }
 
-        return  data?.Business?.sellPrice
-    }, [reservation,  data?.Business?.sellPrice])
+        return  data?.Businesses?.sellPrice
+    }, [reservation,  data?.Businesses?.sellPrice])
 
     const reservationDate = useMemo(() => {
 
@@ -136,7 +148,8 @@ const ListingBbCard: React.FC<ListingBbCardProps> =  ({
 
     }, [reservation])
 
-    
+    console.log('Line 151 data Bap Listing', data)
+
     return (
         
         <div
@@ -168,28 +181,33 @@ const ListingBbCard: React.FC<ListingBbCardProps> =  ({
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // has "fill" but is missing "sizes" prop. Please add it to improve page performance.
                     />
                     <div className="absolute top-3 right-3">
+                        
                         <HeartIconButton 
-                            listingId={parseInt(listingId as string)}
+                            listingId={listingId as any}
                             currentUser={currentUser as any}
                         />
                     </div>
                 </div>
 
                 <div className="font-semibold text-lg">
-                    { data?.title}, { data?.description}
+                    { data?.streetCity },{" "}
+                    { data?.countryStateRegion?.name }{" "}
                 </div>
                 <div className="font-semibold text-lg">
-                    {location?.region}, {location?.label}
+                    { data?.country?.region },{" "}
+                    { data?.streetZipCode }
                 </div>
                 <div className="font-light text-white">
-                    {reservationDate || data?.category}
+                    Category: {data?.category}
                 </div>
                 <div className="flex flex-row items-center gap-1">
-                    <div className="font-semibold">
-                        $ {sellPrice}
-                    </div>
-                    {!reservation && (
-                        <div className="font-light">By Owner</div>
+                    {sellPrice && (
+                    <>
+                        <div className="font-light">For Sale</div>
+                            <div className="font-semibold">
+                                $ {sellPrice}
+                            </div>
+                    </>
                     )}
                 </div>
                 {onAction && actionLabel && (

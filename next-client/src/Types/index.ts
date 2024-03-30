@@ -77,6 +77,7 @@ import { Country } from "country-state-city";
         userId: number;
         businessId: number;
         BusinessUploads: string;
+        sellPrice: string;
         // ... other properties of Property
     }
     

@@ -95,7 +95,6 @@ const propertyPhotoStorage = multer.diskStorage({
     }   
 });
 
-
 const uploadPropertyPhotos = multer({ 
     
     storage: propertyPhotoStorage,
@@ -106,7 +105,6 @@ const uploadPropertyPhotos = multer({
     //  This is a custom fileFilter.
     fileFilter: fileFilter
 });
-
 
 propertyRouter.get('/all', async (request: Request, response: Response) => {
     try {
@@ -128,6 +126,38 @@ propertyRouter.get('/allProperties', async (request: Request, response: Response
     }
 })
 
+propertyRouter.get("/id/:id", async (request: Request, response: Response) => {
+
+    const id: number = parseInt(request.params.id, 10)
+
+    try {
+        const property = await PropertyService.getPropertyId(id)
+        if(property) {
+            return response.status(200).json(property)
+        }
+    } catch (error) {
+        return response.status(500).json("Property Could Not Be Found Id");
+    }
+
+})
+
+propertyRouter.get("/uuid/:uuid", async (request: Request, response: Response) => {
+
+    const uuid: string = request.params.uuid
+
+    try {
+        const property = await PropertyService.getPropertyUuId(uuid)
+        
+        if(property) {
+            return response.status(200).json(property)
+        }
+
+    } catch (error) {
+        
+        return response.status(500).json("Property Could Not Be Found by Uuid");
+    }
+
+})
 
 propertyRouter.post('/createProperty', async (request: Request, response: Response) => {
     
@@ -183,41 +213,6 @@ propertyRouter.post("/makePrimaryPhoto/:listingId", async (request: Request, res
     }
 
 })
-
-
-propertyRouter.get("/id/:id", async (request: Request, response: Response) => {
-
-    const id: number = parseInt(request.params.id, 10)
-
-    try {
-        const property = await PropertyService.getPropertyId(id)
-        if(property) {
-            return response.status(200).json(property)
-        }
-    } catch (error) {
-        return response.status(500).json("Property Could Not Be Found Id");
-    }
-
-})
-
-propertyRouter.get("/uuid/:uuid", async (request: Request, response: Response) => {
-
-    const uuid: string = request.params.uuid
-
-    try {
-        const property = await PropertyService.getPropertyUuId(uuid)
-        
-        if(property) {
-            return response.status(200).json(property)
-        }
-
-    } catch (error) {
-        
-        return response.status(500).json("Property Could Not Be Found by Uuid");
-    }
-
-})
-
 
 
 propertyRouter.get("/reservationsproperty/:uuid", async (request: Request, response: Response) => {

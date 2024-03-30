@@ -148,8 +148,9 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
     const { getByValue } = useCountries();
 
     const listingId = data?.uuid || 0;
+    console.log('listingId', listingId)
     
-
+    const location = getByValue(data?.locationValue || '');
     
 
 
@@ -221,6 +222,7 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // has "fill" but is missing "sizes" prop. Please add it to improve page performance.
                     />
                     <div className="absolute top-3 right-3">
+                        
                         <HeartIconButton 
                             listingId={parseInt(listingId as string)}
                             currentUser={currentUser as any}
@@ -230,7 +232,12 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
                 
 
                 <div className="font-semibold text-lg">
-                    { data?.streetCity}, { data?.streetZipCode}
+                    { data?.streetCity },{" "}
+                    { data?.countryStateRegion?.name }{" "}
+                </div>
+                <div className="font-semibold text-lg">
+                    { data?.country?.region },{" "}
+                    { data?.streetZipCode }
                 </div>
                 <div className="text-white">
                     <span className='font-semibold'>Rooms: </span> <span className='italic'>({data?.roomCount}), </span>

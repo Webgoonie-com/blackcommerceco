@@ -9,53 +9,6 @@ import { Decimal } from "@prisma/client/runtime/library";
 
 
 
-
-// type CountryCity = {
-//     id: number;
-//     uuid: string | null;
-//     value: string;
-//     label: string;
-//     countryCode: string;
-//     latlngts: number;
-//     latitude: string;
-//     longitude: string;
-//     countryId: number;
-//     name: string;
-// }
-
-
-// type CountryStateRegion = {
-//     id: number | null;
-//     uuid: string | null;
-//     value: string;
-//     label: string;
-//     countryCode: string;
-//     latlng: string;
-    
-//     latitude: string;
-//     longitude: string;
-//     name: string;
-    
-//     countryId: number | null;
-//     isoCode: string;
-// }
-
-// type Country = {
-//     id: number | undefined | null;
-//     uuid: string | null;
-//     value: string;
-//     isoCode: string;
-//     name: string;
-//     currency: string;
-//     phonecode: string;
-//     flag: string;
-//     latitude: number;
-//     longitude: number;
-//     region: string;
-//     timezones: string[];
-// }
-
-
 export const listPropertys = async (): Promise<Property[]> => {
 
 
@@ -149,7 +102,6 @@ export const listPropertys = async (): Promise<Property[]> => {
     return mappedProperties;
 }
 
-
 export const getPropertyId = async (id: number): Promise<Property | null> => {
     try {
         const properties = await orm.property.findUnique({
@@ -194,9 +146,6 @@ export const getPropertyId = async (id: number): Promise<Property | null> => {
     }
 };
 
-
-
-
 export const getPropertyReservationUuId = async (uuid: string): Promise<PropertyReservation | null> => {
     
     console.log('Hit PropertyReservationUuId: ', uuid)
@@ -216,8 +165,6 @@ export const getPropertyReservationUuId = async (uuid: string): Promise<Property
         
     })
 }
-
-
 
 export const getPropertyUuId = async (uuid: string): Promise<Property | null> => {
     
@@ -255,405 +202,6 @@ export const getPropertyUuId = async (uuid: string): Promise<Property | null> =>
         },
     })
 }
-
-
-
-
-
-export const createProperty = async (property: Property): Promise<Property | any> => {
-    
-
-        console.log('property: ', property)
-
-        let autoSaveCreateUpdateProperty
-
-        const price = property.price.toString();
-
-        const imageSrcString = Array.isArray(property.imageSrc) ? property.imageSrc.join(',') : '';
-        
-        const newLocationValue = Array.isArray(property.locationValue) ? property.locationValue.join(',') : '';
-
-        const autoSaveToken = property?.token
-
-        const { token } = property;
-
-        // Handle the possibility of countryId, countryStateRegionId, and countryCityId being undefined
-        const countryId = property.countryId !== undefined ? property.countryId : 0; // Replace 0 with a default value if needed
-        const countryStateRegionId = property.countryStateRegionId !== undefined ? property.countryStateRegionId : 0;
-        const countryCityId = property.countryCityId !== undefined ? property.countryCityId : 0;
-
-
-        
-
-        const existingProperty = await orm.property.findFirst({
-            where: {
-                token: autoSaveToken || token,
-                userId: parseInt(property.userId as any)
-            }
-        });
-
-        if (existingProperty) {
-
-            try {
-
-                // If property exists, update it
-                const updatedProperty = await orm.property.update({
-                    where: { id: existingProperty.id },
-                    data: {
-                        title: property.title,
-                        token: property.token || token,
-                        description: property.description,
-                        category: property.category,
-                        roomCount: property.roomCount,
-                        bathroomCount: property.bathroomCount,
-                        locationValue: newLocationValue,
-                        guestCount: property.guestCount,
-                        //imageSrc: imageSrcString, // Save the concatenated string
-                        price: price, // Pass the price as a number
-                        streetAddress: property.streetAddress,
-                        streetAddress2: property.streetAddress2,
-                        streetCity: property.streetCity,
-                        streetZipCode: property.streetZipCode,
-                        userId: property.userId,
-                        countryId: countryId, // Include countryId
-                        countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
-                        countryCityId: countryCityId, // Include countryCityId
-                    }
-                });
-
-
-                autoSaveCreateUpdateProperty  = updatedProperty;          
-                
-            } catch (error) {
-                console.log('Error', error);
-            }
-
-        } else {
-           
-            // If property doesn't exist, create it
-
-            try {
-                
-           
-                 autoSaveCreateUpdateProperty = await orm.property.create({
-                    data: {
-                        title: property.title,
-                        token: property.token || token,
-                        description: property.description,
-                        category: property.category,
-                        roomCount: property.roomCount,
-                        bathroomCount: property.bathroomCount,
-                        locationValue: newLocationValue,
-                        guestCount: property.guestCount,
-                        imageSrc: imageSrcString, // Save the concatenated string
-                        price: price, // Pass the price as a number
-                        streetAddress: property.streetAddress,
-                        streetAddress2: property.streetAddress2,
-                        streetCity: property.streetCity,
-                        streetZipCode: property.streetZipCode,
-                        userId: property.userId,
-                        countryId: countryId, // Include countryId
-                        countryStateRegionId: countryStateRegionId, // Include countryStateRegionId
-                        countryCityId: countryCityId, // Include countryCityId
-                    }
-                });
-
-               
-
-            } catch (error) {
-                console.log('Error', error);
-            }
-        }
-
-
-        return autoSaveCreateUpdateProperty
-};
-
-
-
-
-export const createPropertyPhotos = async (propertyData: any): Promise<PropertyPhoto[] | any> => {
-    
-
-        const files = propertyData.files
-        const body = propertyData.body
-
-        const createInputs: Prisma.PropertyphotoCreateInput[] = files.map((file: any) => {
-            const fileTypeExt = MIME_TYPE_MAP[file?.mimetype as keyof typeof MIME_TYPE_MAP] || '';
-                        
-            const destinationWithoutPublic = file?.destination.replace(/^public\//, '');
-            
-            const imgUrl = body?.imgUrl + '/' + destinationWithoutPublic + '/' + file?.filename;
-
-            const fullLocalPath = path.join(process.cwd(), file?.path)
-    
-            return {
-                imgAlbumName: file?.fieldname,
-                imgFileOrigName: file?.originalname,
-                imgEncoding: file?.encoding,
-                imgFileType: file?.mimetype,
-                imgFileOutputDir: file?.destination,
-                imgFileName: file?.filename,
-                imgFilePath: fullLocalPath,
-                imgFileSize: file?.size,
-                imageSrc: body?.imageSrc,
-                imgUrl: imgUrl,
-                imgName: body?.imgName,
-                imgCatg: body?.imgCatg,
-                token: body?.token,
-                property: { connect: { id: parseInt(body?.propertyId) } },
-                user: { connect: { id: parseInt(body?.userId) } },
-            };
-        });
-
-    const lastImageIndex = files.length - 1;
-    const lastImageUrl = createInputs[lastImageIndex].imgUrl;
-
-     // Update imageSrc for the last image
-     createInputs[lastImageIndex].imageSrc = lastImageUrl;
-
-   
-
-    try {
-    const saveMultipleUploadPropertyPhotos = await Promise.all(createInputs.map(createInput =>
-        orm.propertyphoto.create({
-            data: {
-                ...(createInput as Prisma.PropertyphotoCreateInput),
-            },
-            select: {
-                id: true,
-                uuid: true,
-                imgUrl: true,
-                imageSrc: true,
-                createdAt: true,
-            }
-        })
-    ));
-
-    await orm.property.update({
-        where: { id: parseInt(body?.propertyId) },
-        data: {
-            imageSrc: lastImageUrl,
-        }
-    });
-
-    
-
-    return saveMultipleUploadPropertyPhotos;
-} catch (error) {
-
-    return { error: 'Failed to create property photos. Please check the provided data.' };
-}
-
-};
-
-
-
-export const updatetePropertyPrimaryPhoto = async (propertyPhotoData: any): Promise<Property[] | any> => {
-
-
-    const primaryPhoto = await orm.property.update({
-        where: { id: parseInt(propertyPhotoData?.propertyId) },
-        data: {
-            imageSrc: propertyPhotoData.primaryPhoto, // Save the concatenated string           
-        }
-    })
-
-
-
-    return primaryPhoto
-
-
-
-}
-
-// export const createPropertyReservation = async (propertyReservationData: any): Promise<PropertyPhoto[] | any> => {
-
-//     if(!propertyReservationData){
-//         throw new Error("PropertyReservationData Data Mising");
-        
-//     }
-
-
-
-//     // const propertyPhotoData = propertyReservationData.propertyPhotoData
-//     // const userId = propertyReservationData.userId
-//     // const autoSaveToken = propertyReservationData.autoSaveToken
-
-//     console.log('Line 503 - propertyReservationDatav: ', propertyReservationData)
-
-//     const listingAndReservation = await  orm.property.update({
-//         where: {
-//             uuid: propertyReservationData.propertyUuid,
-//         },
-//         data: {
-//             reservations: {
-//                 create: {
-//                     userId: propertyReservationData.userId,
-//                     startDate: propertyReservationData.startDate,
-//                     endDate: propertyReservationData.endDate,
-//                     totalPrice: propertyReservationData.totalPrice,
-
-//                 }
-//             }
-//         },
-//         include: {
-//             reservations: true // Include reservations in the response
-//         }
-//     })
-
-//     return listingAndReservation
-
-    
-
-    
-    
-
-
-//     return propertyReservationData
-
-// }
-
-
-// export const createPropertyReservation = async (propertyReservationData: any): Promise<any> => {
-//     if (!propertyReservationData) {
-//         throw new Error("PropertyReservationData is missing");
-//     }
-
-//     try {
-//         // Fetch user, listing, business related to the reservation
-//         const user = await orm.user.findUnique({ where: { id: propertyReservationData.userId } });
-//         const listing = await orm.listing.findUnique({ where: { id: propertyReservationData.listingId } });
-//         const business = await orm.business.findUnique({ where: { id: propertyReservationData.businessId } });
-
-//         // Update property based on UUID
-//         const updatedProperty = await orm.property.update({
-//             where: {
-//                 uuid: propertyReservationData.propertyUuid,
-//             },
-//             data: {
-//                 reservations: {
-//                     create: {
-//                         userId: propertyReservationData.userId,
-//                         startDate: propertyReservationData.startDate,
-//                         endDate: propertyReservationData.endDate,
-//                         totalPrice: propertyReservationData.totalPrice,
-//                         // Include user, listing, business in the reservation data
-//                         user: { connect: { id: propertyReservationData.userId } },
-//                         listing: { connect: { id: propertyReservationData.listingId } },
-//                         business: { connect: { id: propertyReservationData.id || 0 } },
-//                     }
-//                 }
-//             },
-//             include: {
-//                 reservations: true // Include reservations in the response
-//             }
-//         });
-
-//         return updatedProperty.reservations; // Return the created reservation
-//     } catch (error) {
-//         // Handle any errors
-//         console.error("Error creating property reservation:", error);
-//         throw new Error("Failed to create property reservation");
-//     }
-// }
-
-
-
-export const createPropertyReservation = async (propertyReservationData: any): Promise<any> => {
-    if (!propertyReservationData) {
-        throw new Error("PropertyReservationData is missing");
-    }
-
-    try {
-        
-
-        // Update property based on UUID
-        const updatedProperty = await orm.property.update({
-
-            where: {
-                uuid: propertyReservationData.propertyUuid,
-            },
-
-            data: {
-
-                reservations: {
-                    
-                    create: {
-                        
-                        startDate: propertyReservationData.startDate,
-                        
-                        endDate: propertyReservationData.endDate,
-                        
-                        totalPrice: propertyReservationData.totalPrice,
-                        
-                        user: { connect: { id: propertyReservationData.userId } },
-                        
-                        listing: { connect: { id: propertyReservationData.listingId } },
-                    }
-
-                }
-            },
-
-            include: {
-                reservations: true
-            }
-
-        });
-
-        return updatedProperty // Return the created reservation
-    } catch (error) {
-        // Handle any errors
-        console.error("Error creating property reservation:", error);
-        throw new Error("Failed to create property reservation");
-    }
-}
-
-
-export const deleteAutoSavePropertyPhoto = async (propertyData: any): Promise<PropertyPhoto[] | any> => {
-
-    if(!propertyData){
-        throw new Error("Poperty Data Mising");
-        
-    }
-
-    const propertyPhotoData = propertyData.propertyPhotoData
-    const userId = propertyData.userId
-    const autoSaveToken = propertyData.autoSaveToken
-
-    const property = await orm.propertyphoto.findFirst({
-        where: { 
-            imageSrc: propertyPhotoData,
-            token: autoSaveToken,
-            userId: parseInt(userId),
-        },
-        
-    })
-
-    
-    if(property){
-            
-        const fullLocalPath = path.join(process.cwd(), property.imgFilePath)
-
-        await unlink(property.imgFilePath)
-
-        const deletePropertyPhoto = await orm.propertyphoto.delete({
-            where: {
-              id: property.id,
-            },
-          })
-    }
-
-    
-    
-
-
-    return propertyData
-
-}
-
-
-
 
 export const autoSavePropertyData = async (property: Property, listing: Listing): Promise<Property | any> => {
 
@@ -1104,6 +652,253 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
 
 }
 
+export const createProperty = async (property: Property): Promise<Property | any> => {
+    
+
+        console.log('property: ', property)
+
+        let autoSaveCreateUpdateProperty
+
+        const price = property.price.toString();
+
+        const imageSrcString = Array.isArray(property.imageSrc) ? property.imageSrc.join(',') : '';
+        
+        const newLocationValue = Array.isArray(property.locationValue) ? property.locationValue.join(',') : '';
+
+        const autoSaveToken = property?.token
+
+        const { token } = property;
+
+        const existingProperty = await orm.property.findFirst({
+            where: {
+                token: autoSaveToken || token,
+                userId: parseInt(property.userId as any)
+            }
+        });
+
+        if (existingProperty) {
+
+            try {
+
+                // If property exists, update it
+                const updatedProperty = await orm.property.update({
+                    where: { id: existingProperty.id },
+                    data: {
+                        title: property.title,
+                        token: property.token,
+                        description: property.description,
+                        category: property.category,
+                        roomCount: property.roomCount,
+                        bathroomCount: property.bathroomCount,
+                        locationValue: newLocationValue,
+                        guestCount: property.guestCount,
+                        price: price,
+                        streetAddress: property.streetAddress,
+                        streetAddress2: property.streetAddress2,
+                        streetCity: property.streetCity,
+                        streetZipCode: property.streetZipCode,
+                        userId: property.userId,
+                    }
+                });
+
+
+                autoSaveCreateUpdateProperty  = updatedProperty;          
+                
+            } catch (error) {
+                console.log('Error', error);
+            }
+
+        } 
+
+
+        return autoSaveCreateUpdateProperty
+};
+
+export const createPropertyPhotos = async (propertyData: any): Promise<PropertyPhoto[] | any> => {
+    
+
+        const files = propertyData.files
+        const body = propertyData.body
+
+        const createInputs: Prisma.PropertyphotoCreateInput[] = files.map((file: any) => {
+            const fileTypeExt = MIME_TYPE_MAP[file?.mimetype as keyof typeof MIME_TYPE_MAP] || '';
+                        
+            const destinationWithoutPublic = file?.destination.replace(/^public\//, '');
+            
+            const imgUrl = body?.imgUrl + '/' + destinationWithoutPublic + '/' + file?.filename;
+
+            const fullLocalPath = path.join(process.cwd(), file?.path)
+    
+            return {
+                imgAlbumName: file?.fieldname,
+                imgFileOrigName: file?.originalname,
+                imgEncoding: file?.encoding,
+                imgFileType: file?.mimetype,
+                imgFileOutputDir: file?.destination,
+                imgFileName: file?.filename,
+                imgFilePath: fullLocalPath,
+                imgFileSize: file?.size,
+                imageSrc: body?.imageSrc,
+                imgUrl: imgUrl,
+                imgName: body?.imgName,
+                imgCatg: body?.imgCatg,
+                token: body?.token,
+                property: { connect: { id: parseInt(body?.propertyId) } },
+                user: { connect: { id: parseInt(body?.userId) } },
+            };
+        });
+
+    const lastImageIndex = files.length - 1;
+    const lastImageUrl = createInputs[lastImageIndex].imgUrl;
+
+     // Update imageSrc for the last image
+     createInputs[lastImageIndex].imageSrc = lastImageUrl;
+
+   
+
+    try {
+    const saveMultipleUploadPropertyPhotos = await Promise.all(createInputs.map(createInput =>
+        orm.propertyphoto.create({
+            data: {
+                ...(createInput as Prisma.PropertyphotoCreateInput),
+            },
+            select: {
+                id: true,
+                uuid: true,
+                imgUrl: true,
+                imageSrc: true,
+                createdAt: true,
+            }
+        })
+    ));
+
+    await orm.property.update({
+        where: { id: parseInt(body?.propertyId) },
+        data: {
+            imageSrc: lastImageUrl,
+        }
+    });
+
+    
+
+    return saveMultipleUploadPropertyPhotos;
+} catch (error) {
+
+    return { error: 'Failed to create property photos. Please check the provided data.' };
+}
+
+};
+
+
+
+export const createPropertyReservation = async (propertyReservationData: any): Promise<any> => {
+    if (!propertyReservationData) {
+        throw new Error("PropertyReservationData is missing");
+    }
+
+    try {
+        
+
+        // Update property based on UUID
+        const updatedProperty = await orm.property.update({
+
+            where: {
+                uuid: propertyReservationData.propertyUuid,
+            },
+
+            data: {
+
+                reservations: {
+                    
+                    create: {
+                        
+                        startDate: propertyReservationData.startDate,
+                        
+                        endDate: propertyReservationData.endDate,
+                        
+                        totalPrice: propertyReservationData.totalPrice,
+                        
+                        user: { connect: { id: propertyReservationData.userId } },
+                        
+                        listing: { connect: { id: propertyReservationData.listingId } },
+                    }
+
+                }
+            },
+
+            include: {
+                reservations: true
+            }
+
+        });
+
+        return updatedProperty // Return the created reservation
+    } catch (error) {
+        // Handle any errors
+        console.error("Error creating property reservation:", error);
+        throw new Error("Failed to create property reservation");
+    }
+}
+
+export const updatetePropertyPrimaryPhoto = async (propertyPhotoData: any): Promise<Property[] | any> => {
+
+
+    const primaryPhoto = await orm.property.update({
+        where: { id: parseInt(propertyPhotoData?.propertyId) },
+        data: {
+            imageSrc: propertyPhotoData.primaryPhoto, // Save the concatenated string           
+        }
+    })
+
+
+
+    return primaryPhoto
+
+
+
+}
+
+export const deleteAutoSavePropertyPhoto = async (propertyData: any): Promise<PropertyPhoto[] | any> => {
+
+    if(!propertyData){
+        throw new Error("Poperty Data Mising");
+        
+    }
+
+    const propertyPhotoData = propertyData.propertyPhotoData
+    const userId = propertyData.userId
+    const autoSaveToken = propertyData.autoSaveToken
+
+    const property = await orm.propertyphoto.findFirst({
+        where: { 
+            imageSrc: propertyPhotoData,
+            token: autoSaveToken,
+            userId: parseInt(userId),
+        },
+        
+    })
+
+    
+    if(property){
+            
+        const fullLocalPath = path.join(process.cwd(), property.imgFilePath)
+
+        await unlink(property.imgFilePath)
+
+        const deletePropertyPhoto = await orm.propertyphoto.delete({
+            where: {
+              id: property.id,
+            },
+          })
+    }
+
+    
+    
+
+
+    return propertyData
+
+}
 
 export const deleteProperty = async (propertyData: any): Promise<PropertyPhoto[] | any> => {
 

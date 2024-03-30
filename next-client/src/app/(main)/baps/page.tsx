@@ -8,14 +8,21 @@ const Baps = async () => {
   const currentUser = await getCurrentUser();
 
   return (
-    <div className='bg-gray-950 h-screen text-white px-10 pb-20'>
+    <div id="content-wrap" className="h-full bg-gray-950 text-white ps-4">
       
       
-      <BapListings 
-        id={currentUser?.id as any}
-        currentUser={currentUser as any}
-        uuid={currentUser?.uuid as any} 
+      <div className="relative">
+
+        <BapListings 
+          id={currentUser?.id as any}
+          currentUser={currentUser as any}
+          uuid={currentUser?.uuid as any} 
+          Propertys={{
+            namePublicDisplay: 'Black Businesses'
+          }}
         />
+
+      </div>
 
     </div>
   )
