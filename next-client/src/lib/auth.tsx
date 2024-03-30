@@ -7,7 +7,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github"
 import GoogleProvider from "next-auth/providers/google"
 
-import { orm } from "./orm"
+import { orm } from "@/lib/orm"
 
 export const authOptions: AuthOptions  = {
     adapter: PrismaAdapter(orm as any),
@@ -134,7 +134,7 @@ export const authOptions: AuthOptions  = {
     },
     pages: {
         signIn: '/',
-        signOut: '/auth/logout',
+       // signOut: '/auth/logout',
     //     // error: '/auth/error',
     //     // verifyRequest: '/auth/verify-request',
     //     // newUser: '/auth/new-user'
