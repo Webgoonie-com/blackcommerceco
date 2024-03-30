@@ -14,11 +14,12 @@ if(!process.env.PORT){
     process.exit(1)
 }
 
-const PORT = process.env.PORT || 3303
+const PORT = process.env.PORT || 3333
 
 const dev = process.env.NODE_ENV !== "production"
 
-const hostname = 'localhost'
+//const hostname = 'localhost'
+const hostname = process.env.NODE_ENV !== "production" ? 'localhost' : '127.0.0.1'
 
 const app = next({ dev, hostname, PORT })
 
@@ -88,10 +89,11 @@ app.prepare().then(() => {
     expressApp.use(express.json());
     expressApp.use(cookieParser(COOKIE_SECRET));
     expressApp.use(cors());
-    // expressApp.use((req, res, next) => {
-    //     res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
-    //     next();
-    //   });
+    
+    expressApp.use((req, res, next) => {
+        res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+        next();
+      });
 
     
 
@@ -193,7 +195,8 @@ app.prepare().then(() => {
         return await handle(req, res)
     })
 
-    expressApp.listen(PORT, () => {
+    expressApp.listen(PORT, (err) => {
+        if (err) throw err;
         console.log(`PORT Listening on http://localhost:${PORT}`);
     });
 
