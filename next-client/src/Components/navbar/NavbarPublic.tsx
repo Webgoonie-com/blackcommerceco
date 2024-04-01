@@ -1,13 +1,14 @@
 "use client"
 
 import React from 'react'
-import Container from '../Container'
-import Logo from '../Logo'
+import Container from '@/Components/Container'
+import Logo from '@/Components/Logo'
 import { User } from "next-auth"
-import Search from './Search';
-import UserMenu from './UserMenu'
+import Search from '@/Components/navbar/Search';
+import UserMenu from '@/Components/navbar/UserMenu'
 
-import CategoriesNav from '../navbar/navcategories/CategoriesNav'
+
+import CategoriesNav from '@/Components/navbar/navcategories/CategoriesNav'
 
 interface NavbarPublicProps {
     currentUser?: User | null;

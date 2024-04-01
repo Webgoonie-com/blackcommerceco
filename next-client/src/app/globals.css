@@ -16,6 +16,10 @@
 } */
 
 
+
+/* width */
+
+
 .react-tel-input, .react-tel-input > .form-control {
   background-color: rgb(17 24 39 / var(--tw-bg-opacity)) !important;
   width: 100% !important;

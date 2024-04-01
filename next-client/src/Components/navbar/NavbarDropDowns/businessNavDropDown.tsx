@@ -12,6 +12,7 @@ import Link from 'next/link'
 
 import { CategoriesOnlyBusinesses } from '@/Components/Categories/CategoriesOnly';
 import CategoryBusinessBox from '@/Components/Categories/CategoryBusinessBox'
+import { IoMdBusiness } from 'react-icons/io'
 
 const BusinessNavDropDown = () => {
 
@@ -55,10 +56,14 @@ const BusinessNavDropDown = () => {
                     onClick={toggleOpen}
                     className={`me-5 self-start outline-none border-2 text-white rounded-md hover:bg-gray-900 text-sm font-semibold px-2 py-1 flex items-center gap-3 cursor-pointer transition duration-200
                                 ${isOpen ? 'border-purple-600' : 'border-transparent'}`}>
-                    <p className='hidden md:block'>
-                        Black Businesses
-                    </p>
+                    
+                    <span className="">
+                        <IoMdBusiness size={36} />
+                        <span className=" text-xs md:block sm:text-sm md:text-lg"> Black Businesses</span>
+                    </span>
+
                     <TbChevronDown color='white' />
+
                 </div>
 
                 {isOpen && (
@@ -71,7 +76,18 @@ const BusinessNavDropDown = () => {
                                 }}>
                         </div>
 
-                        <div className='grid grid-cols-12 gap-4 bg-gray-900 border border-gray-950 py-4 absolute rounded-md shadow-md w-[22rem] overflow-hidden left-0 top-12 text-sm z-50'>
+                        <div className='absolute
+                                        top-24
+                                        left-0
+                                        -ml-52
+                                        sm:-md-52
+                                        md:ml-0
+                                        grid grid-cols-12 gap-4
+                                        bg-gray-900 border border-gray-950
+                                        py-4 rounded-md shadow-md 
+                                        w-[22rem] overflow-hidden
+                                        text-sm z-[500]'>
+
                             <div className="px-4 pb-3 col-span-10">
                                 <p className="text-gray-200 font-semibold">Black Business Selections</p>
                                 <p className="text-sm text-gray-400">Browse a curated list of available black businesses</p>

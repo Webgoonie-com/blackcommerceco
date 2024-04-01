@@ -25,7 +25,7 @@ const CategoriesNav = () => {
             <CategoriesBusinesses />
             
             
-            <div className="ms-5 flex items-start mt-5">
+            <div className="ms-5 flex items-start mt-5 overflow-y-visible">
                 <PropertyNavDropDown />
                 <BusinessNavDropDown />
             </div>
