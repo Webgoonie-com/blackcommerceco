@@ -6,7 +6,7 @@
   "main": "dist/index",
   "types": "dist/index",
   "scripts": {
-    "cleanClient": "rm -rf .next",
+    "cleanClient": "rm -rf .next && rm -rf dist",
     "cleanupClient": "rm -rf node_modules && rm -rf .next",
     "dev": "next dev -p 3333",
     "devv": "nodemon ./src/server.mjs",
