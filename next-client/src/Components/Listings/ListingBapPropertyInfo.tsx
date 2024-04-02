@@ -41,13 +41,19 @@ const ListingBapPropertyInfo:React.FC<ListingBapPropertyInfoProps> = ({
 }) => {
 
 
+    // console.log('countr', country)
+    // console.log('countryStateRegion', countryStateRegion)
+    // console.log('countryCity', countryCity)
+
     const extractLatLng = (latLngString: string | undefined): [number, number] | undefined => {
+        // console.log('latLngString', latLngString)
         
         if (!latLngString) return undefined
         
-        const [latitude, longitude] = latLngString.split(',').map(Number)
-        
-        return [latitude, longitude]
+        const latitude = parseFloat(latLngString[0]);
+        const longitude = parseFloat(latLngString[1]);
+
+        return [latitude, longitude];
     };
 
     // Determine the appropriate latitude and longitude values
@@ -61,11 +67,11 @@ const ListingBapPropertyInfo:React.FC<ListingBapPropertyInfoProps> = ({
         center = extractLatLng(country)
     }
 
-    if (center) {
-        const [latitude, longitude] = center;
-        // console.log('Latitude:', latitude);
-        // console.log('Longitude:', longitude);
-    }
+    // if (center) {
+    //     const [latitude, longitude] = center;
+    //     // console.log('Latitude:', latitude);
+    //     // console.log('Longitude:', longitude);
+    // }
 
     return (
         <div className="col-span-4 flex flex-col gap-8">

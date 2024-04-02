@@ -2,7 +2,7 @@
 
 import React, { useCallback, useMemo, useEffect, useState } from 'react';
 import { CurrentUser, IUser } from '@/Types/nextauth';
-import { CountryStateRegion, currentUser, User } from '@/Types';
+import { CountryStateRegion, currentUser, ListingBapCardProps, User } from '@/Types';
 import useCountries from '@/Hooks/useCountries';
 import { useRouter } from 'next/navigation';
 
@@ -21,112 +21,7 @@ const logoPlaceHolder = `${process.env.NEXT_PUBLIC_URL}` + logo.src
 
 
 
-interface Country {
-    id: number;
-    uuid: string;
-    value: string;
-    label: string;
-    currency: string;
-    phonecode: string;
-    flag: string;
-    latlng: string;
-    latitude: string;
-    longitude: string;
-    region: string;
-    isoCode: string;
-    name: string;
-}
-interface Property {
-    Id: number;
-    uuid: string;
-    bathroomCount: number;
-    category: string;
-    description: string;
-    guestCount: number;
-    imageSrc: string | undefined | null;
-    locationValue: string;
-    price: number;
-    roomCount: number;
-    title: string;
-    userId: number;
-    country: Country;
-    createdAt: Date;
-    updatedAt: Date;
 
-}
-
-
-interface Businesses {
-    uuid: string;
-    token: string;
-    acctStatus: number;
-    namePublicDisplay: string;
-    nameDBA: string;
-    nameLegal: string;
-    imageSrc: string;
-    isAFranchise: number;
-    isTheFranchiseParent: number;
-    ownsOtherBusinesses: number;
-    taxNumber: string;
-    address: string;
-    city: string;
-    stateProvince: string;
-    country: string;
-    userId: number;
-    businessId: number;
-    BusinessUploads: string;
-   
-}
-
-interface Reservation {
-    locationValue: string;
-    totalPrice: number;
-    startDate: Date,
-    endDate: Date,
-}
-
-interface ListingBapCardProps {
-    data: {
-        Id: number;
-        uuid: string;
-        userId: number;
-        
-        user: User;
-        
-        countryCityId: number;
-        Country: Country;
-        countryStateRegion: CountryStateRegion;
-        countryStateRegionId: number;
-
-        imageSrc: string;
-        category: string;
-        title: string;
-        description: string;
-        streetCity: string;
-        roomCount: number;
-        guestCount: number;
-        bathroomCount: number;
-
-        price: string;
-
-        streetAddress: string;
-        streetAddress2: string;
-        streetZipCode: string;
-        locationValue: string;
-        Businesses: Businesses;
-        updatedAt: Date;
-        country: Country;
-    } | null;
-    reservation?: {
-        Reservation: Reservation;
-    } | null;
-    onAction?: (Id: string) => void;
-    disabled?: boolean
-    actionLabel?: string;
-    actionId?: string;
-    currentUser?: currentUser
-
-}
 
 const ListingBapCard: React.FC<ListingBapCardProps> =  ({
     data,
@@ -148,7 +43,8 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
     const { getByValue } = useCountries();
 
     const listingId = data?.uuid || 0;
-    console.log('listingId', listingId)
+
+    // console.log('listingId', listingId)
     
     const location = getByValue(data?.locationValue || '');
     
@@ -189,7 +85,7 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
 
     }, [reservation])
 
-    console.log('Line 191 data Bap Listing', data)
+    // console.log('Line 191 data Bap Listing', data)
 
     return (
         
@@ -227,6 +123,7 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
                             listingId={parseInt(listingId as string)}
                             currentUser={currentUser as any}
                         />
+
                     </div>
                 </div>
                 

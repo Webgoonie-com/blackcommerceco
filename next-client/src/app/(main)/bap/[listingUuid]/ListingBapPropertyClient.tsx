@@ -134,7 +134,8 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
     }, [dateRange, propertylistingByUuid?.price])
     
 
-    console.log('propertylistingByUuid', propertylistingByUuid)
+    // console.log('propertylistingByUuid', propertylistingByUuid)
+    // console.log('Lie 138 propertylistingByUuid?.country?.name', propertylistingByUuid?.country?.name)
     
     
     return ( 
@@ -150,7 +151,7 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
                     title={propertylistingByUuid?.title}
                     imageSrc={propertylistingByUuid?.imageSrc || null}
                     locationValue={propertylistingByUuid?.locationValue as any}
-                    country={propertylistingByUuid?.country?.label as any}
+                    country={propertylistingByUuid?.country?.name as any}
                     countryStateRegion={propertylistingByUuid?.countryStateRegion?.name as any}
                     countryCity={propertylistingByUuid?.countryCity?.name as any}
                     id={propertylistingByUuid?.listingId}
@@ -164,14 +165,14 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
                         <ListingBapPropertyInfo 
                             user={currentUser as any}
                             description={propertylistingByUuid?.description}
-                            guestCount={0}
-                            roomCount={0}
-                            bathroomCount={0}
+                            guestCount={propertylistingByUuid?.guestCount}
+                            roomCount={propertylistingByUuid?.roomCount}
+                            bathroomCount={propertylistingByUuid?.bathroomCount}
                             category={category}
                             locationValue={propertylistingByUuid as any}
-                            country={propertylistingByUuid?.country?.latlng}
-                            countryStateRegion={propertylistingByUuid?.countryStateRegion?.latlng}
-                            countryCity={propertylistingByUuid?.countryCity?.latlng}
+                            country={[propertylistingByUuid?.country?.latitude, propertylistingByUuid?.country?.longitude] as any}
+                            countryStateRegion={[propertylistingByUuid?.countryStateRegion?.latitude, propertylistingByUuid?.countryStateRegion?.longitude] as any}
+                            countryCity={[propertylistingByUuid?.countryCity?.latitude, propertylistingByUuid?.countryCity?.longitude] as any}
                         />
                         
                         <div className="order-first mb-10 md:order-last md:col-span-3">

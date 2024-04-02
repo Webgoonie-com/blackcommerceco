@@ -11,17 +11,19 @@ import EmptyStateBap from '../EmptyStates/EmptyStateBap';
 import ListingBapCard from './ListingBapCard';
 import ListingBbCard from './ListingBbCard';
 import EmptyStateBb from '../EmptyStates/EmptyStateBb';
+import { currentUser } from '@/Types';
 
 
 
 interface BbListingProp {
     Id: number;
     uuid: string;
+    currentUser: currentUser
 }
 interface BapListingProp {
     Id: number;
     uuid: string;
-    
+    currentUser: currentUser
 }
 
 export default function Listings() {
@@ -101,11 +103,11 @@ export default function Listings() {
                                 2xl:grid-cols-6
                                 gap-8
                             "> 
-                            {baplistings.map((listing: any) => (
+                            {baplistings.map((baplisting: any) => (
                                 <ListingBapCard
-                                    key={listing.uuid}
-                                    currentUser={listing.currentUser}
-                                    data={listing}
+                                    key={baplisting.uuid}
+                                    currentUser={currentUser as any}
+                                    data={baplisting}
                                 />
                             ))}
                             
@@ -144,7 +146,7 @@ export default function Listings() {
                             {bblistings.map((bblisting: any) => (
                                 <ListingBbCard
                                     key={bblisting.uuid}
-                                    currentUser={bblisting.currentUser}
+                                    currentUser={currentUser as any}
                                     data={bblisting}
                                 />
                             ))}

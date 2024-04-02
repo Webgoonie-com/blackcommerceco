@@ -91,6 +91,49 @@ import { Country } from "country-state-city";
     }
     
     
+    export interface ListingBbCardProps {
+         data: {
+            Id: number;
+            uuid: string;
+            userId: number;
+            
+            user: CurrentUser;
+            
+            countryCityId: number;
+            Country: Country;
+            countryStateRegion: CountryStateRegion;
+            countryStateRegionId: number;
+    
+            imageSrc: string;
+            category: string;
+            title: string;
+            description: string;
+            streetCity: string;
+            roomCount: number;
+            guestCount: number;
+            bathroomCount: number;
+    
+            price: string | null;
+    
+            streetAddress: string;
+            streetAddress2: string;
+            streetZipCode: string;
+            locationValue: string;
+            Businesses: Businesses;
+            updatedAt: Date;
+            country: Country;
+        } | null;
+        reservation?: {
+            Reservation: Reservation;
+        } | null;
+        onAction?: (Id: string) => void;
+        disabled?: boolean
+        actionLabel?: string;
+        actionId?: string;
+        currentUser?: currentUser
+    
+    }
+    
     export interface ListingCardProps {
         data: {
             Id: number;
@@ -156,6 +199,50 @@ import { Country } from "country-state-city";
         //currentUser?: IUser | null
         currentUser?: CurrentUser | null
     }
+
+    export interface ListingBapCardProps {
+        data: {
+            Id: number;
+            uuid: string;
+            userId: number;
+            
+            user: User;
+            
+            countryCityId: number;
+            Country: Country;
+            countryStateRegion: CountryStateRegion;
+            countryStateRegionId: number;
+    
+            imageSrc: string;
+            category: string;
+            title: string;
+            description: string;
+            streetCity: string;
+            roomCount: number;
+            guestCount: number;
+            bathroomCount: number;
+    
+            price: string;
+    
+            streetAddress: string;
+            streetAddress2: string;
+            streetZipCode: string;
+            locationValue: string;
+            Businesses: Businesses;
+            updatedAt: Date;
+            country: Country;
+        } | null;
+        reservation?: {
+            Reservation: Reservation;
+        } | null;
+        onAction?: (Id: string) => void;
+        disabled?: boolean
+        actionLabel?: string;
+        actionId?: string;
+        currentUser?: currentUser
+    
+    }
+    
     export interface BuisinessListing {
         id: number;
         uuid: string | null;
