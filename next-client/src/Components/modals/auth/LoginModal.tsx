@@ -96,7 +96,7 @@ const RegisterModal = () => {
             <div className="row position-absolute">
                 <ModalHeading
                     title={'Welcome Back'}
-                    subtitle={`LogIn to your account...`}
+                    subtitle={`Log In to your account...`}
                 />
            </div>
             <div className="flex items-center gap-2">
@@ -110,7 +110,7 @@ const RegisterModal = () => {
 
 
     const footerContent = (
-        <div className='flex flex-col gap-4'>
+        <div className='flex flex-col '>
             <hr />
             {/* <Button
                 outline
@@ -129,7 +129,7 @@ const RegisterModal = () => {
 
             /> */}
             <div className="justify-start flex flex-row items-center gap-2 text-gray-500 text-center mt-4 font-light">
-                    <div>First Time using  BlackCommerce? </div>
+                    <div className="hidden text-sm md:block">First Time using  BlackCommerce? </div>
                 
                     <div 
                         className="text-white hover:underline hover:cursor-pointer"

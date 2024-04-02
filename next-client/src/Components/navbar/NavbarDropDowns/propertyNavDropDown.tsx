@@ -63,7 +63,7 @@ const PropertyNavDropDown = () => {
                             ${isOpen ? 'border-purple-600' : 'border-transparent'}`}>
                 <span className='p-0'>
                     <FaHouseUser size={36} />
-                    <span className=" text-xs md:block sm:text-sm md:text-lg"> Black Air Properties </span>
+                    <span className=" text-xs md:block sm:text-sm md:text-lg"> Properties </span>
                 </span>
                 
                 <TbChevronDown className="left-0" color='white' />

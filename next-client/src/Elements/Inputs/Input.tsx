@@ -51,9 +51,13 @@ const Input: React.FC<InputProps> = ({
                 placeholder={placeholder || ' '}
                 type={type}
                 onChange={handleChange} // Attach handleChange function to onChange event
-                className={`peer w-full pt-4 p-4 sm:pt-5 sm:p-5 md:pt-5 md:p-5 font-light bg-gray-900 border-2
-                            duration-20 focus:outline-none rounded-md outline-none text-white
-                            transition disabled:opacity-70 disabled:cursor-not-allowed 
+                className={`peer 
+                            w-full 
+                            pt-6 p-8 
+                            md:pt-5 md:p-5 
+                            font-light bg-gray-900 border-2
+                            duration-20 focus:outline-none rounded-md
+                            outline-none text-white transition disabled:opacity-70 disabled:cursor-not-allowed
                             ${formatPrice ? 'pl-9' : 'pl-4'}
                             ${errors[id] ? 'border-rose-500' : 'border-gray-800'}
                             ${errors[id] ? 'focus:border-rose-500' : 'focus:border-gray-500'}

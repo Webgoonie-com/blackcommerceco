@@ -104,7 +104,10 @@ const RegisterModal = () => {
 
 
     const bodyContent = (
-        <div id="regBody" className="flex flex-col gap-4">
+        <div id="regBody" className="flex flex-col
+        
+        gap-6
+         ">
             <div className="row position-absolute">
                 <ModalHeading
                     title={'Welcome To Black Commerce'}
@@ -112,8 +115,8 @@ const RegisterModal = () => {
                 />
            </div>
            <div className="flex items-center gap-2">
-                <Input id='firstName' label='Your First Name' disabled={isLoading} register={register} errors={errors} required  />
-                <Input id='lastName' label='Your Last Name (or Tribe Name)' disabled={isLoading} register={register} errors={errors} required  />
+                <Input id='firstName' label='First Name' disabled={isLoading} register={register} errors={errors} required  />
+                <Input id='lastName' label="Last Name " disabled={isLoading} register={register} errors={errors} required  />
             </div>
             <div className="flex items-center gap-2 z-10">
                 <Input id='email' type='email' label='Primary Email' disabled={isLoading} register={register} errors={errors} required  />
@@ -159,7 +162,7 @@ const RegisterModal = () => {
 
             /> */}
             <div className="justify-start flex flex-row items-center gap-2 text-gray-500 text-center mt-4 font-light">
-                    <div>Already have an account </div>
+                    <div className="hidden text-sm md:block">Already have an account </div>
                 
                     <div 
                         className="text-white hover:underline hover:cursor-pointer"

@@ -59,7 +59,7 @@ const BusinessNavDropDown = () => {
                     
                     <span className="">
                         <IoMdBusiness size={36} />
-                        <span className=" text-xs md:block sm:text-sm md:text-lg"> Black Businesses</span>
+                        <span className=" text-xs md:block sm:text-sm md:text-lg"> Businesses</span>
                     </span>
 
                     <TbChevronDown color='white' />
@@ -79,7 +79,7 @@ const BusinessNavDropDown = () => {
                         <div className='absolute
                                         top-24
                                         left-0
-                                        -ml-52
+                                        -ml-40
                                         sm:-md-52
                                         md:ml-0
                                         grid grid-cols-12 gap-4
