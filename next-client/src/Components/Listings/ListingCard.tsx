@@ -11,22 +11,7 @@ import Image from 'next/image';
 import HeartIconButton from '@/Elements/Icons/HeartIconButton';
 import Button from '@/Elements/Button';
 
-import useFavorite from '@/Hooks/useFavorite';
-import getCurrentUser from "@/Actions/getCurrentUser"
 
-// interface User {
-//     firstName: string;
-//     lastName: number;
-//     Id: number;
-//     uuid: string;
-//     token: string;
-//     favoriteIds: string;
-//     acctStatus: number;
-//     role: number;
-//     emailVerified: number;
-//     usrImage: string;
-//     // ... other properties of Property
-// }
 interface Property {
     id: number;
     uuid: string;
@@ -43,8 +28,6 @@ interface Property {
     createdAt: Date;
     updatedAt: Date;
 
-
-    // ... other properties of Property
 }
 interface Businesses {
     uuid: string;
@@ -65,7 +48,7 @@ interface Businesses {
     userId: number;
     businessId: number;
     BusinessUploads: string;
-    // ... other properties of Property
+
 }
 
 interface Reservation {
@@ -73,7 +56,7 @@ interface Reservation {
     totalPrice: number;
     startDate: Date,
     endDate: Date,
-    // ... other properties of Property
+
 }
 
 interface ListingCardProps {
@@ -96,11 +79,10 @@ interface ListingCardProps {
         locationValue: string;
         Businesses: Businesses;
         updatedAt: Date;
-        // ... other properties of data
+
     } | null;
     reservation?: {
         Reservation: Reservation;
-            // ... other properties of data
     } | null;
     onAction?: (Id: string) => void;
     disabled?: boolean
