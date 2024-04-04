@@ -8,7 +8,8 @@ import { useRouter } from 'next/navigation';
 
 import { format } from 'date-fns'
 import Image from 'next/image';
-import HeartIconButton from '@/Elements/Icons/HeartIconButton';
+import HearticonBusinessButton  from '@/Elements/Icons/HeartIconButton/HearticonBusinessButton';
+import HeartPropertyButton  from '@/Elements/Icons/HeartIconButton/HearticonPropertyButton';
 import Button from '@/Elements/Button';
 
 
@@ -187,7 +188,7 @@ const ListingCard: React.FC<ListingCardProps> =  ({
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // has "fill" but is missing "sizes" prop. Please add it to improve page performance.
                     />
                     <div className="absolute top-3 right-3">
-                        <HeartIconButton 
+                        <HearticonBusinessButton 
                             listingId={parseInt(listingId as any)}
                             currentUser={currentUser as any}
                         />
