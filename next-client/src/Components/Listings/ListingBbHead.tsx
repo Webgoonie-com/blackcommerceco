@@ -5,7 +5,7 @@ import { currentUser, User } from "@/Types";
 import ModalHeading from "../modals/ModalHeading";
 import Heading from "../Heading";
 import Image from 'next/image';
-import HeartIconButton from '@/Elements/Icons/HeartIconButton';
+import HearticonBusinessButton from '@/Elements/Icons/HeartIconButton/HearticonBusinessButton';
 import useCountryStateZip from "@/Hooks/useCountryStateZip";
 
 interface ListingBbHeadProps {
@@ -57,7 +57,7 @@ const ListingBbHead: React.FC<ListingBbHeadProps> = ({
                     />
 
                     <div className="absolute top-5 right-5">
-                        <HeartIconButton 
+                        <HearticonBusinessButton 
                             listingId={id}
                             currentUser={currentUser as any}
                             />
