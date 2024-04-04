@@ -5,7 +5,7 @@ import { currentUser, User } from "@/Types";
 import ModalHeading from "../modals/ModalHeading";
 import Heading from "../Heading";
 import Image from 'next/image';
-import HeartIconButton from '@/Elements/Icons/HeartIconButton';
+import HearticonPropertyButton from '@/Elements/Icons/HeartIconButton/HearticonPropertyButton';
 
 import logo from '../../../public/images/logo.png'
 
@@ -60,7 +60,7 @@ const ListingBapHead: React.FC<ListingHeadProps> = ({
                     />
 
                     <div className="absolute top-5 right-5">
-                        <HeartIconButton 
+                        <HearticonPropertyButton 
                             listingId={id}
                             currentUser={currentUser as any}
                             />
