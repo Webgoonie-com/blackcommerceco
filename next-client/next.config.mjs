@@ -3,7 +3,7 @@
  */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: false,
+  swcMinify: true,
   // webpack(config, { webpack }) {
   //   config.resolve.fallback = {
   //     ...config.resolve.fallback,
