@@ -38,36 +38,38 @@ export const listFavorites = async (): Promise<Favorite[]> => {
 
 
 
-export const getUserIdFavorites = async (id: number, listingData: any ): Promise<Listing[]> => {
-
-    console.log('addListingFavoriteByListingId', id)
-    console.log('listingData', listingData)
-
+export const getUserIdFavorites = async (id: number, listingData: any): Promise<Listing[]> => {
     const { listingId, userId } = listingData.body;
 
-    console.log('listingId:', listingId);
-    console.log('userId:', userId);
+    if (!listingId || typeof listingId !== 'number') {
+        throw new Error("Invalid ListingId");
+    } else {
+        const favorites = await orm.favorite.findMany({
+            where: {
+                userId: userId,
+                listingId: listingId
+            },
+            include: {
+                // Include the associated listing for each favorite
+                listing: true
+            }
+        });
 
+        const listings: Listing[] = favorites.map(favorite => ({
+            id: favorite.listingId ?? 0, // Provide a default value if null
+            uuid: favorite.listing?.[0]?.uuid ?? null,
+            token: favorite.listing?.[0]?.token ?? "",
+            title: favorite.listing?.[0]?.title ?? "",
+            description: favorite.listing?.[0]?.description ?? "",
+            imageSrc: favorite.listing?.[0]?.imageSrc ?? null,
+            category: favorite.listing?.[0]?.category ?? "",
+            countryId: favorite.listing?.[0]?.countryId ?? null,
+            countryStateRegionId: favorite.listing?.[0]?.countryStateRegionId ?? null,
+            createdAt: favorite.listing?.[0]?.createdAt ?? new Date(),
+            updatedAt: favorite.listing?.[0]?.updatedAt ?? new Date(),
+            userId: favorite.userId
+        }));
 
-    if(!listingId || typeof listingId !== 'number'){
-        console.log('listingId is not a number or dont exist', listingId)
-        throw new Error("Invalid ListinId");
-        
-    }else{
-        console.log('listingId is a number', listingId)
+        return listings;
     }
-
-
-    console.log("Passed to Here LEt's finad a match:", listingId)
-
-    //  const { listingData } = params;
-
-    // const listings = await  orm.favorite.create({
-    //    data: {
-    //     userId: userId,
-    //    }
-    // })
-
-    
-    return listingData;
 }

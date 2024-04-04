@@ -11,15 +11,15 @@ import { currentUser } from '@/Types';
 
 
 
-interface useFavorite {
+interface useBusinessFavorite {
     listingId: number | string;
     currentUser: currentUser;
 }
 
-const useFavorite = ({
+const useBusinessFavorite = ({
     listingId,
     currentUser,
-}: useFavorite) => {
+}: useBusinessFavorite) => {
 
     
     
@@ -49,7 +49,7 @@ const useFavorite = ({
             if(hasFavorited){
                 request = () => {
 
-                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/delfavorites/${listingId}`, {
+                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/delBusinessfavorites/${listingId}`, {
                         userId: currentUser?.id,
                         listingId: listingId,
                       })
@@ -58,7 +58,7 @@ const useFavorite = ({
             }else{
                 request =() => {
                     
-                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/addfavorites/${listingId}`, {
+                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/addBusinessfavorites/${listingId}`, {
                         userId: currentUser?.id,
                         listingId: listingId,
                       })
@@ -88,4 +88,4 @@ const useFavorite = ({
     }
 }
 
-export default useFavorite
+export default useBusinessFavorite

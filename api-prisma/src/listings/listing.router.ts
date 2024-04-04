@@ -264,7 +264,7 @@ listingRouter.get("/businessuuid/:uuid", async (request: Request, response: Resp
 
 })
 
-listingRouter.post("/delfavorites/:listingId", async (request: Request, response: Response) => {
+listingRouter.post("/delPropertyfavorites/:listingId", async (request: Request, response: Response) => {
 
     const listingId: string = request.params.listingId
     //const listingId: string = request.body.listingId
@@ -295,13 +295,77 @@ listingRouter.post("/delfavorites/:listingId", async (request: Request, response
 
 })
 
-listingRouter.post("/addfavorites/:listingId", async (request: Request, response: Response) => {
+listingRouter.post("/addPropertyfavorites/:listingId", async (request: Request, response: Response) => {
 
     const listingId: string = request.params.listingId
     
     const body: string = request.body
 
-    console.log('addfavorites listingId', listingId)
+    console.log('addPropertyfavorites Property listingId', listingId)
+    console.log('addPropertyfavorites Property body', body)
+
+    const listingData = {
+        files: request.files,
+        body: request.body
+    };
+
+
+    try {
+
+        const user = await ListingController.addBapsListingFavoriteByListingId(parseInt(listingId), listingData)
+
+        if(user) {
+
+            return response.status(200).json(user)
+
+        }
+
+    } catch (error) {
+
+        return response.status(500).json("Sorry Listing By Favorite Could Not Be Found")
+
+    }
+
+})
+
+listingRouter.post("/delBusinessfavorites/:listingId", async (request: Request, response: Response) => {
+
+    const listingId: string = request.params.listingId
+    //const listingId: string = request.body.listingId
+
+    console.log('delfavorites', listingId)
+
+    const listingData = {
+        files: request.files,
+        body: request.body
+    };
+
+
+    try {
+
+        const user = await ListingController.delBbsListingFavoriteByListingId(parseInt(listingId), listingData)
+
+        if(user) {
+
+            return response.status(200).json(user)
+
+        }
+
+    } catch (error) {
+
+        return response.status(500).json("Sorry Listing By Favorite Could Not Be Found")
+
+    }
+
+})
+
+listingRouter.post("/addBusinessfavorites/:listingId", async (request: Request, response: Response) => {
+
+    const listingId: string = request.params.listingId
+    
+    const body: string = request.body
+
+    console.log('addBusinessfavorites listingId', listingId)
     console.log('addfavorites body', body)
 
     const listingData = {

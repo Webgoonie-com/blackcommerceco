@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import useFavorite from '@/Hooks/useFavorite';
+import useBusinessFavorite from '@/Hooks/useBusinessFavorite';
 import { currentUser  } from '@/Types';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 
@@ -17,8 +17,9 @@ const HearticonButton: React.FC<HeartIconButtonProps> = ({
     currentUser
 }) => {
 
+    //const hasFavorited = false
 
-    const { hasFavorited, toggleFavorite } = useFavorite({
+    const { hasFavorited, toggleFavorite } = useBusinessFavorite({
         listingId,
         currentUser: currentUser as any,
     })

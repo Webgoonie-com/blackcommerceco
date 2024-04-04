@@ -8,7 +8,7 @@ import useCountries from '@/Hooks/useCountries';
 import { format } from 'date-fns'
 
 import Image from 'next/image';
-import HeartIconButton from '@/Elements/Icons/HeartIconButton';
+import HearticonBusinessButton from '@/Elements/Icons/HeartIconButton/HearticonBusinessButton';
 import Button from '@/Elements/Button';
 
 import { ListingBbCardProps } from '@/Types/index'
@@ -113,7 +113,7 @@ const ListingBbCard: React.FC<ListingBbCardProps> =  ({
 
                     <div className="absolute top-3 right-3">
                
-                        <HeartIconButton 
+                        <HearticonBusinessButton 
                             listingId={parseInt(listingId as string)}
                             currentUser={currentUser as any}
                         />

@@ -8,10 +8,10 @@ import { useRouter } from 'next/navigation';
 
 import { format } from 'date-fns'
 import Image from 'next/image';
-import HeartIconButton from '@/Elements/Icons/HeartIconButton';
+import HearticonPropertyButton from '@/Elements/Icons/HeartIconButton/HearticonPropertyButton';
 import Button from '@/Elements/Button';
 
-import useFavorite from '@/Hooks/useFavorite';
+import usePropertyFavorite from '@/Hooks/usePropertyFavorite';
 import getCurrentUser from "@/Actions/getCurrentUser"
 
 //import logo from '../../../public/images/logo.png'
@@ -119,7 +119,7 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
                     />
                     <div className="absolute top-3 right-3">
                         
-                        <HeartIconButton 
+                        <HearticonPropertyButton 
                             listingId={parseInt(listingId as string)}
                             currentUser={currentUser as any}
                         />
