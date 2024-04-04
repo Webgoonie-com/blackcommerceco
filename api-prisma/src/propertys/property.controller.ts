@@ -827,6 +827,7 @@ export const createPropertyPhotos = async (propertyData: any): Promise<PropertyP
 
 
 export const createPropertyReservation = async (propertyReservationData: any): Promise<any> => {
+    
     if (!propertyReservationData) {
         throw new Error("PropertyReservationData is missing");
     }

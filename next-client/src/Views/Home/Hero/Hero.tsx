@@ -26,13 +26,19 @@ const Hero = () => {
                                 Building The African Diaspora
                             </h4>
                             <p className="text-base mt-2 mb-2 font-bold text-purple-500">
-                                Welcome to the Black Business Directory And Available Properties all within a well sound ecosystem of the African Diaspora and it{"'"}s people throughout its nations. This is a community of businesses and people who are passionate about building a better future for their people.
+                                Welcome to the Black Business 
+                                Directory And Available Properties all 
+                                within a well sound ecosystem of the
+                                African Diaspora and people 
+                                throughout its nations. This is a 
+                                community of businesses and people 
+                                who are passionate about building a better future for their people.
                             </p>
                             <p className="text-base mt-2 mb-2 font-bold text-purple-500">
                                 We hold our destiny in our own hands. No one else will come to save us but us.
                             </p>
     
-                            <p className="text-base mt-2 mb-4 font-bold text-purple-500">Today we arrise to the occocation to make a positive difference in our world and future.</p>
+                            <p className="text-base mt-2 mb-4 font-bold text-purple-500">Today we rise to the occasion to make a positive difference in our world and future.</p>
     
                             {!session?.user ? (
                                 <h2 className="text-[1.4rem] leading-tight text-white font-bold">Join Us Today...</h2>
