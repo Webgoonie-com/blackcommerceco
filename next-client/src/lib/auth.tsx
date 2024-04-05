@@ -96,6 +96,7 @@ export const authOptions: AuthOptions  = {
             lastName: user.lastName,
             usrImage: user.usrImage,
             emailVerified: user.emailVerified,
+            favoriteIds: user.favoriteIds,
             createdAt: user.createdAt,
             upatedAt: user.updatedAt,
             }
@@ -126,6 +127,7 @@ export const authOptions: AuthOptions  = {
             session.user.email = token.email;
             session.user.emailVerified = token.emailVerified;
             session.user.image = token.usrImage;
+            session.user.favoriteIds = token.favoriteIds;
             session.user.createdAt = token.createdAt;
             session.user.updatedAt = token.updatedAt;
         }
