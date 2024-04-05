@@ -19,22 +19,21 @@ favoriteRouter.get('/all', async (request: Request, response: Response) => {
 
 })
 
-favoriteRouter.post('/userIdFavorites:userId', async (request: Request, response: Response) => {
+favoriteRouter.post('/userIdFavorites', async (request: Request, response: Response) => {
 
-    const listingId: string = request.params.listingId
+    //const listingId: string = request.params.listingId
     
     const body: string = request.body
 
-    console.log('addfavorites listingId', listingId)
+    const { userId } = await request.body
+
+    console.log('addfavorites userIdFavorites', userId)
     console.log('addfavorites body', body)
 
-    const listingData = {
-        files: request.files,
-        body: request.body
-    };
+
     
     try {
-        const users = await FavoriteController.getUserIdFavorites(parseInt(listingId), listingData)
+        const users = await FavoriteController.getUserIdFavorites(parseInt(userId))
         return response.status(200).json(users);
 
     } catch (error: any) {

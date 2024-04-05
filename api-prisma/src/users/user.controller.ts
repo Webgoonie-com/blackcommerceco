@@ -7,13 +7,14 @@ type User = {
     firstName: string | null;
     lastName: string | null;
     email: string;
-    
+    favoriteIds: any | null;
     createdAt: Date;
 }
 
 type CreateUserInput = Omit<User, "id"> & {
     phone: string,
     hashedPassword: string;
+    favoriteIds: any | null;
 };
 
 
@@ -23,7 +24,7 @@ type FindUserResult = {
     firstName: string | null;
     lastName: string | null;
     email: string;
-    
+    favoriteIds: any | null;
     hashedPassword: string | null;
     createdAt: Date;
 };
@@ -31,6 +32,8 @@ type FindUserResult = {
 
 export const listUsers = async (): Promise<User[]> => {
     return orm.user.findMany({
+        
+        
         select:{
             id: true,
             uuid: true,
@@ -39,6 +42,7 @@ export const listUsers = async (): Promise<User[]> => {
             phone: true,
             email: true,
             createdAt: true,
+            favoriteIds: true,
         }
     })
 }
@@ -56,6 +60,7 @@ export const getUserEmail = async (email: string): Promise<User | null> => {
             phone: true,
             hashedPassword: true,
             email: true,
+            favoriteIds: true,
             createdAt: true,
         },
     })
@@ -71,6 +76,7 @@ export const getUserId = async (id: number): Promise<User | null> => {
             uuid: true,
             firstName: true,
             lastName: true,
+            favoriteIds: true,
             email: true,
             createdAt: true,
         },
@@ -87,6 +93,7 @@ export const getUserUuId = async (uuid: string): Promise<User | null> => {
             uuid: true,
             firstName: true,
             lastName: true,
+            favoriteIds: true,
             email: true,
             createdAt: true,
         },
@@ -192,6 +199,7 @@ export const updateUser = async (user: Omit<User, "id">, id: number): Promise<Us
             firstName: true,
             lastName: true,
             email: true,
+            favoriteIds: true,
             createdAt: true,
             updatedAt: true,
         }

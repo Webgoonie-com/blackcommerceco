@@ -44,7 +44,7 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
 
     const listingId = data?.uuid || 0;
 
-    // console.log('listingId', listingId)
+    console.log('listingId', listingId)
     
     const location = getByValue(data?.locationValue || '');
     

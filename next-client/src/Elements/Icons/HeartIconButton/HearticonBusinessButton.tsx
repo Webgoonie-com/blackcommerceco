@@ -17,9 +17,9 @@ const HearticonButton: React.FC<HeartIconButtonProps> = ({
     currentUser
 }) => {
 
-    //const hasFavorited = false
+    //const hasFavorited = true
 
-    const { hasFavorited, toggleFavorite } = useBusinessFavorite({
+    const {hasFavorited,  toggleFavorite } = useBusinessFavorite({
         listingId,
         currentUser: currentUser as any,
     })

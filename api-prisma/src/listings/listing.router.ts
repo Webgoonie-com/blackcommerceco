@@ -392,6 +392,8 @@ listingRouter.post("/addBusinessfavorites/:listingId", async (request: Request, 
 
 })
 
+
+
 listingRouter.delete("/favorites/:listingId", async (request: Request, response: Response) => {
 
     //const listingId: string = request.params.listingId

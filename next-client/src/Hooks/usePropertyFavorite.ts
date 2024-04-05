@@ -22,6 +22,7 @@ const usePropertyFavorite = ({
 }: usePropertyFavorite) => {
 
     
+    console.log('Line 25 usePropertyFavorite listingId', listingId)
     
     const router = useRouter()
     const loginModal =  useLoginModal()
