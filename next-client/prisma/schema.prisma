@@ -357,9 +357,9 @@ model user {
   hashedPassword String?
   firstName      String?
   lastName       String?
-  favoriteUuids  String?
   updatedAt      DateTime  @default(now())
   createdAt      DateTime  @default(now())
+  favoriteUuids  String?
 }
 
 model userphoto {

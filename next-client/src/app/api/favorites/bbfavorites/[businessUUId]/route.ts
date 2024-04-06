@@ -5,12 +5,12 @@ import prisma from "@/lib/orm";
 
 interface IParams {
     businessUUId?: string;
-    favoriteIds?: string[];
+    favoriteUuids?: string[];
 }
 
 
 interface IUserUpdateData {
-    favoriteIds: string[]; // Define favoriteIds property here
+    favoriteUuids: string[]; // Define favoriteUuids property here
     businessUUId: string;
 }
 
@@ -36,20 +36,20 @@ export async function POST(
         
     }
 
-    let favoriteIds = [...(currentUser.favoriteIds || [])]
+    let favoriteUuids = [...(currentUser.favoriteUuids || [])]
 
-    favoriteIds.push(businessUUId)
+    favoriteUuids.push(businessUUId)
 
-    const user = await prisma.user.update({
-        where:{
-            id: currentUser?.id as any,
-        },
-        data: { 
-            favoriteIds
-        } as IUserUpdateData
-    });
+    // const user = await prisma.user.update({
+    //     where:{
+    //         id: currentUser?.id as any,
+    //     },
+    //     data: { 
+    //         favoriteUuids
+    //     }
+    // });
 
-    return NextResponse.json(user);
+    return NextResponse.json(favoriteUuids);
     
 }
 
@@ -72,18 +72,18 @@ export async function DELETE(
         
     }
 
-    let favoriteIds = [...(currentUser.favoriteIds || [])]
+    let favoriteUuids = [...(currentUser.favoriteUuids || [])]
 
-    favoriteIds = favoriteIds.filter((id) => id !== businessUUId)
+    favoriteUuids = favoriteUuids.filter((id) => id !== businessUUId)
 
-    const user = await prisma.user.update({
-        where:{
-            id: currentUser?.id as any,
-        },
-        data: { 
-            favoriteIds
-        } as IUserUpdateData
-    });
+    // const user = await prisma.user.update({
+    //     where:{
+    //         id: currentUser?.id as any,
+    //     },
+    //     data: { 
+    //         favoriteUuids
+    //     } 
+    // });
 
-    return NextResponse.json(user);
+    return NextResponse.json(favoriteUuids);
 }

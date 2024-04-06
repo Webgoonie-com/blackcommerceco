@@ -30,7 +30,7 @@ const useBusinessFavorite = ({
     const reuseUserId = currentUser?.id
 
     const hasFavorited = useMemo(() => {
-        const list = currentUser?.favoriteIds || [] as string[];
+        const list = currentUser?.favoriteUuids || [] as string[];
 
         //return (list as Array<string | number>).some(id => id === businessUUId);
 
