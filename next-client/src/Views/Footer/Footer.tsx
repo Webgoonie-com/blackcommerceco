@@ -7,7 +7,7 @@ const footer = () => {
 
         return (
             <footer id="footer" className="w-full text-gray-600 relative bg-gray-950">
-                <div className="px-36 py-24 mx-auto bg-gray-950">
+                <div className="px-1 py-2 md:px-36 md:py-24 mx-auto bg-gray-950">
                     <div className="flex flex-wrap md:text-left text-center -mb-10 -mx-4 bg-gray-950">
                         <div className="lg:w-1/6 md:w-1/2 w-full px-4">
                             <h2 className="title-font font-medium text-gray-200 tracking-widest text-sm mb-3">PROPERTIES</h2>
@@ -114,7 +114,7 @@ const footer = () => {
                     </div>
                 </div>
                 <div className="border-t border-gray-800  bg-gray-950">
-                    <div className="px-36 py-8 flex flex-wrap mx-auto items-center">
+                    <div className="px-5 py-8 flex flex-wrap mx-auto items-center">
                         <div className="flex md:flex-nowrap flex-wrap justify-center items-end md:justify-start">
                             <div className="relative sm:w-72 md:w-[60%] xl:w-[70%] sm:mr-4 mr-2">
                                 <label className="leading-7 text-sm text-white">Subscribe To Our NewsLetter For Special Offers And Annoucements Today.</label>
@@ -123,10 +123,19 @@ const footer = () => {
                                     id="footer-field"
                                     name="footer-field"
                                     placeholder="Enter Your Primary Email..."
-                                    className="w-full bg-gray-800 bg-opacity-50 rounded-md border border-gray-700 focus:ring-2 focus:bg-transparent focus:ring-green-200 focus:border-green-500 text-base outline-none text-white py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                                    className="
+                                    self-start  w-full bg-gray-800 bg-opacity-50 rounded-md border border-gray-700 focus:ring-2 focus:bg-transparent focus:ring-green-200 focus:border-green-500 text-base outline-none text-white py-1 px-3 leading-8 transition-colors duration-200 ease-in-out
+                                    xl:mb-0 xl:mt-5
+                                    md:mb-0 md:mt-5
+                                    sm:mb-2 sm:mt-5
+                                    xs:mb-2 xs:mt-5
+                                    mb-5 mt-5
+                                    "
                                 />
                             </div>
                             <button onClick={handEmailSubscribe} className="
+                                    sm:w-[25%]
+                                    md:w-full
                                     inline-flex
                                     text-white
                                     bg-purple-600
@@ -170,11 +179,21 @@ const footer = () => {
                 </div>
                 
                 <div className="bg-gray-900">
-                    <div className="mx-auto py-4 px-36 flex flex-wrap flex-col sm:flex-row">
-                        <p className="text-gray-500 text-sm text-center sm:text-left">© 2024 BlackCommerce.co —
-                            <a href="https://twitter.com/blackcommerce" className="text-gray-600 ml-1" target="_blank" rel="noopener noreferrer">@blackcommerce.co</a>
+                    <div className="mx-auto py-4 px-10 flex flex-wrap flex-col sm:flex-row">
+                        
+                        <p className="text-gray-500 text-sm text-center sm:text-left">
+                            
+                            © 2024 BlackCommerce.co —
+                            
+                            <a href="https://twitter.com/blackcommerce" className="text-gray-600 ml-1" target="_blank" rel="noopener noreferrer">
+                                @blackcommerce.co
+                            </a>
                         </p>
-                        <span className="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center text-gray-500 text-sm">All rights reserved | A WebGoonie Project made from ❤.</span>
+                        
+                        <span className="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center text-gray-500 text-sm">
+                            All rights reserved | A WebGoonie Project made from ❤.
+                        </span>
+
                     </div>
                 </div>
                 

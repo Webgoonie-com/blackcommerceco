@@ -20,8 +20,8 @@ const Hero = () => {
         <section className="h-screen w-full bg-cover bg-center clearfix relative position-relative" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1506956191951-7a88da4435e5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074')`}}>
             <Container>
                 <div className="flex flex-col h-full justify-center absolute">
-                    <div className="max-w-[51rem] px-2 md:mt-20 xl:mt-20">
-                        <div className="bg-zinc-700 border-2 rounded border-slate-200 opacity-70 p-5">
+                    <div className="max-w-[49rem] px-2 me-3 md:mt-20 xl:mt-20">
+                        <div className="bg-zinc-700 border-2 rounded-lg border-slate-200 opacity-70 p-5">
                             <h4 className="text-[2.4rem] leading-tight text-white font-bold">
                                 Building The African Diaspora
                             </h4>
