@@ -24,7 +24,6 @@ export interface UploadedFile {
 
 
 export type Business = {
-    locationValue: any;
     id: number;
     uuid: string | null;
     token: string;
@@ -36,6 +35,7 @@ export type Business = {
     isAFranchise: boolean;
     isTheFranchiseParent: boolean;
     ownsOtherBusinesses: boolean;
+    locationValue: string | null;
     hasStore: number;
     hasProducts: number;
     hasServices: number;
@@ -200,7 +200,7 @@ export  type Property = {
     roomCount: number;
     bathroomCount: number;
     guestCount: number;
-    locationValue: string;
+    locationValue: string | null;
     imageSrc: string | null;
     imagesMultiSrc: string | null;
     price: string;
