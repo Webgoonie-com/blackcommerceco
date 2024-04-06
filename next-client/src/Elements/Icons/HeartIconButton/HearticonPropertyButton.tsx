@@ -9,7 +9,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 
 interface HearticonPropertyButtonProps {
     propertyUUId: any;
-    currentUser?: currentUser
+    currentUser?: currentUser | null;
 }
 
 const HearticonPropertyButton: React.FC<HearticonPropertyButtonProps> = ({
@@ -17,15 +17,20 @@ const HearticonPropertyButton: React.FC<HearticonPropertyButtonProps> = ({
     currentUser
 }) => {
 
-    // console.log('Line 20 listingId', propertyUUId)
-    // console.log('Line 20 currentUser', currentUser)
-    //const hasFavorited = false
+    //  console.log('Line 20 listingId', propertyUUId)
+    //  console.log('Line 20 currentUser', currentUser)
+
+    //  const hasFavorited = false
+    //  const toggleFavorite = () => {}
+
 
     const { hasFavorited, toggleFavorite } = usePropertyFavorite({
-        propertyUUId: propertyUUId,
+        propertyUUId,
         currentUser: currentUser as any,
     })
 
+
+    console.log('hasFavorited: ', hasFavorited)
 
     return (
         <div

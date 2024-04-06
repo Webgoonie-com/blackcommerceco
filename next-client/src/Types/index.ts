@@ -223,7 +223,7 @@ import { Country } from "country-state-city";
             bathroomCount: number;
     
             price: string;
-    
+            favoriteUuids: string;
             streetAddress: string;
             streetAddress2: string;
             streetZipCode: string;

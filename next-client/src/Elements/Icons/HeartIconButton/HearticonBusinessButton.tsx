@@ -9,7 +9,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 
 interface HeartIconButtonProps {
     businessUUId: string;
-    currentUser?: currentUser
+    currentUser?: currentUser | null;
 }
 
 const HearticonButton: React.FC<HeartIconButtonProps> = ({
@@ -17,7 +17,9 @@ const HearticonButton: React.FC<HeartIconButtonProps> = ({
     currentUser
 }) => {
 
-    //const hasFavorited = true
+    //  const hasFavorited = true
+    //  const toggleFavorite = () => {}
+
 
     const {hasFavorited,  toggleFavorite } = useBusinessFavorite({
         businessUUId,

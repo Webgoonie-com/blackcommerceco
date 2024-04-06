@@ -6,20 +6,20 @@ import { toast } from "react-hot-toast";
 
 
 import  useLoginModal  from '@/Hooks/useLoginModal';
-import { currentUser } from '@/Types';
+import { currentUser, SafeUser } from '@/Types';
 
 
 
 
-interface usePropertyFavorite {
-    propertyUUId: number | string;
-    currentUser: currentUser;
+interface IusePropertyFavorite {
+    propertyUUId: string;
+    currentUser?: currentUser | null;
 }
 
 const usePropertyFavorite = ({
     propertyUUId,
     currentUser,
-}: usePropertyFavorite) => {
+}: IusePropertyFavorite) => {
 
     
     // console.log('Line 25 usePropertyFavorite listingId', propertyUUId)
@@ -30,14 +30,27 @@ const usePropertyFavorite = ({
     const reuseUserId = currentUser?.id
 
     const hasFavorited = useMemo(() => {
-        const list = currentUser?.favoriteIds || [];
-        return (list as Array<string | number>).some(id => id === propertyUUId);
-    }, [currentUser?.favoriteIds, propertyUUId]);
+
+        const list = currentUser?.favoriteIds || '';
+
+        console.log('log list', list)
+        console.log('log list propertyUUId', propertyUUId)
+        console.log('list.includes(propertyUUId)', list.includes(propertyUUId))
+        
+        //return (list as Array<string | number>).some(id => id === propertyUUId);
+
+        return list.includes(propertyUUId);
+        
+    }, [currentUser, propertyUUId]);
     
+    console.log('hasFavorited', hasFavorited)
 
+    // // toggle to write on and off
+    const toggleFavorite = useCallback(async (
+        e: React.MouseEvent<HTMLDivElement>
+    ) => {
 
-    // toggle to write on and off
-    const toggleFavorite = useCallback(async (e: React.MouseEvent<HTMLDivElement>) => {
+        console.log('Result of e: -- ', e)
         e.stopPropagation()
 
         if(!currentUser){
@@ -45,39 +58,60 @@ const usePropertyFavorite = ({
             return loginModal.onOpen()
         }
 
-
         try {
-            let request
+
+            let request;
 
             if(hasFavorited){
-                request = () => {
-
-                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/delPropertyfavorites/${propertyUUId}`, {
-                        userId: reuseUserId,
-                        propertyUUId: propertyUUId,
-                      })
-
-                }
+                request = () => axios.delete(`/api/favorites/bapfavorites/${propertyUUId}`)
+                console.log('hasFavorited', request)
             }else{
-                request =() => {
-                    
-                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/addPropertyfavorites/${propertyUUId}`, {
-                        userId: currentUser?.id,
-                        propertyUUId: propertyUUId,
-                      })
-
-                }
+                request = () => axios.post(`/api/favorites/bapfavorites/${propertyUUId}`)
+                console.log('hasNotFavorited', request)
             }
 
-            await request();
-            router.refresh();
-            toast.success('Success');
+            await request()
+
+            router.refresh()
+            toast.success('Success')
 
         } catch (error) {
-            toast.error('Something went wrong on handling your favorite.');
+            toast.error('Sorry Something With Terribly Wrong!!!')
         }
 
-    }, [currentUser, loginModal, hasFavorited, router, propertyUUId, reuseUserId])
+
+        // try {
+        //     let request
+
+        //     if(hasFavorited){
+        //         request = () => {
+
+        //             axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/delPropertyfavorites/${propertyUUId}`, {
+        //                 userId: reuseUserId,
+        //                 propertyUUId: propertyUUId,
+        //               })
+
+        //         }
+        //     }else{
+        //         request =() => {
+                    
+        //             axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/addPropertyfavorites/${propertyUUId}`, {
+        //                 userId: currentUser?.id,
+        //                 propertyUUId: propertyUUId,
+        //               })
+
+        //         }
+        //     }
+
+        //     await request();
+        //     router.refresh();
+        //     toast.success('Success');
+
+        // } catch (error) {
+        //     toast.error('Something went wrong on handling your favorite.');
+        // }
+
+    }, [currentUser, hasFavorited, loginModal, propertyUUId, router])
 
     return {
         hasFavorited,

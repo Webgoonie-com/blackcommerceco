@@ -43,15 +43,6 @@ model countrytolisting {
   @@map("_countrytolisting")
 }
 
-model favoritetolisting {
-  A Int
-  B Int
-
-  @@unique([A, B], map: "_FavoriteToListing_AB_unique")
-  @@index([B], map: "_FavoriteToListing_B_index")
-  @@map("_favoritetolisting")
-}
-
 model listingtoproperty {
   A Int
   B Int
@@ -99,7 +90,6 @@ model admin {
 model business {
   id                   Int      @id @default(autoincrement())
   uuid                 String   @unique(map: "Business_uuid_key")
-  token                String   @unique(map: "Business_token_key")
   title                String
   description          String
   isAFranchise         Boolean
@@ -109,21 +99,22 @@ model business {
   hasProducts          Int
   hasServices          Int
   category             String
+  locationValue        String?
+  imageSrc             String?  @db.VarChar(1000)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @default(now())
+  userId               Int
+  countryCityId        Int
+  countryId            Int
+  countryStateRegionId Int
+  imagesMultiSrc       String?  @db.VarChar(1000)
+  listingId            Int?     @unique(map: "Business_listingId_key")
+  sellPrice            String?
   streetAddress        String?
   streetAddress2       String?
   streetCity           String?
   streetZipCode        String?
-  locationValue        String?
-  sellPrice            String?
-  imageSrc             String?  @db.VarChar(1000)
-  imagesMultiSrc       String?  @db.VarChar(1000)
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @default(now())
-  userId               Int
-  listingId            Int?     @unique(map: "Business_listingId_key")
-  countryId            Int
-  countryStateRegionId Int
-  countryCityId        Int
+  token                String   @unique(map: "Business_token_key")
 
   @@index([countryCityId], map: "Business_countryCityId_fkey")
   @@index([countryId], map: "Business_countryId_fkey")
@@ -134,11 +125,9 @@ model business {
 model businessphoto {
   id               Int      @id @default(autoincrement())
   uuid             String   @unique(map: "Businessphoto_uuid_key")
-  token            String
   imgAlbumName     String
   imgCatg          String
   imageSrc         String
-  imagesMultiSrc   String
   imgUrl           String
   imgName          String
   imgFileType      String
@@ -146,13 +135,15 @@ model businessphoto {
   imgFileOrigName  String
   imgFileName      String
   imgFileOutputDir String
-  imgFilePath      String
   imgFileSize      Int
   createdAt        DateTime @default(now())
   updatedAt        DateTime @default(now())
   userId           Int
   listingId        Int
   businessId       Int
+  imagesMultiSrc   String
+  imgFilePath      String
+  token            String
 
   @@index([businessId], map: "Businessphoto_businessId_fkey")
   @@index([listingId], map: "Businessphoto_listingId_fkey")
@@ -161,32 +152,32 @@ model businessphoto {
 
 model country {
   id        Int     @id @default(autoincrement())
-  uuid      String? @unique(map: "Country_uuid_key")
-  value     String
-  label     String
-  currency  String
-  phonecode String
-  flag      String
-  latlng    String
-  latitude  String
-  longitude String
-  region    String
   isoCode   String  @unique(map: "Country_isoCode_key")
   name      String
+  currency  String
+  flag      String
+  label     String
+  latitude  String
+  latlng    String
+  longitude String
+  phonecode String
+  region    String
+  uuid      String? @unique(map: "Country_uuid_key")
+  value     String
 }
 
 model countrycity {
   id                   Int     @id @default(autoincrement())
-  uuid                 String? @unique(map: "CountryCity_uuid_key")
-  value                String
-  label                String
   name                 String
-  countryCode          String
-  latlng               String
   latitude             String
   longitude            String
   countryId            Int
+  countryCode          String
   countryStateRegionId Int
+  label                String
+  latlng               String
+  uuid                 String? @unique(map: "CountryCity_uuid_key")
+  value                String
 
   @@index([countryId], map: "CountryCity_countryId_fkey")
   @@index([countryStateRegionId], map: "CountryCity_countryStateRegionId_fkey")
@@ -194,15 +185,15 @@ model countrycity {
 
 model countrystateregion {
   id        Int     @id @default(autoincrement())
-  uuid      String? @unique(map: "CountryStateRegion_uuid_key")
   isoCode   String
-  value     String
-  label     String
   name      String
-  latlng    String
   latitude  String
   longitude String
   countryId Int
+  label     String
+  latlng    String
+  uuid      String? @unique(map: "CountryStateRegion_uuid_key")
+  value     String
 
   @@index([countryId], map: "CountryStateRegion_countryId_fkey")
 }
@@ -217,23 +208,22 @@ model countrytimezone {
 
 model favorite {
   id         Int      @id @default(autoincrement())
-  uuid       String   @unique(map: "Favorite_uuid_key")
+  uuid       String?  @unique(map: "Favorite_uuid_key")
   userId     Int
-  listingId  Int
-  propertyId Int
+  listingId  Int?
+  propertyId Int?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now())
-  businessId Int
+  businessId Int?
+  favoriteId String?
 
-  @@index([businessId], map: "Favorite_businessId_fkey")
-  @@index([propertyId], map: "Favorite_propertyId_fkey")
   @@index([userId], map: "Favorite_userId_fkey")
+  @@index([listingId], map: "Favorite_listingId_fkey")
 }
 
 model listing {
   id                   Int      @id @default(autoincrement())
   uuid                 String   @unique(map: "Listing_uuid_key")
-  token                String
   title                String
   description          String
   imageSrc             String?
@@ -244,9 +234,10 @@ model listing {
   countryId            Int
   countryStateRegionId Int?
   countryCityId        Int?
-  reservationId        Int?
-  propertyId           Int?
   businessId           Int?
+  propertyId           Int?
+  reservationId        Int?
+  token                String
 
   @@index([userId], map: "Listing_userId_fkey")
 }
@@ -254,21 +245,15 @@ model listing {
 model property {
   id                   Int      @id @default(autoincrement())
   uuid                 String   @unique(map: "Property_uuid_key")
-  token                String   @unique(map: "Property_token_key")
   title                String
-  description          String
+  description          String   @db.VarChar(2500)
   imageSrc             String?  @db.VarChar(1000)
-  imagesMultiSrc       String?  @db.VarChar(1000)
   category             String
   roomCount            Int
   bathroomCount        Int
   guestCount           Int
-  locationValue        String
+  locationValue        String?
   price                String
-  streetAddress        String?
-  streetAddress2       String?
-  streetCity           String?
-  streetZipCode        String?
   createdAt            DateTime @default(now())
   updatedAt            DateTime @default(now())
   userId               Int
@@ -276,17 +261,24 @@ model property {
   countryId            Int
   countryStateRegionId Int
   countryCityId        Int
+  imagesMultiSrc       String?  @db.VarChar(1000)
+  streetAddress        String?
+  streetAddress2       String?
+  streetCity           String?
+  streetZipCode        String?
+  token                String   @unique(map: "Property_token_key")
+  favoriteId           Int?
 
   @@index([countryCityId], map: "Property_countryCityId_fkey")
   @@index([countryId], map: "Property_countryId_fkey")
   @@index([countryStateRegionId], map: "Property_countryStateRegionId_fkey")
   @@index([userId], map: "Property_userId_fkey")
+  @@index([favoriteId], map: "Property_favoriteId_fkey")
 }
 
 model propertyphoto {
   id               Int      @id @default(autoincrement())
   uuid             String   @unique(map: "Propertyphoto_uuid_key")
-  token            String
   imgAlbumName     String
   imgCatg          String
   imageSrc         String
@@ -304,6 +296,7 @@ model propertyphoto {
   userId           Int
   listingId        Int?
   propertyId       Int?
+  token            String
 
   @@index([listingId], map: "Propertyphoto_listingId_fkey")
   @@index([propertyId], map: "Propertyphoto_propertyId_fkey")
@@ -364,14 +357,14 @@ model user {
   hashedPassword String?
   firstName      String?
   lastName       String?
+  favoriteUuids  String?
   updatedAt      DateTime  @default(now())
   createdAt      DateTime  @default(now())
 }
 
 model userphoto {
   Id            Int      @id @default(autoincrement())
-  uuid          String
-  token         String
+  uuid          String   @unique(map: "UserPhoto_uuid_key")
   serverCaption String?
   userCaption   String?
   imageSize     Int?
@@ -383,6 +376,16 @@ model userphoto {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
   userId        Int
+  token         String
 
   @@index([userId], map: "UserPhoto_userId_fkey")
+}
+
+model businesstofavorite {
+  A Int
+  B Int
+
+  @@unique([A, B], map: "_BusinessToFavorite_AB_unique")
+  @@index([B], map: "_BusinessToFavorite_B_index")
+  @@map("_businesstofavorite")
 }

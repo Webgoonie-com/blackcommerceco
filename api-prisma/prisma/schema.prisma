@@ -211,20 +211,20 @@ model CountryTimezone {
   
 model Favorite {  
   id                                  Int                     @id @default(autoincrement())
-  uuid                                String                  @default(uuid()) @unique
+  uuid                                String?                 @default(uuid()) @unique
   user                                User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId                              Int
+  favoriteId                          String?
   listingId                           Int?                    
   listing                             Listing?                @relation(fields: [listingId], references: [id])
-  
   propertyId                          Int?
   propertys                           Property[]
   
   createdAt                           DateTime                @default(now())
   updatedAt                           DateTime                @default(now())  @updatedAt
   
-  business                            Business?                @relation(fields: [businessId], references:[id], onDelete: Cascade)
   businessId                          Int?          
+  business                            Business[]
 }       
   
 model ReservationBusiness { 
@@ -406,10 +406,10 @@ model User {
   hashedPassword                      String? 
   firstName                           String? 
   lastName                            String?
+  favoriteUuids                       String?
   updatedAt                           DateTime                @default(now()) @updatedAt
   createdAt                           DateTime                @default(now())
-
-  favoriteIds                         Favorite[]
+  favorites                           Favorite[]
   userPhotos                          UserPhoto[]
   accounts                            Account[]
   listings                            Listing[]
@@ -424,7 +424,7 @@ model User {
 
 model UserPhoto {         
   Id                                  Int                     @id @default(autoincrement())
-  uuid                                String                  @default(uuid())
+  uuid                                String                  @default(uuid()) @unique
   token                               String
   serverCaption                       String?
   userCaption                         String?

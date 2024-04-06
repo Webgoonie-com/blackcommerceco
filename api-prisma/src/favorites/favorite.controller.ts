@@ -24,6 +24,7 @@ export const listFavorites = async (): Promise<Favorite[]> => {
             userId: true,
             listingId: true,
             listing: true,
+            favoriteId: true,
             propertyId: true,
             createdAt: true,
             updatedAt: true,

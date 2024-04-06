@@ -625,24 +625,24 @@ export const delBapsListingByListingId = async (id: number, listingData: any): P
     return [favoritedBusiness as any]; // Return the created listing as an array
 }
 
-export const deleteListingFavoriteByListingId = async (id: number): Promise<Favorite[]> => {
+// export const deleteListingFavoriteByListingId = async (id: number): Promise<Favorite[]> => {
     
-    console.log('// Fetch the favorites to be deleted')
+//     console.log('// Fetch the favorites to be deleted')
 
-    const favoritesToDelete = await orm.favorite.findMany({
-        where: { id: id },
-    });
+//     const favoritesToDelete = await orm.favorite.findMany({
+//         where: { id: id },
+//     });
 
 
-    if(favoritesToDelete){
+//     if(favoritesToDelete){
 
-        // Delete the favorites
-        await orm.favorite.delete({
-            where: { id: id },
-        });
+//         // Delete the favorites
+//         await orm.favorite.delete({
+//             where: { id: id },
+//         });
 
-    }
+//     }
 
-    // Return the deleted favorites
-    return favoritesToDelete;
-}
+//     // Return the deleted favorites
+//     return favoritesToDelete;
+// }

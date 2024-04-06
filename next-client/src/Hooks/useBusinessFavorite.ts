@@ -11,7 +11,7 @@ import { currentUser } from '@/Types';
 
 
 
-interface useBusinessFavorite {
+interface IuseBusinessFavorite {
     businessUUId: string;
     currentUser: currentUser;
 }
@@ -19,8 +19,9 @@ interface useBusinessFavorite {
 const useBusinessFavorite = ({
     businessUUId,
     currentUser,
-}: useBusinessFavorite) => {
+}: IuseBusinessFavorite) => {
 
+    
     
     
     const router = useRouter()
@@ -29,14 +30,21 @@ const useBusinessFavorite = ({
     const reuseUserId = currentUser?.id
 
     const hasFavorited = useMemo(() => {
-        const list = currentUser?.favoriteIds || [];
-        return (list as Array<string | number>).some(id => id === businessUUId);
-    }, [currentUser?.favoriteIds, businessUUId]);
+        const list = currentUser?.favoriteIds || [] as string[];
+
+        //return (list as Array<string | number>).some(id => id === businessUUId);
+
+        return list.includes(businessUUId);
+
+    }, [currentUser, businessUUId]);
     
 
 
     // toggle to write on and off
-    const toggleFavorite = useCallback(async (e: React.MouseEvent<HTMLDivElement>) => {
+    const toggleFavorite = useCallback(async (
+        e: React.MouseEvent<HTMLDivElement>
+    ) => {
+
         e.stopPropagation()
 
         if(!currentUser){
@@ -46,39 +54,64 @@ const useBusinessFavorite = ({
 
 
         try {
-            let request
-
-            // console.log('Line 51 reuseUserId', reuseUserId)
+            let request;
 
             if(hasFavorited){
-                request = () => {
-
-                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/delBusinessfavorites/${businessUUId}`, {
-                        userId: reuseUserId,
-                        businessUUId: businessUUId,
-                      })
-
-                }
+                request = () => axios.delete(`/api/favorites/bbfavorites/${businessUUId}`)
             }else{
-                request =() => {
-                    
-                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/addBusinessfavorites/${businessUUId}`, {
-                        userId: reuseUserId,
-                        businessUUId: businessUUId,
-                      })
-
-                }
+                request = () => axios.post(`/api/favorites/bbfavorites/${businessUUId}`)
             }
 
-            await request();
-            router.refresh();
-            toast.success('Success');
+            await request()
+
+            router.refresh()
+            toast.success('Success')
 
         } catch (error) {
-            toast.error('Something went wrong on handling your favorite.');
+            toast.error('Sorry Something With Terribly Wrong!!!')
         }
 
-    }, [currentUser, loginModal, reuseUserId, hasFavorited, router, businessUUId])
+
+
+
+    //     try {
+    //         let request
+
+    //         // console.log('Line 51 reuseUserId', reuseUserId)
+
+    //         if(hasFavorited){
+    //             console.log('Have favorite True')
+    //             request = () => {
+
+    //                 axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/delBusinessfavorites/${businessUUId}`, {
+    //                     userId: reuseUserId,
+    //                     businessUUId: businessUUId,
+    //                   })
+
+    //             }
+    //         }else{
+                
+    //             console.log('Have favorite False')
+
+    //             request =() => {
+                    
+    //                 axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/addBusinessfavorites/${businessUUId}`, {
+    //                     userId: reuseUserId,
+    //                     businessUUId: businessUUId,
+    //                   })
+
+    //             }
+    //         }
+
+    //         await request();
+    //         router.refresh();
+    //         toast.success('Success');
+
+    //     } catch (error) {
+    //         toast.error('Something went wrong on handling your favorite.');
+    //     }
+
+     }, [businessUUId, currentUser, hasFavorited, loginModal, router])
 
     return {
         hasFavorited,

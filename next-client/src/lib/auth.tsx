@@ -82,7 +82,7 @@ export const authOptions: AuthOptions  = {
                 token.accessToken = account.access_token
                 token.uuid = user.uuid
                 token.id = user.id
-                token.favoriteIds = user.favoriteIds
+                token.favoriteUuids = user.favoriteUuids
         }
 
         if(user) {
@@ -97,7 +97,7 @@ export const authOptions: AuthOptions  = {
             lastName: user.lastName,
             usrImage: user.usrImage,
             emailVerified: user.emailVerified,
-            favoriteIds: user.favoriteIds,
+            favoriteUuids: user.favoriteUuids,
             createdAt: user.createdAt,
             upatedAt: user.updatedAt,
             }
@@ -128,7 +128,7 @@ export const authOptions: AuthOptions  = {
             session.user.email = token.email;
             session.user.emailVerified = token.emailVerified;
             session.user.image = token.usrImage;
-            session.user.favoriteIds = token.favoriteIds;
+            session.user.favoriteUuids = token.favoriteUuids;
             session.user.createdAt = token.createdAt;
             session.user.updatedAt = token.updatedAt;
         }

@@ -358,8 +358,12 @@ listingRouter.post("/delPropertyfavorites/:propertyUUId", async (request: Reques
         return response.status(500).json("Sorry Listing By Favorite Could Not Be Found")
 
     }
-
+    
 })
+
+
+
+
 
 listingRouter.post("/delBusinessfavorites/:listingId", async (request: Request, response: Response) => {
 
@@ -392,25 +396,26 @@ listingRouter.post("/delBusinessfavorites/:listingId", async (request: Request, 
 
 })
 
-listingRouter.delete("/favorites/:listingId", async (request: Request, response: Response) => {
 
-    //const listingId: string = request.params.listingId
-    const listingId: string = request.body.listingId
+// listingRouter.delete("/favorites/:listingId", async (request: Request, response: Response) => {
+    
+//     //const listingId: string = request.params.listingId
+//     const listingId: string = request.body.listingId
+    
+//     try {
 
-    try {
+//         const user = await ListingController.deleteListingFavoriteByListingId(parseInt(listingId))
 
-        const user = await ListingController.deleteListingFavoriteByListingId(parseInt(listingId))
+//         if(user) {
 
-        if(user) {
+//             return response.status(200).json(user)
 
-            return response.status(200).json(user)
+//         }
 
-        }
+//     } catch (error) {
 
-    } catch (error) {
+//         return response.status(500).json("User Could Not Be Found by Uuid")
 
-        return response.status(500).json("User Could Not Be Found by Uuid")
+//     }
 
-    }
-
-})
+// })
