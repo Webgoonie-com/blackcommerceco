@@ -58,7 +58,7 @@ const ListingBbHead: React.FC<ListingBbHeadProps> = ({
 
                     <div className="absolute top-5 right-5">
                         <HearticonBusinessButton 
-                            listingId={id}
+                            businessUUId={id}
                             currentUser={currentUser as any}
                             />
                     </div>
