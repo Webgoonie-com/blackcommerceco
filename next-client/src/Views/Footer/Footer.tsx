@@ -135,7 +135,8 @@ const footer = () => {
                             </div>
                             <button onClick={handEmailSubscribe} className="
                                     sm:w-[25%]
-                                    md:w-full
+                                    md:w-[75%]
+                                    xl:w-full
                                     inline-flex
                                     text-white
                                     bg-purple-600
