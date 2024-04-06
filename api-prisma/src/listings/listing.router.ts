@@ -264,37 +264,6 @@ listingRouter.get("/businessuuid/:uuid", async (request: Request, response: Resp
 
 })
 
-listingRouter.post("/delPropertyfavorites/:propertyUUId", async (request: Request, response: Response) => {
-
-    const listingId: string = request.params.listingId
-    //const listingId: string = request.body.listingId
-
-    console.log('delfavorites', listingId)
-
-    const listingData = {
-        files: request.files,
-        body: request.body
-    };
-
-
-    try {
-
-        const user = await ListingController.delBbsListingFavoriteByListingId(parseInt(listingId), listingData)
-
-        if(user) {
-
-            return response.status(200).json(user)
-
-        }
-
-    } catch (error) {
-
-        return response.status(500).json("Sorry Listing By Favorite Could Not Be Found")
-
-    }
-
-})
-
 listingRouter.post("/addPropertyfavorites/:propertyUUId", async (request: Request, response: Response) => {
 
     const propertyUUId: string = request.params.propertyUUId
@@ -313,37 +282,6 @@ listingRouter.post("/addPropertyfavorites/:propertyUUId", async (request: Reques
     try {
 
         const user = await ListingController.addBapsListingFavoriteByListingUUId(propertyUUId, listingData)
-
-        if(user) {
-
-            return response.status(200).json(user)
-
-        }
-
-    } catch (error) {
-
-        return response.status(500).json("Sorry Listing By Favorite Could Not Be Found")
-
-    }
-
-})
-
-listingRouter.post("/delBusinessfavorites/:listingId", async (request: Request, response: Response) => {
-
-    const listingId: string = request.params.listingId
-    //const listingId: string = request.body.listingId
-
-    console.log('delfavorites', listingId)
-
-    const listingData = {
-        files: request.files,
-        body: request.body
-    };
-
-
-    try {
-
-        const user = await ListingController.delBbsListingFavoriteByListingId(parseInt(listingId), listingData)
 
         if(user) {
 
@@ -392,7 +330,67 @@ listingRouter.post("/addBusinessfavorites/:businessUUId", async (request: Reques
 
 })
 
+listingRouter.post("/delPropertyfavorites/:propertyUUId", async (request: Request, response: Response) => {
 
+    const listingId: string = request.params.listingId
+    //const listingId: string = request.body.listingId
+
+    console.log('delfavorites', listingId)
+
+    const listingData = {
+        files: request.files,
+        body: request.body
+    };
+
+
+    try {
+
+        const user = await ListingController.delBbsListingFavoriteByListingId(parseInt(listingId), listingData)
+
+        if(user) {
+
+            return response.status(200).json(user)
+
+        }
+
+    } catch (error) {
+
+        return response.status(500).json("Sorry Listing By Favorite Could Not Be Found")
+
+    }
+
+})
+
+listingRouter.post("/delBusinessfavorites/:listingId", async (request: Request, response: Response) => {
+
+    const listingId: string = request.params.listingId
+    //const listingId: string = request.body.listingId
+
+    console.log('delfavorites', listingId)
+
+    const listingData = {
+        files: request.files,
+        body: request.body
+    };
+
+
+    try {
+
+        const user = await ListingController.delBbsListingFavoriteByListingId(parseInt(listingId), listingData)
+
+        if(user) {
+
+            return response.status(200).json(user)
+
+        }
+
+    } catch (error) {
+
+        return response.status(500).json("Sorry Listing By Favorite Could Not Be Found")
+
+    }
+
+})
 
 listingRouter.delete("/favorites/:listingId", async (request: Request, response: Response) => {
 

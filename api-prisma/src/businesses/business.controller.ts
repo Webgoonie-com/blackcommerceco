@@ -418,6 +418,21 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                     }
                 });
 
+                createdListing = await orm.listing.update({
+                    where: { id: existingListing?.id },
+                    data: {
+                        title: listing.title,
+                        token: listing.token || token,
+                        description: listing.description,
+                        category: listing.category,
+                        userId: listing.userId,
+                        businessId: autoSaveBusinessData?.id,
+                        countryId: existingCountry?.id ,
+                        countryStateRegionId: existingCountryStateRegion?.id,
+                        countryCityId: existingCountryCity?.id,
+                    },
+                });
+
                 
                 updatedBusiness = autoSaveBusinessData
                 
