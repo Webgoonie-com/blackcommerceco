@@ -189,7 +189,7 @@ const ListingCard: React.FC<ListingCardProps> =  ({
                     />
                     <div className="absolute top-3 right-3">
                         <HearticonBusinessButton 
-                            listingId={parseInt(listingId as any)}
+                            businessUUId={listingId as any}
                             currentUser={currentUser as any}
                         />
                     </div>
