@@ -78,13 +78,7 @@ const useBusinessFavorite = ({
             toast.error('Something went wrong on handling your favorite.');
         }
 
-    }, [
-        currentUser, 
-        hasFavorited, 
-        businessUUId, 
-        loginModal,
-        router
-    ])
+    }, [currentUser, loginModal, reuseUserId, hasFavorited, router, businessUUId])
 
     return {
         hasFavorited,
