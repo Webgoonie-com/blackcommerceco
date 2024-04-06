@@ -12,7 +12,7 @@ import logo from '../../../public/images/logo.png'
 const logoPlaceHolder = `${process.env.NEXT_PUBLIC_URL}` + logo.src
 
 interface ListingHeadProps {
-    id: number;
+    id: any;
     title: string;
     locationValue: string;
     imageSrc: string | null;
@@ -61,7 +61,7 @@ const ListingBapHead: React.FC<ListingHeadProps> = ({
 
                     <div className="absolute top-5 right-5">
                         <HearticonPropertyButton 
-                            listingId={id}
+                            propertyUUId={id}
                             currentUser={currentUser as any}
                             />
                     </div>
