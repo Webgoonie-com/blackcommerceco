@@ -77,13 +77,7 @@ const usePropertyFavorite = ({
             toast.error('Something went wrong on handling your favorite.');
         }
 
-    }, [
-        currentUser, 
-        hasFavorited, 
-        propertyUUId, 
-        loginModal,
-        router
-    ])
+    }, [currentUser, loginModal, hasFavorited, router, propertyUUId, reuseUserId])
 
     return {
         hasFavorited,
