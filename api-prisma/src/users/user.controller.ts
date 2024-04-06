@@ -7,14 +7,16 @@ type User = {
     firstName: string | null;
     lastName: string | null;
     email: string;
-    favoriteUuids: any | null;
+    favoriteBapUuids: any | null;
+    favoriteBbUuids: any | null;
     createdAt: Date;
 }
 
 type CreateUserInput = Omit<User, "id"> & {
     phone: string,
     hashedPassword: string;
-    favoriteUuids: any | null;
+    favoriteBapUuids: any | null;
+    favoriteBbUuids: any | null;
 };
 
 
@@ -24,7 +26,8 @@ type FindUserResult = {
     firstName: string | null;
     lastName: string | null;
     email: string;
-    favoriteUuids: any | null;
+    favoriteBapUuids: any | null;
+    favoriteBbUuids: any | null;
     hashedPassword: string | null;
     createdAt: Date;
 };
@@ -42,7 +45,8 @@ export const listUsers = async (): Promise<User[]> => {
             phone: true,
             email: true,
             createdAt: true,
-            favoriteUuids: true,
+            favoriteBapUuids: true,
+            favoriteBbUuids: true,
         }
     })
 }
@@ -60,7 +64,8 @@ export const getUserEmail = async (email: string): Promise<User | null> => {
             phone: true,
             hashedPassword: true,
             email: true,
-            favoriteUuids: true,
+            favoriteBapUuids: true,
+            favoriteBbUuids: true,
             createdAt: true,
         },
     })
@@ -76,7 +81,8 @@ export const getUserId = async (id: number): Promise<User | null> => {
             uuid: true,
             firstName: true,
             lastName: true,
-            favoriteUuids: true,
+            favoriteBapUuids: true,
+            favoriteBbUuids: true,
             email: true,
             createdAt: true,
         },
@@ -93,7 +99,8 @@ export const getUserUuId = async (uuid: string): Promise<User | null> => {
             uuid: true,
             firstName: true,
             lastName: true,
-            favoriteUuids: true,
+            favoriteBapUuids: true,
+            favoriteBbUuids: true,
             email: true,
             createdAt: true,
         },
@@ -153,7 +160,8 @@ export const loginUser = async (user: CreateUserInput): Promise<User | null> => 
             email: true,
             phone: true,
             role: true,
-            favoriteUuids: true,
+            favoriteBapUuids: true,
+            favoriteBbUuids: true,
             hashedPassword: true,
             image: true,
             updatedAt: true,
@@ -199,7 +207,8 @@ export const updateUser = async (user: Omit<User, "id">, id: number): Promise<Us
             firstName: true,
             lastName: true,
             email: true,
-            favoriteUuids: true,
+            favoriteBapUuids: true,
+            favoriteBbUuids: true,
             createdAt: true,
             updatedAt: true,
         }

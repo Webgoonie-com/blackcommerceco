@@ -21,7 +21,8 @@ interface IUser extends DefaultUser {
   name?: string | undefined | null;
   firstName: string | undefined | null;
   lastName: string | undefined | null;
-  favoriteUuids: string | undefined | null;
+  favoriteBapUuids: string | undefined | null;
+  favoriteBbUuids: string | undefined | null;
   createdAt: Date;
   updatedAt: Date;
   emailVerified?: Date | undefined | null;

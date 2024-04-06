@@ -35,25 +35,25 @@ export async function POST(
         
     });
 
-    let favoritesIds = currentUser.favoriteUuids || ''; // Initialize to empty string if null
+    let favoriteBapUuids = currentUser.favoriteBapUuids || ''; // Initialize to empty string if null
 
-    if (favoritesIds && favoritesIds !== '') {
-        // If favoritesIds is not empty, append the separator before adding the new property UUID
-        favoritesIds += ',';
+    if (favoriteBapUuids && favoriteBapUuids !== '') {
+        // If favoriteBapUuids is not empty, append the separator before adding the new property UUID
+        favoriteBapUuids += ',';
     }
 
     // Append the new property UUID and the comma
     
-    //favoritesIds += exisitingProperty?.id + ',';
+    //favoriteBapUuids += exisitingProperty?.id + ',';
 
-    favoritesIds += propertyUUId + ',';
+    favoriteBapUuids += propertyUUId + ',';
 
     const user = await prisma.user.update({
         where: {
             id: currentUser?.id as any,
         },
         data: {
-            favoriteUuids: favoritesIds,
+            favoriteBapUuids: favoriteBapUuids,
         },
     });
 
@@ -94,16 +94,16 @@ export async function DELETE(
         
     }
 
-    let favoriteUuids = [...(currentUser.favoriteUuids || '')]
+    let favoriteBapUuids = [...(currentUser.favoriteBapUuids || '')]
 
-    favoriteUuids = favoriteUuids.filter((id) => id !== exisitingProperty?.favoriteId?.toString())
+    favoriteBapUuids = favoriteBapUuids.filter((id) => id !== exisitingProperty?.favoriteId?.toString())
 
     const user = await prisma.user.update({
         where:{
             id: currentUser?.id as any,
         },
         data: {
-            favoriteUuids: favoriteUuids.toString(),
+            favoriteBapUuids: favoriteBapUuids.toString(),
         },
         
     });

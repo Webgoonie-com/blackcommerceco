@@ -406,7 +406,8 @@ model User {
   hashedPassword                      String? 
   firstName                           String? 
   lastName                            String?
-  favoriteUuids                       String?
+  favoriteBapUuids                    String?
+  favoriteBbUuids                    String?
   updatedAt                           DateTime                @default(now()) @updatedAt
   createdAt                           DateTime                @default(now())
   favorites                           Favorite[]

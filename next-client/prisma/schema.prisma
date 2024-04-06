@@ -346,20 +346,21 @@ model timezone {
 }
 
 model user {
-  id             Int       @id @default(autoincrement())
-  uuid           String?   @unique(map: "User_uuid_key")
-  name           String?
-  role           String?
-  email          String    @unique(map: "User_email_key")
-  emailVerified  DateTime?
-  image          String?
-  phone          String?
-  hashedPassword String?
-  firstName      String?
-  lastName       String?
-  updatedAt      DateTime  @default(now())
-  createdAt      DateTime  @default(now())
-  favoriteUuids  String?
+  id               Int       @id @default(autoincrement())
+  uuid             String?   @unique(map: "User_uuid_key")
+  name             String?
+  role             String?
+  email            String    @unique(map: "User_email_key")
+  emailVerified    DateTime?
+  image            String?
+  phone            String?
+  hashedPassword   String?
+  firstName        String?
+  lastName         String?
+  updatedAt        DateTime  @default(now())
+  createdAt        DateTime  @default(now())
+  favoriteBapUuids String?
+  favoriteBbUuids  String?
 }
 
 model userphoto {

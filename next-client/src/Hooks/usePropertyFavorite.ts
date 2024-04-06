@@ -31,7 +31,7 @@ const usePropertyFavorite = ({
 
     const hasFavorited = useMemo(() => {
 
-        const list = currentUser?.favoriteUuids || '';
+        const list = currentUser?.favoriteBapUuids || '';
 
         console.log('log list', list)
         console.log('log list propertyUUId', propertyUUId)
