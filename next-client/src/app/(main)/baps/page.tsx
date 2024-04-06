@@ -18,7 +18,7 @@ const Baps = async () => {
           currentUser={currentUser as any}
           uuid={currentUser?.uuid as any} 
           Propertys={{
-            namePublicDisplay: 'Black Businesses'
+            namePublicDisplay: 'Black Properties'
           }}
         />
 

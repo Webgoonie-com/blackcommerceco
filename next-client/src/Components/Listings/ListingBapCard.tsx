@@ -42,9 +42,11 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
 
     const { getByValue } = useCountries();
 
-    const listingId = data?.uuid || 0;
+    const propertyUUId = data?.uuid || 0;
 
-    console.log('listingId', listingId)
+    console.log('listingData', data)
+    
+    console.log('propertyUUId', propertyUUId)
     
     const location = getByValue(data?.locationValue || '');
     
@@ -119,8 +121,10 @@ const ListingBapCard: React.FC<ListingBapCardProps> =  ({
                     />
                     <div className="absolute top-3 right-3">
                         
+                        {/* {JSON.stringify(currentUser) as any} */}
+                        
                         <HearticonPropertyButton 
-                            listingId={parseInt(listingId as string)}
+                            propertyUUId={propertyUUId as string}
                             currentUser={currentUser as any}
                         />
 

@@ -153,11 +153,11 @@ export const loginUser = async (user: CreateUserInput): Promise<User | null> => 
             email: true,
             phone: true,
             role: true,
+            favoriteIds: true,
             hashedPassword: true,
             image: true,
             updatedAt: true,
             createdAt: true,
-            favoriteIds: true,
         },
     }) as FindUserResult;
 

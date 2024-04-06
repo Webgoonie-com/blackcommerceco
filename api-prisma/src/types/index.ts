@@ -24,6 +24,7 @@ export interface UploadedFile {
 
 
 export type Business = {
+    locationValue: any;
     id: number;
     uuid: string | null;
     token: string;

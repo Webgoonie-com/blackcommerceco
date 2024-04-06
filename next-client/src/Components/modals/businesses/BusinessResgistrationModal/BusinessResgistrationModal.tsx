@@ -196,90 +196,44 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
 
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-            
-    
-       
-
-        
-        if(step === STEPS.CATEGORY){
-            return onNext()
-        }else{
-            
-                try {
-        
-                   
-        
-                    const responseData = await autoSaveBusinessData(data, autoSaveToken, currentUser?.id);
-                    
-        
-                    console.log('responseData: ', responseData)
-        
-                    const { id, listingId } = responseData;
-        
-                  
-        
-                    setBusinessId(id)
-                    setListingId(listingId)
-                    setCustomValue('businessId', id)
-            
-                    
-                } catch (error) {
-                    console.error(error);
-                }
-        }
-
-
-        if(step !== STEPS.DESCRIPTION){
-            return onNext()
-        }
-
-
-        setIsLoading(true)
-
-
         try {
-
-            // Calling Directly To Internal API Route
-
-            await axios.post(`
-                ${process.env.NEXT_PUBLIC_API_URL}/api/businesses/createBusiness`,
-                data
-            ).then(() =>{
-                toast.success('Congratulations Your Listing was Just Created!', {
-                    duration: 7000,
-                    position: 'bottom-right',
-                })
-                
-                reset()
-                setStep(STEPS.CATEGORY)
-                businessRegistrationModal.onClose()
-                router.refresh()
-            })
-            .catch(() => {
-                toast.error('Sorry Something went Wrong');
-            }).finally(() => {
-                setIsLoading(false)
-                router.refresh()
-            })
-
+            const responseData = await autoSaveBusinessData(data, autoSaveToken, currentUser?.id);
     
-            
+            // console.log('responseData: ', responseData);
+    
+            const { id, listingId } = responseData;
+    
+            setBusinessId(id);
+            setListingId(listingId);
+            setCustomValue('businessId', id);
+    
+            if (step !== STEPS.DESCRIPTION) {
+                return onNext();
+            }
+    
+            setIsLoading(true);
+    
+            // Calling Directly To Internal API Route
+            //  await autoSaveBusinessData(data, autoSaveToken, currentUser?.id);
+    
+            toast.success('Congratulations Your Listing was Just Created!', {
+                duration: 7000,
+                position: 'bottom-right',
+            });
+    
+            reset();
+            setStep(STEPS.CATEGORY);
+            businessRegistrationModal.onClose();
+            router.refresh();
         } catch (error) {
             console.error(error);
+            toast.error('Sorry Something went horribly Wrong');
+        } finally {
+            setIsLoading(false);
+            router.refresh();
         }
-
-        if(step !== STEPS.DESCRIPTION){
-            return onNext()
-        }
-
-
+    };
     
-
-
-       
-
-
-    }
 
     const actionLabel = useMemo(() => {
         if(step === STEPS.DESCRIPTION){

@@ -194,4 +194,17 @@ export const users = [
         emailVerified: new Date(),
         hashedPassword: "$2b$12$kI.rtHYnatU2cqsZMK8BZuNjQ3bPpfqUxi7O0d.I/JWZYz7uSpldu",
     },
+    {
+        id: 16,
+        uuid: "e459909a-5c7a-47b3-999e-e2f1e08a4633",
+        name: "Tijani Ibra",
+        firstName: "Tijani",
+        lastName: "Ibra",
+        email: "tijani.ibra@gmail.com",
+        image: "",
+        phone: "+1 412 636 8861",
+        role: "both",
+        emailVerified: new Date(),
+        hashedPassword: "$2b$12$kI.rtHYnatU2cqsZMK8BZuNjQ3bPpfqUxi7O0d.I/JWZYz7uSpldu",
+    },
 ];

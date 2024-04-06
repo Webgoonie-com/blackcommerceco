@@ -12,12 +12,12 @@ import { currentUser } from '@/Types';
 
 
 interface useBusinessFavorite {
-    listingId: number | string;
+    businessUUId: string;
     currentUser: currentUser;
 }
 
 const useBusinessFavorite = ({
-    listingId,
+    businessUUId,
     currentUser,
 }: useBusinessFavorite) => {
 
@@ -26,10 +26,12 @@ const useBusinessFavorite = ({
     const router = useRouter()
     const loginModal =  useLoginModal()
 
+    const reuseUserId = currentUser?.id
+
     const hasFavorited = useMemo(() => {
         const list = currentUser?.favoriteIds || [];
-        return (list as Array<string | number>).some(id => id === listingId);
-    }, [currentUser?.favoriteIds, listingId]);
+        return (list as Array<string | number>).some(id => id === businessUUId);
+    }, [currentUser?.favoriteIds, businessUUId]);
     
 
 
@@ -46,21 +48,23 @@ const useBusinessFavorite = ({
         try {
             let request
 
+            console.log('Line 51 reuseUserId', reuseUserId)
+
             if(hasFavorited){
                 request = () => {
 
-                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/delBusinessfavorites/${listingId}`, {
-                        userId: currentUser?.id,
-                        listingId: listingId,
+                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/delBusinessfavorites/${businessUUId}`, {
+                        userId: reuseUserId,
+                        businessUUId: businessUUId,
                       })
 
                 }
             }else{
                 request =() => {
                     
-                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/addBusinessfavorites/${listingId}`, {
-                        userId: currentUser?.id,
-                        listingId: listingId,
+                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/addBusinessfavorites/${businessUUId}`, {
+                        userId: reuseUserId,
+                        businessUUId: businessUUId,
                       })
 
                 }
@@ -77,7 +81,7 @@ const useBusinessFavorite = ({
     }, [
         currentUser, 
         hasFavorited, 
-        listingId, 
+        businessUUId, 
         loginModal,
         router
     ])

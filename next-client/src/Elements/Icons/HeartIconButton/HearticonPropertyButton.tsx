@@ -7,20 +7,22 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 
 
 
-interface HeartIconButtonProps {
-    listingId: number;
+interface HearticonPropertyButtonProps {
+    propertyUUId: any;
     currentUser?: currentUser
 }
 
-const HearticonButton: React.FC<HeartIconButtonProps> = ({
-    listingId,
+const HearticonPropertyButton: React.FC<HearticonPropertyButtonProps> = ({
+    propertyUUId,
     currentUser
 }) => {
 
+    console.log('Line 20 listingId', propertyUUId)
+    console.log('Line 20 currentUser', currentUser)
     //const hasFavorited = false
 
     const { hasFavorited, toggleFavorite } = usePropertyFavorite({
-        listingId,
+        propertyUUId: propertyUUId,
         currentUser: currentUser as any,
     })
 
@@ -42,4 +44,4 @@ const HearticonButton: React.FC<HeartIconButtonProps> = ({
     )
 }
 
-export default HearticonButton
+export default HearticonPropertyButton

@@ -200,6 +200,8 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
 
         const imageSrcString = Array.isArray(business.imageSrc) ? business.imageSrc.join(',') : '';
 
+        const newLocationValue = Array.isArray(business.locationValue) ? business.locationValue.join(',') : '';
+
         const autoSaveToken = business?.token
 
         const { token } = business;
@@ -473,7 +475,7 @@ export const autoSaveBusinessData = async (business: Business, listing: Listing)
                         category: listing.category,
                         //imageSrc: imageSrcString, // Save the concatenated string
                         userId: listing.userId,
-                        businessId: business?.id,
+                        businessId: autoSaveBusinessData?.id,
                         countryId: existingCountry?.id || 0, // Include countryId
                         countryStateRegionId: existingCountryStateRegion?.id, // Include countryStateRegionId
                         countryCityId: existingCountryCity?.id || 0, // Include countryCityId

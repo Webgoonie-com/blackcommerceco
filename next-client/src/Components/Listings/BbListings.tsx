@@ -26,6 +26,9 @@ const BbListings: React.FC<BbListingProp> = ({
     currentUser,
 }) => {
 
+
+    console.log('Line 30 = currentUser: ', currentUser)
+
     const [bBlistings, setBbListings] = useState<BbListingProp[]>([]);
 
 

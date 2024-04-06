@@ -12,25 +12,27 @@ import { currentUser } from '@/Types';
 
 
 interface usePropertyFavorite {
-    listingId: number | string;
+    propertyUUId: number | string;
     currentUser: currentUser;
 }
 
 const usePropertyFavorite = ({
-    listingId,
+    propertyUUId,
     currentUser,
 }: usePropertyFavorite) => {
 
     
-    console.log('Line 25 usePropertyFavorite listingId', listingId)
+    console.log('Line 25 usePropertyFavorite listingId', propertyUUId)
     
     const router = useRouter()
     const loginModal =  useLoginModal()
 
+    const reuseUserId = currentUser?.id
+
     const hasFavorited = useMemo(() => {
         const list = currentUser?.favoriteIds || [];
-        return (list as Array<string | number>).some(id => id === listingId);
-    }, [currentUser?.favoriteIds, listingId]);
+        return (list as Array<string | number>).some(id => id === propertyUUId);
+    }, [currentUser?.favoriteIds, propertyUUId]);
     
 
 
@@ -50,18 +52,18 @@ const usePropertyFavorite = ({
             if(hasFavorited){
                 request = () => {
 
-                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/delPropertyfavorites/${listingId}`, {
-                        userId: currentUser?.id,
-                        listingId: listingId,
+                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/delPropertyfavorites/${propertyUUId}`, {
+                        userId: reuseUserId,
+                        propertyUUId: propertyUUId,
                       })
 
                 }
             }else{
                 request =() => {
                     
-                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/addPropertyfavorites/${listingId}`, {
+                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/addPropertyfavorites/${propertyUUId}`, {
                         userId: currentUser?.id,
-                        listingId: listingId,
+                        propertyUUId: propertyUUId,
                       })
 
                 }
@@ -78,7 +80,7 @@ const usePropertyFavorite = ({
     }, [
         currentUser, 
         hasFavorited, 
-        listingId, 
+        propertyUUId, 
         loginModal,
         router
     ])

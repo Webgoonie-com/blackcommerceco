@@ -82,6 +82,7 @@ export const authOptions: AuthOptions  = {
                 token.accessToken = account.access_token
                 token.uuid = user.uuid
                 token.id = user.id
+                token.favoriteIds = user.favoriteIds
         }
 
         if(user) {

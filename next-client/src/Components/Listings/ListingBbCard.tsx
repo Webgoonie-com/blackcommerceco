@@ -38,8 +38,8 @@ const ListingBbCard: React.FC<ListingBbCardProps> =  ({
 
     const { getByValue } = useCountries();
 
-    const listingId = data?.uuid || 0;
-    
+    const businessUUId = data?.uuid || 0;
+    console.log('Line 42 businessUUId  ', businessUUId)
 
     const location = getByValue(data?.locationValue || '');
 
@@ -114,7 +114,7 @@ const ListingBbCard: React.FC<ListingBbCardProps> =  ({
                     <div className="absolute top-3 right-3">
                
                         <HearticonBusinessButton 
-                            listingId={parseInt(listingId as string)}
+                            businessUUId={businessUUId as string}
                             currentUser={currentUser as any}
                         />
 

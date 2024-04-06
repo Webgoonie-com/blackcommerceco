@@ -38,6 +38,7 @@ export default function Listings() {
     //const currentUser = session?.user;
     const currentUser = getCurrentUser();
 
+    console.log('Line 41 currentUser', currentUser)
     
     useEffect(() => {
         const fetchData = async () => {

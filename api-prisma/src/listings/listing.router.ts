@@ -264,7 +264,7 @@ listingRouter.get("/businessuuid/:uuid", async (request: Request, response: Resp
 
 })
 
-listingRouter.post("/delPropertyfavorites/:listingId", async (request: Request, response: Response) => {
+listingRouter.post("/delPropertyfavorites/:propertyUUId", async (request: Request, response: Response) => {
 
     const listingId: string = request.params.listingId
     //const listingId: string = request.body.listingId
@@ -295,13 +295,13 @@ listingRouter.post("/delPropertyfavorites/:listingId", async (request: Request, 
 
 })
 
-listingRouter.post("/addPropertyfavorites/:listingId", async (request: Request, response: Response) => {
+listingRouter.post("/addPropertyfavorites/:propertyUUId", async (request: Request, response: Response) => {
 
-    const listingId: string = request.params.listingId
+    const propertyUUId: string = request.params.propertyUUId
     
     const body: string = request.body
 
-    console.log('addPropertyfavorites Property listingId', listingId)
+    console.log('addPropertyfavorites Property listingId', propertyUUId)
     console.log('addPropertyfavorites Property body', body)
 
     const listingData = {
@@ -312,7 +312,7 @@ listingRouter.post("/addPropertyfavorites/:listingId", async (request: Request, 
 
     try {
 
-        const user = await ListingController.addBapsListingFavoriteByListingId(parseInt(listingId), listingData)
+        const user = await ListingController.addBapsListingFavoriteByListingUUId(propertyUUId, listingData)
 
         if(user) {
 
@@ -359,13 +359,13 @@ listingRouter.post("/delBusinessfavorites/:listingId", async (request: Request, 
 
 })
 
-listingRouter.post("/addBusinessfavorites/:listingId", async (request: Request, response: Response) => {
+listingRouter.post("/addBusinessfavorites/:businessUUId", async (request: Request, response: Response) => {
 
-    const listingId: string = request.params.listingId
+    const businessUUId: string = request.params.businessUUId
     
     const body: string = request.body
 
-    console.log('addBusinessfavorites listingId', listingId)
+    console.log('addBusinessfavorites listingId', businessUUId)
     console.log('addfavorites body', body)
 
     const listingData = {
@@ -376,7 +376,7 @@ listingRouter.post("/addBusinessfavorites/:listingId", async (request: Request, 
 
     try {
 
-        const user = await ListingController.addBbsistingFavoriteByListingId(parseInt(listingId), listingData)
+        const user = await ListingController.addBbsistingFavoriteByListingUUId(businessUUId, listingData)
 
         if(user) {
 
