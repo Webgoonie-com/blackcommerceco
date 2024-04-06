@@ -155,7 +155,7 @@ const ListingBbBusinessClient: React.FC<ListingBbBusinessClientProps> = ({
                     country={businessListingByUuid?.country?.label as any}
                     countryStateRegion={businessListingByUuid?.countryStateRegion?.name as any}
                     countryCity={businessListingByUuid?.countryCity?.name as any}
-                    id={businessListingByUuid?.listingId}
+                    uuid={businessListingByUuid?.uuid as string}
                     currentUser={currentUser as any}
                 />
 

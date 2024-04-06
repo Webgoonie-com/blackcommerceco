@@ -9,7 +9,7 @@ import HearticonBusinessButton from '@/Elements/Icons/HeartIconButton/HearticonB
 import useCountryStateZip from "@/Hooks/useCountryStateZip";
 
 interface ListingBbHeadProps {
-    id: any;
+    uuid: string;
     title: string;
     locationValue: string;
     imageSrc: string | null;
@@ -20,7 +20,7 @@ interface ListingBbHeadProps {
 }
 
 const ListingBbHead: React.FC<ListingBbHeadProps> = ({
-    id,
+    uuid,
     title,
     locationValue,
     imageSrc,
@@ -41,7 +41,7 @@ const ListingBbHead: React.FC<ListingBbHeadProps> = ({
 
     return ( 
         <div className="relative mt-10">
-
+            id: {uuid}
             <Heading 
                 title={title}
                 subtitle={`${country}, ${countryStateRegion}, ${countryCity}`}
@@ -58,7 +58,7 @@ const ListingBbHead: React.FC<ListingBbHeadProps> = ({
 
                     <div className="absolute top-5 right-5">
                         <HearticonBusinessButton 
-                            businessUUId={id}
+                            businessUUId={uuid}
                             currentUser={currentUser as any}
                             />
                     </div>

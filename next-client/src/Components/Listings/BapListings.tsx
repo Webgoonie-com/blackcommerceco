@@ -22,7 +22,7 @@ const BapListings: React.FC<BapListingProp> = ({
     currentUser,
 }) => {
 
-    console.log('Line 25 = currentUser: ', currentUser)
+    // console.log('Line 25 = currentUser: ', currentUser)
 
     const [listings, setListings] = useState<BapListingProp[]>([]);
 
