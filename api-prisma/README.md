@@ -83,6 +83,8 @@ Starting the first migration
 
 ```
 
+After you done the first migration you now continue to run whenever the database schema has been changed for any reason.  be sure to use npx prisma db push to make sure changes are working for statisfactory then run yarn prisma migrate dev
+
 ```sh
 
     yarn prisma migrate dev
