@@ -570,7 +570,7 @@ export const addBapsListingFavoriteByListingUUId = async (uuid: string, listingD
     });
 
     if(checkForExistingPropertyFromListing){
-        console.log('checkForExistingBusinessFromListing Exist: ', checkForExistingPropertyFromListing)
+        console.log('checkForExistingPropertyFromListing Exist: ', checkForExistingPropertyFromListing)
     }else{
         console.log('does not exist', checkForExistingPropertyFromListing)
     }

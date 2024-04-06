@@ -16,17 +16,18 @@ import { currentUser } from '@/Types';
 
 
 interface BbListingProp {
-    Id: number;
-    uuid: string;
-    currentUser: currentUser
+    
+    currentUser: string;
 }
 interface BapListingProp {
-    Id: number;
-    uuid: string;
-    currentUser: currentUser
+   
+    currentUser: string;
 }
 
-export default function Listings() {
+const Listings: React.FC<BapListingProp> = ({
+    
+    currentUser
+}) => {
 
     const [baplistings, setBapListings] = useState<BapListingProp[]>([]);
     const [bblistings, setBbListings] = useState<BbListingProp[]>([]);
@@ -34,11 +35,11 @@ export default function Listings() {
 
 
 
-    const { data: session, status } = useSession();
+    // const { data: session, status } = useSession();
     //const currentUser = session?.user;
-    const currentUser = getCurrentUser();
+    // const currentUser = getCurrentUser();
 
-    console.log('Line 41 currentUser', currentUser)
+    // console.log('Line 41 currentUser', currentUser)
     
     useEffect(() => {
         const fetchData = async () => {
@@ -167,3 +168,4 @@ export default function Listings() {
     )
 }
 
+export default Listings

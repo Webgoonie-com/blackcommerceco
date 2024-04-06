@@ -39,7 +39,7 @@ const ListingBbCard: React.FC<ListingBbCardProps> =  ({
     const { getByValue } = useCountries();
 
     const businessUUId = data?.uuid || 0;
-    console.log('Line 42 businessUUId  ', businessUUId)
+    // console.log('Line 42 businessUUId  ', businessUUId)
 
     const location = getByValue(data?.locationValue || '');
 

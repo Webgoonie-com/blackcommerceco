@@ -17,8 +17,8 @@ const HearticonPropertyButton: React.FC<HearticonPropertyButtonProps> = ({
     currentUser
 }) => {
 
-    console.log('Line 20 listingId', propertyUUId)
-    console.log('Line 20 currentUser', currentUser)
+    // console.log('Line 20 listingId', propertyUUId)
+    // console.log('Line 20 currentUser', currentUser)
     //const hasFavorited = false
 
     const { hasFavorited, toggleFavorite } = usePropertyFavorite({

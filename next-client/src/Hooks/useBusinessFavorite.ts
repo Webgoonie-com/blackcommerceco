@@ -48,7 +48,7 @@ const useBusinessFavorite = ({
         try {
             let request
 
-            console.log('Line 51 reuseUserId', reuseUserId)
+            // console.log('Line 51 reuseUserId', reuseUserId)
 
             if(hasFavorited){
                 request = () => {

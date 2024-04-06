@@ -106,7 +106,7 @@ const ListingCard: React.FC<ListingCardProps> =  ({
 }) => {
 
     
-    console.log('Line 120 on ListingCard Data', data)
+    // console.log('Line 120 on ListingCard Data', data)
     
 
     const router = useRouter()
