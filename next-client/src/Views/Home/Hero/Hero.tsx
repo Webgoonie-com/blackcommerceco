@@ -21,7 +21,7 @@ const Hero = () => {
             <Container>
                 <div className="flex flex-col h-full justify-center absolute">
                     <div className="max-w-[49rem] px-2 me-3 md:mt-20 xl:mt-20">
-                        <div className="bg-zinc-700 border-2 rounded-lg border-slate-200 opacity-70 p-5">
+                        <div className="bg-zinc-700 border-2 rounded-lg border-slate-200 opacity-70 p-4">
                             <h4 className="text-[2.4rem] leading-tight text-white font-bold">
                                 Building The African Diaspora
                             </h4>
