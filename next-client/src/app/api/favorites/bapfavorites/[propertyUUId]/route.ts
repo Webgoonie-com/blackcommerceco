@@ -53,7 +53,7 @@ export async function POST(
             id: currentUser?.id as any,
         },
         data: {
-            favoriteBapUuids: favoriteBapUuids,
+            favoriteBapUuids: favoriteBapUuids.toString(),
         },
     });
 
