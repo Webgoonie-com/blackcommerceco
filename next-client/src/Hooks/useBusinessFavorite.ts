@@ -13,7 +13,7 @@ import { currentUser } from '@/Types';
 
 interface IuseBusinessFavorite {
     businessUUId: string;
-    currentUser: currentUser;
+    currentUser?: currentUser | null;
 }
 
 const useBusinessFavorite = ({
@@ -30,7 +30,13 @@ const useBusinessFavorite = ({
     const reuseUserId = currentUser?.id
 
     const hasFavorited = useMemo(() => {
-        const list = currentUser?.favoriteBbUuids || [] as string[];
+
+
+        const list = currentUser?.favoriteBbUuids || '' as string;
+
+        // console.log('log list', list)
+        // console.log('log list propertyUUId', businessUUId)
+        // console.log('list.includes(favoriteBbUuids)', list.includes(businessUUId))
 
         //return (list as Array<string | number>).some(id => id === businessUUId);
 

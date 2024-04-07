@@ -402,13 +402,23 @@ import { Country } from "country-state-city";
         name: string;
     }
 
-    export interface userUpdateInput {
+    export interface userUpdateBapInput {
         // Include other properties
         favoriteBapUuids: string | undefined;
         
     }
+
+    export interface userUpdateBbInput {
+        // Include other properties
+        favoriteBbUuids: string | undefined;
+        
+    }
     
     // If userUpdateInput is a union type, include favoriteBapUuids in all constituent types
-    export type userUpdateInputWithFavoriteBapUuids = userUpdateInput & {
+    export type userUpdateInputWithFavoriteBapUuids = userUpdateBapInput & {
         favoriteBapUuids: string | null | undefined;
+    };
+
+    export type userUpdateInputWithFavoriteBbUuids = userUpdateBbInput & {
+        favoriteBbUuids: string | null | undefined;
     };

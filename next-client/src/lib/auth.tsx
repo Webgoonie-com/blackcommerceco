@@ -76,36 +76,44 @@ export const authOptions: AuthOptions  = {
         }),
     ],
     callbacks: {
-        jwt({ token, user, account }) {
 
-        if (account) {
-                token.accessToken = account.access_token
-                token.uuid = user.uuid
-                token.id = user.id
-                token.favoriteBapUuids = user.favoriteBapUuids
-                token.favoriteBbUuids = user.favoriteBbUuids
-        }
 
-        if(user) {
-            return {
-            ...token,
-            id: user.id,
-            uuid: user.uuid,
-            role: user.role,
-            token: user.token,
-            name: user.firstName + ' ' +user.lastName,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            usrImage: user.usrImage,
-            emailVerified: user.emailVerified,
-            favoriteBapUuids: user.favoriteBapUuids,
-            favoriteBbUuids: user.favoriteBbUuids,
-            createdAt: user.createdAt,
-            upatedAt: user.updatedAt,
+        jwt({ token, user, account, trigger, session }) {
+
+            if(trigger ==="update") {
+                return {...token, ...session.user }
             }
-        }
 
-        return token;
+            if (account) {
+                    token.accessToken = account.access_token
+                    token.uuid = user.uuid
+                    token.id = user.id
+                    token.favoriteBapUuids = user.favoriteBapUuids
+                    token.favoriteBbUuids = user.favoriteBbUuids
+            }
+
+            if(user) {
+                return {
+                ...token,
+                id: user.id,
+                uuid: user.uuid,
+                role: user.role,
+                token: user.token,
+                name: user.firstName + ' ' +user.lastName,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                usrImage: user.usrImage,
+                emailVerified: user.emailVerified,
+                favoriteBapUuids: user.favoriteBapUuids,
+                favoriteBbUuids: user.favoriteBbUuids,
+                createdAt: user.createdAt,
+                upatedAt: user.updatedAt,
+                }
+            }
+
+        //return token;
+        return { ...token }
+
         },
         async redirect({ url, baseUrl }) {
             // Allows relative callback URLs

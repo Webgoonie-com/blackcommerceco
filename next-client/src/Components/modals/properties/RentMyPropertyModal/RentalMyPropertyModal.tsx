@@ -178,8 +178,11 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
 
         //console.log('data being submited', data)
 
+        console.log('data 1')
 
         try {
+
+
             const responseData = await autoSavePropertyData(data, autoSaveToken, currentUser?.id); // Call the autoSavePropertyData function
 
             const { id, listingId } = responseData;
@@ -188,43 +191,49 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
             setListingId(listingId)
             setCustomValue('propertyId', id)
 
-        } catch (error) {
-            console.error('Error occurred while submitting data:', error);
-        }
-
+       
+        console.log('data 2')
 
         if(step !== STEPS.PRICE){
             return onNext()
         }
 
+        console.log('data 3')
         setIsLoading(true)
         
-        try {
+        console.log('data 4')
             
-            // Calling Directly To Internal API Route            
-           await axios.post(`
-                ${process.env.NEXT_PUBLIC_API_URL}/api/propertys/createProperty`,
-                data
-            ).then(() =>{
+      
+                console.log('data 5')
+
                 toast.success('Congratulations Your Listing was Just Created!', {
                     duration: 7000,
                     position: 'bottom-right',
                 })
                
+
+                console.log('data 6')
+
+                rentMyPropertyModalModal.onClose()
                 reset()
                 setStep(STEPS.CATEGORY)
-                rentMyPropertyModalModal.onClose()
                 router.refresh()
-            })
-            .catch(() => {
-                toast.error('Sorry Something went Wrong');
-            }).finally(() => {
-                setIsLoading(false)
-                 router.refresh()
-            })
+           
+           
+
+                console.log('data 7')
+
+                
+           
             
         } catch (error) {
+        
             console.error(error);
+            toast.error('Sorry Something went Wrong');
+        } finally {
+            console.log('data 9')
+            setIsLoading(false)
+             router.refresh()
         }
 
     }

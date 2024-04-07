@@ -2,16 +2,17 @@ import { NextResponse } from "next/server";
 
 import getCurrentUser from "@/Actions/getCurrentUser";
 import prisma from "@/lib/orm";
+import { userUpdateBbInput } from "@/Types";
 
 interface IParams {
     businessUUId?: string;
-    favoriteBbUuids?: string[];
+    favoriteBbUuids?: string | string[];
 }
 
 
 interface IUserUpdateData {
-    favoriteBbUuids: string[]; // Define favoriteBbUuids property here
-    businessUUId: string;
+    favoriteBbUuids: string;
+    businessUUId: string | string[];
 }
 
 export async function POST(
@@ -36,9 +37,32 @@ export async function POST(
         
     }
 
-    let favoriteBbUuids = [...(currentUser.favoriteBbUuids || [])]
+    const exisitingBusiness = await prisma.property.findFirst({
+        where:{
+            uuid: businessUUId,
+        },
+        
+    });
 
-    favoriteBbUuids.push(businessUUId)
+    //  let favoriteBbUuids = [...(currentUser.favoriteBbUuids || '')]
+
+    let favoriteBbUuids = currentUser.favoriteBbUuids || '';
+
+    //  favoriteBbUuids.push(businessUUId)
+
+    if (favoriteBbUuids && favoriteBbUuids !== '') {
+        // If favoriteBbUuids is not empty, append the separator before adding the new property UUID
+        favoriteBbUuids += ',';
+    }
+
+    // Append the new property UUID and the comma
+    
+    //favoriteBbUuids += exisitingProperty?.id + ',';
+
+    //favoriteBbUuids += businessUUId + ',';
+    favoriteBbUuids += businessUUId;
+
+
 
     // const user = await prisma.user.update({
     //     where:{
@@ -49,7 +73,18 @@ export async function POST(
     //     }
     // });
 
-    return NextResponse.json(favoriteBbUuids);
+    //  return NextResponse.json(favoriteBbUuids);
+
+    const user = await prisma.user.update({
+        where: {
+            id: currentUser?.id as any,
+        },
+        data: {
+            favoriteBbUuids: favoriteBbUuids.toString(),
+        },
+    }) as userUpdateBbInput;
+
+    return NextResponse.json(user);
     
 }
 
