@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { v4 as uuidv4 } from 'uuid';
 import getCurrentUser from "@/Actions/getCurrentUser";
 import prisma from "@/lib/orm";
-import { userUpdateInputWithFavoriteBapUuids } from "@/Types";
+import { userUpdateInput, userUpdateInputWithFavoriteBapUuids } from "@/Types";
 
 interface IParams {
     propertyUUId?: string;
@@ -56,7 +56,7 @@ export async function POST(
         data: {
             favoriteBapUuids: favoriteBapUuids.toString(),
         },
-    }) as userUpdateInputWithFavoriteBapUuids;
+    }) as userUpdateInput;
 
     return NextResponse.json(user);
 }

@@ -404,7 +404,8 @@ import { Country } from "country-state-city";
 
     export interface userUpdateInput {
         // Include other properties
-        favoriteBapUuids: string | null | undefined;
+        favoriteBapUuids: string | undefined;
+        
     }
     
     // If userUpdateInput is a union type, include favoriteBapUuids in all constituent types
