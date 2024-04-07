@@ -3,12 +3,13 @@ import express, { Request, Response } from "express";
 import path from 'path'
 import cors from 'cors'
 
-import { userRouter } from "./users/user.router"
 import { adminRouter } from "./admins/admin.router"
-import { listingRouter } from "./listings/listing.router"
-import { propertyRouter } from "./propertys/property.router"
 import { businessRouter } from "./businesses/business.router"
 import { favoriteRouter } from "./favorites/favorite.router";
+import { generalRouter } from "./general/general.route";
+import { propertyRouter } from "./propertys/property.router"
+import { listingRouter } from "./listings/listing.router"
+import { userRouter } from "./users/user.router"
 
 
 dotenv.config()
@@ -40,10 +41,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/api/users", userRouter)
 app.use("/api/admins", adminRouter)
-app.use("/api/listings", listingRouter)
-app.use("/api/propertys", propertyRouter)
 app.use("/api/businesses", businessRouter)
 app.use("/api/favorites", favoriteRouter)
+app.use("/api/generals", generalRouter)
+app.use("/api/propertys", propertyRouter)
+app.use("/api/listings", listingRouter)
 
 app.use(express.static('public', {
     setHeaders: (res: Response, _path: string, _stat: any) => { // Type the parameters properly

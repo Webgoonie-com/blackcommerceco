@@ -1,9 +1,56 @@
 "use client"
 
-const footer = () => {
-        const handEmailSubscribe = () => {
-            console.log('handEmailSubscribe')
-        }
+import { useState } from 'react';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+
+const Footer = () => {
+        
+        const [email, setEmail] = useState('');
+
+        const handleEmailSubscribe = async () => {
+            // Check if the email is not empty and is a valid email address
+            if (email.trim() !== '' && /\S+@\S+\.\S+/.test(email)) {
+                try {
+                    // Send a POST request to your API route
+                    const response = await axios.post(
+                        `${process.env.NEXT_PUBLIC_API_URL}/api/generals/createEmailSubscriber`, 
+                        {
+                        emailsub: email
+                    }).then((response) => {
+                        console.log('Response Data on then: ', response.data); // You can handle the response as needed
+                        
+                        toast.success('Congratulations Your NewsLetter Suscribition Has Been Accepted!', {
+                            duration: 7000,
+                            position: 'top-center',
+                        })
+                    }).catch(() => {
+                        toast.error('Sorry Something went Wrong');
+                    }).finally(() => {
+                            
+                         
+                    });
+                    
+                    // Clear the input after successful subscription
+                    setEmail('');
+                } catch (error) {
+                    console.error('Error subscribing:', error);
+                }
+            } else {
+
+                toast.error(
+                    'Please enter a valid email address.',
+                    {
+                        duration: 7000,
+                        position: 'top-center',
+                    }
+                )
+            }
+        };
+    
+        const handleInputChange = (e: any) => {
+            setEmail(e.target.value);
+        };
 
         return (
             <footer id="footer" className="w-full text-gray-600 relative bg-gray-950">
@@ -119,21 +166,23 @@ const footer = () => {
                             <div className="relative sm:w-72 md:w-[60%] xl:w-[70%] sm:mr-4 mr-2">
                                 <label className="leading-7 text-sm text-white">Subscribe To Our NewsLetter For Special Offers And Annoucements Today.</label>
                                 <input
-                                    type="text"
+                                    type="email"
                                     id="footer-field"
                                     name="footer-field"
+                                    value={email} // Use value instead of defaultValue
+                                    onChange={handleInputChange}
                                     placeholder="Enter Your Primary Email..."
                                     className="
-                                    self-start  w-full bg-gray-800 bg-opacity-50 rounded-md border border-gray-700 focus:ring-2 focus:bg-transparent focus:ring-green-200 focus:border-green-500 text-base outline-none text-white py-1 px-3 leading-8 transition-colors duration-200 ease-in-out
-                                    xl:mb-0 xl:mt-5
-                                    md:mb-0 md:mt-5
-                                    sm:mb-2 sm:mt-5
-                                    xs:mb-2 xs:mt-5
-                                    mb-5 mt-5
+                                        self-start w-full bg-gray-800 bg-opacity-50 rounded-md border border-gray-700 focus:ring-2 focus:bg-transparent focus:ring-green-200 focus:border-green-500 text-base outline-none text-white py-1 px-3 leading-8 transition-colors duration-200 ease-in-out
+                                        xl:mb-0 xl:mt-5
+                                        md:mb-0 md:mt-5
+                                        sm:mb-2 sm:mt-5
+                                        xs:mb-2 xs:mt-5
+                                        mb-5 mt-5
                                     "
                                 />
                             </div>
-                            <button onClick={handEmailSubscribe} className="
+                            <button onClick={handleEmailSubscribe} className="
                                     sm:w-[25%]
                                     md:w-[75%]
                                     xl:w-full
@@ -216,4 +265,4 @@ const footer = () => {
         )
 }
 
-export default footer
+export default Footer
