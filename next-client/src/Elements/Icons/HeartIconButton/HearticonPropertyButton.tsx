@@ -30,8 +30,6 @@ const HearticonPropertyButton: React.FC<HearticonPropertyButtonProps> = ({
     })
 
 
-    console.log('hasFavorited: ', hasFavorited)
-
     return (
         <div
             onClick={toggleFavorite}

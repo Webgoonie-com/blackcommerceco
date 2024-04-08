@@ -25,51 +25,9 @@ const usePropertyFavorite = ({
 
     
     // console.log('Line 25 usePropertyFavorite listingId', propertyUUId)
-    async function updateSession(session: any, list: any, propertyUUId: string){
-        
-        console.log('Hit Updated Session')
-        console.log('list: ', list)
-        console.log('propertyUUId: ', propertyUUId)
-        console.log('What it looks like all together? ', list+','+propertyUUId+',')
-
-        const newlist = session?.user?.favoriteBapUuids;
-
-        let concating
-
-        concating = newlist+propertyUUId+','
-
-        //   if(list !== ''){
-        //     console.log('List Not Null')
-        //     concating = newlist+propertyUUId+','
-        //   }else{
-        //     console.log('List Found Null')
-        //     concating = newlist+propertyUUId+','
-        //   }
-            
-
-        console.log('concating', concating)
-
-        // if(session){
-        //      //session.user.favoriteBapUuids=list+','+propertyUUId+','
-        //      session.user.favoriteBapUuids=concating
-        // }
-
-        await update({
-            ...session,
-            user: {
-                ...session?.user,
-                favoriteBapUuids: concating
-            }
-        })
-
-    }
+    
 
     const { data: session, update } = useSession()
-
-    console.log('session', session?.user)
-
-
-
 
 
 
@@ -79,22 +37,16 @@ const usePropertyFavorite = ({
 
     const reuseUserId = currentUser?.id
 
+    
     const hasFavorited = useMemo(() => {
 
         const list = session?.user?.favoriteBapUuids || '';
 
-        console.log('log list', list)
-        // console.log('log list propertyUUId', propertyUUId)
-        // console.log('list.includes(propertyUUId)', list.includes(propertyUUId))
         
-        //return (list as Array<string | number>).some(id => id === propertyUUId);
-        
-
         return list.includes(propertyUUId);
         
     }, [propertyUUId, session?.user?.favoriteBapUuids]);
     
-    console.log('hasFavorited', hasFavorited)
     
    
     
@@ -102,9 +54,54 @@ const usePropertyFavorite = ({
     const toggleFavorite = useCallback(async (
         e: React.MouseEvent<HTMLDivElement>
     ) => {
-
-        console.log('Result of e: -- ', e)
         e.stopPropagation()
+
+        async function updateAddSession(session: any, propertyUUId: string){
+        
+            
+            
+    
+            let currentList = session?.user?.favoriteBapUuids; 
+    
+            let concating
+    
+            if(currentList && currentList.length > 1){
+                concating = currentList+propertyUUId+','
+              }else{
+                concating = propertyUUId+','
+              }
+    
+            await update({
+                ...session,
+                user: {
+                    ...session?.user,
+                    favoriteBapUuids: concating
+                }
+            })
+    
+        }
+    
+        async function updateRemoveSession(session: any, propertyUUId: string){
+                
+            let currentlist = session?.user?.favoriteBapUuids;
+    
+            const textToReplace = propertyUUId+','; // we will replace : with div spacer
+    
+            const newList = currentlist.split(textToReplace).join('');
+    
+            let concating
+    
+            concating = newList
+            
+            await update({
+                ...session,
+                user: {
+                    ...session?.user,
+                    favoriteBapUuids: newList
+                }
+            })
+    
+        }
 
         if(!currentUser){
             // if current user do not exist then open login modal to login.
@@ -117,20 +114,20 @@ const usePropertyFavorite = ({
 
             if(hasFavorited){
                 
-                //updateSession(session, currentUser?.favoriteBapUuids, propertyUUId)
+                updateRemoveSession(session, propertyUUId)
 
                 request = () => axios.delete(`/api/favorites/bapfavorites/${propertyUUId}`)
-                console.log('hasFavorited', request)
+               
 
             }else{
                
                 
+                updateAddSession(session, propertyUUId)
                 
                 request = () => axios.post(`/api/favorites/bapfavorites/${propertyUUId}`)
 
-                updateSession(session, currentUser?.favoriteBapUuids, propertyUUId)
 
-                console.log('hasNotFavorited', request)
+               
             }
 
             await request()
@@ -174,7 +171,7 @@ const usePropertyFavorite = ({
         //     toast.error('Something went wrong on handling your favorite.');
         // }
 
-    }, [currentUser, hasFavorited, loginModal, propertyUUId, router])
+    }, [currentUser, hasFavorited, loginModal, propertyUUId, router, session, update])
 
     return {
         hasFavorited,
