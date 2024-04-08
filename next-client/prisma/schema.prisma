@@ -319,21 +319,21 @@ model reservationbusiness {
   @@index([userId], map: "ReservationBusiness_userId_fkey")
 }
 
-model reservationproperty {
+model reservationProperty {
   id         Int      @id @default(autoincrement())
-  uuid       String   @unique(map: "ReservationProperty_uuid_key")
+  uuid       String   @unique(map: "reservationProperty_uuid_key")
   startDate  DateTime
   endDate    DateTime
-  totalPrice Decimal  @db.Decimal(10, 2)
+  totalPrice Float
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now())
   userId     Int
   listingId  Int
   propertyId Int
 
-  @@index([listingId], map: "ReservationProperty_listingId_fkey")
-  @@index([propertyId], map: "ReservationProperty_propertyId_fkey")
-  @@index([userId], map: "ReservationProperty_userId_fkey")
+  @@index([listingId], map: "reservationProperty_listingId_fkey")
+  @@index([propertyId], map: "reservationProperty_propertyId_fkey")
+  @@index([userId], map: "reservationProperty_userId_fkey")
 }
 
 model timezone {
