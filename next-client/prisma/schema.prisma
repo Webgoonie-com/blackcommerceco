@@ -236,7 +236,6 @@ model listing {
   countryCityId        Int?
   businessId           Int?
   propertyId           Int?
-  reservationId        Int?
   token                String
 
   @@index([userId], map: "Listing_userId_fkey")
