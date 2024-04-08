@@ -255,25 +255,7 @@ model ReservationBusiness {
   businessId                          Int
 }
   
-model ReservationProperty { 
-  id                                  Int                     @id @default(autoincrement())
-  uuid                                String                  @default(uuid()) @unique
-  startDate                           DateTime
-  endDate                             DateTime
-  totalPrice                          Decimal                 @db.Decimal(10, 2)
-  createdAt                           DateTime                @default(now())
-  updatedAt                           DateTime                @default(now()) @updatedAt
-  
-  user                                User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId                              Int
-  
-  listing                             Listing?                 @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  listingId                           Int
-  
-  property                            Property?               @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-  propertyId                          Int
 
-}
 
         
 
@@ -391,6 +373,26 @@ model Propertyphoto {
   listingId                           Int?
   property                            Property?               @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   propertyId                          Int?
+}
+
+model ReservationProperty { 
+  id                                  Int                     @id @default(autoincrement())
+  uuid                                String                  @default(uuid()) @unique
+  startDate                           DateTime
+  endDate                             DateTime
+  totalPrice                          Decimal                 @db.Decimal(10, 2)
+  createdAt                           DateTime                @default(now())
+  updatedAt                           DateTime                @default(now()) @updatedAt
+  
+  user                                User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                              Int
+  
+  listing                             Listing?                 @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId                           Int
+  
+  property                            Property[]
+  propertyId                          Int
+
 }
 
 model TimeZone {

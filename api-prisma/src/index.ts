@@ -5,10 +5,11 @@ import cors from 'cors'
 
 import { adminRouter } from "./admins/admin.router"
 import { businessRouter } from "./businesses/business.router"
-import { favoriteRouter } from "./favorites/favorite.router";
 import { generalRouter } from "./general/general.route";
-import { propertyRouter } from "./propertys/property.router"
+import { favoriteRouter } from "./favorites/favorite.router";
 import { listingRouter } from "./listings/listing.router"
+import  { reservationRouter } from './reservations/reservation.router'
+import { propertyRouter } from "./propertys/property.router"
 import { userRouter } from "./users/user.router"
 
 
@@ -46,6 +47,7 @@ app.use("/api/favorites", favoriteRouter)
 app.use("/api/generals", generalRouter)
 app.use("/api/propertys", propertyRouter)
 app.use("/api/listings", listingRouter)
+app.use("/api/reservations", reservationRouter)
 
 app.use(express.static('public', {
     setHeaders: (res: Response, _path: string, _stat: any) => { // Type the parameters properly

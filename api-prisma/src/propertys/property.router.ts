@@ -207,12 +207,27 @@ propertyRouter.post("/makePrimaryPhoto/:listingId", async (request: Request, res
 
 })
 
-propertyRouter.get("/reservationsproperty/:uuid", async (request: Request, response: Response) => {
+propertyRouter.get("/reservationAtpropertyByUuid/:uuid", async (request: Request, response: Response) => {
 
     const uuid: string = request.params.uuid
 
     try {
-        const property = await PropertyService.getPropertyReservationUuId(uuid)
+        const property = await PropertyService.getReservationByUuId(uuid)
+        if(property) {
+            return response.status(200).json(property)
+        }
+    } catch (error) {
+        return response.status(500).json("Reservation Could Not Be Found by Uuid");
+    }
+
+})
+
+propertyRouter.get("/reservationsAtProperty/:uuid", async (request: Request, response: Response) => {
+
+    const uuid: string = request.params.uuid
+
+    try {
+        const property = await PropertyService.getPropertyUuidReservations(uuid)
         if(property) {
             return response.status(200).json(property)
         }

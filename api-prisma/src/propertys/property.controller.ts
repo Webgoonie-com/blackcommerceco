@@ -3,7 +3,7 @@ import { Prisma } from '@prisma/client';
 import { Listing, MIME_TYPE_MAP, Property, PropertyPhoto, PropertyReservation } from "../types";
 import path from 'path';
 import { unlink } from "fs/promises";
-import { Decimal } from "@prisma/client/runtime/library";
+
 
 
 
@@ -146,9 +146,23 @@ export const getPropertyId = async (id: number): Promise<Property | null> => {
     }
 };
 
-export const getPropertyReservationUuId = async (uuid: string): Promise<PropertyReservation | null> => {
+export const getPropertyUuidReservations = async (uuid: string): Promise<Property | null> => {
     
-    console.log('Hit PropertyReservationUuId: ', uuid)
+    console.log('Hit getPropertyReservationUuId from  "/reservationsproperty/:uuid": ', uuid)
+    
+    return orm.property.findUnique({
+        
+        where: {
+            uuid,
+        },
+        
+        
+    })
+}
+
+export const getReservationByUuId = async (uuid: string): Promise<PropertyReservation | null> => {
+    
+    console.log('Hit getPropertyReservationUuId from  "/reservationsproperty/:uuid": ', uuid)
     
     return orm.reservationProperty.findUnique({
         
@@ -161,6 +175,11 @@ export const getPropertyReservationUuId = async (uuid: string): Promise<Property
             startDate: true,
             endDate: true,
             totalPrice: true,
+            createdAt: true,
+            updatedAt: true,
+            userId: true,
+            listingId: true,
+            propertyId: true,
         }
         
     })
@@ -168,6 +187,7 @@ export const getPropertyReservationUuId = async (uuid: string): Promise<Property
 
 export const getPropertyUuId = async (uuid: string): Promise<Property | null> => {
     
+    console.log('Hit getPropertyUuId: ', uuid)
     
     return orm.property.findUnique({
         where: {
@@ -834,6 +854,17 @@ export const createPropertyReservation = async (propertyReservationData: any): P
 
     try {
         
+        console.log('Line 837 propertyReservationData', propertyReservationData)
+
+        const existingProperty = await orm.property.findFirst({
+            where: {
+                uuid: propertyReservationData?.propertyUuid,
+            }
+        });
+
+        console.log('Line 845 existingProperty', existingProperty)
+
+        
 
         // Update property based on UUID
         const updatedProperty = await orm.property.update({
@@ -856,7 +887,7 @@ export const createPropertyReservation = async (propertyReservationData: any): P
                         
                         user: { connect: { id: propertyReservationData.userId } },
                         
-                        listing: { connect: { id: propertyReservationData.listingId } },
+                        listing: { connect: { id: existingProperty?.listingId as number } },
                     }
 
                 }

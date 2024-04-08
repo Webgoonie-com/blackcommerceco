@@ -222,6 +222,12 @@ export interface PropertyReservation {
     startDate: Date;
     endDate: Date;
     totalPrice: Decimal;
+    createdAt: Date;
+    updatedAt: Date,
+    userId: number,
+    listingId: number,
+    listing?: string | string[] | undefined,
+    propertyId: number,
 }
 
 
