@@ -286,8 +286,8 @@ model Listing {
   countryCity                         CountryCity[]
 
   
-  reservationproperty                 ReservationProperty[]
-  reservationbusiness                 ReservationBusiness[]
+  reservationProperty                 ReservationProperty[]
+  reservationBusiness                 ReservationBusiness[]
   favorites                           Favorite[]
 
   property                            Property[]
@@ -375,12 +375,13 @@ model Propertyphoto {
   propertyId                          Int?
 }
 
+
 model ReservationProperty { 
   id                                  Int                     @id @default(autoincrement())
   uuid                                String                  @default(uuid()) @unique
   startDate                           DateTime
   endDate                             DateTime
-  totalPrice                          Decimal                 @db.Decimal(10, 2)
+  totalPrice                          Float
   createdAt                           DateTime                @default(now())
   updatedAt                           DateTime                @default(now()) @updatedAt
   
@@ -392,6 +393,8 @@ model ReservationProperty {
   
   property                            Property?                @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   propertyId                          Int
+
+  @@map("reservationProperty")
 
 }
 

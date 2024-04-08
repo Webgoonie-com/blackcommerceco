@@ -221,7 +221,7 @@ export interface PropertyReservation {
     uuid: string;
     startDate: Date;
     endDate: Date;
-    totalPrice: Decimal;
+    totalPrice: GLfloat | null;
     createdAt: Date;
     updatedAt: Date,
     userId: number,
