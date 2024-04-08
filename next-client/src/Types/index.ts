@@ -6,6 +6,7 @@ import { CurrentUser } from '@/Types/nextauth';
 import { DefaultSession, DefaultUser} from "next-auth";
 import { IUser } from '@/Types/nextauth';
 import { Country } from "country-state-city";
+import { reservationproperty } from "@prisma/client";
 
 
 ;
@@ -93,7 +94,69 @@ import { Country } from "country-state-city";
         // ... other properties of Property
     }
     
+    export type ListingTripCardProps = {
+        data: {
+            Id: number;
+            uuid: string;
+            userId: number;
+            
+            user: User;
+            
+            countryCityId: number;
+            Country: Country;
+            countryStateRegion: CountryStateRegion;
+            countryStateRegionId: number;
     
+            imageSrc: string;
+            category: string;
+            title: string;
+            description: string;
+            streetCity: string;
+            roomCount: number;
+            guestCount: number;
+            bathroomCount: number;
+    
+            price: string;
+            favoriteBapUuids: string;
+            favoriteBbUuids: string;
+            streetAddress: string;
+            streetAddress2: string;
+            streetZipCode: string;
+            locationValue: string;
+            Businesses: Businesses;
+            updatedAt: Date;
+            country: Country;
+        } | null;
+        reservation?: {
+            reservationProperty(
+                   
+                    reservationProperty: ReservationProperty
+            ): unknown;
+            Reservation: Reservation;
+        } | null;
+        onAction?: (Id: string) => void;
+        disabled?: boolean
+        actionLabel?: string;
+        actionId?: string;
+        currentUser?: currentUser
+    
+    }
+
+    export type ListingReservationProps = {
+        
+        id: number;
+        uuid: string;
+        listingId: number;
+        propertyId: number;
+        startDate: Date;
+        totalPrice: number;
+        updatedAt: Date;
+        userId: number;
+        createdAt: Date;
+        endDate: Date;
+
+    }
+
     export interface ListingBbCardProps {
          data: {
             Id: number;
@@ -167,6 +230,14 @@ import { Country } from "country-state-city";
     
     }
 
+    export type ReservationProperty = {
+
+        createdAt: string;
+        startDate: string;
+        endDate: string;
+        property: safeProperty;
+        listing: SafeListing;
+    };
     export interface PropertyReservation {
         id: number;
         uuid: string;
@@ -251,6 +322,10 @@ import { Country } from "country-state-city";
             country: Country;
         } | null;
         reservation?: {
+            reservationProperty(
+                    arg0: string, 
+                    
+                ): unknown;
             Reservation: Reservation;
         } | null;
         onAction?: (Id: string) => void;
@@ -341,9 +416,12 @@ import { Country } from "country-state-city";
         Reservation, 
         "createdAt" | "startDate" | "endDate" | "listing"
     > & {
+        reservationProperty: string[] | string | [];
         createdAt: string;
+        imageSrc: string;
         startDate: string;
         endDate: string;
+        id: number | undefined;
         property: safeProperty;
         listing: SafeListing;
     };

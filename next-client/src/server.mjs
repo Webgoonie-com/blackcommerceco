@@ -60,7 +60,7 @@ const authenticateAdmin = async (email, password) => {
 const authenticateUser = async (email, password) => {
 
     try {
-        const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/admins/loginadmin', {
+        const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/users/loginadmin', {
             email,
             hashedPassword: password,
         });

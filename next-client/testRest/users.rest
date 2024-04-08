@@ -32,8 +32,21 @@ Content-Type: application/json
 ###
 
 
+POST http://localhost:3334/api/users/loginuser/
+Content-Type: application/json
+
+{   
+    "firstName": "Malcom",
+    "lastName": "X",
+    "email": "malcomx@noi.org",
+    "hashedPassword": "$2b$12$AMBAW0BvXfFT6xuCyZ1Mm.RvufODuXkIEyoVIXYSqkDCTlCUzRSw2"
+}
+###
+
+
 POST http://localhost:3333/api/register/
 Content-Type: application/json
+
 {   
     "firstName": "Malcom",
     "lastName": "X",

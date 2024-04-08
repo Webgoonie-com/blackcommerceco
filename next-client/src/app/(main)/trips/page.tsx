@@ -1,4 +1,4 @@
-"use"
+
 import EmptyState from '@/Components/EmptyStates/EmptyState'
 import ClientOnly from '@/Components/ClientOnly'
 
@@ -56,7 +56,7 @@ const TripsPage = async () => {
 
     const userReservations = await callUserReservations(userId);
     
-    console.log('responseData: ', userReservations);
+    console.log('responseData: ', JSON.stringify(userReservations));
 
     // if(userReservations.length === 0){
     //     return(
@@ -74,7 +74,7 @@ const TripsPage = async () => {
     return (
         <ClientOnly>
                 <TripsClient
-                    //reservations={userReservations as any}
+                    reservations={userReservations as any}
                     currentUser={currentUser as any}
                 />
             </ClientOnly>

@@ -16,9 +16,38 @@ reservationRouter.get('/all', async (request: Request, response: Response) => {
     }
 })
 
+
+
 reservationRouter.get('/listingsWithReservations', async (request: Request, response: Response) => {
     try {
-        const propertys = await PropertyController.getListingsWithReservations()
+        const propertys = await PropertyController.listReservations()
+        return response.status(200).json(propertys);
+
+    } catch (error: any) {
+        return response.status(500).json(error.message);
+    }
+})
+
+reservationRouter.get('/reservationsByUserId/:userId', async (request: Request, response: Response) => {
+
+    const userId: string = request.params.userId
+
+    try {
+        const propertys = await PropertyController.getUserWithReservations(parseInt(userId, 10))
+        return response.status(200).json(propertys);
+
+    } catch (error: any) {
+        return response.status(500).json(error.message);
+    }
+})
+
+
+reservationRouter.get('/listingsWithUserReservations/:userId', async (request: Request, response: Response) => {
+
+    const userId: string = request.params.userId
+
+    try {
+        const propertys = await PropertyController.getLisingsWithUserReservations(userId)
         return response.status(200).json(propertys);
 
     } catch (error: any) {
