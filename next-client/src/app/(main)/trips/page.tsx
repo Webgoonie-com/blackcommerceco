@@ -5,7 +5,7 @@ import ClientOnly from '@/Components/ClientOnly'
 import TripsClient from './TripsClient'
 
 import getCurrentUser from '@/Actions/getCurrentUser'
-import getPropertyReservations from '@/Actions/getPropertyReservations'
+
 
 
 import { useSession } from'next-auth/react'
