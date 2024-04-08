@@ -10,7 +10,7 @@ export const callReservations = async (userId: any) => {
             
         );
 
-        console.log('Line 33 api/reservations/all', reservations);
+        //console.log('Line 33 api/reservations/all', reservations);
         
         return reservations;
     } catch (error) {
@@ -26,7 +26,7 @@ export const callUserReservations = async (userId: any) => {
             
         );
 
-        console.log('Line 33 reservations', reservations);
+        //console.log('Line 33 reservations', reservations);
         
         return reservations;
     } catch (error) {
