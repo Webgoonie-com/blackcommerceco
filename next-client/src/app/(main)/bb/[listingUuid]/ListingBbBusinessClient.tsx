@@ -11,7 +11,7 @@ import { eachDayOfInterval, differenceInCalendarDays } from "date-fns";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Range } from "react-date-range"
-import ListingBbBusinessReservation from "@/Components/Listings/ListingBbBusinessReservation";
+//  import ListingBbBusinessReservation from "@/Components/Listings/ListingBbBusinessReservation";
 
 
 const initialDateRange: Range = {
@@ -64,7 +64,7 @@ const ListingBbBusinessClient: React.FC<ListingBbBusinessClientProps> = ({
     }, [reservations])
 
 
-    console.log('businessListingByUuid', businessListingByUuid)
+    // console.log('businessListingByUuid', businessListingByUuid)
 
     const [isLoading, setIsLoading] = useState(false)
     const [totalPrice, setTotalPrice] = useState(parseFloat(businessListingByUuid?.sellPrice) || 100.00)

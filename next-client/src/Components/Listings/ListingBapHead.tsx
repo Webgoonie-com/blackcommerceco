@@ -12,7 +12,7 @@ import logo from '../../../public/images/logo.png'
 const logoPlaceHolder = `${process.env.NEXT_PUBLIC_URL}` + logo.src
 
 interface ListingHeadProps {
-    id: any;
+    uuid: string;
     title: string;
     locationValue: string;
     imageSrc: string | null;
@@ -23,7 +23,7 @@ interface ListingHeadProps {
 }
 
 const ListingBapHead: React.FC<ListingHeadProps> = ({
-    id,
+    uuid,
     title,
     locationValue,
     imageSrc,
@@ -38,9 +38,9 @@ const ListingBapHead: React.FC<ListingHeadProps> = ({
     // console.log('Pased id as listingId: = ', id)
     // console.log('Pased country as: = ', country)
 
-    const { getByValue } = useCountries();
+    // const { getByValue } = useCountries();
 
-    const location = getByValue(locationValue)
+    // const location = getByValue(locationValue)
 
     return ( 
         <div className="relative mt-10">
@@ -61,7 +61,7 @@ const ListingBapHead: React.FC<ListingHeadProps> = ({
 
                     <div className="absolute top-5 right-5">
                         <HearticonPropertyButton 
-                            propertyUUId={id}
+                            propertyUUId={uuid}
                             currentUser={currentUser as any}
                             />
                     </div>

@@ -20,8 +20,6 @@ export async function POST(
     { params }: { params: IParams }
 ){
 
-    console.log('HIT POST ON bbfavorites')
-
     const currentUser = await getCurrentUser()
 
     if(!currentUser){
@@ -30,50 +28,24 @@ export async function POST(
 
     const { businessUUId } = params;
 
-    console.log('HIT POST ON businessUUId: ', businessUUId)
-
     if(!businessUUId || typeof businessUUId !== "string") {
         throw new Error("Invalid businessUUId ");
         
     }
 
-    const exisitingBusiness = await prisma.property.findFirst({
-        where:{
-            uuid: businessUUId,
-        },
-        
-    });
-
-    //  let favoriteBbUuids = [...(currentUser.favoriteBbUuids || '')]
 
     let favoriteBbUuids = currentUser.favoriteBbUuids || '';
 
-    //  favoriteBbUuids.push(businessUUId)
-
     if (favoriteBbUuids && favoriteBbUuids !== '') {
+
         // If favoriteBbUuids is not empty, append the separator before adding the new property UUID
-        favoriteBbUuids += ',';
+        if (!favoriteBbUuids.endsWith(',')) {
+            favoriteBbUuids += ',';
+        }
     }
 
     // Append the new property UUID and the comma
-    
-    //favoriteBbUuids += exisitingProperty?.id + ',';
-
-    //favoriteBbUuids += businessUUId + ',';
-    favoriteBbUuids += businessUUId;
-
-
-
-    // const user = await prisma.user.update({
-    //     where:{
-    //         id: currentUser?.id as any,
-    //     },
-    //     data: { 
-    //         favoriteBbUuids
-    //     }
-    // });
-
-    //  return NextResponse.json(favoriteBbUuids);
+    favoriteBbUuids += businessUUId; 
 
     const user = await prisma.user.update({
         where: {
@@ -89,11 +61,11 @@ export async function POST(
 }
 
 
-
 export async function DELETE(
     request: Request,
     { params }: { params: IParams }
 ) {
+
     const currentUser = await getCurrentUser();
 
     if(!currentUser){
@@ -107,18 +79,33 @@ export async function DELETE(
         
     }
 
-    let favoriteBbUuids = [...(currentUser.favoriteBbUuids || [])]
+    let exisitingBusiness = await prisma.business.findFirst({
+        where:{
+            uuid: businessUUId,
+        },
+        
+    })
 
-    favoriteBbUuids = favoriteBbUuids.filter((id) => id !== businessUUId)
+    
+    if(!exisitingBusiness || !exisitingBusiness?.uuid) {
+        throw new Error("Invalid exisitingBusiness uuid ");
+        
+    }
 
-    // const user = await prisma.user.update({
-    //     where:{
-    //         id: currentUser?.id as any,
-    //     },
-    //     data: { 
-    //         favoriteBbUuids
-    //     } 
-    // });
+    let favoriteBbUuids = (currentUser.favoriteBbUuids || '').split(',').filter(Boolean);
 
-    return NextResponse.json(favoriteBbUuids);
+    if (exisitingBusiness?.uuid) {
+        favoriteBbUuids = favoriteBbUuids.filter(id => id !== exisitingBusiness.uuid.toString());
+    }
+
+    const user = await prisma.user.update({
+        where:{
+            id: currentUser?.id as any,
+        },
+        data: { 
+            favoriteBbUuids: favoriteBbUuids.toString(),
+        } 
+    });
+
+    return NextResponse.json(user);
 }

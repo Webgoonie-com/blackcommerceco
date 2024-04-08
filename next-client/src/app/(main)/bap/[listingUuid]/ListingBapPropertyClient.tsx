@@ -1,6 +1,6 @@
 "use client"
 
-import { Listing, PropertyListing, Reservation, User } from "@/Types";
+import { PropertyListing, Reservation, User } from "@/Types";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { CategoriesOnlyProperties } from '@/Components/Categories/CategoriesOnly';
 import ListingBapHead from "@/Components/Listings/ListingBapHead";
@@ -63,6 +63,8 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
 
     }, [reservations])
 
+    // console.log('propertylistingByUuid', propertylistingByUuid)
+
 
     const [isLoading, setIsLoading] = useState(false)
     const [totalPrice, setTotalPrice] = useState(parseFloat(propertylistingByUuid?.price))
@@ -79,7 +81,7 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
             totalPrice,
             startDate: dateRange.startDate,
             endDate: dateRange.endDate,
-            listingId: propertylistingByUuid?.id,
+            listingId: propertylistingByUuid?.listingId,
             propertyUuid: propertylistingByUuid?.uuid,
             userId: currentUser.id
         })
@@ -102,7 +104,7 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
             setIsLoading(false)
         })
 
-    }, [currentUser, totalPrice, dateRange.startDate, dateRange.endDate, propertylistingByUuid?.id, propertylistingByUuid?.uuid, loginModal, router])
+    }, [currentUser, totalPrice, dateRange.startDate, dateRange.endDate, propertylistingByUuid?.listingId, propertylistingByUuid?.uuid, loginModal, router])
 
 
     const category = useMemo(() => {
@@ -154,7 +156,7 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
                     country={propertylistingByUuid?.country?.name as any}
                     countryStateRegion={propertylistingByUuid?.countryStateRegion?.name as any}
                     countryCity={propertylistingByUuid?.countryCity?.name as any}
-                    id={propertylistingByUuid?.listingId}
+                    uuid={propertylistingByUuid?.uuid as string}
                     currentUser={currentUser as any}
                 />
 

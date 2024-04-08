@@ -15,9 +15,6 @@ export async function POST(
     { params }: { params: IParams }
 ) {
 
-    console.log('Hit POST Property Bap favorite')
-    
-
     const currentUser = await getCurrentUser();
 
     if (!currentUser) {
@@ -30,27 +27,18 @@ export async function POST(
         throw new Error("Invalid propertyUUId ");
     }
 
-    const exisitingProperty = await prisma.property.findFirst({
-        where:{
-            uuid: propertyUUId,
-        },
-        
-    });
-
-    let favoriteBapUuids = currentUser.favoriteBapUuids || ''; // Initialize to empty string if null
+  
+    // Initialize to empty string if null
+    let favoriteBapUuids = currentUser.favoriteBapUuids || '';
 
     if (favoriteBapUuids && favoriteBapUuids !== '') {
         // If favoriteBapUuids is not empty, append the separator before adding the new property UUID
-        //favoriteBapUuids += ',';
         if (!favoriteBapUuids.endsWith(',')) {
             favoriteBapUuids += ',';
         }
     }
 
     // Append the new property UUID and the comma
-    
-    //favoriteBapUuids += exisitingProperty?.id + ',';
-
     favoriteBapUuids += propertyUUId;
 
     const user = await prisma.user.update({
@@ -66,18 +54,10 @@ export async function POST(
 }
 
 
-
-
-
-
 export async function DELETE(
     request: Request,
     { params }: { params: IParams }
 ) {
-
-
-    console.log('Hit Delete Business Bap favorite')
-
 
     const currentUser = await getCurrentUser();
 
@@ -99,28 +79,17 @@ export async function DELETE(
         
     })
 
-    if(!exisitingProperty || !exisitingProperty?.listingId) {
-        throw new Error("Invalid exisitingProperty listingId ");
+    if(!exisitingProperty || !exisitingProperty?.uuid) {
+        throw new Error("Invalid exisitingProperty uuid ");
         
     }
 
-
-
-    console.log('Take a peek at, ',  currentUser.favoriteBapUuids)
-
     let favoriteBapUuids = (currentUser.favoriteBapUuids || '').split(',').filter(Boolean); // Split string into array and remove empty strings
-
-    //let favoriteBapUuids = [...(currentUser.favoriteBapUuids || '')]
-    //let favoriteBapUuids = currentUser.favoriteBapUuids || '';
 
     // Ensure existingProperty.favoriteId is a UUID before adding it to the filter
     if (exisitingProperty?.uuid) {
         favoriteBapUuids = favoriteBapUuids.filter(id => id !== exisitingProperty.uuid.toString());
     }
-    
-    //favoriteBapUuids = favoriteBapUuids.filter((id) => id !== exisitingProperty?.uuid?.toString())
-
-    console.log('favoriteBapUuids', favoriteBapUuids)
 
     const user = await prisma.user.update({
         where:{

@@ -112,7 +112,7 @@ export const createUser = async (user: CreateUserInput): Promise<User | any> => 
    
     const { firstName, lastName, email, hashedPassword } = user;
 
-    console.log('on user.service user', user)
+    //  console.log('on user.service user', user)
 
     const hashed = await bcrypt.hash(hashedPassword, 12);
 
@@ -144,8 +144,8 @@ export const loginUser = async (user: CreateUserInput): Promise<User | null> => 
     const { email, hashedPassword } = user;
 
 
-    console.log('loginUser', user)
-    console.log('user.hashedPassword', user.hashedPassword)
+    // console.log('loginUser', user)
+    // console.log('user.hashedPassword', user.hashedPassword)
 
     // Find the user by email, including the hashedPassword
     const findUser = await orm.user.findUnique({
@@ -169,7 +169,7 @@ export const loginUser = async (user: CreateUserInput): Promise<User | null> => 
         },
     }) as FindUserResult;
 
-    console.log('findUser', findUser)
+    //  console.log('findUser', findUser)
     
 
     if (!findUser) {
@@ -179,7 +179,7 @@ export const loginUser = async (user: CreateUserInput): Promise<User | null> => 
     // Compare the entered password with the hashed password from the database
     const passwordMatch = await bcrypt.compare(user.hashedPassword, findUser.hashedPassword || '');
 
-    console.log('passwordMatch', passwordMatch)
+    //  console.log('passwordMatch', passwordMatch)
 
     if (passwordMatch) {
         // Return the user without the hashedPassword

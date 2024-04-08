@@ -31,17 +31,18 @@ const ListingBbHead: React.FC<ListingBbHeadProps> = ({
 }) => {
     
     //  const { getByValue } = useCountries();
-    // const { getByValue } = useCountryStateZip();
+    //  const { getByValue } = useCountryStateZip();
     
-    // console.log('locationValue', locationValue)
+    //  console.log('locationValue', locationValue)
 
-    // const location = getByValue(locationValue)
+    //  const location = getByValue(locationValue)
 
-    // console.log('after locationValue location', location)
+    //  console.log('after locationValue location', location)
+    
 
     return ( 
         <div className="relative mt-10">
-            id: {uuid}
+
             <Heading 
                 title={title}
                 subtitle={`${country}, ${countryStateRegion}, ${countryCity}`}

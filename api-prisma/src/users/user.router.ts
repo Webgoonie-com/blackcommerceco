@@ -68,7 +68,7 @@ userRouter.post(
     body("hashedPassword").isString(),
     async (request: Request, response: Response) => {
 
-        console.log('Hit Create User')
+        //  console.log('Hit Create User')
         
         const errors = validationResult(request)
 
@@ -110,7 +110,7 @@ userRouter.post('/loginuser', async (request: Request, response: Response) => {
 
     try {
 
-        console.log('/loginuser: request.body = ', request.body)
+        //  console.log('/loginuser: request.body = ', request.body)
         
         const newUser = await ControllerService.loginUser(request.body)
 

@@ -40,7 +40,7 @@ const usePropertyFavorite = ({
     
     const hasFavorited = useMemo(() => {
 
-        const list = session?.user?.favoriteBapUuids || '';
+        const list = session?.user?.favoriteBapUuids || '' as string;
 
         
         return list.includes(propertyUUId);
