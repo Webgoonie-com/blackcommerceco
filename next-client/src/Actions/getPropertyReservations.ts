@@ -1,8 +1,6 @@
 import orm from "@/lib/orm";
 import { Listing } from "@/Types";
 
-
-
 interface IParams {
   listingId?: string;
   userId?: string;
@@ -46,36 +44,33 @@ export default async function getPropertyReservations(
 
     const reservations = await orm.reservationproperty.findMany({
       where: query,
-      // include: {
-      //   listing: true
-      // } as { listing: true },
       select: {
-            id: true,
-            uuid: true,
-            
-            startDate: true,
-            endDate: true,
-            totalPrice: true,
-            createdAt: true,
-            updatedAt: true,
-            userId: true,
-            listingId: true,
-            propertyId: true,
+        id: true,
+        uuid: true,
+        startDate: true,
+        endDate: true,
+        totalPrice: true,
+        createdAt: true,
+        updatedAt: true,
+        userId: true,
+        listingId: true,
+        propertyId: true,
       },
       orderBy: {
         createdAt: 'desc'
       }
     });
 
-    const safeReservations = reservations.map(
-      (reservation) => ({
+    reservations
+
+    const safeReservations = reservations.map((reservation: { createdAt: { toISOString: () => any; }; startDate: { toISOString: () => any; }; endDate: { toISOString: () => any; }; totalPrice: any; }) => ({
       ...reservation,
       createdAt: reservation.createdAt.toISOString(),
       startDate: reservation.startDate.toISOString(),
       endDate: reservation.endDate.toISOString(),
+      totalPrice: Number(reservation.totalPrice), // Ensure totalPrice is a plain number
       property: {
         ...reservation,
-        
       },
     }));
 

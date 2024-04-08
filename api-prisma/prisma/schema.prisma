@@ -285,7 +285,7 @@ model Listing {
   countryCityId                       Int?
   countryCity                         CountryCity[]
 
-  reservationId                       Int?
+  
   reservationProperty                 ReservationProperty[]
   ReservationBusiness                 ReservationBusiness[]
   favorites                           Favorite[]
@@ -390,7 +390,7 @@ model ReservationProperty {
   listing                             Listing?                 @relation(fields: [listingId], references: [id], onDelete: Cascade)
   listingId                           Int
   
-  property                            Property[]
+  property                            Property?                @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   propertyId                          Int
 
 }

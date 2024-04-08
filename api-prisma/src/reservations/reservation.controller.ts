@@ -25,6 +25,35 @@ export const listReservations = async (): Promise<PropertyReservation[]> => {
             userId: true,
             listingId: true,
             propertyId: true,
+            property: true,
+        }
+        
+    })
+}
+
+
+export const getListingsWithReservations = async (): Promise<Listing[]> => {
+    
+    console.log('Hit getPropertyReservationUuId from  "/reservationsproperty/:uuid": ')
+    
+    return orm.listing.findMany({
+        select:{
+            id: true,
+            uuid: true,
+            token: true,
+            title: true,
+            description: true,
+            imageSrc: true,
+            category: true,
+            createdAt: true,
+            updatedAt: true,
+            userId: true,
+            countryId: true,
+            reservationProperty: true,
+            countryStateRegionId: true,
+            countryCityId: true,
+            propertyId: true,
+            businessId: true,
         }
         
     })

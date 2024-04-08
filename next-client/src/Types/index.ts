@@ -323,6 +323,13 @@ import { Country } from "country-state-city";
     
     }
 
+    export type safeProperty = Omit<
+        Listing, 
+            "createdAt"
+        > & {
+        createdAt: string;
+    };
+    
     export type SafeListing = Omit<
         Listing, 
             "createdAt"
@@ -337,6 +344,7 @@ import { Country } from "country-state-city";
         createdAt: string;
         startDate: string;
         endDate: string;
+        property: safeProperty;
         listing: SafeListing;
     };
 

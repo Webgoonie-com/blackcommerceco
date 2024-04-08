@@ -884,6 +884,8 @@ export const createPropertyReservation = async (propertyReservationData: any): P
                         endDate: propertyReservationData.endDate,
                         
                         totalPrice: propertyReservationData.totalPrice,
+
+                        //  propertyId: parseInt(existingProperty?.id as any),
                         
                         user: { connect: { id: propertyReservationData.userId } },
                         
@@ -900,6 +902,8 @@ export const createPropertyReservation = async (propertyReservationData: any): P
         });
 
         return updatedProperty // Return the created reservation
+
+
     } catch (error) {
         // Handle any errors
         console.error("Error creating property reservation:", error);

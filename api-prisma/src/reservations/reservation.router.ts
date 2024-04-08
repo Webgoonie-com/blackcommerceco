@@ -16,6 +16,16 @@ reservationRouter.get('/all', async (request: Request, response: Response) => {
     }
 })
 
+reservationRouter.get('/listingsWithReservations', async (request: Request, response: Response) => {
+    try {
+        const propertys = await PropertyController.getListingsWithReservations()
+        return response.status(200).json(propertys);
+
+    } catch (error: any) {
+        return response.status(500).json(error.message);
+    }
+})
+
 reservationRouter.get("/reservationByUuid/:uuid", async (request: Request, response: Response) => {
 
     const uuid: string = request.params.uuid

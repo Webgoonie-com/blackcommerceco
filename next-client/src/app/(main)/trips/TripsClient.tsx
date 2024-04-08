@@ -10,6 +10,7 @@ import { currentUser, SafeReservation, SafeUser } from "@/Types";
 import axios from "axios";
 import toast from "react-hot-toast";
 import ListingCard from "@/Components/Listings/ListingCard";
+import ListingBapCard from "@/Components/Listings/ListingBapCard";
 
 
 interface TripsclientProps {
@@ -66,9 +67,9 @@ const TripsClient: React.FC<TripsclientProps> = ({
                 "
              >
                 {reservations && reservations.map((reservation) => (
-                    <ListingCard 
+                    <ListingBapCard 
                         key={reservation.id}
-                        data={reservation?.listing as any}
+                        data={reservation?.property as any}
                         reservation={reservation as any}
                         actionId={reservation.id as any}
                         onAction={onCancel}
