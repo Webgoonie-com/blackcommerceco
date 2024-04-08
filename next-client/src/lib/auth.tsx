@@ -112,7 +112,7 @@ export const authOptions: AuthOptions  = {
             }
 
         //return token;
-        return { ...token }
+        return { ...token  }
 
         },
         async redirect({ url, baseUrl }) {
