@@ -286,8 +286,8 @@ model Listing {
   countryCity                         CountryCity[]
 
   
-  reservationProperty                 ReservationProperty[]
-  ReservationBusiness                 ReservationBusiness[]
+  reservationproperty                 ReservationProperty[]
+  reservationbusiness                 ReservationBusiness[]
   favorites                           Favorite[]
 
   property                            Property[]
@@ -424,8 +424,8 @@ model User {
   userPhotos                          UserPhoto[]
   accounts                            Account[]
   listings                            Listing[]
-  reservationProperty                 ReservationProperty[]
-  reservationBusiness                 ReservationBusiness[]
+  reservationproperty                 ReservationProperty[]
+  reservationbusiness                 ReservationBusiness[]
   Propertys                           Property[]
   Propertyphotos                      Propertyphoto[]
   Business                            Business[]
