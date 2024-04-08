@@ -41,7 +41,7 @@ model Admin {
   nickname                            String? 
   email                               String                    @unique
   emailVerified                       DateTime? 
-  image                               String? 
+  image                               String?                   @db.LongText
   hashedPassword                      String? 
   firstName                           String? 
   lastName                            String?
@@ -73,8 +73,8 @@ model Business {
 
   sellPrice                           String?
 
-  imageSrc                            String?                 @db.VarChar(1000)
-  imagesMultiSrc                      String?                 @db.VarChar(1000)
+  imageSrc                            String?                 @db.LongText
+  imagesMultiSrc                      String?                 @db.LongText
 
   createdAt                           DateTime                @default(now())
   updatedAt                           DateTime                @default(now()) @updatedAt
@@ -104,16 +104,16 @@ model Businessphoto {
   token                               String
   imgAlbumName                        String
   imgCatg                             String
-  imageSrc                            String
-  imagesMultiSrc                            String
-  imgUrl                              String
+  imageSrc                            String                  @db.LongText
+  imagesMultiSrc                      String                  @db.LongText
+  imgUrl                              String                  @db.LongText
   imgName                             String
   imgFileType                         String
   imgEncoding                         String
   imgFileOrigName                     String
   imgFileName                         String
-  imgFileOutputDir                    String
-  imgFilePath                         String
+  imgFileOutputDir                    String                  @db.LongText
+  imgFilePath                         String                  @db.LongText
   imgFileSize                         Int
   createdAt                           DateTime                @default(now())
   updatedAt                           DateTime                @default(now()) @updatedAt
@@ -308,9 +308,9 @@ model Property {
   uuid                                String                  @default(uuid()) @unique
   token                               String                  @unique
   title                               String
-  description                         String                  @db.VarChar(2500)
-  imageSrc                            String?                 @db.VarChar(1000)
-  imagesMultiSrc                      String?                 @db.VarChar(1000)
+  description                         String                  @db.LongText
+  imageSrc                            String?                 @db.LongText
+  imagesMultiSrc                      String?                 @db.LongText
 
 
   category                            String
@@ -354,15 +354,15 @@ model Propertyphoto {
   token                               String
   imgAlbumName                        String
   imgCatg                             String
-  imageSrc                            String
-  imgUrl                              String
+  imageSrc                            String                  @db.LongText
+  imgUrl                              String                  @db.LongText
   imgName                             String
   imgFileType                         String
   imgEncoding                         String
   imgFileOrigName                     String
   imgFileName                         String
-  imgFileOutputDir                    String
-  imgFilePath                         String
+  imgFileOutputDir                    String                  @db.LongText
+  imgFilePath                         String                  @db.LongText
   imgFileSize                         Int
   createdAt                           DateTime                @default(now())
   updatedAt                           DateTime                @default(now()) @updatedAt
@@ -414,13 +414,13 @@ model User {
   role                                String?
   email                               String                  @unique
   emailVerified                       DateTime? 
-  image                               String? 
+  image                               String?                 @db.LongText
   phone                               String?
   hashedPassword                      String? 
   firstName                           String? 
   lastName                            String?
-  favoriteBapUuids                    String?
-  favoriteBbUuids                    String?
+  favoriteBapUuids                    String?                 @db.LongText
+  favoriteBbUuids                     String?                 @db.LongText
   updatedAt                           DateTime                @default(now()) @updatedAt
   createdAt                           DateTime                @default(now())
   favorites                           Favorite[]
