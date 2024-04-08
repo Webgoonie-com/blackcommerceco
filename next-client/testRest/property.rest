@@ -7,7 +7,28 @@ GET http://localhost:3334/api/propertys/allproperties
 ###
 ###
 
-GET http://localhost:3334/api/propertys/reservationsproperty/87aa2ee6-6b64-4139-a01b-9d394dbfbb5e
+GET http://localhost:3334/api/propertys/reservationsAtProperty/23d2197b-630d-4863-aeea-827a7500f85d
+
+
+
+###
+###
+
+GET http://localhost:3334/api/propertys/reservationAtpropertyByUuid/23d2197b-630d-4863-aeea-827a7500f85d
+
+
+
+###
+###
+
+GET http://localhost:3334/api/propertys/reservationAtpropertyByUuid/fc982479-372e-41a3-804a-d51cbbf8ab6a
+
+
+
+###
+###
+
+GET http://localhost:3334/api/propertys/reservationsproperty/fc982479-372e-41a3-804a-d51cbbf8ab6a
 
 
 

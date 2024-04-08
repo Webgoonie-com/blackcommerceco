@@ -150,7 +150,7 @@ const ListingCard: React.FC<ListingCardProps> =  ({
         const start = new Date(reservation?.Reservation?.startDate)
         const end = new Date(reservation?.Reservation?.endDate)
 
-        return `${format(start, 'PP')} - ${format(end, 'PP')}`
+        //return `${format(start, 'PP')} - ${format(end, 'PP')}`
 
     }, [reservation])
 
@@ -175,7 +175,7 @@ const ListingCard: React.FC<ListingCardProps> =  ({
                     <Image
                         fill
                         alt="Listing"
-                        src={`${data?.imageSrc}`}
+                        src={`${data?.imageSrc || ''}`}
                         className="
                             object-cover 
                             h-full 

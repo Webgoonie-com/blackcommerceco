@@ -15,6 +15,7 @@ import { signOut, useSession } from "next-auth/react"
 
 import { CurrentUser } from '@/Types/nextauth'
 import { SafeUser } from '@/Types'
+import { useRouter } from 'next/navigation'
 
 
 interface UserMenuProps {
@@ -24,6 +25,8 @@ interface UserMenuProps {
 const UserMenu: React.FC<UserMenuProps> = ({
     currentUser
 }) => {
+
+    const router = useRouter()
 
     const registerModal = useRegisterModal()
     const loginModal = useLoginModal()
@@ -155,7 +158,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                                 />
                                 <hr />
                                 <MenuItem 
-                                    onClick={ () => { console.log('Clicked My Trips') , toggleMenuClosed()} }
+                                    onClick={ () => { router.push("/trips"), toggleMenuClosed()} }
                                     label="My Trips"
                                 />
                                 <MenuItem 

@@ -81,7 +81,6 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
             totalPrice,
             startDate: dateRange.startDate,
             endDate: dateRange.endDate,
-            listingId: propertylistingByUuid?.listingId,
             propertyUuid: propertylistingByUuid?.uuid,
             userId: currentUser.id
         })

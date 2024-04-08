@@ -28,6 +28,7 @@ const BbsListingPage = async ({ params }: {params: IParams }) => {
 
 
   const businessListingByUuid = await getBusinessListingByUuId(params)
+  
 
   //console.log('Line 32 = getBusinessListingByUuId', getBusinessListingByUuId)
 

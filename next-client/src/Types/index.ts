@@ -7,6 +7,7 @@ import { DefaultSession, DefaultUser} from "next-auth";
 import { IUser } from '@/Types/nextauth';
 import { Country } from "country-state-city";
 
+
 ;
 
     export interface currentUser {
@@ -164,6 +165,20 @@ import { Country } from "country-state-city";
         //currentUser?: IUser | null
         currentUser?: CurrentUser | null
     
+    }
+
+    export interface PropertyReservation {
+        id: number;
+        uuid: string;
+        startDate: Date;
+        endDate: Date;
+        totalPrice: number;
+        createdAt: Date;
+        updatedAt: Date,
+        userId: number,
+        listingId: number,
+        listing?: string | string[] | undefined,
+        propertyId: number,
     }
 
     export interface PropertyListing {

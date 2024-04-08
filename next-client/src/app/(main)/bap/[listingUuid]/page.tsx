@@ -7,6 +7,7 @@ import ClientOnly from '@/Components/ClientOnly';
 import EmptyStateBap from '@/Components/EmptyStates/EmptyStateBap';
 
 import ListingBapPropertyClient from './ListingBapPropertyClient';
+import getPropertyReservations from '@/Actions/getPropertyReservations';
 
 interface IParams {
   listingUuid?: string;
@@ -21,6 +22,8 @@ const BapsListingPage = async ({ params }: {params: IParams }) => {
 
 
   const propertylistingByUuid = await getPropertyListingByUuId(params)
+
+  const propertyReservations = await getPropertyReservations(params as any)
 
   const currentUser = await getCurrentUser()
   

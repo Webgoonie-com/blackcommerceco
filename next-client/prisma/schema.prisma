@@ -390,3 +390,11 @@ model businesstofavorite {
   @@index([B], map: "_BusinessToFavorite_B_index")
   @@map("_businesstofavorite")
 }
+
+model emailsubscriber {
+  id        Int      @id @default(autoincrement())
+  uuid      String?  @unique(map: "EmailSubscriber_uuid_key")
+  emailsub  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
