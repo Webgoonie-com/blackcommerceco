@@ -4,7 +4,7 @@ import ClientOnly from '@/Components/ClientOnly'
 import getCurrentUser from '@/Actions/getCurrentUser'
 
 
-const MyProfilePage = async () => {
+const MyBusinessPage = async () => {
 
     const currentUser = await getCurrentUser()
 
@@ -28,7 +28,7 @@ const MyProfilePage = async () => {
       <>
       <ClientOnly>
           <EmptyState 
-              title='Edit Profile Coming Soon!'
+              title='Your Businessess Page!'
               subtitle='Looks like you you found a section I have not finished yet...'
           />
       </ClientOnly>
@@ -36,8 +36,8 @@ const MyProfilePage = async () => {
     )
 
     return (
-      <div>MyProfilePage</div>
+      <div>MyBusinessPage</div>
     )
 }
 
-export default MyProfilePage
+export default MyBusinessPage
