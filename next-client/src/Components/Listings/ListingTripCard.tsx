@@ -52,12 +52,12 @@ const ListingTripCard: React.FC<ListingTripCardProps> =  ({
 }) => {
 
     
-    console.log('ListingTripCard')
-    console.log('ListingTripCard imageSrc:', imageSrc)
-    console.log('ListingTripCard reservation:', reservation)
-    console.log('ListingTripCard startDate:', startDate)
-    //console.log('ListingTripCard endDate:', endDate: { endDate: Date } )
-    console.log('ListingTripCard endDate:', endDate as any)
+    // console.log('ListingTripCard')
+    // console.log('ListingTripCard imageSrc:', imageSrc)
+    // console.log('ListingTripCard reservation:', reservation)
+    // console.log('ListingTripCard startDate:', startDate)
+    // //console.log('ListingTripCard endDate:', endDate: { endDate: Date } )
+    // console.log('ListingTripCard endDate:', endDate as any)
     
 
     const router = useRouter()
@@ -101,8 +101,8 @@ const ListingTripCard: React.FC<ListingTripCardProps> =  ({
             return null
         }
 
-        console.log('reservation?.reservationProperty?.startDate', reservation?.startDate)
-        console.log('reservation?.reservationProperty?.endDate', reservation.endDate)
+        //console.log('reservation?.reservationProperty?.startDate', reservation?.startDate)
+        //console.log('reservation?.reservationProperty?.endDate', reservation.endDate)
         //console.log('reservation?.Reservation?.startDate', reservation)
 
         const start = new Date(reservation?.startDate)

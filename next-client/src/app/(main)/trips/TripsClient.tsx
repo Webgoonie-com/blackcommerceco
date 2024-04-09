@@ -23,7 +23,7 @@ const TripsClient: React.FC<TripsclientProps> = ({
 }) => {
 
 
-    console.log('reservations', reservations)
+    //console.log('reservations', reservations)
 
     const router = useRouter();
 
@@ -49,7 +49,7 @@ const TripsClient: React.FC<TripsclientProps> = ({
     }, [router])
     
 
-    console.log('tripsClient reservations', reservations)
+    
     
     return ( 
       <div className="bg-gray-950">
