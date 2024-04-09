@@ -13,8 +13,8 @@ interface EmptyStateBbProps {
 }
 
 const EmptyStateBb: React.FC<EmptyStateBbProps> = ({
-    title = "No exact matches found at the moment...",
-    subtitle = "Try changing or removing some of your filters",
+    title = "No exact business matches were found at the moment...",
+    subtitle = "Try changing or removing some of your business categories",
     showReset
 
 }) => {

@@ -111,26 +111,57 @@ const usePropertyFavorite = ({
         try {
 
             let request;
+            let request2;
+            let request3;
 
             if(hasFavorited){
                 
-                updateRemoveSession(session, propertyUUId)
-
                 request = () => axios.delete(`/api/favorites/bapfavorites/${propertyUUId}`)
+
+                request2 =() => {
+
+                    updateRemoveSession(session, propertyUUId)
+                }
+
+
+                request3 = () => {
+
+                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/delPropertyfavorites/${propertyUUId}`, {
+                        userId: reuseUserId,
+                        propertyUUId: propertyUUId,
+                      })
+
+                }
                
 
             }else{
                
                 
-                updateAddSession(session, propertyUUId)
-                
                 request = () => axios.post(`/api/favorites/bapfavorites/${propertyUUId}`)
+
+                request2 =() => {
+                    updateAddSession(session, propertyUUId)
+                }
+                request3 =() => {
+                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/delPropertyfavorites/${propertyUUId}`, {
+                        userId: reuseUserId,
+                        propertyUUId: propertyUUId,
+                      })
+                }
+                
+
+               
+                
 
 
                
             }
 
             await request()
+
+            await request2()
+            
+            await request3()
 
             router.refresh()
             toast.success('Success')
@@ -140,36 +171,36 @@ const usePropertyFavorite = ({
         }
 
 
-        // try {
-        //     let request
+        try {
+            let request
 
-        //     if(hasFavorited){
-        //         request = () => {
+            if(hasFavorited){
+                request = () => {
 
-        //             axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/delPropertyfavorites/${propertyUUId}`, {
-        //                 userId: reuseUserId,
-        //                 propertyUUId: propertyUUId,
-        //               })
+                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/delPropertyfavorites/${propertyUUId}`, {
+                        userId: reuseUserId,
+                        propertyUUId: propertyUUId,
+                      })
 
-        //         }
-        //     }else{
-        //         request =() => {
+                }
+            }else{
+                request =() => {
                     
-        //             axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/addPropertyfavorites/${propertyUUId}`, {
-        //                 userId: currentUser?.id,
-        //                 propertyUUId: propertyUUId,
-        //               })
+                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/addPropertyfavorites/${propertyUUId}`, {
+                        userId: currentUser?.id,
+                        propertyUUId: propertyUUId,
+                      })
 
-        //         }
-        //     }
+                }
+            }
 
-        //     await request();
-        //     router.refresh();
-        //     toast.success('Success');
+            await request();
+            router.refresh();
+            toast.success('Success');
 
-        // } catch (error) {
-        //     toast.error('Something went wrong on handling your favorite.');
-        // }
+        } catch (error) {
+            toast.error('Something went wrong on handling your favorite.');
+        }
 
     }, [currentUser, hasFavorited, loginModal, propertyUUId, router, session, update])
 

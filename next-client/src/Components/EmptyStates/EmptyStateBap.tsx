@@ -13,8 +13,8 @@ interface EmptyStateBapProps {
 }
 
 const EmptyStateBap: React.FC<EmptyStateBapProps> = ({
-    title = "No exact matches found at the moment...",
-    subtitle = "Try changing or removing some of your filters",
+    title = "No exact property matches were found at the moment...",
+    subtitle = "Try changing or removing some of your property categories",
     showReset
 
 }) => {

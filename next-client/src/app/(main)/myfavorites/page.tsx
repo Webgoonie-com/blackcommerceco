@@ -39,8 +39,8 @@ const MyFavoritesClient = async () => {
             <>
             <ClientOnly>
                 <EmptyState 
-                    title='No Favorites Found!'
-                    subtitle='Looks like you havent made any reservations yet...'
+                    title='None Of Your Favorites Were Found!'
+                    subtitle='Looks like you havent made any favorites yet...'
                 />
             </ClientOnly>
             </>

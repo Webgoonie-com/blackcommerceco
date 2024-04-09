@@ -53,8 +53,8 @@ const PropertyBookingsPage = async () => {
             <div className=''>
                 <ClientOnly>
                     <EmptyState 
-                        title='No PropertyBookings found!'
-                        subtitle='Looks like you havent confirmed any PropertyBookings yet...'
+                        title='No Property Bookings Found!'
+                        subtitle='Looks like you havent had any Property Bookings yet...'
                     />
                 </ClientOnly>
             </div>

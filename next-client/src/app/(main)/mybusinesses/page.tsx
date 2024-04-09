@@ -28,8 +28,8 @@ const MyBusinessPage = async () => {
       <>
       <ClientOnly>
           <EmptyState 
-              title='Your Businessess Page!'
-              subtitle='Looks like you you found a section I have not finished yet...'
+              title="No Listed Businessess Found!"
+              subtitle="Looks like you haven't listed your business online yet..."
           />
       </ClientOnly>
       </>

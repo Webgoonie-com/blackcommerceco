@@ -39,8 +39,8 @@ const MyPropertiesPage = async () => {
             <>
             <ClientOnly>
                 <EmptyState 
-                    title='No Pending Reservations Found!'
-                    subtitle='Looks like you havent made any reservations yet...'
+                    title='No Properties Found!'
+                    subtitle='Looks like you havent listed any of your properties yet...'
                 />
             </ClientOnly>
             </>
