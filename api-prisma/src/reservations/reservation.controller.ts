@@ -86,7 +86,7 @@ export const getLisingsWithUserReservations = async (userId: string): Promise<Li
 
 export const getReservationByUuId = async (uuid: string): Promise<PropertyReservation | null> => {
     
-    console.log('Hit getPropertyReservationUuId from  "/reservationsproperty/:uuid": ', uuid)
+    //console.log('Hit getPropertyReservationUuId from  "/reservationsproperty/:uuid": ', uuid)
     
     return orm.reservationProperty.findUnique({
         
@@ -111,11 +111,11 @@ export const getReservationByUuId = async (uuid: string): Promise<PropertyReserv
 
 export const getPropertyReservations = async (body: any, query: any): Promise<PropertyReservation[]> => {
     
-    console.log('Hit getPropertyReservationUuId')
+    // console.log('Hit getPropertyReservationUuId')
 
-    console.log('Hit body: ',  body)
+    // console.log('Hit body: ',  body)
 
-    console.log('Hit query: ',  query)
+    // console.log('Hit query: ',  query)
 
     
     const { listingUuId, propertyUuId, userId, authorId} = query
@@ -199,4 +199,48 @@ export const queryReservationsByStrings = async (body: any, query: any): Promise
         }
         
     })
+}
+
+
+export const cancelUserReservation = async (reservationId: number): Promise<PropertyReservation | null> => {
+    
+    // console.log('Hit cancelUserReservation from  "/cancelUserReservation/:reservationId": ', reservationId)
+    
+    let exitingReservation = await orm.reservationProperty.findUnique({
+        
+        where: {
+            id: reservationId,
+        },
+        select: {
+            id: true,
+            uuid: true,
+            startDate: true,
+            endDate: true,
+            totalPrice: true,
+            createdAt: true,
+            updatedAt: true,
+            userId: true,
+            listingId: true,
+            propertyId: true,
+        }
+        
+    })
+
+
+    if(!exitingReservation){
+        throw new Error("ReservationProperty don't Exist");
+        
+    }else{
+
+
+        const deleteExitingReservation = await orm.reservationProperty.delete({
+            where: {
+              id: exitingReservation.id,
+            },
+          })
+
+          return deleteExitingReservation
+    }
+
+    return exitingReservation
 }

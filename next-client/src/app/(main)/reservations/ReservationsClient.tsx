@@ -9,30 +9,35 @@ import Heading from "@/Components/Heading";
 import { currentUser, SafeReservation, SafeUser } from "@/Types";
 import axios from "axios";
 import toast from "react-hot-toast";
-import ListingTripCard from "@/Components/Listings/ListingTripCard";
+import ReservationCard from "@/Components/Listings/ListingReservationCard";
 
 
-interface TripsclientProps {
+interface ListingReservationCardProps {
     reservations?: SafeReservation[] |  undefined;
     currentUser: SafeUser | null;
 }
 
-const TripsClient: React.FC<TripsclientProps> = ({
+const ListingReservationCard: React.FC<ListingReservationCardProps> = ({
     reservations,
     currentUser
 }) => {
 
 
-    //console.log('reservations', reservations)
+    console.log('reservations Props: ', reservations)
 
     const router = useRouter();
 
     const [deletingId, setDeletingId] = useState('')
 
     const onCancel = useCallback(( id: string) => {
+
         setDeletingId(id)
 
-        axios.delete(`/api/reservations/${id}`)
+        
+        console.log('deletingId', id)
+
+
+        axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/reservations/cancelUserReservation/${id}`)
         .then(() =>{
             toast.success('Reservation Cancelled successfully')
             router.refresh()
@@ -72,11 +77,12 @@ const TripsClient: React.FC<TripsclientProps> = ({
                     {reservations && reservations.map((reservationItem, i) => (
                         
                         
-                        <ListingTripCard 
+                        <ReservationCard 
                             key={reservationItem?.id as any}
                             imageSrc={reservationItem?.property?.imageSrc as any}
                             data={reservationItem?.property as any}
                             reservation={reservationItem as any}
+                            TotalPrice={parseFloat(reservationItem?.totalPrice.toFixed(2))}
                             startDate={reservationItem?.startDate as any}
                             endDate={reservationItem?.endDate as any}
                             actionId={reservationItem.id as any}
@@ -94,4 +100,4 @@ const TripsClient: React.FC<TripsclientProps> = ({
     );
 }
  
-export default TripsClient;
+export default ListingReservationCard;

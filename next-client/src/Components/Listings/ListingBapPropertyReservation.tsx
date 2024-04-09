@@ -56,7 +56,7 @@ const ListingBapPropertyReservation: React.FC<ListingBapPropertyReservationProps
                     flex flex-row items-center gap-1 p-4
             "> 
                 <div className="text-2xl font-semibold">
-                    ${price}
+                    ${price.toFixed(2)}
                 </div>
                 <div className="font-light text-text-neutral-500">
                     per day & night

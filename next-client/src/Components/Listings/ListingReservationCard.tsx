@@ -1,8 +1,8 @@
 'use client'
 
-import React, { useCallback, useMemo, useEffect, useState } from 'react';
-import { CurrentUser, IUser } from '@/Types/nextauth';
-import { CountryStateRegion, currentUser, User } from '@/Types';
+import React, { useCallback, useMemo } from 'react';
+
+import { SafeUser } from '@/Types';
 import useCountries from '@/Hooks/useCountries';
 import { useRouter } from 'next/navigation';
 
@@ -11,32 +11,29 @@ import Image from 'next/image';
 import HearticonPropertyButton from '@/Elements/Icons/HeartIconButton/HearticonPropertyButton';
 import Button from '@/Elements/Button';
 
-import usePropertyFavorite from '@/Hooks/usePropertyFavorite';
-import getCurrentUser from "@/Actions/getCurrentUser"
-
-//import logo from '../../../public/images/logo.png'
 import logo from '../../../public/images/logo.png'
 
 const logoPlaceHolder = `${process.env.NEXT_PUBLIC_URL}` + logo.src
 
 
 
-export type ListingTripCardProps = {
+export type ListingReservationCardProps = {
     key: any;
     imageSrc: string;
     data: any;
-    reservation: any;
+    reservation?: any;
+    TotalPrice: GLfloat;
     startDate: Date;
     endDate: Date;
     actionId: any
-    onAction?: any;
-    disabled?: any;
-    actionLabel: String;
-    currentUser: currentUser;
+    onAction?: (id: string) => void;
+    disabled?: boolean;
+    actionLabel: string;
+    currentUser?: SafeUser | null;
 }
 
 
-const ListingTripCard: React.FC<ListingTripCardProps> =  ({
+const ListingReservationCard: React.FC<ListingReservationCardProps> =  ({
    
     imageSrc,
     data,
@@ -47,18 +44,13 @@ const ListingTripCard: React.FC<ListingTripCardProps> =  ({
     actionId = '',
     startDate,
     endDate,
+    TotalPrice,
     currentUser
     
 }) => {
 
-    
-    // console.log('ListingTripCard')
-    // console.log('ListingTripCard imageSrc:', imageSrc)
-    // console.log('ListingTripCard reservation:', reservation)
-    // console.log('ListingTripCard startDate:', startDate)
-    // //console.log('ListingTripCard endDate:', endDate: { endDate: Date } )
-    // console.log('ListingTripCard endDate:', endDate as any)
-    
+
+    console.log('reservationItem totalPrice', TotalPrice.toFixed(2))
 
     const router = useRouter()
 
@@ -66,9 +58,6 @@ const ListingTripCard: React.FC<ListingTripCardProps> =  ({
 
     const propertyUUId = data?.uuid || 0;
 
-    // console.log('listingData', data)
-    
-    // console.log('propertyUUId', propertyUUId)
     
     const location = getByValue(data?.locationValue || '');
     
@@ -87,13 +76,13 @@ const ListingTripCard: React.FC<ListingTripCardProps> =  ({
         }, [onAction, actionId, disabled]
     )
 
-    const price = useMemo(() => {
-        if(reservation){
-            return reservation?.Reservation?.totalPrice;
+    const ShowPrice = useMemo(() => {
+        if(TotalPrice){
+            return TotalPrice;
         }
 
         return  data?.price
-    }, [reservation,  data?.price])
+    }, [TotalPrice, data?.price])
 
     const reservationDate = useMemo(() => {
 
@@ -101,18 +90,12 @@ const ListingTripCard: React.FC<ListingTripCardProps> =  ({
             return null
         }
 
-        //console.log('reservation?.reservationProperty?.startDate', reservation?.startDate)
-        //console.log('reservation?.reservationProperty?.endDate', reservation.endDate)
-        //console.log('reservation?.Reservation?.startDate', reservation)
-
-        const start = new Date(reservation?.startDate)
-        const end = new Date(reservation?.endDate)
+        const start = new Date(startDate)
+        const end = new Date(endDate)
 
         return `${format(start, 'PP')} - ${format(end, 'PP')}`
 
-    }, [reservation])
-
-    // console.log('Line 191 data Bap Listing', data)
+    }, [endDate, reservation, startDate])
 
     return (
         
@@ -176,17 +159,17 @@ const ListingTripCard: React.FC<ListingTripCardProps> =  ({
                     <span className='italic'>({data?.bathroomCount})</span>
                 </div>
                 <div className="font-light text-white">
-                    <span className='font-semibold'>Date(s): </span>
+                    <span className='font-semibold'>Date: </span>
                     {reservationDate || data?.category}
                 </div>
                 <div className="flex flex-row items-center gap-1">
-                    Total Due:
-                    <div className="font-semibold">
-                     $ {parseFloat(data?.price).toFixed(2)}
+                
+                    <div className='font-semibold'>Total Due: $</div>
+                    <div className="font-light italc">
+                        {ShowPrice.toFixed(2)}
+                     {/* $ {parseFloat(data?.totalPrice).toFixed(2)} */}
                     </div>
-                    {!reservation && (
-                        <div className="font-light italc"> Day & Night </div>
-                    )}
+                   
                 </div>
                 {onAction && actionLabel && (
                     <Button
@@ -205,4 +188,4 @@ const ListingTripCard: React.FC<ListingTripCardProps> =  ({
     )
 }
 
-export default ListingTripCard
+export default ListingReservationCard

@@ -30,7 +30,7 @@ export const callUserReservations = async (userId: any) => {
             
         );
 
-        console.log('Line 33 reservationsByUserId', reservations);
+        // console.log('Line 33 reservationsByUserId', reservations);
         
         return reservations;
     } catch (error) {

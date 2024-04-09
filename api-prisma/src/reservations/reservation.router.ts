@@ -84,3 +84,18 @@ reservationRouter.post("/queryreservations/:strings", async (request: Request, r
         return response.status(500).json(error.message);
     }
 })
+
+
+
+reservationRouter.delete('/cancelUserReservation/:reservationId', async (request: Request, response: Response) => {
+
+    const reservationId: string = request.params.reservationId
+
+    try {
+        const propertys = await PropertyController.cancelUserReservation(parseInt(reservationId, 10))
+        return response.status(200).json(propertys);
+
+    } catch (error: any) {
+        return response.status(500).json(error.message);
+    }
+})

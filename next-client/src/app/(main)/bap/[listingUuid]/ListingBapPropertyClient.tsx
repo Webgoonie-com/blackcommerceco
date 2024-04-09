@@ -86,7 +86,7 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
         })
         .then(() => {
 
-            toast.success('Your Reservation Has Just Been Reserved!', {
+            toast.success('Your Reservation Is Now Reserved!', {
                 duration: 7000,
                 position: 'bottom-right',
             })
@@ -94,6 +94,13 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
             setDateRange(initialDateRange)
 
             // Redirect to /trips
+            
+            setTimeout(() => {
+                
+                router.push('/trips')
+                
+            }, 3000);
+
             router.refresh()
         })
         .catch(() => {
@@ -103,7 +110,7 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
             setIsLoading(false)
         })
 
-    }, [currentUser, totalPrice, dateRange.startDate, dateRange.endDate, propertylistingByUuid?.listingId, propertylistingByUuid?.uuid, loginModal, router])
+    }, [currentUser, totalPrice, dateRange.startDate, dateRange.endDate, propertylistingByUuid?.uuid, loginModal, router])
 
 
     const category = useMemo(() => {
@@ -123,11 +130,13 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
             )
             
             // It's gonna count how many days per night is selected
-            if(dayCount && propertylistingByUuid?.price){
-                setTotalPrice(dayCount * parseFloat(propertylistingByUuid?.price))
-            }else{
+            if (dayCount && propertylistingByUuid?.price) {
+                const pricE = parseFloat(propertylistingByUuid?.price); // Parse the price to a float number
+                const totalPrice = dayCount * pricE; // Perform the multiplication
+                setTotalPrice(parseFloat(totalPrice.toFixed(2))); // Apply toFixed() to the result and then parse it back to float for setting the state
+            } else {
                 // If no multiple day count
-                setTotalPrice(parseFloat(propertylistingByUuid?.price))
+                setTotalPrice(parseFloat(propertylistingByUuid?.price));
             }
         }
     
