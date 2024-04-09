@@ -41,7 +41,7 @@ const MyFavoritesClient = async () => {
     
     //console.log('responseData: ', JSON.stringify(userReservations));
 
-    if(UserPropertyFavorites.length === 0){
+    if(UserPropertyFavorites.length === 0 && UserPropertyFavorites === 0) {
         return(
             <>
             <ClientOnly>

@@ -8,10 +8,11 @@ import { useRouter } from 'next/navigation';
 
 import { format } from 'date-fns'
 import Image from 'next/image';
-import HearticonPropertyButton from '@/Elements/Icons/HeartIconButton/HearticonPropertyButton';
+
 import Button from '@/Elements/Button';
 
 import logo from '../../../public/images/logo.png'
+import HearticonBusinessButton from '@/Elements/Icons/HeartIconButton/HearticonBusinessButton';
 
 const logoPlaceHolder = `${process.env.NEXT_PUBLIC_URL}` + logo.src
 
@@ -58,7 +59,7 @@ const ListingBusinessFavoriteCard: React.FC<ListingBusinessFavoriteCardProps> = 
 
     const { getByValue } = useCountries();
 
-    const propertyUUId = data?.uuid || 0;
+    const businessUUId = data?.uuid || 0;
 
     
     const location = getByValue(data?.locationValue || '');
@@ -134,8 +135,8 @@ const ListingBusinessFavoriteCard: React.FC<ListingBusinessFavoriteCardProps> = 
                         
                         {/* {JSON.stringify(currentUser) as any} */}
                         
-                        <HearticonPropertyButton 
-                            propertyUUId={propertyUUId as string}
+                        <HearticonBusinessButton 
+                            businessUUId={businessUUId as string}
                             currentUser={currentUser as any}
                         />
 
