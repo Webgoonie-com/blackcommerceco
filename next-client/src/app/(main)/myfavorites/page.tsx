@@ -57,12 +57,12 @@ const MyFavoritesClient = async () => {
     return (
         <>
         
-            {console.log('JSON.stringify UsereBusinessFavorites', JSON.stringify(UsereBusinessFavorites))}
+           
 
             { UsereBusinessFavorites.length !== 0 ? (
                 <>
                     <ClientOnly>
-                            <MyFavoritePropertyClient
+                            <MyFavoriteBusinessClient
                                 userFavorites={UsereBusinessFavorites as any}
                                 currentUser={currentUser as any}
                             />
@@ -75,10 +75,11 @@ const MyFavoritesClient = async () => {
             { UserPropertyFavorites.length !== 0 ? (
                 <>
                     <ClientOnly>
-                            <MyFavoriteBusinessClient
+                            <MyFavoritePropertyClient
                                 userFavorites={UserPropertyFavorites as any}
                                 currentUser={currentUser as any}
                             />
+                           
                     </ClientOnly>
                 </>
             ) : (
