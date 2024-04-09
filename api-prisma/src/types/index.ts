@@ -210,6 +210,7 @@ export  type Property = {
     streetCity: string | null;
     streetZipCode: string | null;
     countryId: number | undefined;
+    property?: Property | null,
     countryStateRegionId: number | undefined;
     countryCityId: number |undefined;
     createdAt: Date;
@@ -228,6 +229,7 @@ export interface PropertyReservation {
     listingId: number,
     listing?: string | string[] | undefined,
     propertyId: number,
+    property?: Property | null,
 }
 
 

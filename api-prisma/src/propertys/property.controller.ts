@@ -209,6 +209,7 @@ export const getPropertyUuId = async (uuid: string): Promise<Property | null> =>
             locationValue: true,
             price: true,
             
+            
             streetAddress: true,
             streetAddress2: true,
             streetCity: true,
@@ -222,15 +223,16 @@ export const getPropertyUuId = async (uuid: string): Promise<Property | null> =>
             country: { 
                 select: {
                     id: true,
-                    isoCode: true,
-                    name: true,
+                    uuid: true,
                     currency: true,
                     phonecode: true,
                     flag: true,
                     latitude: true,
                     longitude: true,
                     region: true,
-                    timezones: true
+                    isoCode: true,
+                    name: true,
+                   
                 }
             },
             countryStateRegionId: true,

@@ -8,10 +8,10 @@ import getCurrentUser from '@/Actions/getCurrentUser'
 
 
 
-import { useSession } from'next-auth/react'
+
 
 import React from 'react'
-import { callReservations, callUserReservations } from '@/ServiceCalls/callReservations'
+import { callUserReservations } from '@/ServiceCalls/callReservations'
 
 const TripsPage = async () => {
     
@@ -19,9 +19,6 @@ const TripsPage = async () => {
     const currentUser = await getCurrentUser()
 
     const userId = currentUser?.id;
-
-    console.log('Line 23 currentUser', currentUser)
-    console.log('Line 24 userId', userId)
 
     
     // const { data: session, update } = useSession()
@@ -44,32 +41,24 @@ const TripsPage = async () => {
         )
     }
 
-    // const reservations = await getPropertyReservations({
-    //     userId: currentUser.id,
-    // })
-    
-    // const reservations = await callReservations({
-    //     userId: currentUser.id,
-    // })
-
-    //const reservations = await callReservations(currentUser?.id, currentUser?.id);
+  
 
     const userReservations = await callUserReservations(userId);
     
-    console.log('responseData: ', JSON.stringify(userReservations));
+    //console.log('responseData: ', JSON.stringify(userReservations));
 
-    // if(userReservations.length === 0){
-    //     return(
-    //         <>
-    //         <ClientOnly>
-    //             <EmptyState 
-    //                 title='No trips found'
-    //                 subtitle='Looks like you havent reserved any trips'
-    //             />
-    //         </ClientOnly>
-    //         </>
-    //     )
-    // }
+    if(userReservations.length === 0){
+        return(
+            <>
+            <ClientOnly>
+                <EmptyState 
+                    title='No trips found'
+                    subtitle='Looks like you havent reserved any trips'
+                />
+            </ClientOnly>
+            </>
+        )
+    }
 
     return (
         <ClientOnly>

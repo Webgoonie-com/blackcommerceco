@@ -119,7 +119,7 @@ const ListingTripCard: React.FC<ListingTripCardProps> =  ({
         <div
             key={reservation.id}
             onClick={() => router.push(`/bap/${data?.uuid}`)} 
-            className='col-span-1 cursor-pointer group text-white bg-gray-950'
+            className='col-span-1 cursor-pointer group text-white'
         >
             
 
@@ -161,26 +161,28 @@ const ListingTripCard: React.FC<ListingTripCardProps> =  ({
                 <div className="font-semibold text-lg">
                     { data?.streetCity },{" "}
                     { data?.countryStateRegion?.name }{" "}
-                </div>
-                <div className="font-semibold text-lg">
-                    { data?.country?.region },{" "}
                     { data?.streetZipCode }
                 </div>
+                {/* <div className="font-semibold text-lg">
+                    { data?.country?.region },{" "}
+                    { data?.streetZipCode }
+                </div> */}
                 <div className="text-white">
-                    <span className='font-semibold'>Rooms: </span> <span className='italic'>({data?.roomCount}), </span>
-                    <span className='font-semibold'> Guest: </span> <span className='italic'>({data?.guestCount})</span>
+                    <span className='font-semibold'> Guest: </span> <span className='italic'>({data?.guestCount}), </span>
+                    <span className='font-semibold'>Rooms: </span> <span className='italic'>({data?.roomCount}) </span>
                 </div>
                 <div className="text-white">
                     <span className='font-semibold'>Bathrooms: </span>
                     <span className='italic'>({data?.bathroomCount})</span>
                 </div>
                 <div className="font-light text-white">
-                    <span className='font-semibold'>Property Type: </span>
+                    <span className='font-semibold'>Date(s): </span>
                     {reservationDate || data?.category}
                 </div>
                 <div className="flex flex-row items-center gap-1">
+                    Total Due:
                     <div className="font-semibold">
-                        $ {price}
+                     $ {parseFloat(data?.price).toFixed(2)}
                     </div>
                     {!reservation && (
                         <div className="font-light italc"> Day & Night </div>
