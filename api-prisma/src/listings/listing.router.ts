@@ -332,10 +332,10 @@ listingRouter.post("/addBusinessfavorites/:businessUUId", async (request: Reques
 
 listingRouter.post("/delPropertyfavorites/:propertyUUId", async (request: Request, response: Response) => {
 
-    const listingId: string = request.params.listingId
+    const propertyUUId: string = request.params.propertyUUId
     //const listingId: string = request.body.listingId
 
-    console.log('delfavorites', listingId)
+    console.log('delfavorites', propertyUUId)
 
     const listingData = {
         files: request.files,
@@ -345,7 +345,7 @@ listingRouter.post("/delPropertyfavorites/:propertyUUId", async (request: Reques
 
     try {
 
-        const user = await ListingController.delBapsListingFavoriteByListingId(parseInt(listingId), listingData)
+        const user = await ListingController.delBapsListingFavoriteByListingId(propertyUUId, listingData)
 
         if(user) {
 
@@ -365,12 +365,12 @@ listingRouter.post("/delPropertyfavorites/:propertyUUId", async (request: Reques
 
 
 // NOTE 4-9-2024 This one does :listing Id successful property does uuid:
-listingRouter.post("/delBusinessfavorites/:listingId", async (request: Request, response: Response) => {
+listingRouter.post("/delBusinessfavorites/:businessUUId", async (request: Request, response: Response) => {
 
-    const listingId: string = request.params.listingId
+    const businessUUId: string = request.params.businessUUId
     //const listingId: string = request.body.listingId
 
-    console.log('delfavorites', listingId)
+    console.log('delfavorites', businessUUId)
 
     const listingData = {
         files: request.files,
@@ -380,7 +380,7 @@ listingRouter.post("/delBusinessfavorites/:listingId", async (request: Request, 
 
     try {
 
-        const user = await ListingController.delBbsListingFavoriteByListingId(parseInt(listingId), listingData)
+        const user = await ListingController.delBbsListingFavoriteByListingId(businessUUId, listingData)
 
         if(user) {
 

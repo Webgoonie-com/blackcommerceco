@@ -577,7 +577,7 @@ export const addBapsListingFavoriteByListingUUId = async (uuid: string, listingD
     
 }
 
-export const delBapsListingFavoriteByListingId = async (id: number, listingData: any): Promise<Favorite[]> => {
+export const delBapsListingFavoriteByListingId = async (uuid: string, listingData: any): Promise<Favorite[]> => {
     
 
     const exitingfavoritedBusiness = await orm.favorite.findFirst({
@@ -618,7 +618,7 @@ export const delBapsListingFavoriteByListingId = async (id: number, listingData:
     return [exitingfavoritedBusiness as any]; // Return the created listing as an array
 }
 
-export const delBbsListingFavoriteByListingId = async (id: number, listingData: any): Promise<Favorite[]> => {
+export const delBbsListingFavoriteByListingId = async (id: string, listingData: any): Promise<Favorite[]> => {
     
 
     const exitingfavoritedBusiness = await orm.favorite.findFirst({

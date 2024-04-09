@@ -114,12 +114,29 @@ const useBusinessFavorite = ({
                 
                 updateRemoveSession(session, businessUUId)
 
-                request = () => axios.delete(`/api/favorites/bbfavorites/${businessUUId}`)
+                request = () => {
+
+                    axios.delete(`/api/favorites/bbfavorites/${businessUUId}`)
+
+                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/delBusinessfavorites/${businessUUId}`, {
+                        userId: reuseUserId,
+                        businessUUId: businessUUId,
+                    })
+                }
+
             }else{
 
                 updateAddSession(session, businessUUId)
                 
-                request = () => axios.post(`/api/favorites/bbfavorites/${businessUUId}`)
+                request = () => {
+
+                    axios.post(`/api/favorites/bbfavorites/${businessUUId}`)
+
+                    axios.post(process.env.NEXT_PUBLIC_API_URL + `/api/listings/addBusinessfavorites/${businessUUId}`, {
+                        userId: reuseUserId,
+                        businessUUId: businessUUId,
+                    })
+                }
             }
 
             await request()
@@ -171,7 +188,7 @@ const useBusinessFavorite = ({
     //         toast.error('Something went wrong on handling your favorite.');
     //     }
 
-     }, [businessUUId, currentUser, hasFavorited, loginModal, router])
+     }, [businessUUId, currentUser, hasFavorited, loginModal, reuseUserId, router, session, update])
 
     return {
         hasFavorited,
