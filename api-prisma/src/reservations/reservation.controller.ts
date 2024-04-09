@@ -11,7 +11,7 @@ import { unlink } from "fs/promises";
 
 export const listReservations = async (): Promise<PropertyReservation[]> => {
     
-    console.log('Hit getPropertyReservationUuId from  "/reservationsproperty/:uuid": ')
+   // console.log('Hit getPropertyReservationUuId from  "/reservationsproperty/:uuid": ')
     
     return orm.reservationProperty.findMany({
         select: {
@@ -34,7 +34,7 @@ export const listReservations = async (): Promise<PropertyReservation[]> => {
 
 export const getUserWithReservations = async (userId: number): Promise<PropertyReservation[]> => {
     
-    console.log('Hit getPropertyReservationUuId from  "/reservationsproperty/:uuid": ')
+    //console.log('Hit getPropertyReservationUuId from  "/reservationsproperty/:uuid": ')
     
     return orm.reservationProperty.findMany({
         where: {userId: userId},
@@ -58,7 +58,7 @@ export const getUserWithReservations = async (userId: number): Promise<PropertyR
 
 export const getLisingsWithUserReservations = async (userId: string): Promise<Listing[]> => {
     
-    console.log('Hit getPropertyReservationUuId from  "/reservationsproperty/:uuid": '+ userId)
+    //console.log('Hit getPropertyReservationUuId from  "/reservationsproperty/:uuid": '+ userId)
     
     return orm.listing.findMany({
         select:{
@@ -157,11 +157,11 @@ export const getPropertyReservations = async (body: any, query: any): Promise<Pr
 
 export const queryReservationsByStrings = async (body: any, query: any): Promise<PropertyReservation[]> => {
     
-    console.log('Hit getPropertyReservationUuId')
+    // console.log('Hit getPropertyReservationUuId')
 
-    console.log('Hit body: ',  body)
+    // console.log('Hit body: ',  body)
 
-    console.log('Hit query: ',  query)
+    // console.log('Hit query: ',  query)
 
     
     const { listingUuId, propertyUuId, userId, authorId} = query

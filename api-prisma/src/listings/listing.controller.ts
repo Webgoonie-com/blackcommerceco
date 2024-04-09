@@ -407,13 +407,13 @@ export const createPropertyPhotos = async (listingData: any): Promise<ListingPro
 
 export const addBbsistingFavoriteByListingUUId = async (uuid: string, listingData: any ): Promise<Listing[]> => {
 
-    console.log('addBbsistingFavoriteByListingId', uuid)
-    console.log('listingData', listingData)
+    // console.log('addBbsistingFavoriteByListingId', uuid)
+    // console.log('listingData', listingData)
 
     const { businessUUId, userId } = listingData.body;
 
-    console.log('listingId:', businessUUId);
-    console.log('userId:', userId);
+    // console.log('listingId:', businessUUId);
+    // console.log('userId:', userId);
 
 
     let checkForExistingFavorite
@@ -421,11 +421,11 @@ export const addBbsistingFavoriteByListingUUId = async (uuid: string, listingDat
     let checkForExistingBusiness
 
     if(!businessUUId || typeof businessUUId !== 'string' ){
-        console.log('listingId is not a number or dont exist', businessUUId)
+        //console.log('listingId is not a number or dont exist', businessUUId)
         throw new Error("Invalid ListinId");
         
     }else{
-        console.log('businessUUId is a string', businessUUId)
+        //console.log('businessUUId is a string', businessUUId)
 
         checkForExistingBusiness = await orm.business.findFirst({
             where: {
@@ -435,9 +435,9 @@ export const addBbsistingFavoriteByListingUUId = async (uuid: string, listingDat
     }
 
 
-    console.log("Passed to Here LEt's finad a match:", businessUUId)
+    // console.log("Passed to Here LEt's finad a match:", businessUUId)
     
-    console.log(" checkForExistingBusiness?.id:",  checkForExistingBusiness?.id)
+    // console.log(" checkForExistingBusiness?.id:",  checkForExistingBusiness?.id)
 
     //  const { listingData } = params;
 
@@ -451,7 +451,7 @@ export const addBbsistingFavoriteByListingUUId = async (uuid: string, listingDat
         }
     });
 
-    console.log('Line 450 Running New Check checkForExistingBusiness?.id', checkForExistingBusiness?.id)
+    //console.log('Line 450 Running New Check checkForExistingBusiness?.id', checkForExistingBusiness?.id)
     
     checkForExistingBusinessFromListing = await orm.listing.findFirst({
         where: {
@@ -460,14 +460,14 @@ export const addBbsistingFavoriteByListingUUId = async (uuid: string, listingDat
         }
     });
 
-    if(checkForExistingBusinessFromListing){
-        console.log('checkForExistingBusinessFromListing Exist: ', checkForExistingBusinessFromListing)
-    }else{
-        console.log('does not exist', checkForExistingBusinessFromListing)
-    }
+    // if(checkForExistingBusinessFromListing){
+    //     console.log('checkForExistingBusinessFromListing Exist: ', checkForExistingBusinessFromListing)
+    // }else{
+    //     console.log('does not exist', checkForExistingBusinessFromListing)
+    // }
 
     if(checkForExistingFavorite){
-        console.log("Match Exist:", checkForExistingBusiness?.id)
+        //console.log("Match Exist:", checkForExistingBusiness?.id)
         return listingData;
 
     }else{
@@ -493,13 +493,13 @@ export const addBbsistingFavoriteByListingUUId = async (uuid: string, listingDat
 
 export const addBapsListingFavoriteByListingUUId = async (uuid: string, listingData: any ): Promise<Listing[]> => {
 
-    console.log('addBapsistingFavoriteByListingId propertyUUId', uuid)
-    console.log('listingData', listingData)
+    // console.log('addBapsistingFavoriteByListingId propertyUUId', uuid)
+    // console.log('listingData', listingData)
 
     const { propertyUUId, userId } = listingData.body;
 
-    console.log('propertyUUId:', propertyUUId);
-    console.log('userId:', userId);
+    // console.log('propertyUUId:', propertyUUId);
+    // console.log('userId:', userId);
 
 
     let checkForExistingProperty
@@ -508,11 +508,11 @@ export const addBapsListingFavoriteByListingUUId = async (uuid: string, listingD
 
 
     if(!propertyUUId || typeof propertyUUId !== 'string'){
-        console.log('listingId is not a number or dont exist', propertyUUId)
+       // console.log('listingId is not a number or dont exist', propertyUUId)
         throw new Error("Invalid ListinId");
         
     }else{
-        console.log('propertyUUId is a string', propertyUUId)
+       // console.log('propertyUUId is a string', propertyUUId)
 
          checkForExistingProperty = await orm.property.findFirst({
             where: {
@@ -523,7 +523,7 @@ export const addBapsListingFavoriteByListingUUId = async (uuid: string, listingD
    
 
 
-        console.log("Passed to Here LEt's finad a match:", propertyUUId)
+       // console.log("Passed to Here LEt's finad a match:", propertyUUId)
 
         //  const { listingData } = params;
 
@@ -537,7 +537,7 @@ export const addBapsListingFavoriteByListingUUId = async (uuid: string, listingD
 
      }
 
-    console.log('Line 515 Running New Check checkForExistingProperty?.id', checkForExistingProperty?.id)
+    //  console.log('Line 515 Running New Check checkForExistingProperty?.id', checkForExistingProperty?.id)
 
     checkForExistingPropertyFromListing = await orm.listing.findFirst({
         where: {
@@ -546,14 +546,14 @@ export const addBapsListingFavoriteByListingUUId = async (uuid: string, listingD
         }
     });
 
-    if(checkForExistingPropertyFromListing){
-        console.log('checkForExistingPropertyFromListing Exist: ', checkForExistingPropertyFromListing)
-    }else{
-        console.log('does not exist', checkForExistingPropertyFromListing)
-    }
+    // if(checkForExistingPropertyFromListing){
+    //     console.log('checkForExistingPropertyFromListing Exist: ', checkForExistingPropertyFromListing)
+    // }else{
+    //     console.log('does not exist', checkForExistingPropertyFromListing)
+    // }
 
     if(checkForExistingFavorite){
-        console.log("Match Exist:", checkForExistingPropertyFromListing?.id)
+        //  console.log("Match Exist:", checkForExistingPropertyFromListing?.id)
         return listingData;
 
     }else{
@@ -580,53 +580,36 @@ export const addBapsListingFavoriteByListingUUId = async (uuid: string, listingD
 export const delBapsListingFavoriteByListingId = async (uuid: string, listingData: any): Promise<Favorite[]> => {
     
 
-    const exitingfavoritedBusiness = await orm.favorite.findFirst({
+    //  console.log('LINE 583 Hit Delete Propety Favorite', uuid)
+
+    const existingProperty = await orm.property.findFirst({
         where: {
-            userId: listingData?.userId,
-            listingId: listingData?.listingId,
-            businessId: listingData?.listingId, // This seems like it should be businessId instead of listingId
-            propertyId: listingData?.propertyId,
+            uuid: uuid,
+            
         },
         select: {
             id: true,
             uuid: true,
             userId: true,
             listingId: true,
-            propertyId: false,
-            business: true,
+            
+            
         }
     });
-
-    if(!exitingfavoritedBusiness){
-        throw new Error("exitingfavoritedBusiness don't Exist");
-        
-    }else{
-
-        console.log('Deleting exitingfavoritedBusiness')
-        const deleteExitingReservation = await orm.favorite.delete({
-            where: {
-              id: exitingfavoritedBusiness.id,
-            },
-          })
-
-         return [deleteExitingReservation as any]
-    }
-
-
-    console.log('Line 514 exitingfavoritedBusiness', exitingfavoritedBusiness)
-
-    return [exitingfavoritedBusiness as any]; // Return the created listing as an array
-}
-
-export const delBbsListingFavoriteByListingId = async (id: string, listingData: any): Promise<Favorite[]> => {
     
 
-    const exitingfavoritedBusiness = await orm.favorite.findFirst({
+    if(!existingProperty){
+        throw new Error("existingProperty don't Exist");
+        
+    }
+
+    
+
+    const existingfavoritedProperty = await orm.favorite.findFirst({
         where: {
             userId: listingData?.userId,
-            listingId: listingData?.listingId,
-            businessId: listingData?.listingId, // This seems like it should be businessId instead of listingId
-            propertyId: listingData?.propertyId,
+            listingId: existingProperty?.listingId,
+            propertyId: existingProperty.id,
         },
         select: {
             id: true,
@@ -638,15 +621,67 @@ export const delBbsListingFavoriteByListingId = async (id: string, listingData: 
         }
     });
 
-    if(!exitingfavoritedBusiness){
-        throw new Error("exitingfavoritedBusiness don't Exist");
+    if(!existingfavoritedProperty){
+        throw new Error("existingfavoritedProperty don't Exist");
         
     }else{
 
-        console.log('Deleting exitingfavoritedBusiness')
+        const deleteExistingReservation = await orm.favorite.delete({
+            where: {
+              id: existingfavoritedProperty.id,
+            },
+          })
+
+         return [deleteExistingReservation as any]
+    }
+
+}
+
+export const delBbsListingFavoriteByListingId = async (uuid: string, listingData: any): Promise<Favorite[]> => {
+    
+
+    const existingdBusiness = await orm.business.findFirst({
+        where: {
+            uuid: uuid,
+            
+        },
+        select: {
+            id: true,
+            uuid: true,
+            userId: true,
+            listingId: true,
+        }
+    });
+
+    if(!existingdBusiness){
+        throw new Error("existingdBusiness don't Exist");
+        
+    }
+
+    const existingfavoritedBusiness = await orm.favorite.findFirst({
+        where: {
+            userId: listingData?.userId,
+            listingId: existingdBusiness?.listingId,
+            businessId: existingdBusiness.id,
+        },
+        select: {
+            id: true,
+            uuid: true,
+            userId: true,
+            listingId: true,
+            propertyId: false,
+            business: true,
+        }
+    });
+
+    if(!existingfavoritedBusiness){
+        throw new Error("existingfavoritedBusiness don't Exist");
+        
+    }else{
+
         const deleteExitingReservation = await orm.favorite.delete({
             where: {
-              id: exitingfavoritedBusiness.id,
+              id: existingfavoritedBusiness.id,
             },
           })
 
@@ -654,15 +689,12 @@ export const delBbsListingFavoriteByListingId = async (id: string, listingData: 
     }
 
 
-    console.log('Line 514 exitingfavoritedBusiness', exitingfavoritedBusiness)
-
-    return [exitingfavoritedBusiness as any]; // Return the created listing as an array
 }
 
 export const delBapsListingByListingId = async (id: number, listingData: any): Promise<Favorite[]> => {
     
 
-    console.log('Hit delBapListingFavoriteByListingId')
+    
 
     const favoritedBusiness = await orm.favorite.create({
         data: {
