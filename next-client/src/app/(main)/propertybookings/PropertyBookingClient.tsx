@@ -13,17 +13,17 @@ import ReservationCard from "@/Components/Listings/ListingReservationCard";
 
 
 interface ListingReservationCardProps {
-    reservations?: SafeReservation[] |  undefined;
+    propertyBookings?: SafeReservation[] |  undefined;
     currentUser: SafeUser | null;
 }
 
 const ListingReservationCard: React.FC<ListingReservationCardProps> = ({
-    reservations,
+    propertyBookings,
     currentUser
 }) => {
 
 
-    console.log('reservations Props: ', reservations)
+    console.log('propertyBookings Props: ', propertyBookings)
 
     const router = useRouter();
 
@@ -34,10 +34,10 @@ const ListingReservationCard: React.FC<ListingReservationCardProps> = ({
         setDeletingId(id)
 
         
-        console.log('deletingId', id)
+        //  console.log('deletingId', id)
 
 
-        axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/reservations/cancelUserReservation/${id}`)
+        axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/reservations/confirmUserReservation/${id}`)
         .then(() =>{
             toast.success('Reservation Cancelled successfully')
             router.refresh()
@@ -60,8 +60,8 @@ const ListingReservationCard: React.FC<ListingReservationCardProps> = ({
       <div className="bg-gray-950">
             <Container>
                 <Heading
-                    title="Trips"
-                    subtitle="Where you've been and where you're going"
+                    title="Your Property Bookings"
+                    subtitle="Pending Stays By Other Members"
                  />
                  <div className="
                         mt-10 grid grid-cols-1
@@ -74,7 +74,7 @@ const ListingReservationCard: React.FC<ListingReservationCardProps> = ({
                         bg-gray-950
                     "
                  >
-                    {reservations && reservations.map((reservationItem, i) => (
+                    {propertyBookings && propertyBookings.map((reservationItem, i) => (
                         
                         
                         <ReservationCard 
@@ -88,7 +88,7 @@ const ListingReservationCard: React.FC<ListingReservationCardProps> = ({
                             actionId={reservationItem.id as any}
                             onAction={onCancel}
                             disabled={deletingId === reservationItem.id as any}
-                            actionLabel="Cancel Reservation"
+                            actionLabel="Accept & Confirm"
                             currentUser={currentUser as any}
                         />
                     ))}

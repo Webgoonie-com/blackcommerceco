@@ -153,27 +153,44 @@ const UserMenu: React.FC<UserMenuProps> = ({
                             <>
                                 <hr />
                                 <MenuItem 
-                                    onClick={ () => { console.log('My Profile')} }
+                                    onClick={ () => { 
+                                        router.push("/myprofile"), 
+                                        toggleMenuClosed()
+                                        } 
+                                    }
                                     label="My Profile"
                                 />
                                 <hr />
                                 <MenuItem 
-                                    onClick={ () => { router.push("/trips"), toggleMenuClosed()} }
-                                    label="My Trips"
+                                    onClick={ () => { 
+                                        router.push("/pendingstays"), 
+                                        toggleMenuClosed()
+                                        } 
+                                    }
+                                    label="Pending Reservations"
                                 />
                                 <MenuItem 
                                     onClick={ () => { 
-                                        console.log('Clicked My Favorites')
+                                        router.push("/myfavorites"),
                                         toggleMenuClosed()
-                                } }
+                                        } 
+                                    }
                                     label="My Favorites"
                                 />
                                 <MenuItem 
-                                    onClick={ () => { console.log('Clicked My Reservations'),  toggleMenuClosed()} }
-                                    label="My Reservations"
+                                    onClick={ () => {  
+                                        router.push("/propertybookings"),
+                                        toggleMenuClosed()
+                                        } 
+                                    }
+                                    label="My Property Bookings"
                                 />
                                 <MenuItem 
-                                    onClick={ () => { console.log('Clicked My Properties'),  toggleMenuClosed()} }
+                                    onClick={ () => {  
+                                        router.push("/myproperties"),
+                                        toggleMenuClosed()
+                                        } 
+                                    }
                                     label="My Properties"
                                 />
                                 <MenuItem 
@@ -185,11 +202,15 @@ const UserMenu: React.FC<UserMenuProps> = ({
                                     onClick={ () => { businessRegistrationModal.onOpen(),  toggleMenuClosed()} }
                                     label="List A New Business"
                                 />
-                                <hr />
+                                {/* <hr />
                                 <MenuItem 
-                                    onClick={ () => { console.log('List A New Business'),  toggleMenuClosed()} }
+                                    onClick={ () => {  
+                                        router.push("/office"),
+                                        toggleMenuClosed()
+                                        } 
+                                    }
                                     label="My Back Office"
-                                />
+                                /> */}
                                 <hr />
                                 <MenuItem
                                     onClick={() => {signOut(),  toggleMenuClosed()}}

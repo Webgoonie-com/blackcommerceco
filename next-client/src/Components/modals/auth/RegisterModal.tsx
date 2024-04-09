@@ -70,7 +70,7 @@ const RegisterModal = () => {
 
       //console.log(formData)
       
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/users/createUser/`, formData);
+        await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/users/createUser/`, formData);
         // Handle success response
         toast.success('User Created successfully! Check your email for verification please.', {
             duration: 7000,
@@ -87,6 +87,12 @@ const RegisterModal = () => {
       setIsLoading(false);
       router.refresh()
       registerModal.onClose()
+
+      setTimeout(() => {
+        
+          loginModal.onOpen()
+          
+      }, 4000);
     }
   };
   

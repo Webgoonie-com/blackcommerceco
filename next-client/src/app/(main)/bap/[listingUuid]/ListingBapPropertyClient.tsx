@@ -97,7 +97,7 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
             
             setTimeout(() => {
                 
-                router.push('/trips')
+                router.push('/pendingstays')
                 
             }, 3000);
 

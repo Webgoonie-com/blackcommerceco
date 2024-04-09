@@ -4,7 +4,7 @@ import React from "react";
 import { useRouter } from "next/navigation"
 
 import Button from "@/Elements/Button";
-import ModalHeading from "@/Components/modals/ModalHeading";
+import Heading from "@/Components/Heading";
 
 interface EmptyStateProps {
     title?: string;
@@ -23,10 +23,10 @@ const EmptyState: React.FC<EmptyStateProps> = ({
 
     return (
         <div
-            className="h=[60vh] flex flex-col gap-2 justify-center items-center bg-gray-950"
+            className="h=[60vh] py-10 flex flex-col gap-2 justify-center items-center bg-gray-950"
         >
             
-        <ModalHeading
+        <Heading
             center
             title={title}        
             subtitle={subtitle}

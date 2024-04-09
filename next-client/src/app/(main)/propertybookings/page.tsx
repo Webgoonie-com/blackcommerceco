@@ -2,7 +2,7 @@
 import EmptyState from '@/Components/EmptyStates/EmptyState'
 import ClientOnly from '@/Components/ClientOnly'
 
-import TripsClient from './TripsClient'
+import PropertyBookingClient from './PropertyBookingClient'
 
 import getCurrentUser from '@/Actions/getCurrentUser'
 
@@ -13,7 +13,8 @@ import getCurrentUser from '@/Actions/getCurrentUser'
 import React from 'react'
 import { callUserReservations } from '@/ServiceCalls/callReservations'
 
-const TripsPage = async () => {
+
+const PropertyBookingsPage = async () => {
     
 
     const currentUser = await getCurrentUser()
@@ -43,31 +44,31 @@ const TripsPage = async () => {
 
   
 
-    const userReservations = await callUserReservations(userId);
+    const userPropertyBookings = await callUserReservations(userId);
     
-    //console.log('responseData: ', JSON.stringify(userReservations));
+    //console.log('responseData: ', JSON.stringify(userPropertyBookings));
 
-    if(userReservations.length === 0){
+    if(userPropertyBookings.length === 0){
         return(
-            <>
-            <ClientOnly>
-                <EmptyState 
-                    title='No trips found'
-                    subtitle='Looks like you havent reserved any trips'
-                />
-            </ClientOnly>
-            </>
+            <div className=''>
+                <ClientOnly>
+                    <EmptyState 
+                        title='No PropertyBookings found!'
+                        subtitle='Looks like you havent confirmed any PropertyBookings yet...'
+                    />
+                </ClientOnly>
+            </div>
         )
     }
 
     return (
         <ClientOnly>
-                <TripsClient
-                    reservations={userReservations as any}
+                <PropertyBookingClient
+                    propertyBookings={userPropertyBookings as any}
                     currentUser={currentUser as any}
                 />
-            </ClientOnly>
+        </ClientOnly>
     )
 }
 
-export default TripsPage
+export default PropertyBookingsPage
