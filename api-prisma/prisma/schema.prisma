@@ -83,7 +83,10 @@ model Business {
   userId                              Int
 
   reservations                        ReservationBusiness[]
+
   favorites                           Favorite[]
+  
+
 
   listing                             Listing[]
   listingId                           Int?                    @unique
@@ -232,8 +235,8 @@ model Favorite {
   createdAt                           DateTime                @default(now())
   updatedAt                           DateTime                @default(now())  @updatedAt
   
+  business                            Business?                @relation(fields: [businessId], references: [id], onDelete: Cascade)
   businessId                          Int?          
-  business                            Business[]
 }       
   
 model ReservationBusiness { 

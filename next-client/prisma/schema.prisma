@@ -220,6 +220,7 @@ model favorite {
   @@index([userId], map: "Favorite_userId_fkey")
   @@index([listingId], map: "Favorite_listingId_fkey")
   @@index([propertyId], map: "Favorite_propertyId_fkey")
+  @@index([businessId], map: "Favorite_businessId_fkey")
 }
 
 model listing {
@@ -362,15 +363,6 @@ model userphoto {
   token         String
 
   @@index([userId], map: "UserPhoto_userId_fkey")
-}
-
-model businesstofavorite {
-  A Int
-  B Int
-
-  @@unique([A, B], map: "_BusinessToFavorite_AB_unique")
-  @@index([B], map: "_BusinessToFavorite_B_index")
-  @@map("_businesstofavorite")
 }
 
 model emailsubscriber {

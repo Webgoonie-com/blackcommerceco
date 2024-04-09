@@ -3,11 +3,13 @@ import React from 'react'
 import EmptyState from '@/Components/EmptyStates/EmptyState'
 import ClientOnly from '@/Components/ClientOnly'
 
-import MyFavoriteClient from './MyFavoriteClient'
 
 import getCurrentUser from '@/Actions/getCurrentUser'
 import { callUserReservations } from '@/ServiceCalls/callReservations'
-import { callUserPropertyFavorites } from '@/ServiceCalls/callFavorites'
+import { callUserBusinessFavorites, callUserPropertyFavorites } from '@/ServiceCalls/callFavorites'
+
+import MyFavoritePropertyClient from './MyFavoritePropertyClient'
+import MyFavoriteBusinessClient from './MyFavoriteBusinessClient'
 
 
 const MyFavoritesClient = async () => {
@@ -33,11 +35,13 @@ const MyFavoritesClient = async () => {
           )
     }
 
-    const userFavorites = await callUserPropertyFavorites(parseInt(userId));
+    const UserPropertyFavorites = await callUserPropertyFavorites(parseInt(userId));
+
+    const UsereBusinessFavorites = await callUserBusinessFavorites(parseInt(userId));
     
     //console.log('responseData: ', JSON.stringify(userReservations));
 
-    if(userFavorites.length === 0){
+    if(UserPropertyFavorites.length === 0){
         return(
             <>
             <ClientOnly>
@@ -53,14 +57,33 @@ const MyFavoritesClient = async () => {
     return (
         <>
         
-            {/* {console.log('JSON.stringify userFavorites', JSON.stringify(userFavorites))} */}
+            {console.log('JSON.stringify UsereBusinessFavorites', JSON.stringify(UsereBusinessFavorites))}
 
-            <ClientOnly>
-                    <MyFavoriteClient
-                        userFavorites={userFavorites as any}
-                        currentUser={currentUser as any}
-                    />
-            </ClientOnly>
+            { UsereBusinessFavorites.length !== 0 ? (
+                <>
+                    <ClientOnly>
+                            <MyFavoritePropertyClient
+                                userFavorites={UsereBusinessFavorites as any}
+                                currentUser={currentUser as any}
+                            />
+                    </ClientOnly>
+                </>
+            ) : (
+                null
+            )}
+
+            { UserPropertyFavorites.length !== 0 ? (
+                <>
+                    <ClientOnly>
+                            <MyFavoriteBusinessClient
+                                userFavorites={UserPropertyFavorites as any}
+                                currentUser={currentUser as any}
+                            />
+                    </ClientOnly>
+                </>
+            ) : (
+                null
+            )}
 
         </>
     )

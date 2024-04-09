@@ -17,7 +17,7 @@ const logoPlaceHolder = `${process.env.NEXT_PUBLIC_URL}` + logo.src
 
 
 
-export type ListingFavoriteCardProps = {
+export type ListingPropertyFavoriteCardProps = {
     key: any;
     imageSrc?: string | undefined | null;
     data: any;
@@ -33,7 +33,7 @@ export type ListingFavoriteCardProps = {
 }
 
 
-const ListingFavoriteCard: React.FC<ListingFavoriteCardProps> =  ({
+const ListingPropertyFavoriteCard: React.FC<ListingPropertyFavoriteCardProps> =  ({
    
     imageSrc,
     data,
@@ -179,4 +179,4 @@ const ListingFavoriteCard: React.FC<ListingFavoriteCardProps> =  ({
     )
 }
 
-export default ListingFavoriteCard
+export default ListingPropertyFavoriteCard

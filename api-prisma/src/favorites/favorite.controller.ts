@@ -1,6 +1,6 @@
 import { Favorite } from "@prisma/client";
 import { orm } from "../utils/orm.server";
-import { FavoritePropertys, Listing } from "../types";
+import { FavoriteBusinesses, FavoritePropertys, Listing } from "../types";
 
 
 
@@ -93,4 +93,37 @@ export const getuserPropertyFavorites = async (userId: number): Promise<Favorite
     });
 
     return propertyFavorites as any;
+}
+
+export const getuserBusinessFavorites = async (userId: number): Promise<FavoriteBusinesses | null > => {
+    
+    
+
+    if (!userId || typeof userId !== 'number') {
+        throw new Error("Invalid uuid");
+    }
+
+    
+
+    // if (!findExitingPropertyFirst ) {
+    //     throw new Error("Poperty Not Found");
+    // }
+
+
+
+    const businessFavorites = await orm.favorite.findMany({
+        where: {
+            userId: userId,
+            businessId: {
+                not: null
+            }
+        },
+        include: {
+            listing: true,
+            business: true
+        },
+        
+    });
+
+    return businessFavorites as any;
 }

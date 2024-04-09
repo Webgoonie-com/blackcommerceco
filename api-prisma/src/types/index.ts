@@ -135,6 +135,36 @@ export type Favorite = {
 
 }
 
+export type FavoriteBusinesses = {
+    id: number,
+    uuid: string,
+    userId: number,
+    favoriteId: number,
+    listingId: number,
+    propertyId: number,
+    createdAt: Date,
+    updatedAt: Date,
+    businessId: number,
+    listing: {
+      id: number,
+      uuid: string,
+      token: string,
+      title: string,
+      description: string,
+      imageSrc: string,
+      category: string,
+      createdAt: Date,
+      updatedAt: Date,
+      userId: number,
+      countryId: number,
+      countryStateRegionId: number,
+      countryCityId: number,
+      propertyId: number,
+      businessId: number,
+      },
+      business?: string
+}
+
 export type FavoritePropertys = {
     id: number,
     uuid: string,

@@ -1,12 +1,12 @@
 // import React from 'react'
 
-// const MyFavoriteClient = () => {
+// const MyFavoriteProopertyClient = () => {
 //   return (
-//     <div>MyFavoriteClient</div>
+//     <div>MyFavoriteProopertyClient</div>
 //   )
 // }
 
-// export default MyFavoriteClient
+// export default MyFavoriteProopertyClient
 
 "use client"
 
@@ -19,15 +19,16 @@ import Heading from "@/Components/Heading";
 import { currentUser, FavoritePropertys, Favorites, SafeReservation, SafeUser } from "@/Types";
 import axios from "axios";
 import toast from "react-hot-toast";
-import FavoriteCard from "@/Components/Listings/ListingFavoriteCard";
+import ListingPropertyFavoriteCard from "@/Components/Listings/ListingPropertyFavoriteCard";
 
 
-interface MyFavoriteClientProps {
+
+interface MyFavoriteProopertyClientProps {
     userFavorites?: FavoritePropertys[] |  undefined;
     currentUser: SafeUser | null;
 }
 
-const MyFavoriteClient: React.FC<MyFavoriteClientProps> = ({
+const MyFavoriteProopertyClient: React.FC<MyFavoriteProopertyClientProps> = ({
     userFavorites,
     currentUser
 }) => {
@@ -70,7 +71,7 @@ const MyFavoriteClient: React.FC<MyFavoriteClientProps> = ({
       <div className="bg-gray-950">
             <Container>
                 <Heading
-                    title="Your Favorites"
+                    title="Your Property Favorites"
                     subtitle="Here is some of the properties you favorited..."
                  />
                  <div className="
@@ -87,7 +88,7 @@ const MyFavoriteClient: React.FC<MyFavoriteClientProps> = ({
                     {userFavorites && userFavorites.map((favoriteItem, i) => (
                         
                         
-                        <FavoriteCard 
+                        <ListingPropertyFavoriteCard 
                             key={favoriteItem?.id as any}
                             imageSrc={favoriteItem?.property as any}
                             data={favoriteItem?.property as any}
@@ -110,4 +111,4 @@ const MyFavoriteClient: React.FC<MyFavoriteClientProps> = ({
     );
 }
  
-export default MyFavoriteClient;
+export default MyFavoriteProopertyClient;
