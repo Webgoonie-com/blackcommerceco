@@ -345,7 +345,7 @@ listingRouter.post("/delPropertyfavorites/:propertyUUId", async (request: Reques
 
     try {
 
-        const user = await ListingController.delBbsListingFavoriteByListingId(parseInt(listingId), listingData)
+        const user = await ListingController.delBapsListingFavoriteByListingId(parseInt(listingId), listingData)
 
         if(user) {
 
@@ -364,7 +364,7 @@ listingRouter.post("/delPropertyfavorites/:propertyUUId", async (request: Reques
 
 
 
-
+// NOTE 4-9-2024 This one does :listing Id successful property does uuid:
 listingRouter.post("/delBusinessfavorites/:listingId", async (request: Request, response: Response) => {
 
     const listingId: string = request.params.listingId

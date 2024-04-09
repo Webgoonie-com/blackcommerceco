@@ -491,29 +491,6 @@ export const addBbsistingFavoriteByListingUUId = async (uuid: string, listingDat
     
 }
 
-export const delBbsListingFavoriteByListingId = async (id: number, listingData: any): Promise<Favorite[]> => {
-    
-
-    const favoritedBusiness = await orm.favorite.create({
-        data: {
-            userId: listingData?.userId,
-            listingId: listingData?.listingId,
-            businessId: listingData?.listingId, // This seems like it should be businessId instead of listingId
-            propertyId: listingData?.propertyId,
-        },
-        select: {
-            id: true,
-            uuid: true,
-            userId: true,
-            listingId: true,
-            propertyId: false,
-            business: true,
-        }
-    });
-
-    return [favoritedBusiness as any]; // Return the created listing as an array
-}
-
 export const addBapsListingFavoriteByListingUUId = async (uuid: string, listingData: any ): Promise<Listing[]> => {
 
     console.log('addBapsistingFavoriteByListingId propertyUUId', uuid)
@@ -598,6 +575,88 @@ export const addBapsListingFavoriteByListingUUId = async (uuid: string, listingD
 
     
     
+}
+
+export const delBapsListingFavoriteByListingId = async (id: number, listingData: any): Promise<Favorite[]> => {
+    
+
+    const exitingfavoritedBusiness = await orm.favorite.findFirst({
+        where: {
+            userId: listingData?.userId,
+            listingId: listingData?.listingId,
+            businessId: listingData?.listingId, // This seems like it should be businessId instead of listingId
+            propertyId: listingData?.propertyId,
+        },
+        select: {
+            id: true,
+            uuid: true,
+            userId: true,
+            listingId: true,
+            propertyId: false,
+            business: true,
+        }
+    });
+
+    if(!exitingfavoritedBusiness){
+        throw new Error("exitingfavoritedBusiness don't Exist");
+        
+    }else{
+
+        console.log('Deleting exitingfavoritedBusiness')
+        const deleteExitingReservation = await orm.favorite.delete({
+            where: {
+              id: exitingfavoritedBusiness.id,
+            },
+          })
+
+         return [deleteExitingReservation as any]
+    }
+
+
+    console.log('Line 514 exitingfavoritedBusiness', exitingfavoritedBusiness)
+
+    return [exitingfavoritedBusiness as any]; // Return the created listing as an array
+}
+
+export const delBbsListingFavoriteByListingId = async (id: number, listingData: any): Promise<Favorite[]> => {
+    
+
+    const exitingfavoritedBusiness = await orm.favorite.findFirst({
+        where: {
+            userId: listingData?.userId,
+            listingId: listingData?.listingId,
+            businessId: listingData?.listingId, // This seems like it should be businessId instead of listingId
+            propertyId: listingData?.propertyId,
+        },
+        select: {
+            id: true,
+            uuid: true,
+            userId: true,
+            listingId: true,
+            propertyId: false,
+            business: true,
+        }
+    });
+
+    if(!exitingfavoritedBusiness){
+        throw new Error("exitingfavoritedBusiness don't Exist");
+        
+    }else{
+
+        console.log('Deleting exitingfavoritedBusiness')
+        const deleteExitingReservation = await orm.favorite.delete({
+            where: {
+              id: exitingfavoritedBusiness.id,
+            },
+          })
+
+         return [deleteExitingReservation as any]
+    }
+
+
+    console.log('Line 514 exitingfavoritedBusiness', exitingfavoritedBusiness)
+
+    return [exitingfavoritedBusiness as any]; // Return the created listing as an array
 }
 
 export const delBapsListingByListingId = async (id: number, listingData: any): Promise<Favorite[]> => {
