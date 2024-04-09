@@ -7,6 +7,7 @@ import MyFavoriteClient from './MyFavoriteClient'
 
 import getCurrentUser from '@/Actions/getCurrentUser'
 import { callUserReservations } from '@/ServiceCalls/callReservations'
+import { callUserPropertyFavorites } from '@/ServiceCalls/callFavorites'
 
 
 const MyFavoritesClient = async () => {
@@ -14,7 +15,9 @@ const MyFavoritesClient = async () => {
 
     const currentUser = await getCurrentUser()
 
-    const userId = currentUser?.id;
+    const userId = currentUser?.id as string;
+
+    const userUuId =  currentUser?.uuid as string;
 
     if(!currentUser)
     {
@@ -30,11 +33,11 @@ const MyFavoritesClient = async () => {
           )
     }
 
-    const userReservations = await callUserReservations(userId);
+    const userFavorites = await callUserPropertyFavorites(parseInt(userId));
     
     //console.log('responseData: ', JSON.stringify(userReservations));
 
-    if(userReservations.length === 0){
+    if(userFavorites.length === 0){
         return(
             <>
             <ClientOnly>
@@ -48,12 +51,18 @@ const MyFavoritesClient = async () => {
     }
 
     return (
-        <ClientOnly>
-                <MyFavoriteClient
-                    reservations={userReservations as any}
-                    currentUser={currentUser as any}
-                />
+        <>
+        
+            {/* {console.log('JSON.stringify userFavorites', JSON.stringify(userFavorites))} */}
+
+            <ClientOnly>
+                    <MyFavoriteClient
+                        userFavorites={userFavorites as any}
+                        currentUser={currentUser as any}
+                    />
             </ClientOnly>
+
+        </>
     )
 }
 

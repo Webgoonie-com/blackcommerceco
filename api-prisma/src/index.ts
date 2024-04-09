@@ -59,7 +59,7 @@ app.use(express.static('public', {
       }
 }));
 
-app.get("/", (req, res) => {
+app.get("/", (req: Request, res: Response) => {
     res.send(`<h2>Well - Its url: api.blackcommerce.co API on PORT: ${PORT} </h2>`)
 })
 

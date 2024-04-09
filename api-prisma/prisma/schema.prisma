@@ -225,8 +225,9 @@ model Favorite {
   favoriteId                          String?
   listingId                           Int?                    
   listing                             Listing?                @relation(fields: [listingId], references: [id])
+  
+  property                            Property?                @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   propertyId                          Int?
-  propertys                           Property[]
   
   createdAt                           DateTime                @default(now())
   updatedAt                           DateTime                @default(now())  @updatedAt
@@ -331,7 +332,7 @@ model Property {
   userId                              Int
 
   reservations                        ReservationProperty[]
-  favorite                            Favorite?               @relation(fields: [favoriteId], references: [id])
+  favorite                            Favorite[]
   favoriteId                          Int?
 
 

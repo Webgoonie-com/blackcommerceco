@@ -81,6 +81,38 @@ import { Country } from "country-state-city";
         sellPrice: string;
         // ... other properties of Property
     }
+
+
+    export type Favorites = {
+        id: string;
+        uuid: string;
+        user: string;
+        userId: string;
+        favoriteId: string;
+        listingId: string;
+        listing: string;
+        propertyId: string;
+        propertys: string;
+        createdAt: string;
+        updatedAt: string;
+        businessId: string;
+        business: string;
+    }
+
+    export type FavoritePropertys = {
+        id: number;
+        uuid: string;
+        userId: number;
+        listingId: number | undefined | null;
+        propertyId: number | undefined | null;
+        listings?: string[] | undefined;
+        property?: string[] | undefined;
+        businessId: number | undefined | null;
+        createdAt: Date;
+        updatedAt: Date;
+    
+    }
+    
     
     export interface Reservation {
         id: number;

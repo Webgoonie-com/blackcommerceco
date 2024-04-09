@@ -78,7 +78,7 @@ model admin {
   nickname       String?
   email          String    @unique(map: "Admin_email_key")
   emailVerified  DateTime?
-  image          String?
+  image          String?   @db.LongText
   hashedPassword String?
   firstName      String?
   lastName       String?
@@ -100,14 +100,14 @@ model business {
   hasServices          Int
   category             String
   locationValue        String?
-  imageSrc             String?  @db.VarChar(1000)
+  imageSrc             String?  @db.LongText
   createdAt            DateTime @default(now())
   updatedAt            DateTime @default(now())
   userId               Int
   countryCityId        Int
   countryId            Int
   countryStateRegionId Int
-  imagesMultiSrc       String?  @db.VarChar(1000)
+  imagesMultiSrc       String?  @db.LongText
   listingId            Int?     @unique(map: "Business_listingId_key")
   sellPrice            String?
   streetAddress        String?
@@ -127,22 +127,22 @@ model businessphoto {
   uuid             String   @unique(map: "Businessphoto_uuid_key")
   imgAlbumName     String
   imgCatg          String
-  imageSrc         String
-  imgUrl           String
+  imageSrc         String   @db.LongText
+  imgUrl           String   @db.LongText
   imgName          String
   imgFileType      String
   imgEncoding      String
   imgFileOrigName  String
   imgFileName      String
-  imgFileOutputDir String
+  imgFileOutputDir String   @db.LongText
   imgFileSize      Int
   createdAt        DateTime @default(now())
   updatedAt        DateTime @default(now())
   userId           Int
   listingId        Int
   businessId       Int
-  imagesMultiSrc   String
-  imgFilePath      String
+  imagesMultiSrc   String   @db.LongText
+  imgFilePath      String   @db.LongText
   token            String
 
   @@index([businessId], map: "Businessphoto_businessId_fkey")
@@ -219,6 +219,7 @@ model favorite {
 
   @@index([userId], map: "Favorite_userId_fkey")
   @@index([listingId], map: "Favorite_listingId_fkey")
+  @@index([propertyId], map: "Favorite_propertyId_fkey")
 }
 
 model listing {
@@ -245,8 +246,8 @@ model property {
   id                   Int      @id @default(autoincrement())
   uuid                 String   @unique(map: "Property_uuid_key")
   title                String
-  description          String   @db.VarChar(2500)
-  imageSrc             String?  @db.VarChar(1000)
+  description          String   @db.LongText
+  imageSrc             String?  @db.LongText
   category             String
   roomCount            Int
   bathroomCount        Int
@@ -260,7 +261,7 @@ model property {
   countryId            Int
   countryStateRegionId Int
   countryCityId        Int
-  imagesMultiSrc       String?  @db.VarChar(1000)
+  imagesMultiSrc       String?  @db.LongText
   streetAddress        String?
   streetAddress2       String?
   streetCity           String?
@@ -272,7 +273,6 @@ model property {
   @@index([countryId], map: "Property_countryId_fkey")
   @@index([countryStateRegionId], map: "Property_countryStateRegionId_fkey")
   @@index([userId], map: "Property_userId_fkey")
-  @@index([favoriteId], map: "Property_favoriteId_fkey")
 }
 
 model propertyphoto {
@@ -280,15 +280,15 @@ model propertyphoto {
   uuid             String   @unique(map: "Propertyphoto_uuid_key")
   imgAlbumName     String
   imgCatg          String
-  imageSrc         String
-  imgUrl           String
+  imageSrc         String   @db.LongText
+  imgUrl           String   @db.LongText
   imgName          String
   imgFileType      String
   imgEncoding      String
   imgFileOrigName  String
   imgFileName      String
-  imgFileOutputDir String
-  imgFilePath      String
+  imgFileOutputDir String   @db.LongText
+  imgFilePath      String   @db.LongText
   imgFileSize      Int
   createdAt        DateTime @default(now())
   updatedAt        DateTime @default(now())
@@ -319,23 +319,6 @@ model reservationbusiness {
   @@index([userId], map: "ReservationBusiness_userId_fkey")
 }
 
-model reservationProperty {
-  id         Int      @id @default(autoincrement())
-  uuid       String   @unique(map: "reservationProperty_uuid_key")
-  startDate  DateTime
-  endDate    DateTime
-  totalPrice Float
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @default(now())
-  userId     Int
-  listingId  Int
-  propertyId Int
-
-  @@index([listingId], map: "reservationProperty_listingId_fkey")
-  @@index([propertyId], map: "reservationProperty_propertyId_fkey")
-  @@index([userId], map: "reservationProperty_userId_fkey")
-}
-
 model timezone {
   id           Int    @id @default(autoincrement())
   uuid         String @unique(map: "TimeZone_uuid_key")
@@ -351,15 +334,15 @@ model user {
   role             String?
   email            String    @unique(map: "User_email_key")
   emailVerified    DateTime?
-  image            String?
+  image            String?   @db.LongText
   phone            String?
   hashedPassword   String?
   firstName        String?
   lastName         String?
   updatedAt        DateTime  @default(now())
   createdAt        DateTime  @default(now())
-  favoriteBapUuids String?
-  favoriteBbUuids  String?
+  favoriteBapUuids String?   @db.LongText
+  favoriteBbUuids  String?   @db.LongText
 }
 
 model userphoto {
@@ -396,4 +379,21 @@ model emailsubscriber {
   emailsub  String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+}
+
+model reservationproperty {
+  id         Int      @id @default(autoincrement())
+  uuid       String   @unique(map: "reservationProperty_uuid_key")
+  startDate  DateTime
+  endDate    DateTime
+  totalPrice Float
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+  userId     Int
+  listingId  Int
+  propertyId Int
+
+  @@index([listingId], map: "reservationProperty_listingId_fkey")
+  @@index([propertyId], map: "reservationProperty_propertyId_fkey")
+  @@index([userId], map: "reservationProperty_userId_fkey")
 }

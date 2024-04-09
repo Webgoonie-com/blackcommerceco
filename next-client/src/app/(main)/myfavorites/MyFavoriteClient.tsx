@@ -16,52 +16,52 @@ import { useRouter } from "next/navigation";
 import Container from "@/Components/Container";
 import Heading from "@/Components/Heading";
 
-import { currentUser, SafeReservation, SafeUser } from "@/Types";
+import { currentUser, FavoritePropertys, Favorites, SafeReservation, SafeUser } from "@/Types";
 import axios from "axios";
 import toast from "react-hot-toast";
-import StayCard from "@/Components/Listings/ListingStayCard";
+import FavoriteCard from "@/Components/Listings/ListingFavoriteCard";
 
 
 interface MyFavoriteClientProps {
-    reservations?: SafeReservation[] |  undefined;
+    userFavorites?: FavoritePropertys[] |  undefined;
     currentUser: SafeUser | null;
 }
 
 const MyFavoriteClient: React.FC<MyFavoriteClientProps> = ({
-    reservations,
+    userFavorites,
     currentUser
 }) => {
 
 
-    //  console.log('reservations Props: ', reservations)
+    console.log('userFavorites Props: ', userFavorites)
 
     const router = useRouter();
 
     const [deletingId, setDeletingId] = useState('')
 
-    const onCancel = useCallback(( id: string) => {
+    // const onCancel = useCallback(( id: string) => {
 
-        setDeletingId(id)
+    //     setDeletingId(id)
 
         
-        //  console.log('deletingId', id)
+    //     //  console.log('deletingId', id)
 
 
-        axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/reservations/cancelUserReservation/${id}`)
-        .then(() =>{
-            toast.success('Reservation Cancelled successfully')
-            router.refresh()
-        })
-        .catch((error) => {
+    //     axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/reservations/cancelUserReservation/${id}`)
+    //     .then(() =>{
+    //         toast.success('Reservation Cancelled successfully')
+    //         router.refresh()
+    //     })
+    //     .catch((error) => {
             
-            toast.error(error?.response?.data?.error)
+    //         toast.error(error?.response?.data?.error)
 
-        })
-        .finally(() => {
-            setDeletingId('')
-        })
+    //     })
+    //     .finally(() => {
+    //         setDeletingId('')
+    //     })
 
-    }, [router])
+    // }, [router])
     
 
     
@@ -84,21 +84,21 @@ const MyFavoriteClient: React.FC<MyFavoriteClientProps> = ({
                         bg-gray-950
                     "
                  >
-                    {reservations && reservations.map((reservationItem, i) => (
+                    {userFavorites && userFavorites.map((favoriteItem, i) => (
                         
                         
-                        <StayCard 
-                            key={reservationItem?.id as any}
-                            imageSrc={reservationItem?.property?.imageSrc as any}
-                            data={reservationItem?.property as any}
-                            reservation={reservationItem as any}
-                            TotalPrice={parseFloat(reservationItem?.totalPrice.toFixed(2))}
-                            startDate={reservationItem?.startDate as any}
-                            endDate={reservationItem?.endDate as any}
-                            actionId={reservationItem.id as any}
-                            onAction={onCancel}
-                            disabled={deletingId === reservationItem.id as any}
-                            actionLabel="Cancel Reservation"
+                        <FavoriteCard 
+                            key={favoriteItem?.id as any}
+                            imageSrc={favoriteItem?.property as any}
+                            data={favoriteItem?.property as any}
+                            reservation={favoriteItem as any}
+                            //TotalPrice={parseFloat(favoriteItem?.totalPrice.toFixed(2))}
+                            //startDate={favoriteItem?.startDate as any}
+                            //endDate={favoriteItem?.endDate as any}
+                            actionId={favoriteItem.id as any}
+                            //onAction={onCancel}
+                            disabled={deletingId === favoriteItem.id as any}
+                            actionLabel="UnFavorite"
                             currentUser={currentUser as any}
                         />
                     ))}

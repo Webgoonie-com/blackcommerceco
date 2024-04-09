@@ -41,3 +41,34 @@ favoriteRouter.post('/userIdFavorites', async (request: Request, response: Respo
     }
 
 })
+
+
+favoriteRouter.post('/userPropertyFavorites', async (request: Request, response: Response) => {
+    
+    
+    console.log('Hit Property Favorites ')
+
+
+    //const userId: string =  await request.params.userId
+    
+    const { userId } = await request.body
+    
+    
+
+    
+
+    console.log('addfavorites userId', userId)
+    
+    
+
+
+    
+    try {
+        const users = await FavoriteController.getuserPropertyFavorites(parseInt(userId))
+        return response.status(200).json(users);
+
+    } catch (error: any) {
+        return response.status(500).json(error.message);
+    }
+
+})

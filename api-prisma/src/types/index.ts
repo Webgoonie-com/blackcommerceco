@@ -135,6 +135,62 @@ export type Favorite = {
 
 }
 
+export type FavoritePropertys = {
+    id: number,
+    uuid: string,
+    userId: number,
+    favoriteId: number,
+    listingId: number,
+    propertyId: number,
+    createdAt: Date,
+    updatedAt: Date,
+    businessId: number,
+    listing: {
+      id: number,
+      uuid: string,
+      token: string,
+      title: string,
+      description: string,
+      imageSrc: string,
+      category: string,
+      createdAt: Date,
+      updatedAt: Date,
+      userId: number,
+      countryId: number,
+      countryStateRegionId: number,
+      countryCityId: number,
+      propertyId: number,
+      businessId: number,
+      },
+    property: {
+      id: number,
+      uuid: string,
+      token: string,
+      title: string,
+      description: string,
+      imageSrc: string,
+      imagesMultiSrc: string,
+      category: string,
+      roomCount: string,
+      bathroomCount: string,
+      guestCount: string,
+      locationValue: string,
+      price: string,
+      streetAddress: string,
+      streetAddress2: string,
+      streetCity: string,
+      streetZipCode: string,
+      createdAt: Date,
+      updatedAt: Date,
+      userId: number,
+      favoriteId: number,
+      listingId: number,
+      countryId: number,
+      countryStateRegionId: number,
+      countryCityId: number,
+
+    }
+}
 
 
 export type Listing = {
