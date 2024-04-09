@@ -1,12 +1,9 @@
 import { Server as NetServer, Socket } from "net";
 import { NextApiResponse } from "next";
 import { Server as SocketIOServer } from "socket.io";
-import Categories from "@/Components/Categories/PropertyCategories";
 import { CurrentUser } from '@/Types/nextauth';
-import { DefaultSession, DefaultUser} from "next-auth";
-import { IUser } from '@/Types/nextauth';
 import { Country } from "country-state-city";
-import { reservationproperty } from "@prisma/client";
+
 
 
 ;
