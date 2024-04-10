@@ -39,7 +39,8 @@ export type Business = {
     hasStore: number;
     hasProducts: number;
     hasServices: number;
-    userId: number; // Ensure userId is always defined
+    userId: number;
+    user?: any | null;
     countryId: number;
     country: any;
     countryCityId: number | undefined;

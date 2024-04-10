@@ -161,7 +161,7 @@ const ListingBbBusinessClient: React.FC<ListingBbBusinessClientProps> = ({
 
                 
                         <ListingBbBusinessInfo 
-                            user={currentUser as any}
+                            user={businessListingByUuid?.user as any}
                             description={businessListingByUuid?.description}
                             guestCount={0}
                             roomCount={0}

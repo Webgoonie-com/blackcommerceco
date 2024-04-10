@@ -70,6 +70,8 @@ export const getBusinessListingByUuId = async function  getBusinessListingUuId(
         if(!response){
             return null
         }
+        // console.log('response', response)
+        // console.log('response.data', response.data)
         
         return response.data
 

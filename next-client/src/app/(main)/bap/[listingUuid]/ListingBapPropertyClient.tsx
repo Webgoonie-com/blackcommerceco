@@ -173,7 +173,7 @@ const ListingBapPropertyClient: React.FC<ListingBapPropertyClientProps> = ({
                <div className="grid grid-cols-1 md:grid-cols-7 md:gap-10 mt-6">
 
                         <ListingBapPropertyInfo 
-                            user={currentUser as any}
+                            user={propertylistingByUuid?.user as any}
                             description={propertylistingByUuid?.description}
                             guestCount={propertylistingByUuid?.guestCount}
                             roomCount={propertylistingByUuid?.roomCount}

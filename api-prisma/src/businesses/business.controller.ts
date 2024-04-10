@@ -182,6 +182,7 @@ export const getBusinessUuId = async (uuid: string): Promise<Business | null> =>
                 streetCity: true,
                 streetZipCode: true,
                 userId: true,
+                user: true,
                 countryId: true,
                 countryStateRegionId: true,
                 countryCityId: true,

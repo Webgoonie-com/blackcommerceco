@@ -35,7 +35,7 @@ const BbsListingPage = async ({ params }: {params: IParams }) => {
   const currentUser = await getCurrentUser()
   //console.log('currentUser on line 20 on BapPage.tsx ', currentUser)
 
-  //console.log('Line 38 = BusinessListing', businessListingByUuid)
+  //  console.log('Line 38 = BusinessListing', businessListingByUuid)
   
 
   if(!businessListingByUuid){

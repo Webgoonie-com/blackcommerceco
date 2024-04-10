@@ -1,13 +1,3 @@
-// import React from 'react'
-
-// const MyFavoriteProopertyClient = () => {
-//   return (
-//     <div>MyFavoriteProopertyClient</div>
-//   )
-// }
-
-// export default MyFavoriteProopertyClient
-
 "use client"
 
 import React, { useCallback, useState } from "react";
@@ -34,7 +24,7 @@ const MyFavoriteProopertyClient: React.FC<MyFavoritePropertyClientProps> = ({
 }) => {
 
 
-    console.log('userFavorites Props: ', userFavorites)
+    //  console.log('userFavorites Props: ', userFavorites)
 
     const router = useRouter();
 
