@@ -211,7 +211,7 @@ propertyRouter.get('/propertysbyUser/:userid', async (request: Request, response
     
     const userid: string = request.params.userid
     
-    console.log('Hit propertysbyUser userid', userid)
+    //console.log('Hit propertysbyUser userid', userid)
     
     try {
         const property = await PropertyService.getPropertysbyUserId(parseInt(userid))

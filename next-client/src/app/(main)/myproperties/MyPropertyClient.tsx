@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Container from "@/Components/Container";
 import Heading from "@/Components/Heading";
 
-import { currentUser, FavoriteBusinesses, Favorites, SafeReservation, SafeUser } from "@/Types";
+import { currentUser, FavoriteBusinesses, FavoritePropertys, Favorites, SafeReservation, SafeUser } from "@/Types";
 import axios from "axios";
 import toast from "react-hot-toast";
 import ListingBusinessFavoriteCard from "@/Components/Listings/ListingBusinessFavoriteCard";
@@ -15,17 +15,17 @@ import ListingPropertyFavoriteCard from "@/Components/Listings/ListingPropertyFa
 
 
 interface MyFavoritePropertyClientProps {
-    userFavorites?: FavoriteBusinesses[] |  undefined;
+    userProperties?: FavoritePropertys[] |  undefined;
     currentUser: SafeUser | null;
 }
 
 const MyPropertyClient: React.FC<MyFavoritePropertyClientProps> = ({
-    userFavorites,
+    userProperties,
     currentUser
 }) => {
 
 
-    //  console.log('userFavorites Props: ', userFavorites)
+    //  console.log('userProperties Props: ', userProperties)
 
     const router = useRouter();
 
@@ -76,20 +76,18 @@ const MyPropertyClient: React.FC<MyFavoritePropertyClientProps> = ({
                         bg-gray-950
                     "
                  >
-                    {userFavorites && userFavorites.map((favoriteItem, i) => (
+                    {userProperties && userProperties.map((userPropertiesiteItem, i) => (
                         
                         
                         <ListingPropertyFavoriteCard 
-                            key={favoriteItem?.id as any}
-                            imageSrc={favoriteItem?.business as any}
-                            data={favoriteItem?.business as any}
-                            reservation={favoriteItem as any}
-                            //TotalPrice={parseFloat(favoriteItem?.totalPrice.toFixed(2))}
-                            //startDate={favoriteItem?.startDate as any}
-                            //endDate={favoriteItem?.endDate as any}
-                            actionId={favoriteItem.id as any}
+                            key={userPropertiesiteItem?.id as any}
+                            imageSrc={userPropertiesiteItem?.imageSrc as any}
+                            data={userPropertiesiteItem as any}
+
+
+                            actionId={userPropertiesiteItem.id as any}
                             //onAction={onCancel}
-                            disabled={deletingId === favoriteItem.id as any}
+                            disabled={deletingId === userPropertiesiteItem.id as any}
                             actionLabel="UnFavorite"
                             currentUser={currentUser as any}
                         />

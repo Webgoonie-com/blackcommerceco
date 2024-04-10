@@ -104,7 +104,7 @@ export const listPropertys = async (): Promise<Property[]> => {
 
 export const getPropertysbyUserId = async (userId: number): Promise<Property[] | any> => {
     
-    console.log('getPropertysbyUserId: userid', userId)
+    //      console.log('getPropertysbyUserId: userid', userId)
 
     const properties = await orm.property.findMany({
         where:{ userId: userId},

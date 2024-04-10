@@ -104,6 +104,7 @@ import { Country } from "country-state-city";
         uuid: string;
         userId: number;
         listingId: number | undefined | null;
+        imageSrc: string | undefined | null;
         propertyId: number | undefined | null;
         listings?: string[] | undefined;
         property?: string[] | undefined;
@@ -114,10 +115,12 @@ import { Country } from "country-state-city";
     }
 
     export type FavoriteBusinesses = {
+        
         id: number;
         uuid: string;
         userId: number;
         listingId: number | undefined | null;
+        imageSrc?: any;
         propertyId: number | undefined | null;
         listings?: string[] | undefined;
         business?: string[] | undefined;

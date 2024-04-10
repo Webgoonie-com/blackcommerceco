@@ -10,6 +10,7 @@ import { currentUser, FavoriteBusinesses, Favorites, SafeReservation, SafeUser }
 import axios from "axios";
 import toast from "react-hot-toast";
 import ListingBusinessFavoriteCard from "@/Components/Listings/ListingBusinessFavoriteCard";
+import ListingMyBusinessCard from "@/Components/Listings/ListingMyBusinessCard";
 
 
 
@@ -78,10 +79,10 @@ const MyBusinessClient: React.FC<MyFavoritePropertyClientProps> = ({
                     {userFavorites && userFavorites.map((favoriteItem, i) => (
                         
                         
-                        <ListingBusinessFavoriteCard 
+                        <ListingMyBusinessCard 
                             key={favoriteItem?.id as any}
-                            imageSrc={favoriteItem?.business as any}
-                            data={favoriteItem?.business as any}
+                            imageSrc={favoriteItem as any}
+                            data={favoriteItem as any}
                             reservation={favoriteItem as any}
                             //TotalPrice={parseFloat(favoriteItem?.totalPrice.toFixed(2))}
                             //startDate={favoriteItem?.startDate as any}

@@ -33,7 +33,7 @@ const MyPropertiesPage = async () => {
 
     const userProperties = await callPropertysbyUser(parseInt(userId as string));
 
-    console.log('Line 36 userProperties', userProperties)
+    //  console.log('Line 36 userProperties', userProperties)
     
     //console.log('responseData: ', JSON.stringify(userReservations));
 
@@ -55,7 +55,7 @@ const MyPropertiesPage = async () => {
       <div>
           <ClientOnly>
                   <MyPropertyClient
-                      userFavorites={userProperties as any}
+                      userProperties={userProperties as any}
                       currentUser={currentUser as any}
                   />
           </ClientOnly>

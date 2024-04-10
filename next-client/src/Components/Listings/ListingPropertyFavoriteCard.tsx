@@ -21,7 +21,7 @@ export type ListingPropertyFavoriteCardProps = {
     key: any;
     imageSrc?: string | undefined | null;
     data: any;
-    reservation?: any;
+    
     //TotalPrice: GLfloat;
     //startDate: Date;
     //endDate: Date;
@@ -34,10 +34,10 @@ export type ListingPropertyFavoriteCardProps = {
 
 
 const ListingPropertyFavoriteCard: React.FC<ListingPropertyFavoriteCardProps> =  ({
-   
+    key,
     imageSrc,
     data,
-    reservation,
+   
     onAction,
     disabled,
     actionLabel,
@@ -52,7 +52,7 @@ const ListingPropertyFavoriteCard: React.FC<ListingPropertyFavoriteCardProps> = 
 
     console.log('imageSrc', data?.imageSrc as any)
 
-    //console.log('reservationItem totalPrice', TotalPrice.toFixed(2))
+   
 
     const router = useRouter()
 
@@ -86,23 +86,12 @@ const ListingPropertyFavoriteCard: React.FC<ListingPropertyFavoriteCardProps> = 
     //     return  data?.price
     // }, [TotalPrice, data?.price])
 
-    // const reservationDate = useMemo(() => {
-
-    //     if(!reservation){
-    //         return null
-    //     }
-
-    //     const start = new Date(startDate)
-    //     const end = new Date(endDate)
-
-    //     return `${format(start, 'PP')} - ${format(end, 'PP')}`
-
-    // }, [endDate, reservation, startDate])
+   
 
     return (
         
         <div
-            key={reservation.id}
+            key={key}
             onClick={() => router.push(`/bap/${data?.uuid}`)} 
             className='col-span-1 cursor-pointer group text-white'
         >

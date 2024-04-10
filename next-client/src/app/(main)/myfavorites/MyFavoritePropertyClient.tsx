@@ -12,12 +12,12 @@ import ListingPropertyFavoriteCard from "@/Components/Listings/ListingPropertyFa
 
 
 
-interface MyFavoritePropertyClientProps {
+interface MyFavoriteProopertyClientProps {
     userFavorites?: FavoritePropertys[] |  undefined;
     currentUser: SafeUser | null;
 }
 
-const MyFavoritePropertyClient: React.FC<MyFavoritePropertyClientProps> = ({
+const MyFavoriteProopertyClient: React.FC<MyFavoriteProopertyClientProps> = ({
     userFavorites,
     currentUser
 }) => {
@@ -81,10 +81,6 @@ const MyFavoritePropertyClient: React.FC<MyFavoritePropertyClientProps> = ({
                             key={favoriteItem?.id as any}
                             imageSrc={favoriteItem?.property as any}
                             data={favoriteItem?.property as any}
-                            reservation={favoriteItem as any}
-                            //TotalPrice={parseFloat(favoriteItem?.totalPrice.toFixed(2))}
-                            //startDate={favoriteItem?.startDate as any}
-                            //endDate={favoriteItem?.endDate as any}
                             actionId={favoriteItem.id as any}
                             //onAction={onCancel}
                             disabled={deletingId === favoriteItem.id as any}
@@ -100,4 +96,4 @@ const MyFavoritePropertyClient: React.FC<MyFavoritePropertyClientProps> = ({
     );
 }
  
-export default MyFavoritePropertyClient;
+export default MyFavoriteProopertyClient;

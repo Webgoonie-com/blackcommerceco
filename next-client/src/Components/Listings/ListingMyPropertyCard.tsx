@@ -8,21 +8,36 @@ import { useRouter } from 'next/navigation';
 
 import { format } from 'date-fns'
 import Image from 'next/image';
-
+import HearticonPropertyButton from '@/Elements/Icons/HeartIconButton/HearticonPropertyButton';
 import Button from '@/Elements/Button';
 
 import logo from '../../../public/images/logo.png'
-import HearticonBusinessButton from '@/Elements/Icons/HeartIconButton/HearticonBusinessButton';
 
 const logoPlaceHolder = `${process.env.NEXT_PUBLIC_URL}` + logo.src
 
 
 
-export type ListingBusinessFavoriteCardProps = {
+export type ListingMyPropertyCardProps = {
     key: any;
+    uuid: string;
+    title: string;
+    description: string;
+    category: string;
+    roomCount: number;
+    bathroomCount: number;
+    guestCount: number;
+    locationValue: any;
     imageSrc?: string | undefined | null;
     data: any;
-    reservation?: any;
+    price: any;
+    userId: number;
+    streetAddress: string;
+    streetAddress2: string;
+    streetCity: string;
+    streetZipCode: string;
+    countryId: number;
+    countryStateRegionId: number;
+    countryCityId: number;
     //TotalPrice: GLfloat;
     //startDate: Date;
     //endDate: Date;
@@ -34,11 +49,12 @@ export type ListingBusinessFavoriteCardProps = {
 }
 
 
-const ListingBusinessFavoriteCard: React.FC<ListingBusinessFavoriteCardProps> =  ({
+const ListingMyPropertyCard: React.FC<ListingMyPropertyCardProps> =  ({
    
     imageSrc,
     data,
-    reservation,
+    guestCount,
+
     onAction,
     disabled,
     actionLabel,
@@ -51,7 +67,11 @@ const ListingBusinessFavoriteCard: React.FC<ListingBusinessFavoriteCardProps> = 
 }) => {
 
 
-    console.log('imageSrc', data?.imageSrc as any)
+    
+
+    
+    
+    
 
     //console.log('reservationItem totalPrice', TotalPrice.toFixed(2))
 
@@ -59,7 +79,7 @@ const ListingBusinessFavoriteCard: React.FC<ListingBusinessFavoriteCardProps> = 
 
     const { getByValue } = useCountries();
 
-    const businessUUId = data?.uuid || 0;
+    const propertyUUId = data?.uuid || 0;
 
     
     const location = getByValue(data?.locationValue || '');
@@ -103,7 +123,7 @@ const ListingBusinessFavoriteCard: React.FC<ListingBusinessFavoriteCardProps> = 
     return (
         
         <div
-            key={reservation.id}
+            key={propertyUUId}
             onClick={() => router.push(`/bap/${data?.uuid}`)} 
             className='col-span-1 cursor-pointer group text-white'
         >
@@ -119,7 +139,7 @@ const ListingBusinessFavoriteCard: React.FC<ListingBusinessFavoriteCardProps> = 
                     <Image
                         fill
                         alt="Listing"
-                        src={data?.imageSrc as string ? data?.imageSrc as string : logoPlaceHolder}
+                        src={imageSrc as string ? imageSrc as string : logoPlaceHolder}
                         className="
                             object-cover 
                             h-full 
@@ -135,8 +155,8 @@ const ListingBusinessFavoriteCard: React.FC<ListingBusinessFavoriteCardProps> = 
                         
                         {/* {JSON.stringify(currentUser) as any} */}
                         
-                        <HearticonBusinessButton 
-                            businessUUId={businessUUId as string}
+                        <HearticonPropertyButton 
+                            propertyUUId={propertyUUId as string}
                             currentUser={currentUser as any}
                         />
 
@@ -154,7 +174,7 @@ const ListingBusinessFavoriteCard: React.FC<ListingBusinessFavoriteCardProps> = 
                     { data?.streetZipCode }
                 </div> */}
                 <div className="text-white">
-                    <span className='font-semibold'> Guest: </span> <span className='italic'>({data?.guestCount}), </span>
+                    <span className='font-semibold'> Guest: </span> <span className='italic'>({guestCount}), </span>
                     <span className='font-semibold'>Rooms: </span> <span className='italic'>({data?.roomCount}) </span>
                 </div>
                 <div className="text-white">
@@ -180,4 +200,4 @@ const ListingBusinessFavoriteCard: React.FC<ListingBusinessFavoriteCardProps> = 
     )
 }
 
-export default ListingBusinessFavoriteCard
+export default ListingMyPropertyCard

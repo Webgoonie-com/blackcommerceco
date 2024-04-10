@@ -27,8 +27,8 @@ favoriteRouter.post('/userIdFavorites', async (request: Request, response: Respo
 
     const { userId } = await request.body
 
-    console.log('addfavorites userIdFavorites', userId)
-    console.log('addfavorites body', body)
+    //    console.log('addfavorites userIdFavorites', userId)
+    //    console.log('addfavorites body', body)
 
 
     
@@ -46,7 +46,7 @@ favoriteRouter.post('/userIdFavorites', async (request: Request, response: Respo
 favoriteRouter.post('/userBusinessFavorites', async (request: Request, response: Response) => {
     
     
-    console.log('Hit Business Favorites ')
+    //    console.log('Hit Business Favorites ')
 
 
     //const userId: string =  await request.params.userId
@@ -76,7 +76,7 @@ favoriteRouter.post('/userBusinessFavorites', async (request: Request, response:
 favoriteRouter.post('/userPropertyFavorites', async (request: Request, response: Response) => {
     
     
-    console.log('Hit Property Favorites ')
+    //    console.log('Hit Property Favorites ')
 
 
     //const userId: string =  await request.params.userId
@@ -87,7 +87,7 @@ favoriteRouter.post('/userPropertyFavorites', async (request: Request, response:
 
     
 
-    console.log('addfavorites userId', userId)
+    //    console.log('addfavorites userId', userId)
     
     
 
