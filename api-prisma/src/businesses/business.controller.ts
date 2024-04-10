@@ -196,6 +196,8 @@ export const getBusinessUuId = async (uuid: string): Promise<Business | null> =>
     })
 }
 
+
+
 export const autoSaveBusinessData = async (business: Business, listing: Listing): Promise<Business | any> => {
 
 
@@ -812,6 +814,113 @@ export const updateteBusinessPrimaryPhoto = async (businessPhotoData: any): Prom
 
 
 
+}
+
+export const getBusinessbyUserId = async (userId: number): Promise<Business[] | null> => {
+    
+    
+
+    //    console.log('getBusinessbyUserId= userId: ', userId)
+    
+
+    try {
+        
+    
+        return await orm.business.findMany({
+            where:{
+                userId: userId,
+            },
+            select:{
+                id: true,
+                uuid: true,
+                token: true,
+                title: true,
+                description: true,
+                category: true,
+                imageSrc: true,
+                imagesMultiSrc: true,
+                locationValue: true,
+                listingId: true,
+                isAFranchise: true,
+                isTheFranchiseParent: true,
+                ownsOtherBusinesses: true,
+                hasStore: true,
+                hasProducts: true,
+                hasServices: true,
+                sellPrice: true,
+                streetAddress: true,
+                streetAddress2: true,
+                streetCity: true,
+                streetZipCode: true,
+                userId: true,
+                countryId: true,
+                country: { 
+                    select: {
+                        id: true,
+                        isoCode: true,
+                        name: true,
+                        currency: true,
+                        phonecode: true,
+                        flag: true,
+                        latitude: true,
+                        longitude: true,
+                        region: true,
+                        timezones: true
+                    }
+                },
+                countryStateRegionId: true,
+                countryStateRegion: { 
+                    select: {
+                        id: true,
+                        isoCode: true,
+                        name: true,
+                        latitude: true,
+                        longitude: true,
+                        countryId: true
+                    }
+                },
+                countryCityId: true,
+                countryCity: { 
+                    select: {
+                        id: true,
+                        name: true,
+                        latitude: true,
+                        longitude: true,
+                        countryId: true
+                    }
+                },            
+                createdAt: true,
+                user: {
+                    select: {
+                        id: true,
+                        uuid: true,
+                        name: true,
+                        role: false,
+                        email: false,
+                        emailVerified: false,
+                        hashedPassword: false,
+                        image: true,
+                        phone: false,
+                        firstName: true,
+                        lastName: true,
+                        updatedAt: true,
+                        createdAt: true,
+                    }
+                },
+                updatedAt: true,
+                
+                },
+            })
+    
+    
+        } catch (error) {
+    
+            console.log('Error', error);
+            
+            throw error; 
+            
+        }
+    
 }
 
 export const deleteAutoSavePhoto  = async (businessData: any): Promise<BusinessPhoto[] | any> => {

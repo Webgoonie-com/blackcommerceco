@@ -1,13 +1,3 @@
-// import React from 'react'
-
-// const MyPropertyClient = () => {
-//   return (
-//     <div>MyPropertyClient</div>
-//   )
-// }
-
-// export default MyPropertyClient
-
 "use client"
 
 import React, { useCallback, useState } from "react";
@@ -16,52 +6,54 @@ import { useRouter } from "next/navigation";
 import Container from "@/Components/Container";
 import Heading from "@/Components/Heading";
 
-import { currentUser, SafeReservation, SafeUser } from "@/Types";
+import { currentUser, FavoriteBusinesses, Favorites, SafeReservation, SafeUser } from "@/Types";
 import axios from "axios";
 import toast from "react-hot-toast";
-import StayCard from "@/Components/Listings/ListingStayCard";
+import ListingBusinessFavoriteCard from "@/Components/Listings/ListingBusinessFavoriteCard";
+import ListingPropertyFavoriteCard from "@/Components/Listings/ListingPropertyFavoriteCard";
 
 
-interface MyPropertyClientProps {
-    reservations?: SafeReservation[] |  undefined;
+
+interface MyFavoritePropertyClientProps {
+    userFavorites?: FavoriteBusinesses[] |  undefined;
     currentUser: SafeUser | null;
 }
 
-const MyPropertyClient: React.FC<MyPropertyClientProps> = ({
-    reservations,
+const MyPropertyClient: React.FC<MyFavoritePropertyClientProps> = ({
+    userFavorites,
     currentUser
 }) => {
 
 
-    //  console.log('reservations Props: ', reservations)
+    //  console.log('userFavorites Props: ', userFavorites)
 
     const router = useRouter();
 
     const [deletingId, setDeletingId] = useState('')
 
-    const onCancel = useCallback(( id: string) => {
+    // const onCancel = useCallback(( id: string) => {
 
-        setDeletingId(id)
+    //     setDeletingId(id)
 
         
-        //  console.log('deletingId', id)
+    //     //  console.log('deletingId', id)
 
 
-        axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/reservations/cancelUserReservation/${id}`)
-        .then(() =>{
-            toast.success('Reservation Cancelled successfully')
-            router.refresh()
-        })
-        .catch((error) => {
+    //     axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/reservations/cancelUserReservation/${id}`)
+    //     .then(() =>{
+    //         toast.success('Reservation Cancelled successfully')
+    //         router.refresh()
+    //     })
+    //     .catch((error) => {
             
-            toast.error(error?.response?.data?.error)
+    //         toast.error(error?.response?.data?.error)
 
-        })
-        .finally(() => {
-            setDeletingId('')
-        })
+    //     })
+    //     .finally(() => {
+    //         setDeletingId('')
+    //     })
 
-    }, [router])
+    // }, [router])
     
 
     
@@ -70,7 +62,7 @@ const MyPropertyClient: React.FC<MyPropertyClientProps> = ({
       <div className="bg-gray-950">
             <Container>
                 <Heading
-                    title="Your System Saved Properties"
+                    title="Your Properties Listed Online"
                     subtitle="These are the properties that belong to you..."
                  />
                  <div className="
@@ -84,21 +76,21 @@ const MyPropertyClient: React.FC<MyPropertyClientProps> = ({
                         bg-gray-950
                     "
                  >
-                    {reservations && reservations.map((reservationItem, i) => (
+                    {userFavorites && userFavorites.map((favoriteItem, i) => (
                         
                         
-                        <StayCard 
-                            key={reservationItem?.id as any}
-                            imageSrc={reservationItem?.property?.imageSrc as any}
-                            data={reservationItem?.property as any}
-                            reservation={reservationItem as any}
-                            TotalPrice={parseFloat(reservationItem?.totalPrice.toFixed(2))}
-                            startDate={reservationItem?.startDate as any}
-                            endDate={reservationItem?.endDate as any}
-                            actionId={reservationItem.id as any}
-                            onAction={onCancel}
-                            disabled={deletingId === reservationItem.id as any}
-                            actionLabel="Cancel Reservation"
+                        <ListingPropertyFavoriteCard 
+                            key={favoriteItem?.id as any}
+                            imageSrc={favoriteItem?.business as any}
+                            data={favoriteItem?.business as any}
+                            reservation={favoriteItem as any}
+                            //TotalPrice={parseFloat(favoriteItem?.totalPrice.toFixed(2))}
+                            //startDate={favoriteItem?.startDate as any}
+                            //endDate={favoriteItem?.endDate as any}
+                            actionId={favoriteItem.id as any}
+                            //onAction={onCancel}
+                            disabled={deletingId === favoriteItem.id as any}
+                            actionLabel="UnFavorite"
                             currentUser={currentUser as any}
                         />
                     ))}

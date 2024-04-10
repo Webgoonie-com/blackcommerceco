@@ -139,7 +139,7 @@ businessRouter.post('/autoSaveBusinessData', async (request, response) => {
 
     try {
         const businessData = request.body; // Assuming you're sending the business data in the request body
-        console.log("businessData", businessData);
+        //    console.log("businessData", businessData);
 
         // Call the service function with the received data
         const createdBusiness = await BusinessController.autoSaveBusinessData(businessData, businessData);
@@ -197,6 +197,21 @@ businessRouter.get("/uuid/:uuid", async (request: Request, response: Response) =
 
 })
 
+businessRouter.get("/businessessbyUser/:userId", async (request: Request, response: Response) => {
+
+    const userId  = request.params.userId
+
+    try {
+        const user = await BusinessController.getBusinessbyUserId(parseInt(userId))
+        if(user) {
+            return response.status(200).json(user)
+        }
+    } catch (error) {
+        return response.status(500).json("Sorry This Business Could Not Be Found by userId");
+    }
+
+})
+
 businessRouter.post("/makePrimaryPhoto/:listingId", async (request: Request, response: Response) => {
 
     const businessPhotoData = await request.body;
@@ -232,7 +247,7 @@ businessRouter.post('/delete/uuid/:uuid', async (request: Request, response: Res
     try {
         const businessData = request.body; // Assuming you're sending the business data in the request body
 
-            console.log('Business data Used For Deletetion: ', businessData)
+        //   console.log('Business data Used For Deletetion: ', businessData)
 
 
         // Call the service function with the received data

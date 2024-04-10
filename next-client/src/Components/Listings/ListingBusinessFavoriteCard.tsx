@@ -79,13 +79,22 @@ const ListingBusinessFavoriteCard: React.FC<ListingBusinessFavoriteCardProps> = 
         }, [onAction, actionId, disabled]
     )
 
+    const sellPrice = useMemo(() => {
+        if(reservation){
+            return reservation?.Reservation?.totalPrice;
+        }
+
+        return  data?.Businesses?.sellPrice
+    }, [reservation,  data?.Businesses?.sellPrice])
+    
+
     // const ShowPrice = useMemo(() => {
     //     if(TotalPrice){
     //         return TotalPrice;
     //     }
 
     //     return  data?.price
-    // }, [TotalPrice, data?.price])
+    // }, [TotalPrice, data?.sellPrice])
 
     // const reservationDate = useMemo(() => {
 
@@ -144,6 +153,9 @@ const ListingBusinessFavoriteCard: React.FC<ListingBusinessFavoriteCardProps> = 
                 </div>
                 
 
+                <div className="font-light text-white">
+                    {data?.title}
+                </div>
                 <div className="font-semibold text-lg">
                     { data?.streetCity },{" "}
                     { data?.countryStateRegion?.name }{" "}
@@ -153,13 +165,22 @@ const ListingBusinessFavoriteCard: React.FC<ListingBusinessFavoriteCardProps> = 
                     { data?.country?.region },{" "}
                     { data?.streetZipCode }
                 </div> */}
-                <div className="text-white">
-                    <span className='font-semibold'> Guest: </span> <span className='italic'>({data?.guestCount}), </span>
-                    <span className='font-semibold'>Rooms: </span> <span className='italic'>({data?.roomCount}) </span>
+                <div className="font-semibold text-lg">
+                    { data?.country?.region },{" "}
+                    { data?.streetZipCode }
                 </div>
-                <div className="text-white">
-                    <span className='font-semibold'>Bathrooms: </span>
-                    <span className='italic'>({data?.bathroomCount})</span>
+                <div className="font-light text-white">
+                    Category: {data?.category}
+                </div>
+                <div className="flex flex-row items-center gap-1">
+                    {sellPrice && (
+                        <>
+                            <div className="font-light">For Sale</div>
+                                <div className="font-semibold">
+                                    $ {sellPrice}
+                                </div>
+                        </>
+                    )}
                 </div>
                 
                 

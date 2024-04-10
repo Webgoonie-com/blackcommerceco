@@ -5,9 +5,10 @@ import BapListings from '@/Components/Listings/BapListings'
 
 import getCurrentUser from '@/Actions/getCurrentUser'
 
-import { callUserReservations } from '@/ServiceCalls/callReservations'
+
 //import MyPropertyClient from './MyPropertyClient'
 import MyPropertyClient from '@/app/(main)/myproperties/MyPropertyClient'
+import { callPropertysbyUser } from '@/ServiceCalls/callPropertys'
 
 const MyPropertiesPage = async () => {
   
@@ -30,11 +31,13 @@ const MyPropertiesPage = async () => {
         )
     }
 
-    const userReservations = await callUserReservations(userId);
+    const userProperties = await callPropertysbyUser(parseInt(userId as string));
+
+    console.log('Line 36 userProperties', userProperties)
     
     //console.log('responseData: ', JSON.stringify(userReservations));
 
-    if(userReservations.length === 0){
+    if(userProperties.length === 0){
         return(
             <>
             <ClientOnly>
@@ -49,12 +52,14 @@ const MyPropertiesPage = async () => {
 
 
     return (
-      <ClientOnly>
-              <MyPropertyClient
-                  reservations={userReservations as any}
-                  currentUser={currentUser as any}
-              />
-      </ClientOnly>
+      <div>
+          <ClientOnly>
+                  <MyPropertyClient
+                      userFavorites={userProperties as any}
+                      currentUser={currentUser as any}
+                  />
+          </ClientOnly>
+      </div>
   )
 }
 

@@ -30,17 +30,19 @@ export default async function RootLayout({
     <html lang="en">
      <QueryProvider>
         <body>
-          <AuthProvider>
-            <ClientOnly>
-                  <ToasterProvider />
-                  <RegisterModal />
-                  <LoginModal />
-                  {/* <NavbarPublic currentUser={currentUser as any} /> */}
-    
-                  {children}
-    
-            </ClientOnly>
-          </AuthProvider>
+          <div id="page-container">
+            <AuthProvider>
+              <ClientOnly>
+                    <ToasterProvider />
+                    <RegisterModal />
+                    <LoginModal />
+                    {/* <NavbarPublic currentUser={currentUser as any} /> */}
+      
+                    {children}
+      
+              </ClientOnly>
+            </AuthProvider>
+          </div>
         </body>
     </QueryProvider>
     </html>

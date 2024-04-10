@@ -223,6 +223,13 @@ GET http://localhost:3334/api/propertys/uuid/18d206d4-9faf-45f3-b63b-9154461a30a
 ###
 
 
+###
+
+ 
+GET http://localhost:3334/api/propertys/byUser/userId/3
+
+###
+
 POST http://localhost:3334/api/propertys/deleteProperty/uuid/49510f6a-f37f-483a-a673-5a6fc807e05e
 Content-Type: application/json
 

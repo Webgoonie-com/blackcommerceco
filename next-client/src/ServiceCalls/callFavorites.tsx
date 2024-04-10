@@ -7,7 +7,7 @@ export const callFavorites = async () => {
 
     const currentUser = await getCurrentUser()
     
-    console.log('Line 10 currentUser: ', currentUser)
+    //console.log('Line 10 currentUser: ', currentUser)
 
 
     try {
@@ -27,7 +27,7 @@ export const callUserPropertyFavorites = async (userId: number) => {
 
     const currentUser = await getCurrentUser()
     
-    console.log('Line 10 currentUser: ', currentUser)
+    //  console.log('Line 10 currentUser: ', currentUser)
 
 
     try {
@@ -54,7 +54,7 @@ export const callUserBusinessFavorites = async (userId: number) => {
     
     const currentUser = await getCurrentUser()
     
-    console.log('Line 10 currentUser: ', currentUser)
+    //  console.log('Line 10 currentUser: ', currentUser)
 
 
     try {
@@ -65,7 +65,7 @@ export const callUserBusinessFavorites = async (userId: number) => {
         
         const {data: favorites} = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/favorites/userBusinessFavorites/`, postData)
 
-        console.log('Return UsereBusinessFavorites', favorites)
+        //  console.log('Return UsereBusinessFavorites', favorites)
 
         return favorites
 

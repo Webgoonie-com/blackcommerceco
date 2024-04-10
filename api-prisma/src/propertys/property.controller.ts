@@ -102,6 +102,103 @@ export const listPropertys = async (): Promise<Property[]> => {
     return mappedProperties;
 }
 
+export const getPropertysbyUserId = async (userId: number): Promise<Property[] | any> => {
+    
+    console.log('getPropertysbyUserId: userid', userId)
+
+    const properties = await orm.property.findMany({
+        where:{ userId: userId},
+        select:{
+            id: true,
+            uuid: true,
+            title: true,
+            token: true,
+            description: true,
+            category: true,
+            roomCount: true,
+            bathroomCount: true,
+            locationValue: true,
+            guestCount: true,
+            imageSrc: true,
+            imagesMultiSrc: true,
+            price: true,
+            streetAddress: true,
+            streetAddress2: true,
+            streetCity: true,
+            streetZipCode: true,
+            userId: true,
+            createdAt: true,
+            countryId: true,
+            country: { 
+                select: {
+                    id: true,
+                    isoCode: true,
+                    name: true,
+                    currency: true,
+                    phonecode: true,
+                    flag: true,
+                    latitude: true,
+                    longitude: true,
+                    region: true,
+                    timezones: true
+                }
+            },
+            countryStateRegionId: true,
+            countryStateRegion: { 
+                select: {
+                    id: true,
+                    isoCode: true,
+                    name: true,
+                    latitude: true,
+                    longitude: true,
+                    countryId: true
+                }
+            },
+            countryCityId: true,
+            countryCity: { 
+                select: {
+                    id: true,
+                    name: true,
+                    latitude: true,
+                    longitude: true,
+                    countryId: true
+                }
+            },
+        }
+        
+    });
+
+    // Map the fetched properties to match the Property type
+    const mappedProperties: Property[] = properties.map(p => ({
+        id: p.id,
+        uuid: p.uuid,
+        title: p.title,
+        token: p.token,
+        description: p.description,
+        category: p.category,
+        roomCount: p.roomCount,
+        bathroomCount: p.bathroomCount,
+        guestCount: p.guestCount,
+        locationValue: p.locationValue,
+        imageSrc: p.imageSrc,
+        imagesMultiSrc: p.imagesMultiSrc,
+        price: p.price,
+        userId: p.userId,
+        streetAddress: p.streetAddress,
+        streetAddress2: p.streetAddress2,
+        streetCity: p.streetCity,
+        streetZipCode: p.streetZipCode,
+        countryId: p.countryId,
+        countryStateRegionId: p.countryStateRegionId || undefined, // Make optional if necessary
+        countryCityId: p.countryCityId || undefined, // Make optional if necessary
+        createdAt: p.createdAt,
+    }));
+
+    return mappedProperties;
+}
+   
+
+
 export const getPropertyId = async (id: number): Promise<Property | null> => {
     try {
         const properties = await orm.property.findUnique({
@@ -708,6 +805,8 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
 
 
 }
+
+
 
 export const createProperty = async (property: Property): Promise<Property | any> => {
     

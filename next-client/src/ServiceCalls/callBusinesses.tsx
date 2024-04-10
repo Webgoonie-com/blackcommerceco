@@ -21,6 +21,25 @@ export const callBusinesses = async (data: any) => {
 
 }
 
+export const callBusinessbyUser = async (userId: number) => {
+
+    try {
+        
+        const {data: businessess} = await axios.get(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/businesses/businessessbyUser/`+userId
+        )
+
+        
+
+        return businessess
+
+    } catch (error) {
+        console.log('error', error)
+        return error
+    }
+
+}
+
 
 export const autoSaveBusinessData = async (data: any, autoSaveToken: any, userId: any) => {
     

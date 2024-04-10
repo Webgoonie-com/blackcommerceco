@@ -13,12 +13,12 @@ import ListingBusinessFavoriteCard from "@/Components/Listings/ListingBusinessFa
 
 
 
-interface MyFavoriteBusinessClientClientProps {
+interface MyFavoritePropertyClientProps {
     userFavorites?: FavoriteBusinesses[] |  undefined;
     currentUser: SafeUser | null;
 }
 
-const MyFavoriteBusinessClient: React.FC<MyFavoriteBusinessClientClientProps> = ({
+const MyBusinessClient: React.FC<MyFavoritePropertyClientProps> = ({
     userFavorites,
     currentUser
 }) => {
@@ -61,8 +61,8 @@ const MyFavoriteBusinessClient: React.FC<MyFavoriteBusinessClientClientProps> = 
       <div className="bg-gray-950">
             <Container>
                 <Heading
-                    title="Your Business Favorites"
-                    subtitle="Here is some of the businesses you favorited..."
+                    title="Your Businesses Listed Online"
+                    subtitle="These are the businesses that belong to you..."
                  />
                  <div className="
                         mt-10 grid grid-cols-1
@@ -101,4 +101,4 @@ const MyFavoriteBusinessClient: React.FC<MyFavoriteBusinessClientClientProps> = 
     );
 }
  
-export default MyFavoriteBusinessClient;
+export default MyBusinessClient;

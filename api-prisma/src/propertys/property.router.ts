@@ -207,6 +207,22 @@ propertyRouter.post("/makePrimaryPhoto/:listingId", async (request: Request, res
 
 })
 
+propertyRouter.get('/propertysbyUser/:userid', async (request: Request, response: Response) => {
+    
+    const userid: string = request.params.userid
+    
+    console.log('Hit propertysbyUser userid', userid)
+    
+    try {
+        const property = await PropertyService.getPropertysbyUserId(parseInt(userid))
+        return response.status(200).json(property);
+
+    } catch (error: any) {
+        return response.status(500).json(error.message);
+    }
+})
+
+
 propertyRouter.get("/reservationAtpropertyByUuid/:uuid", async (request: Request, response: Response) => {
 
     const uuid: string = request.params.uuid

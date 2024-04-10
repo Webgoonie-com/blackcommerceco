@@ -37,17 +37,18 @@ const MyFavoritesClient = async () => {
 
     const UserPropertyFavorites = await callUserPropertyFavorites(parseInt(userId));
 
-    const UsereBusinessFavorites = await callUserBusinessFavorites(parseInt(userId));
+    const UserBusinessFavorites = await callUserBusinessFavorites(parseInt(userId));
     
-    //console.log('responseData: ', JSON.stringify(userReservations));
+    console.log('responseData:  UserPropertyFavorites ', UserPropertyFavorites);
+    console.log('responseData: UsereBusinessFavorites ', UserBusinessFavorites);
 
-    if(UserPropertyFavorites.length === 0 && UserPropertyFavorites === 0) {
+    if (UserPropertyFavorites.length === 0 && UserBusinessFavorites.length === 0) {
         return(
             <>
             <ClientOnly>
                 <EmptyState 
-                    title='None Of Your Favorites Were Found!'
-                    subtitle='Looks like you havent made any favorites yet...'
+                    title="None Of Your Favorites Were Found!"
+                    subtitle="Looks like you haven't made any favorites yet..."
                 />
             </ClientOnly>
             </>
@@ -59,11 +60,11 @@ const MyFavoritesClient = async () => {
         
            
 
-            { UsereBusinessFavorites.length !== 0 ? (
+            { UserBusinessFavorites.length !== 0 ? (
                 <>
                     <ClientOnly>
                             <MyFavoriteBusinessClient
-                                userFavorites={UsereBusinessFavorites as any}
+                                userFavorites={UserBusinessFavorites as any}
                                 currentUser={currentUser as any}
                             />
                     </ClientOnly>

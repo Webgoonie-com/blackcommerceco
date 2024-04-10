@@ -21,6 +21,25 @@ export const callPropertys = async () => {
 
 }
 
+export const callPropertysbyUser = async (userId: number) => {
+
+    try {
+        
+        const {data: propertys} = await axios.get(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/propertys/propertysbyUser/`+userId
+        )
+
+        
+
+        return propertys
+
+    } catch (error) {
+        console.log('error', error)
+        return error
+    }
+
+}
+
 export const createProperty = async (data: any) => {
 
     try {
