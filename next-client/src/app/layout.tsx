@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+
 import "./globals.css";
 
 import NavbarPublic from "@/Components/navbar/NavbarPublic";
@@ -11,7 +11,7 @@ import getCurrentUser from "@/Actions/getCurrentUser";
 import AuthProvider from "@/Providers/AuthProvider";
 import QueryProvider from '@/Providers/QueryProvider'
 
-const inter = Inter({ subsets: ["latin"] });
+
 
 export const metadata: Metadata = {
   title: "BlackCommerce Official",
@@ -29,7 +29,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
      <QueryProvider>
-        <body className={inter.className}>
+        <body>
           <AuthProvider>
             <ClientOnly>
                   <ToasterProvider />

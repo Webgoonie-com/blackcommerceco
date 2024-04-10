@@ -112,6 +112,20 @@ import { Country } from "country-state-city";
         updatedAt: Date;
     
     }
+
+    export type FavoriteBusinesses = {
+        id: number;
+        uuid: string;
+        userId: number;
+        listingId: number | undefined | null;
+        propertyId: number | undefined | null;
+        listings?: string[] | undefined;
+        business?: string[] | undefined;
+        businessId: number | undefined | null;
+        createdAt: Date;
+        updatedAt: Date;
+    
+    }
     
     
     export interface Reservation {

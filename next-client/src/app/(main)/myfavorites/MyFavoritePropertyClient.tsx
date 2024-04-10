@@ -16,11 +16,9 @@ import { useRouter } from "next/navigation";
 import Container from "@/Components/Container";
 import Heading from "@/Components/Heading";
 
-import { currentUser, FavoritePropertys, Favorites, SafeReservation, SafeUser } from "@/Types";
-import axios from "axios";
-import toast from "react-hot-toast";
+import { FavoritePropertys, Favorites, SafeReservation, SafeUser } from "@/Types";
 import ListingPropertyFavoriteCard from "@/Components/Listings/ListingPropertyFavoriteCard";
-import ListingBusinessFavoriteCard from "@/Components/Listings/ListingBusinessFavoriteCard";
+
 
 
 
@@ -89,7 +87,7 @@ const MyFavoriteProopertyClient: React.FC<MyFavoriteProopertyClientProps> = ({
                     {userFavorites && userFavorites.map((favoriteItem, i) => (
                         
                         
-                        <ListingBusinessFavoriteCard 
+                        <ListingPropertyFavoriteCard 
                             key={favoriteItem?.id as any}
                             imageSrc={favoriteItem?.property as any}
                             data={favoriteItem?.property as any}

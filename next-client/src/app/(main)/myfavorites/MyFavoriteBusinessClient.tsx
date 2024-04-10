@@ -16,19 +16,19 @@ import { useRouter } from "next/navigation";
 import Container from "@/Components/Container";
 import Heading from "@/Components/Heading";
 
-import { currentUser, FavoritePropertys, Favorites, SafeReservation, SafeUser } from "@/Types";
+import { currentUser, FavoriteBusinesses, Favorites, SafeReservation, SafeUser } from "@/Types";
 import axios from "axios";
 import toast from "react-hot-toast";
 import ListingBusinessFavoriteCard from "@/Components/Listings/ListingBusinessFavoriteCard";
 
 
 
-interface MyFavoriteProopertyClientProps {
-    userFavorites?: FavoritePropertys[] |  undefined;
+interface MyFavoritePropertyClientProps {
+    userFavorites?: FavoriteBusinesses[] |  undefined;
     currentUser: SafeUser | null;
 }
 
-const MyFavoriteProopertyClient: React.FC<MyFavoriteProopertyClientProps> = ({
+const MyFavoriteProopertyClient: React.FC<MyFavoritePropertyClientProps> = ({
     userFavorites,
     currentUser
 }) => {
@@ -90,8 +90,8 @@ const MyFavoriteProopertyClient: React.FC<MyFavoriteProopertyClientProps> = ({
                         
                         <ListingBusinessFavoriteCard 
                             key={favoriteItem?.id as any}
-                            imageSrc={favoriteItem?.property as any}
-                            data={favoriteItem?.property as any}
+                            imageSrc={favoriteItem?.business as any}
+                            data={favoriteItem?.business as any}
                             reservation={favoriteItem as any}
                             //TotalPrice={parseFloat(favoriteItem?.totalPrice.toFixed(2))}
                             //startDate={favoriteItem?.startDate as any}
