@@ -1,7 +1,7 @@
 "use client"
 
 import qs from "query-string";
-import useSearchModal from "@/Hooks/useSearchModal";
+import useSearchBusinessModal from "@/Hooks/useSearchBusinessModal";
 import { useRouter, useSearchParams } from "next/navigation";
 import Modal from "../Modal";
 import { useCallback, useMemo, useState } from "react";
@@ -21,13 +21,13 @@ enum STEPS {
     DATE = 1,
     INFO = 2,
 }
-const SearchModal = () => {
+const SearchBusinessModal = () => {
 
     const router = useRouter()
 
     const params = useSearchParams()
 
-    const searchModal = useSearchModal();
+    const searchBusinessModal = useSearchBusinessModal();
 
     // a hack to set location
     const [location, setLocation] = useState<CountrySelectValue>();
@@ -45,7 +45,7 @@ const SearchModal = () => {
 
     const Map = useMemo(() => dynamic(() => import('../../maps/MapSmall'), {
 
-    }), [location])
+    }), [])
 
     const onBack = useCallback(() => {
         setStep((value) => value - 1)
@@ -92,7 +92,7 @@ const SearchModal = () => {
 
             setStep(STEPS.LOCATION)
 
-            searchModal.onClose()
+            searchBusinessModal.onClose()
 
             router.push(openUrl);
         
@@ -108,13 +108,13 @@ const SearchModal = () => {
         params, 
         roomCount,
         router,
-        searchModal,
+        searchBusinessModal,
         step
     ])
 
     const actionLabel = useMemo(() => {
         
-        if (step === STEPS.INFO) {
+        if (step === STEPS.DATE) {
             return "Search"
         }
 
@@ -203,11 +203,11 @@ const SearchModal = () => {
 
     return ( 
         <Modal
-            isOpen={searchModal.isOpen}
-            onClose={searchModal.onClose}
+            isOpen={searchBusinessModal.isOpen}
+            onClose={searchBusinessModal.onClose}
             
             onSubmit={onSubmit}
-            title="Quick Search"
+            title="Business Search"
             actionLabel={actionLabel}
             secondaryActionLabel={secondaryActionLabel}
             secondaryAction={step === STEPS.LOCATION ? undefined : onBack}
@@ -216,4 +216,4 @@ const SearchModal = () => {
      );
 }
  
-export default SearchModal;
+export default SearchBusinessModal;

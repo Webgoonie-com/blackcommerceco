@@ -15,19 +15,20 @@ import MapSmall from "../../maps/MapSmall";
 import CalendarProperty from "@/Elements/Calendars/CalendarProperty";
 import Calendar from "@/Elements/Calendars/Calendar";
 import Counter from "@/Elements/Counters/Counter";
+import useSearchPropertyModal from "@/Hooks/useSearchPropertyModal";
 
 enum STEPS {
     LOCATION = 0,
     DATE = 1,
     INFO = 2,
 }
-const SearchModal = () => {
+const SearchPropertyModal = () => {
 
     const router = useRouter()
 
     const params = useSearchParams()
 
-    const searchModal = useSearchModal();
+    const searchPropertyModal = useSearchPropertyModal();
 
     // a hack to set location
     const [location, setLocation] = useState<CountrySelectValue>();
@@ -92,7 +93,7 @@ const SearchModal = () => {
 
             setStep(STEPS.LOCATION)
 
-            searchModal.onClose()
+            searchPropertyModal.onClose()
 
             router.push(openUrl);
         
@@ -108,7 +109,7 @@ const SearchModal = () => {
         params, 
         roomCount,
         router,
-        searchModal,
+        searchPropertyModal,
         step
     ])
 
@@ -203,11 +204,11 @@ const SearchModal = () => {
 
     return ( 
         <Modal
-            isOpen={searchModal.isOpen}
-            onClose={searchModal.onClose}
+            isOpen={searchPropertyModal.isOpen}
+            onClose={searchPropertyModal.onClose}
             
             onSubmit={onSubmit}
-            title="Quick Search"
+            title="Property Search"
             actionLabel={actionLabel}
             secondaryActionLabel={secondaryActionLabel}
             secondaryAction={step === STEPS.LOCATION ? undefined : onBack}
@@ -216,4 +217,4 @@ const SearchModal = () => {
      );
 }
  
-export default SearchModal;
+export default SearchPropertyModal;

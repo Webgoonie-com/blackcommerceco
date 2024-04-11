@@ -13,6 +13,8 @@ import Footer from "@/Views/Footer";
 import RentMyPropertyModal from "@/Components/modals/properties/RentMyPropertyModal";
 import BusinessStoreResgistrationModal from "@/Components/modals/businesses/BusinessResgistrationModal";
 import SearchModal from "@/Components/modals/search/SearchModal";
+import SearchPropertyModal from "@/Components/modals/search/SearchPropertyModal";
+import SearchBusinessModal from "@/Components/modals/search/SearchBusinessModal";
 import ProfileModal from "@/Components/modals/profile/ProfileModal";
 const inter = Inter({ subsets: ["latin"] });
 
@@ -46,6 +48,8 @@ export default async function RootLayout({  children } : Readonly<{
                   <RegisterModal />
                   <LoginModal />
                   <SearchModal />
+                  <SearchPropertyModal />
+                  <SearchBusinessModal />
                   <ProfileModal />
                   <BusinessStoreResgistrationModal currentUser={currentUser as any} />
 							    <RentMyPropertyModal currentUser={currentUser as any} />

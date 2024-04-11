@@ -17,6 +17,7 @@ import { CurrentUser } from '@/Types/nextauth'
 import { SafeUser } from '@/Types'
 import { useRouter } from 'next/navigation'
 import useProfileModal from '@/Hooks/useProfileModal'
+import useSearchBusinessModal from '@/Hooks/useSearchBusinessModal'
 
 
 interface UserMenuProps {
@@ -36,6 +37,8 @@ const UserMenu: React.FC<UserMenuProps> = ({
 
     const rentMyPropertyModalModal = useRentMyPropertyModal()
 
+    const searchBusinessModal = useSearchBusinessModal()
+
     const profileModal = useProfileModal()
 
     const [isOpen, setIsOpen] = useState(false)
@@ -49,6 +52,11 @@ const UserMenu: React.FC<UserMenuProps> = ({
     
     const toggleProfileOpen = useCallback(() => {
         profileModal.onOpen()
+        setIsOpen((value) => !value)
+    }, [])
+
+    const toggleBusinessSearchOpen = useCallback(() => {
+        searchBusinessModal.onOpen()
         setIsOpen((value) => !value)
     }, [])
 
@@ -176,6 +184,11 @@ const UserMenu: React.FC<UserMenuProps> = ({
                                 <MenuItem 
                                     onClick={toggleProfileOpen}
                                     label="Profile Picture"
+                                />
+                                <hr />
+                                <MenuItem 
+                                    onClick={toggleBusinessSearchOpen}
+                                    label="Business Search"
                                 />
                                 <hr />
                                 <MenuItem 
