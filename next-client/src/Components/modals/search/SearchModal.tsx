@@ -157,8 +157,8 @@ const SearchModal = () => {
         bodyContent = (
             <div className="flex flex-col gap-8">
                 <Heading 
-                    title="Yes Yes yall"
-                    subtitle="Just Speak"
+                    title="Please Choose Your Dates"
+                    subtitle="Select available dates for your for selection..."
                 />
 
                 <Calendar
