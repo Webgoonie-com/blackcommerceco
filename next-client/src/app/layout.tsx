@@ -36,8 +36,7 @@ export default async function RootLayout({
                     <ToasterProvider />
                     <RegisterModal />
                     <LoginModal />
-                    {/* <NavbarPublic currentUser={currentUser as any} /> */}
-      
+                    
                     {children}
       
               </ClientOnly>

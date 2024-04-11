@@ -98,7 +98,7 @@ const PropertyNavDropDown = () => {
                                 <div className="border-t border-gray-700 col-span-12">
                                     <div className="px-4 pb-3 pt-3">
                                         <Link onClick={handleOpenMenu} href={'/baps'}>
-                                            <p>View (All) Black Air Propertiies</p>
+                                            <p className="underline underline-offset-8">View (All) Black Air Propertiies</p>
                                         </Link>
                                     </div>
                                 </div>

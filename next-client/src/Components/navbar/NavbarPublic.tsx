@@ -23,7 +23,7 @@ const NavbarPublic: React.FC<NavbarPublicProps> = ({currentUser}) => {
                 <Container>
                    <div className='flex flex-row items-center justify-between gap-3 md:gap-0'>
                      <Logo />
-                     <Search />
+                     {/* <Search /> */}
                      <UserMenu currentUser={currentUser as any} />
                     </div>
                 </Container>

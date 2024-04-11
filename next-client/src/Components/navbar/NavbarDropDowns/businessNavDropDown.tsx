@@ -90,13 +90,14 @@ const BusinessNavDropDown = () => {
 
                             <div className="px-4 pb-3 col-span-10">
                                 <p className="text-gray-200 font-semibold">Black Business Selections</p>
-                                <p className="text-sm text-gray-400">Browse a curated list of available black businesses</p>
+                                <p className="text-sm text-gray-400">Browse a curated list of available black businesses...</p>
                             </div>
                             
                             <div className="border-t border-gray-700 col-span-12">
                                 <div className="px-4 pb-3 pt-3">
-                                    <Link onClick={handleOpenMenu} href={'/bbs'}>
-                                        <p>View (All) - Black Business Everywhere</p>
+                                    <Link className='' onClick={handleOpenMenu} href={'/bbs'}>
+                                        <p className="underline underline-offset-8">View (All) - Black Businesses {">>>"}</p>
+                                        
                                     </Link>
                                 </div>
                             </div>

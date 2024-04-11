@@ -25,7 +25,15 @@ const CategoriesNav = () => {
             <CategoriesBusinesses />
             
             
-            <div className="ms-5 flex items-start mt-5 overflow-y-visible">
+            <div className={
+                `ms-5
+                flex 
+                items-start 
+                mt-5 
+                mx-auto   xl:px-20   md:px-10   sm:px-2   px-4
+                overflow-y-visible
+                `
+                }>
                 <PropertyNavDropDown />
                 <BusinessNavDropDown />
             </div>

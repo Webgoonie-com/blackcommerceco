@@ -5,7 +5,8 @@ import cors from 'cors'
 
 import { adminRouter } from "./admins/admin.router"
 import { businessRouter } from "./businesses/business.router"
-import { generalRouter } from "./general/general.route";
+import { generalRouter } from "./general/general.router";
+import { geographyRouter } from "./geography/geography.router";
 import { favoriteRouter } from "./favorites/favorite.router";
 import { listingRouter } from "./listings/listing.router"
 import  { reservationRouter } from './reservations/reservation.router'
@@ -44,6 +45,7 @@ app.use("/api/users", userRouter)
 app.use("/api/admins", adminRouter)
 app.use("/api/businesses", businessRouter)
 app.use("/api/favorites", favoriteRouter)
+app.use("/api/geography", geographyRouter)
 app.use("/api/generals", generalRouter)
 app.use("/api/propertys", propertyRouter)
 app.use("/api/listings", listingRouter)
