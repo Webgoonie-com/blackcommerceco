@@ -9,11 +9,11 @@ import RegisterModal from "@/Components/modals/auth/RegisterModal";
 import LoginModal from "@/Components/modals/auth/LoginModal";
 import ToasterProvider from "@/Providers/ToasterProvider";
 import getCurrentUser from "@/Actions/getCurrentUser";
-import AuthProvider from "@/Providers/AuthProvider";
-import QueryProvider from '@/Providers/QueryProvider'
 import Footer from "@/Views/Footer";
 import RentMyPropertyModal from "@/Components/modals/properties/RentMyPropertyModal";
 import BusinessStoreResgistrationModal from "@/Components/modals/businesses/BusinessResgistrationModal";
+import SearchModal from "@/Components/modals/search/SearchModal";
+import ProfileModal from "@/Components/modals/profile/ProfileModal";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -45,6 +45,8 @@ export default async function RootLayout({  children } : Readonly<{
                   <ToasterProvider />
                   <RegisterModal />
                   <LoginModal />
+                  <SearchModal />
+                  <ProfileModal />
                   <BusinessStoreResgistrationModal currentUser={currentUser as any} />
 							    <RentMyPropertyModal currentUser={currentUser as any} />
                   <NavbarPublic currentUser={currentUser as any} />

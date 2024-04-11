@@ -1,4 +1,5 @@
-import React from 'react'
+"use server"
+
 import axios from 'axios'
 
 export const callCountries = async () => {
@@ -9,7 +10,7 @@ export const callCountries = async () => {
             `${process.env.NEXT_PUBLIC_API_URL}/api/geography/allcountries`,
         )
 
-        console.log('countries', countries)
+        
         
         return countries
 

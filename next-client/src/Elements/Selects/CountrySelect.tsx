@@ -34,8 +34,9 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
     const animatedComponents = makeAnimated();
 
     return (
-        <div className="position-relative">
-            <h2>Country Selecting</h2>
+        <div className="position-relative py-4">
+            
+            
             <Select
                 placeholder="Anywhere"
                 //isClearable

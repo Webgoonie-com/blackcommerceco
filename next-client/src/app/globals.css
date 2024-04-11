@@ -58,6 +58,23 @@ ul.country-list{
   padding-bottom: 2.5rem;    /* Footer height */
 }
 
+#fullCalendar .rdrCalendarWrapper.rdrDateRangeWrapper,
+#fullCalendar .rdrMonthAndYearWrapper,
+#fullCalendar .rdrMonths.rdrMonthsVertical,
+#fullCalendar .rdrMonth
+ {
+  width: 100%;
+}
+
+#fullCalendar button.rdrDay.rdrDayDisabled,
+#fullCalendar button.rdrDay.rdrDayPassive.rdrDayDisabled
+{
+  background-color: #cccccc;
+}
+#fullCalendar .rdrDayDisabled .rdrDayNumber span{
+  color: red;
+}
+
 #footer {
   position: relative;
   bottom: 0;

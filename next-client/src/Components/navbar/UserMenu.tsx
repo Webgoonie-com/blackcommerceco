@@ -16,6 +16,7 @@ import { signOut, useSession } from "next-auth/react"
 import { CurrentUser } from '@/Types/nextauth'
 import { SafeUser } from '@/Types'
 import { useRouter } from 'next/navigation'
+import useProfileModal from '@/Hooks/useProfileModal'
 
 
 interface UserMenuProps {
@@ -35,9 +36,19 @@ const UserMenu: React.FC<UserMenuProps> = ({
 
     const rentMyPropertyModalModal = useRentMyPropertyModal()
 
+    const profileModal = useProfileModal()
+
     const [isOpen, setIsOpen] = useState(false)
 
+    const [isOpenProfileWindow, setIsOpenProfileWindow] = useState(false)
+
     const toggleOpen = useCallback(() => {
+        setIsOpen((value) => !value)
+    }, [])
+
+    
+    const toggleProfileOpen = useCallback(() => {
+        profileModal.onOpen()
         setIsOpen((value) => !value)
     }, [])
 
@@ -159,6 +170,12 @@ const UserMenu: React.FC<UserMenuProps> = ({
                                         } 
                                     }
                                     label="My Profile"
+                                />
+                                
+                                <hr />
+                                <MenuItem 
+                                    onClick={toggleProfileOpen}
+                                    label="Profile Picture"
                                 />
                                 <hr />
                                 <MenuItem 

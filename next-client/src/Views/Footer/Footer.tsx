@@ -14,7 +14,6 @@ const Footer = () => {
             try {
                 const countries = await callCountries();
                 
-                console.log('Countries Returned:', countries)
 
                 setSystemCountries(countries);
             } catch (error) {
