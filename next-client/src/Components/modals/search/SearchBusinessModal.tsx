@@ -85,7 +85,7 @@ const SearchBusinessModal = () => {
         }
 
         const openUrl = qs.stringifyUrl({
-            url: '/baps/',
+            url: '/bbs/',
             query: updatedQuery
         }, {skipNull: true})
 
