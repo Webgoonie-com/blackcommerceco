@@ -71,7 +71,9 @@ const Footer = () => {
                                 systemCountries.map((systemCountry: any, i: number) => (
                                     <li key={i}>
                                         <a className="text-gray-500 hover:text-gray-800 duration-200">
-                                            In {systemCountry.label}
+                                           <span className={`fi fi-${systemCountry?.isoCode.toLowerCase()}`}></span>
+                                           {" "}
+                                           In {systemCountry.label}
                                         </a>
                                     </li>
                                 ))
@@ -102,7 +104,9 @@ const Footer = () => {
                                         systemCountries.map((systemCountry: any, i: number) => (
                                             <li key={i}>
                                                 <a className="text-gray-500 hover:text-gray-800 duration-200">
-                                                    In {systemCountry.label}
+                                                <span className={`fi fi-${systemCountry?.isoCode.toLowerCase()}`}></span>
+                                                {" "}
+                                                In {systemCountry.label}
                                                 </a>
                                             </li>
                                         ))
