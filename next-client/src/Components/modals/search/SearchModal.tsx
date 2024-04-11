@@ -84,7 +84,7 @@ const SearchModal = () => {
         }
 
         const openUrl = qs.stringifyUrl({
-            url: '/',
+            url: '/baps/',
             query: updatedQuery
         }, {skipNull: true})
 
