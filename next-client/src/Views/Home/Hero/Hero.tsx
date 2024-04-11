@@ -38,12 +38,12 @@ const Hero = () => {
                             <h4
                                 className={`
                                         
-                                text-2xl
-                                sm:text-3xl
-                                md:text-4xl
-                                lg:text-5xl
-                                xl:text-6xl
-                                2xl:text-7xl
+                                text-xl
+                                sm:text-xl
+                                md:text-2xl  md:mb-5
+                                lg:text-3xl 
+                                xl:text-4xl
+                                2xl:text-6xl
                                 
                                         leading-tight
                                         text-white
@@ -51,14 +51,15 @@ const Hero = () => {
                                 `}>
                                 Connecting The African Diaspora
                             </h4>
+                            
                             <p 
                                 className="
                                     text-base
                                     sm:text-base
                                     md:text-xl
                                     lg:text-xl
-                                    xl:text-2xl
-                                    2xl:text-2xl
+                                    xl:text-xl
+                                    2xl:text-xl
                                     mt-2 
                                     mb-2 
                                     font-bold
@@ -74,12 +75,12 @@ const Hero = () => {
                                 who are passionate about building a better future for their people.
                             </p>
                             <p className="
-                                text-base
-                                sm:text-base
-                                md:text-xl
-                                lg:text-xl
-                                xl:text-2xl
-                                2xl:text-2xl
+                               text-base
+                               sm:text-base
+                               md:text-xl
+                               lg:text-xl
+                               xl:text-xl
+                               2xl:text-xl
                                 mt-2 mb-2 font-bold text-purple-500">
                                 We hold our destiny in our own hands. No one else will come to save us but us.
                             </p>
@@ -87,11 +88,11 @@ const Hero = () => {
                             <p className="
                                 mt-2 mb-4 font-bold text-purple-500
                                 text-base
-                                    sm:text-base
-                                    md:text-xl
-                                    lg:text-xl
-                                    xl:text-2xl
-                                    2xl:text-2xl
+                                sm:text-base
+                                md:text-xl
+                                lg:text-xl
+                                xl:text-xl
+                                2xl:text-xl
                             ">
                                 Today we rise to the occasion to make a positive difference in our world and future.
                             </p>

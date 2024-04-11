@@ -246,4 +246,17 @@ export const users = [
         emailVerified: new Date(),
         hashedPassword: "$2b$12$kI.rtHYnatU2cqsZMK8BZuNjQ3bPpfqUxi7O0d.I/JWZYz7uSpldu",
     },
+    {
+        id: 20,
+        uuid: "0abb144c-982c-41c9-938d-b9e39d4d2cff",
+        name: "Afriyie Iddrisu",
+        firstName: "Afriyie",
+        lastName: "Iddrisu",
+        email: "afriyieidriss@gmail.com",
+        image: "",
+        phone: "+233541585449",
+        role: "both",
+        emailVerified: new Date(),
+        hashedPassword: "$2b$12$K6w9GS5AnFPTneCvOmsqk.RYvU3R4Q4mix9Rax0Iyqh/FJUZ2WpE6",
+    },
 ];
