@@ -35,3 +35,4 @@ next-client/.env.production
 api-prisma/.env.production
 next-client/yarn.lock
 
+next-client/yarn.lock
