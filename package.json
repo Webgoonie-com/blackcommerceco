@@ -24,10 +24,9 @@
     "installApi": "cd api-prisma && start yarn install && start yarn dev",
     "apiPrismaDbPush": "cd api-prisma && npx prisma db push --exit",
     "apiPrismaGenerate": "cd api-prisma && start npx prisma generate --exit 1"
-    
   },
   "repository": "https://github.com/Webgoonie-com/blackcommerceco.git",
   "author": "Webgoonie <webgoonie@gmail.com>",
   "license": "MIT",
-  "private": true
+  "private": true  
 }
