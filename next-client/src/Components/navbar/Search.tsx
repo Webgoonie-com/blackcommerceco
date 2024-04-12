@@ -19,10 +19,10 @@ const Search = () => {
            
             className="
                 hidden md:block
-                border-[1px] 
+                border-[2px] 
                 w-full 
                 md:w-auto 
-                py-2 
+                py-4 
                 text-gray-300 
                 rounded-full 
                 shadow-sm 
@@ -46,9 +46,9 @@ const Search = () => {
                         className='hidden sm:block'>
                         Search Businesses
                     </div>
-                    <div className="p-2 bg-purple-500 text-white rounded-full">
+                    {/* <div className="p-2 bg-purple-500 text-white rounded-full">
                         <BiSearch size={18} />
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

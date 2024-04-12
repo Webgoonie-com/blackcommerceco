@@ -54,7 +54,24 @@ const BusinessNavDropDown = () => {
                 <div
                     id="toggleAvtarMenu"
                     onClick={toggleOpen}
-                    className={`me-5 self-start outline-none border-2 text-white rounded-md hover:bg-gray-900 text-sm font-semibold px-2 py-1 flex items-center gap-3 cursor-pointer transition duration-200
+                    className={`me-5
+                                md:me-5
+                                self-start
+                                outline-none
+                                border-2
+                                text-white
+                                rounded-md
+                                hover:bg-gray-900
+                                text-sm
+                                font-semibold
+                                px-2
+                                py-1
+                                flex
+                                items-center
+                                gap-3
+                                cursor-pointer
+                                transition
+                                duration-200
                                 ${isOpen ? 'border-purple-600' : 'border-transparent'}`}>
                     
                     <span className="">
@@ -68,25 +85,31 @@ const BusinessNavDropDown = () => {
 
                 {isOpen && (
                     <>
+
+                        {/* {backdrop-blur-[10.5px]} */}
                         <div className="
-                                fixed inset-0 z-40 w-screen 
-                                h-screen backdrop-blur-[1.5px]"
+                                fixed inset-0 z-40
+                                h-screen w-screen 
+                                "
                                 onClick={() => { 
                                     setIsOpen(false) 
                                 }}>
                         </div>
 
                         <div className='absolute
-                                        top-24
+                                        top-20
+                                        sm:top-20
+                                        md:top-24
                                         left-0
-                                        -ml-40
-                                        sm:-md-52
+                                    
+                                        -ml-24
+                                        sm:-md-40
                                         md:ml-0
                                         grid grid-cols-12 gap-4
                                         bg-gray-900 border border-gray-950
                                         py-4 rounded-md shadow-md 
                                         w-[22rem] overflow-hidden
-                                        text-sm z-[500]'>
+                                        text-sm z-50'>
 
                             <div className="px-4 pb-3 col-span-10">
                                 <p className="text-gray-200 font-semibold">Black Business Selections</p>
@@ -96,7 +119,7 @@ const BusinessNavDropDown = () => {
                             <div className="border-t border-gray-700 col-span-12">
                                 <div className="px-4 pb-3 pt-3">
                                     <Link className='' onClick={handleOpenMenu} href={'/bbs'}>
-                                        <p className="underline underline-offset-8">View (All) - Black Businesses {">>>"}</p>
+                                        <p className="underline underline-offset-8">View (All) - Black Businesses</p>
                                         
                                     </Link>
                                 </div>

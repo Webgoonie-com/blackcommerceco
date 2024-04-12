@@ -122,7 +122,8 @@ const UserMenu: React.FC<UserMenuProps> = ({
                                 hover:dark:bg-neutral-800 
                                 cursor-pointer"
                         >
-                            {currentUser.name} <span className='text-green-400 font-bold'>{' Online '}</span>
+                            <span className='font-bold'>{currentUser.name} </span>
+                            <span className='text-green-400 font-bold'>{' Online '}</span>
                         </div>
                     </>
 
@@ -151,25 +152,28 @@ const UserMenu: React.FC<UserMenuProps> = ({
                 <div
                     id="toggleAvtarMenu"
                     onClick={toggleOpen}
-                    className="
+                    className={`
 
                         p-4 
                         sm:me-4
                         md:me-5
-                        md:py-1 
-                        md:px-1 
-                        border-[1px]
-                        border-gray-200
+                        md:py-2 
+                        md:px-2 
+                        border-[2px]
+                        
                         flex 
                         flex-row 
                         items-center 
                         gap-3 
                         rounded-full 
                         cursor-pointer 
-                        hover:shadow-md transition"
+                        hover:shadow-md transition
+                        ${currentUser ? 'border-green-400 text-green-400 sm:border-green-400 sm:text-green-400  md:border-gray-300 md:white ' : 'border-gray-300'}
                         
-                >
-                    <AiOutlineMenu color='white' />
+                `}>
+                    <AiOutlineMenu color={`
+                        ${currentUser ? 'white xl:white md:white sm:green' : 'white'}
+                    `} />
                     <div className='hidden md:block'>
                         <Avatar />
                     </div>
@@ -185,7 +189,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                     className="
                         absolute
                         top-16
-                        md:top-12
+                        md:top-14
                         rounded-xl
                         shadow-md
                         w-72
@@ -201,6 +205,20 @@ const UserMenu: React.FC<UserMenuProps> = ({
                         {currentUser ? (
 
                             <>
+                                <span className="
+                                    block 
+                                    md:hidden
+                                    p-4
+                                ">
+                                    <span className="text-black font-semibold">
+                                        {currentUser.name}
+                                    </span>
+                                    
+                                    <span className="text-green-400 font-bold">
+                                      {" "} Online
+                                    </span>
+                                   
+                                </span>
                                 <hr />
                                 <MenuItem 
                                     onClick={ () => { 

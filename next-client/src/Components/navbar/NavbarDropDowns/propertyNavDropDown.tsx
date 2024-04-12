@@ -62,6 +62,7 @@ const PropertyNavDropDown = () => {
                 className={`
                     md:ms-5
                     md:me-5
+                    self-start
                     outline-none
                     border-2
                     text-white
@@ -87,20 +88,30 @@ const PropertyNavDropDown = () => {
 
             </div>
 
+
             {isOpen && (
                 <>
+                    
+                    {/* {backdrop-blur-[10.5px]} */}
+
                     <div
                         className="
                             fixed inset-0 z-40 
                             h-screen w-screen 
-                            backdrop-blur-[1.5px]" 
+                            
+                            " 
+                            
                             onClick={() => { 
                                 setIsOpen(false) 
                             }}>        
                     </div>
                     
-                    <div className='absolute top-24 left-0 
-                                    -ml-4
+                    <div className='absolute
+                                    top-20
+                                    sm:top-20
+                                    md:top-24
+                                    left-1 
+                                    md:-ml-4
                                     grid grid-cols-12 gap-4
                                     bg-gray-900 border border-gray-800 
                                     py-4  rounded-md shadow-md 
