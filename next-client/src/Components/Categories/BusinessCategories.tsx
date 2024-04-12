@@ -9,7 +9,7 @@ const BusinessCategories = () => {
     const params = useSearchParams();
 
     // extract the business from params
-    const business = params?.get('business')
+    const category = params?.get('category')
     return (
             <section id="allBusinessesSection" className="relative px-2 py-20 bg-gray-950">
                 <Container>
@@ -26,7 +26,7 @@ const BusinessCategories = () => {
                             <div key={item.label} className="col-span-12 md:col-span-6 lg:col-span-3 bg-gray-900 border border-gray-800 rounded-md p-5">
                                 <CategoryBusinessBox 
                                     description={item.description}
-                                    selected={business == item.label}
+                                    selected={category == item.label}
                                     label={item.label}
                                     icon={item.icon}
                                 />

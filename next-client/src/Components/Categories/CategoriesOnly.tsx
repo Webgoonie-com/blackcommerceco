@@ -149,7 +149,7 @@ export const  CategoriesOnlyBusinesses = [
         description: 'For Travel businesses and services!'
     },
     {
-        label: 'HomeServices',
+        label: 'Home Services',
         icon: GiHomeGarage,
         description: 'For Home related businesses and services!'
     },

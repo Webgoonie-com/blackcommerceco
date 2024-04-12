@@ -1,6 +1,7 @@
 import React from 'react'
 import BbListings from '@/Components/Listings/BbListings'
 import getCurrentUser from "@/Actions/getCurrentUser";
+import BusinessCategories from '@/Components/Categories/BusinessCategories';
 
 const BbsPage = async () => {
 
@@ -23,6 +24,10 @@ const BbsPage = async () => {
                 namePublicDisplay: 'Black Businesses'
               }}
             />
+
+            <div className="w-full relative">
+              <BusinessCategories />
+            </div>
 
         </div>
         
