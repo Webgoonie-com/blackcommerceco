@@ -270,8 +270,8 @@ listingRouter.post("/addPropertyfavorites/:propertyUUId", async (request: Reques
     
     const body: string = request.body
 
-    console.log('addPropertyfavorites Property listingId', propertyUUId)
-    console.log('addPropertyfavorites Property body', body)
+    // console.log('addPropertyfavorites Property listingId', propertyUUId)
+    // console.log('addPropertyfavorites Property body', body)
 
     const listingData = {
         files: request.files,
@@ -303,8 +303,8 @@ listingRouter.post("/addBusinessfavorites/:businessUUId", async (request: Reques
     
     const body: string = request.body
 
-    console.log('addBusinessfavorites listingId', businessUUId)
-    console.log('addfavorites body', body)
+    // console.log('addBusinessfavorites listingId', businessUUId)
+    // console.log('addfavorites body', body)
 
     const listingData = {
         files: request.files,

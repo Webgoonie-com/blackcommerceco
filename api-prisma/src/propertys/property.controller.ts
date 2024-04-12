@@ -284,7 +284,7 @@ export const getReservationByUuId = async (uuid: string): Promise<PropertyReserv
 
 export const getPropertyUuId = async (uuid: string): Promise<Property | null> => {
     
-    console.log('Hit getPropertyUuId: ', uuid)
+    //  console.log('Hit getPropertyUuId: ', uuid)
     
     return orm.property.findUnique({
         where: {
