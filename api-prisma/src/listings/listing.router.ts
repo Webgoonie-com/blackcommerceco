@@ -335,7 +335,7 @@ listingRouter.post("/delPropertyfavorites/:propertyUUId", async (request: Reques
     const propertyUUId: string = request.params.propertyUUId
     //const listingId: string = request.body.listingId
 
-    console.log('delfavorites', propertyUUId)
+    //  console.log('delfavorites', propertyUUId)
 
     const listingData = {
         files: request.files,
@@ -370,7 +370,7 @@ listingRouter.post("/delBusinessfavorites/:businessUUId", async (request: Reques
     const businessUUId: string = request.params.businessUUId
     //const listingId: string = request.body.listingId
 
-    console.log('delfavorites', businessUUId)
+    //  console.log('delfavorites', businessUUId)
 
     const listingData = {
         files: request.files,
