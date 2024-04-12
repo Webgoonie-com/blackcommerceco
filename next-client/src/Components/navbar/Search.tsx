@@ -29,6 +29,7 @@ const Search = () => {
                 hover:shadow-md 
                 transition 
                 cursor-pointer
+                bg-slate-500
             ">
             <div className="flex flex-row items-center justify-between">
                 <div
@@ -40,7 +41,7 @@ const Search = () => {
                 >
                    Search Properties
                 </div>
-                <div className='text-sm pl-6 pr-2 flex flex-row items-center gap-3'>
+                <div className='text-sm pl-6 pr-6 flex flex-row items-center gap-3'>
                     <div 
                         onClick={searchBusinessModal.onOpen}
                         className='hidden sm:block'>
