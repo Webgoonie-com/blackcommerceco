@@ -16,6 +16,7 @@ import SearchModal from "@/Components/modals/search/SearchModal";
 import SearchPropertyModal from "@/Components/modals/search/SearchPropertyModal";
 import SearchBusinessModal from "@/Components/modals/search/SearchBusinessModal";
 import ProfileModal from "@/Components/modals/profile/ProfileModal";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -53,6 +54,7 @@ export default async function RootLayout({  children } : Readonly<{
                   <ProfileModal />
                   <BusinessStoreResgistrationModal currentUser={currentUser as any} />
 							    <RentMyPropertyModal currentUser={currentUser as any} />
+                  
                   <NavbarPublic currentUser={currentUser as any} />
     
                   {children}

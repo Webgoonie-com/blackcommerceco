@@ -52,6 +52,7 @@ ul.country-list{
 #page-container {
   position: relative;
   min-height: 100vh;
+  width: 102%;
 }
 
 #content-wrap {

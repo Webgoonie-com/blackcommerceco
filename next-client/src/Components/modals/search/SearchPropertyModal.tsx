@@ -150,7 +150,7 @@ const SearchPropertyModal = () => {
             
             <hr />
 
-            <MapSmall center={location?.latlng} />\
+            <MapSmall center={location?.latlng} />
 
         </div>
     )

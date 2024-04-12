@@ -18,6 +18,7 @@ import { SafeUser } from '@/Types'
 import { useRouter } from 'next/navigation'
 import useProfileModal from '@/Hooks/useProfileModal'
 import useSearchBusinessModal from '@/Hooks/useSearchBusinessModal'
+import useSearchPropertyModal from '@/Hooks/useSearchPropertyModal'
 
 
 interface UserMenuProps {
@@ -38,6 +39,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
     const rentMyPropertyModalModal = useRentMyPropertyModal()
 
     const searchBusinessModal = useSearchBusinessModal()
+    const searchPropertyModal = useSearchPropertyModal()
 
     const profileModal = useProfileModal()
 
@@ -53,12 +55,17 @@ const UserMenu: React.FC<UserMenuProps> = ({
     const toggleProfileOpen = useCallback(() => {
         profileModal.onOpen()
         setIsOpen((value) => !value)
-    }, [])
+    }, [profileModal])
 
     const toggleBusinessSearchOpen = useCallback(() => {
         searchBusinessModal.onOpen()
         setIsOpen((value) => !value)
-    }, [])
+    }, [searchBusinessModal])
+
+    const togglePropertySearchOpen = useCallback(() => {
+        searchPropertyModal.onOpen()
+        setIsOpen((value) => !value)
+    }, [searchPropertyModal])
 
     const handleLoginModal = () => {
         loginModal.onOpen()
@@ -88,7 +95,15 @@ const UserMenu: React.FC<UserMenuProps> = ({
     
     return (
         <div className='relative'>
-            <div className="flex flex-row items-center gap-3">
+            <div className="
+                flex
+                flex-row
+                items-center
+                gap-3
+                me-5
+                sm:me-5
+                md:me-0
+            ">
                 
 
                 {currentUser ? (
@@ -137,7 +152,10 @@ const UserMenu: React.FC<UserMenuProps> = ({
                     id="toggleAvtarMenu"
                     onClick={toggleOpen}
                     className="
+
                         p-4 
+                        sm:me-4
+                        md:me-5
                         md:py-1 
                         md:px-1 
                         border-[1px]
@@ -164,7 +182,20 @@ const UserMenu: React.FC<UserMenuProps> = ({
 
             {isOpen && (
                 <div
-                    className="absolute rounded-xl shadow-md w-[60vw] md:w-[300px] bg-white overflow-hidden right-0 top-12 text-sm z-50"
+                    className="
+                        absolute
+                        top-16
+                        md:top-12
+                        rounded-xl
+                        shadow-md
+                        w-72
+                        sm:w-72
+                        md:w-[300px]
+                        bg-white
+                        overflow-hidden
+                        right-0
+                        text-sm
+                        z-50"
                 >
                     <div className='flex flex-col cursor-pointer'>
                         {currentUser ? (
@@ -185,12 +216,19 @@ const UserMenu: React.FC<UserMenuProps> = ({
                                     onClick={toggleProfileOpen}
                                     label="Profile Picture"
                                 />
-                                <hr />
-                                <MenuItem 
-                                    onClick={toggleBusinessSearchOpen}
-                                    label="Business Search"
-                                />
-                                <hr />
+                                <span className="block md:hidden">
+                                    <hr />
+                                    <MenuItem 
+                                        onClick={toggleBusinessSearchOpen}
+                                        label="Business Search"
+                                    />
+                                    <hr />
+                                    <MenuItem 
+                                        onClick={togglePropertySearchOpen}
+                                        label="Property Search"
+                                    />
+                                    <hr />
+                                </span>
                                 <MenuItem 
                                     onClick={ () => { 
                                         router.push("/pendingstays"), 

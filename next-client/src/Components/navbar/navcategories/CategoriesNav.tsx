@@ -26,11 +26,16 @@ const CategoriesNav = () => {
             
             
             <div className={
-                `ms-5
+                `
                 flex 
                 items-start 
                 mt-5 
-                mx-auto   xl:px-20   md:px-10   sm:px-2   px-4
+                xl:px-20
+                md:px-10
+                md:ms-5
+                md:mx-auto
+                sm:px-0
+                px-0
                 overflow-y-visible
                 `
                 }>

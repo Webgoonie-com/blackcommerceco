@@ -19,7 +19,7 @@ const NavbarPublic: React.FC<NavbarPublicProps> = ({currentUser}) => {
 
     return (
         <div className="w-full bg-gray-950 text-white shadow-sm relative z-50">
-            <div className="py-4 border-b-[1px]">
+            <div className="md:py-4 border-b-[1px]">
                 <Container>
                    <div className='flex flex-row items-center justify-between gap-3 md:gap-0'>
                      <Logo />

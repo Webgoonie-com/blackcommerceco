@@ -59,8 +59,25 @@ const PropertyNavDropDown = () => {
             <div
                 id="toggleAvtarMenu"
                 onClick={toggleOpen}
-                className={`ms-5 me-5 outline-none border-2 text-white rounded-md hover:bg-gray-900 text-sm font-semibold px-2 py-1 flex items-center gap-3 cursor-pointer transition duration-200
-                            ${isOpen ? 'border-purple-600' : 'border-transparent'}`}>
+                className={`
+                    md:ms-5
+                    md:me-5
+                    outline-none
+                    border-2
+                    text-white
+                    rounded-md
+                    hover:bg-gray-900
+                    text-sm
+                    font-semibold
+                    px-2
+                    py-1
+                    flex
+                    items-center
+                    gap-3
+                    cursor-pointer
+                    transition 
+                    duration-200
+                    ${isOpen ? 'border-purple-600' : 'border-transparent'}`}>
                 <span className='p-0'>
                     <FaHouseUser size={36} />
                     <span className=" text-xs md:block sm:text-sm md:text-lg"> Properties </span>
