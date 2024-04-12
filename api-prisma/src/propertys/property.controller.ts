@@ -245,7 +245,7 @@ export const getPropertyId = async (id: number): Promise<Property | null> => {
 
 export const getPropertyUuidReservations = async (uuid: string): Promise<Property | null> => {
     
-    console.log('Hit getPropertyReservationUuId from  "/reservationsproperty/:uuid": ', uuid)
+    //  console.log('Hit getPropertyReservationUuId from  "/reservationsproperty/:uuid": ', uuid)
     
     return orm.property.findUnique({
         
@@ -259,7 +259,7 @@ export const getPropertyUuidReservations = async (uuid: string): Promise<Propert
 
 export const getReservationByUuId = async (uuid: string): Promise<PropertyReservation | null> => {
     
-    console.log('Hit getPropertyReservationUuId from  "/reservationsproperty/:uuid": ', uuid)
+    //  console.log('Hit getPropertyReservationUuId from  "/reservationsproperty/:uuid": ', uuid)
     
     return orm.reservationProperty.findUnique({
         
@@ -407,7 +407,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
 
             if(!existingCountry){
                 //console.log("It's time to Create A New Country: ", existingCountry)
-                console.log("It's time to Create A New Country: ")
+                //  console.log("It's time to Create A New Country: ")
 
                 const neWCreateCountryLatlng = `${property.country?.latitude},${property.country?.longitude}`;
 
@@ -439,7 +439,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
 
 
 
-                    console.log("newCountry", existingCountry)
+                   // console.log("newCountry", existingCountry)
 
 
                 } catch (error) {
@@ -491,7 +491,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
                         },
                     });
         
-                    console.log("new existingCountryStateRegion", existingCountryStateRegion);
+                    //  console.log("new existingCountryStateRegion", existingCountryStateRegion);
                 } catch (error) {
                     console.log("error", error);
                 }
@@ -500,7 +500,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
 
         if(property.countryCity) {
 
-            console.log("countryCity damnit", property.countryCity)
+            
 
             existingCountryCity = await orm.countryCity.findFirst({
                 where: {
@@ -510,11 +510,11 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
             });
 
 
-            console.log("1 countryCity existingCountryCity", existingCountryCity)
+           
 
             if(!existingCountryCity){
 
-                console.log('Creating CountryCity')
+           
                 
                 const neWCountryCodeLatlng = `${property.countryCity?.latitude},${property.countryCity?.longitude}`;
 
@@ -537,7 +537,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
                         },
                     });
         
-                    console.log("new existingCountryStateRegion", existingCountryStateRegion);
+        
                 } catch (error) {
                     console.log("error", error);
                 }
@@ -547,27 +547,13 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
 
 
 
-        }
-
-        console.log("Well ?????")
-
-
-        // Handle the possibility of countryId, countryStateRegionId, and countryCityId being undefined
-        // const countryId = property.countryId !== undefined ? property.countryId : 0; // Replace 0 with a default value if needed
-        // const countryStateRegionId = property.countryStateRegionId !== undefined ? property.countryStateRegionId : 0;
-        // const countryCityId = property.countryCityId !== undefined ? property.countryCityId : 0;
-
-
-       
+        }     
         
         // End Country CountryState CountryCity Ripped
 
 
         // Begin Listing And Propety
 
-        console.log('Do you have autoSaveToken: ', autoSaveToken)
-
-        console.log("what is? existingProperty b4: ", existingProperty)
 
         try {
             
@@ -584,7 +570,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
         }
 
 
-        console.log("Wassup Now? existingProperty: ", existingProperty)
+ 
 
         existingListing = await orm.listing.findFirst({
             where: {
@@ -592,15 +578,10 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
                 userId: parseInt(property.userId as any)
             }
         });
-
-        console.log('Line 754 existingListing', existingListing)
-        console.log('Line 755 existingProperty', existingProperty)
-
         
 
         if (existingProperty) {
 
-            console.log('Line 761 updating Property')
 
             try {
 
@@ -708,7 +689,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
             }
         });
 
-        console.log('Line 452 existingListing', existingListing)
+
 
         if(!existingProperty){
 
@@ -721,7 +702,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
 
             try {
                 
-                console.log('Line 455 try creating existingListing')
+ 
 
                 createdListing = await orm.listing.create({
                     data: {
@@ -760,7 +741,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
             }
         }else{
 
-            console.log('Line 497 try Updating existingListing existingListing')
+  
 
             try {
                 
@@ -795,7 +776,7 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
 
         //  return createdListing
 
-        console.log('End autoSaveCreateUpdateProperty: ', autoSaveCreateUpdateProperty);
+        
         return autoSaveCreateUpdateProperty;
 
 
@@ -811,13 +792,13 @@ export const autoSavePropertyData = async (property: Property, listing: Listing)
 export const createProperty = async (property: Property): Promise<Property | any> => {
     
 
-        console.log('property: ', property)
+        
 
         let autoSaveCreateUpdateProperty
 
         const price = property.price.toString();
 
-        const imageSrcString = Array.isArray(property.imageSrc) ? property.imageSrc.join(',') : '';
+        //  const imageSrcString = Array.isArray(property.imageSrc) ? property.imageSrc.join(',') : '';
         
         const newLocationValue = Array.isArray(property.locationValue) ? property.locationValue.join(',') : '';
 
@@ -877,7 +858,8 @@ export const createPropertyPhotos = async (propertyData: any): Promise<PropertyP
         const body = propertyData.body
 
         const createInputs: Prisma.PropertyphotoCreateInput[] = files.map((file: any) => {
-            const fileTypeExt = MIME_TYPE_MAP[file?.mimetype as keyof typeof MIME_TYPE_MAP] || '';
+            
+            //  const fileTypeExt = MIME_TYPE_MAP[file?.mimetype as keyof typeof MIME_TYPE_MAP] || '';
                         
             const destinationWithoutPublic = file?.destination.replace(/^public\//, '');
             
@@ -955,7 +937,7 @@ export const createPropertyReservation = async (propertyReservationData: any): P
 
     try {
         
-        console.log('Line 837 propertyReservationData', propertyReservationData)
+
 
         const existingProperty = await orm.property.findFirst({
             where: {
@@ -963,7 +945,7 @@ export const createPropertyReservation = async (propertyReservationData: any): P
             }
         });
 
-        console.log('Line 845 existingProperty', existingProperty)
+
 
         
 
@@ -1053,7 +1035,7 @@ export const deleteAutoSavePropertyPhoto = async (propertyData: any): Promise<Pr
     
     if(property){
             
-        const fullLocalPath = path.join(process.cwd(), property.imgFilePath)
+        //  const fullLocalPath = path.join(process.cwd(), property.imgFilePath)
 
         await unlink(property.imgFilePath)
 
@@ -1062,6 +1044,8 @@ export const deleteAutoSavePropertyPhoto = async (propertyData: any): Promise<Pr
               id: property.id,
             },
           })
+
+        return deletePropertyPhoto
     }
 
     

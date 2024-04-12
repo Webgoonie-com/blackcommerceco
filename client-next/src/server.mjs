@@ -126,7 +126,7 @@ app.prepare().then(() => {
 
         const user = await authenticateUser(email, hashedPassword)
         
-        console.log('user authenticateUser', user)
+        //  console.log('user authenticateUser', user)
 
         if(!user){
             return res.status(403).send("Invalid email or password")
@@ -139,7 +139,7 @@ app.prepare().then(() => {
             type: AUTH_USER_TYPE
         }
 
-        console.log('userData Before User cookie', userData);
+        //  console.log('userData Before User cookie', userData);
         
         // we now wanna save as a cookie
         res.cookie('usertoken', userData, COOKIE_OPTIONS)

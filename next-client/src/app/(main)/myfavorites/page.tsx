@@ -39,9 +39,7 @@ const MyFavoritesClient = async () => {
 
     const UserBusinessFavorites = await callUserBusinessFavorites(parseInt(userId));
     
-    console.log('responseData:  UserPropertyFavorites ', UserPropertyFavorites);
-    console.log('responseData: UsereBusinessFavorites ', UserBusinessFavorites);
-
+   
     if (UserPropertyFavorites.length === 0 && UserBusinessFavorites.length === 0) {
         return(
             <>

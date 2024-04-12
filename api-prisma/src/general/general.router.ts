@@ -21,7 +21,7 @@ generalRouter.post('/createEmailSubscriber', async (request: Request, response: 
 
     const body = await request.body;
 
-    console.log('Line 24 on general createEmailSubscriber Log Body', body)
+    //  console.log('Line 24 on general createEmailSubscriber Log Body', body)
 
     
     try {
