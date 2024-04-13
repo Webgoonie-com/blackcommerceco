@@ -131,7 +131,7 @@ listingRouter.get('/allProperties', async (request: Request, response: Response)
 
     const queryProperties = await request.params;
 
-    console.log('is there a QueryProperties: queryProperties', queryProperties)
+    //  console.log('is there a QueryProperties: queryProperties', queryProperties)
 
     try {
         const users = await ListingController.listPropertys()
@@ -146,7 +146,7 @@ listingRouter.get('/allProperties', async (request: Request, response: Response)
 listingRouter.post('/queryProperties/:userId', async (request: Request, response: Response) => {
     
 
-    console.log('Hit queryProperties on Router request.body', request?.body)
+    //  console.log('Hit queryProperties on Router request.body', request?.body)
 
     
     const queryBusinesses = request?.body
@@ -180,7 +180,7 @@ listingRouter.get('/allBusinesses', async (request: Request, response: Response)
 listingRouter.post('/queryBusinesses/:userId', async (request: Request, response: Response) => {
     
 
-    console.log('Hit queryProperties on Router request.body', request?.body)
+   //    console.log('Hit queryProperties on Router request.body', request?.body)
 
     
     const queryProperties = request?.body
@@ -294,7 +294,7 @@ listingRouter.get("/businessuuid/:uuid", async (request: Request, response: Resp
 
     const uuid: string = request.params.uuid
 
-    console.log('Hit Business Listing UUID 3/23/2024 ', uuid)
+    //  console.log('Hit Business Listing UUID 3/23/2024 ', uuid)
 
     try {
 

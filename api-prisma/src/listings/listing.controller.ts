@@ -297,6 +297,8 @@ export const listQueryPropertys = async (property: any): Promise<Property[]> => 
 }
 
 export const listBusinesses = async (): Promise<Business[]> => {
+
+    
     return await  orm.business.findMany({
         // where: {
         //     imageSrc: {
