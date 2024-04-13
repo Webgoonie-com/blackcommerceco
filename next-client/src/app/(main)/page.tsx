@@ -30,9 +30,9 @@ export default async function Home() {
   
           <Hero />
   
-          <Listings
+          {/* <Listings
             currentUser={currentUser as any}
-          />
+          /> */}
 
           <Categories />
           
