@@ -37,7 +37,7 @@ import { Country } from "country-state-city";
         acctStatus: number;
         role: number;
         emailVerified: number;
-        usrImage: string;
+        image: string;
         // ... other properties of Property
     }
     export interface Property {

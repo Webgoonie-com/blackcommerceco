@@ -85,17 +85,13 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
     let bodyContent = (
         <div className="flex flex-col gap-8">
             <ModalHeading
-                title="Your Current Photo Modal"
-                subtitle="Upload A new photo to change your profile photo"
+                title="Your Current Profile Photo"
+                subtitle="Upload a new photo to change your current profile photo..."
             />
-            {/* <Heading
-                title="Your Current Photo"
-                subtitle="Upload A new photo to change your profile photo"
-            /> */}
+           
 
            <ImageUploadUserProfilePhoto
                 value={watchImageSrc as any}
-                            
                 autoSaveToken={autoSaveToken}
                 onChange={onChangeImages}
                 userId={'' + currentUser?.id}
@@ -110,9 +106,9 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
         <Modal 
             isOpen={profileModal.isOpen}
             onClose={profileModal.onClose}
-            onSubmit={profileModal.onOpen}
+            onSubmit={profileModal.onClose}
             title="Profile Picture"
-            actionLabel="Change Profile Picture"
+            actionLabel="Save Changes And Close"
             body={bodyContent}
         />
     );

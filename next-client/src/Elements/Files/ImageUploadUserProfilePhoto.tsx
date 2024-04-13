@@ -111,23 +111,20 @@ const ImageUploadUserProfilePhoto: React.FC<ImageUploadUserProfilePhotosProps> =
 
     }
 
-    // const removeImage = async (imageUrl: string) => {
-
-
-
-    //     try {
-    //         // Call the API to delete the specific image
-    //         await deleteAutoSaveProfilePhoto(imageUrl, autoSaveToken, userId);
+    const removeImage = async () => {
+        try {
+            // Call the API to delete the specific image
+            await deleteAutoSaveProfilePhoto(selectedImage, autoSaveToken, userId);
             
-    //         // Update the state to remove the deleted image
-    //         setSelectedImages(prevImages => prevImages.filter(image => image !== imageUrl));
+            // Update the state to remove the deleted image
+            setSelectedImage("");
             
-    //         // Call the onChange callback with the updated images
-    //         onChange(selectedImages.filter(image => image !== imageUrl));
-    //     } catch (error) {
-    //         console.error('Error deleting image:', error);
-    //     }
-    // };
+            // Call the onChange callback with the updated images
+            onChange([]);
+        } catch (error) {
+            console.error('Error deleting image:', error);
+        }
+    };
 
     return (
         <>
@@ -138,17 +135,17 @@ const ImageUploadUserProfilePhoto: React.FC<ImageUploadUserProfilePhotosProps> =
                             <IoMdClose
                                 size={18}
                                 className="absolute cursor-pointer z-50 text-white border-2 bg-red-600 border-red-100 rounded-full"
-                                //onClick={() => removeImage(image)}
+                                onClick={removeImage}
                             />
                         </div>
                          <div className="mx-auto">
                             <Image
                                 src={selectedImage}
                                 alt={`User Profile Photo`}
-                                width={600}
-                                height={600}
+                                width={200}
+                                height={200}
                                 className="relative"
-                                style={{ width: '600px', height: 'auto' }}
+                                style={{ width: '200px', height: 'auto' }}
                             />
                             
                         </div>
@@ -159,7 +156,10 @@ const ImageUploadUserProfilePhoto: React.FC<ImageUploadUserProfilePhotosProps> =
                 <div className="flex flex-col items-center text-center p-5 cursor-pointer border-indigo-300">
                     <Avatar sqPixels={400} />
                     <div onClick={() => imageRef.current?.click()} className="self-auto text-center font-semibold text-lg">
-                        Click To Upload - selectedImage: {selectedFile?.name}
+                        Click To Upload
+                    </div>
+                    <div className="self-auto text-center font-semibold text-lg">
+                        current Photo: {currentUser.image}
                     </div>
                     <input id="myImage" type="file" multiple name="files" ref={imageRef} onChange={onImageChange} style={{ display: 'none' }} />
                 </div>

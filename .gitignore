@@ -9,6 +9,7 @@ api-prisma/uploads/*
 api-prisma/uploaded/*
 api-prisma/public/uploaded/propertyphotos/*
 api-prisma/public/uploaded/businessphotos/*
+api-prisma/public/uploaded/userphotos/*
 node_modules/.cache/prisma/master/efd2449663b3d73d637ea1fd226bafbcf45b3102/windows/libquery-engine
 node_modules/.cache/prisma/master/efd2449663b3d73d637ea1fd226bafbcf45b3102/windows/libquery-engine.gz.sha256
 node_modules/.prisma/client/default.d.ts
@@ -36,3 +37,4 @@ api-prisma/.env.production
 next-client/yarn.lock
 
 next-client/yarn.lock
+
