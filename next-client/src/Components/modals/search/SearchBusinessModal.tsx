@@ -11,7 +11,7 @@ import { CountrySelectValue } from "@/Elements/Selects/SelectCountry";
 import { formatISO } from "date-fns";
 import Heading from "@/Components/Heading";
 import CountrySelect from "@/Elements/Selects/CountrySelect";
-import MapSmall from "../../maps/MapSmall";
+// import MapSmall from "../../maps/MapSmall";
 import CalendarProperty from "@/Elements/Calendars/CalendarProperty";
 import Calendar from "@/Elements/Calendars/Calendar";
 import Counter from "@/Elements/Counters/Counter";
@@ -43,7 +43,7 @@ const SearchBusinessModal = () => {
         key: 'selection'
     })
 
-    const Map = useMemo(() => dynamic(() => import('../../maps/MapSmall'), {
+    const MapSmall = useMemo(() => dynamic(() => import('../../maps/MapSmall'), {
 
     }), [])
 
@@ -56,10 +56,15 @@ const SearchBusinessModal = () => {
     }, [])
 
     const onSubmit = useCallback(async() => {
-        if (step !== STEPS.INFO) {
+        if (step !== STEPS.LOCATION) {
             return onNext()
 
         }
+
+        // if (step !== STEPS.INFO) {
+        //     return onNext()
+
+        // }
 
         let currentQuery = {}
 
@@ -70,19 +75,19 @@ const SearchBusinessModal = () => {
         const updatedQuery: any = {
             ...currentQuery,
             locationValue: location?.value,
-            guestCount,
-            roomCount,
-            bathroomCount
+            // guestCount,
+            // roomCount,
+            // bathroomCount
         }
 
         // We have to transform our Start and Enddate Into Strings Because We have to use it in our url
-        if (dateRange.startDate){
-            updatedQuery.startDate = formatISO(dateRange.startDate)
-        }
+        // if (dateRange.startDate){
+        //     updatedQuery.startDate = formatISO(dateRange.startDate)
+        // }
 
-        if (dateRange.endDate){
-            updatedQuery.startDate = formatISO(dateRange.endDate)
-        }
+        // if (dateRange.endDate){
+        //     updatedQuery.startDate = formatISO(dateRange.endDate)
+        // }
 
         const openUrl = qs.stringifyUrl({
             url: '/bbs/',
@@ -98,19 +103,7 @@ const SearchBusinessModal = () => {
         
 
     }, 
-    [
-        bathroomCount,
-        dateRange.endDate,
-        dateRange.startDate,
-        guestCount,
-        location?.value,
-        onNext,
-        params, 
-        roomCount,
-        router,
-        searchBusinessModal,
-        step
-    ])
+    [location?.value, onNext, params, router, searchBusinessModal, step])
 
     const actionLabel = useMemo(() => {
         

@@ -104,7 +104,7 @@ export const listPropertys = async (): Promise<Property[]> => {
 export const listQueryPropertys = async (property: any): Promise<Property[]> => {
 
     
-    console.log('listQueryPropertys on Controller data for property: ', property)
+    //  console.log('listQueryPropertys on Controller data for property: ', property)
 
     let query: any = {};
 
@@ -124,13 +124,13 @@ export const listQueryPropertys = async (property: any): Promise<Property[]> => 
     } = property;
 
 
-        console.log('category: ', category)
+        //  console.log('category: ', category)
 
         if (category) {
             query.category = category;
         }
 
-        console.log('roomCount: ', roomCount)
+        //  console.log('roomCount: ', roomCount)
 
         if (roomCount) {
             const newRoomCount  = roomCount as number
@@ -140,7 +140,7 @@ export const listQueryPropertys = async (property: any): Promise<Property[]> => 
             }
         }
 
-        console.log('roomCount: ', roomCount)
+       //    console.log('roomCount: ', roomCount)
 
         if (guestCount) {
             query.guestCount = {
@@ -148,8 +148,8 @@ export const listQueryPropertys = async (property: any): Promise<Property[]> => 
             }
         }
 
-        console.log('guestCount in query: ',  query)
-        console.log('guestCount: ',  query.guestCount)
+        //  console.log('guestCount in query: ',  query)
+        //  console.log('guestCount: ',  query.guestCount)
 
         if (bathroomCount) {
             query.bathroomCount = {
@@ -157,7 +157,7 @@ export const listQueryPropertys = async (property: any): Promise<Property[]> => 
             }
         }
 
-        console.log('bathroomCount: ', bathroomCount)
+        //  console.log('bathroomCount: ', bathroomCount)
         
         if (locationValue) {
             
@@ -202,7 +202,7 @@ export const listQueryPropertys = async (property: any): Promise<Property[]> => 
         //     query.locationValue = exisitingCountry?.isoCode
         // }
 
-        console.log('Take a peek at the query your about to use: ', query)
+        //  console.log('Take a peek at the query your about to use: ', query)
 
 
     
@@ -291,7 +291,7 @@ export const listQueryPropertys = async (property: any): Promise<Property[]> => 
             }
         })
 
-        console.log('return', listQuriedProperties)
+        //  console.log('return', listQuriedProperties)
         
         return listQuriedProperties
 }

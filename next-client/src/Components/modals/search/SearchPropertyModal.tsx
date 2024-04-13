@@ -38,6 +38,7 @@ const SearchPropertyModal = () => {
     const [roomCount, setRoomCount] = useState(1);
     const [bathroomCount, setBathroomCount] = useState(1);
     const [queryStatus, setQueryStatus] = useState<Boolean>(true);
+    const [queryCatType, setQueryCatType] = useState<String>("Property");
 
     const [dateRange, setDateRange] = useState<Range>({
         startDate: new Date(),
@@ -77,6 +78,7 @@ const SearchPropertyModal = () => {
 
         const updatedQuery: any = {
             ...currentQuery,
+            queryCatType: queryCatType,
             queryStatus: queryStatus,
             locationValue: location?.value,
             guestCount,

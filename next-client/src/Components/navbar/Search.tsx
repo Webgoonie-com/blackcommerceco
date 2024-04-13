@@ -25,6 +25,7 @@ const Search = () => {
     const startDate = params.get('startDate')
     const endDate = params.get('endDate')
     const guestCount = params?.get('guestCount')
+    const queryStatus = params?.get('queryStatus')
 
     const locationLabel = useMemo(() => {
         if(locationValue){
@@ -87,31 +88,51 @@ const Search = () => {
             <div className="flex flex-col gap-3">
                 <div className="flex flex-row items-center justify-between">
                     <div
-                        onClick={searchModal.onOpen}
-                        className='text-sm font-semibold px-6'>Quick Search</div>
-                    <div
-                        onClick={searchPropertyModal.onOpen}
-                        className='hidden sm:block text-sm font-semibold px-5 border-x-[1px] flex-1 text-center'
+                        onClick={searchPropertyModal.onOpen} 
+                        className="px-4 p-2 mx-2 bg-purple-500 text-white rounded-full cursor-pointer">
+                        <BiSearch size={18} />
+                    </div>
+                    <div onClick={searchPropertyModal.onOpen}
+                        className="hidden sm:block text-sm font-semibold pr-3 cursor-pointer"
                     >
-                       Search Properties
+                        Search Properties 
                     </div>
-                    <div className='text-sm pl-6 pr-6 flex flex-row items-center gap-3'>
-                        <div 
-                            onClick={searchBusinessModal.onOpen}
-                            className='hidden sm:block'>
-                            Search Businesses
+                    <div onClick={searchBusinessModal.onOpen}
+                        className='hidden sm:block pl-3 text-sm font-semibold border-l-[1px] flex-1 text-center cursor-pointer'
+                    >
+                        Search Businesses
+                    </div>
+                    <div
+                        onClick={searchBusinessModal.onOpen}
+                        className="px-4 p-2 mx-2 bg-purple-500 text-white rounded-full cursor-pointer">
+                                <BiSearch size={18} />
+                    </div>
+                    {/* 
+                        <div className='text-sm  font-semibold  pl-6 pr-6 flex flex-row items-center gap-3'>
+
+                            <div 
+                                onClick={searchModal.onOpen}
+                                className='hidden sm:block'>
+                                Search Professionals 
+                            </div>
+                        
+                            <div className="p-2 bg-purple-500 text-white rounded-full">
+                                <BiSearch size={18} />
+                            </div>
+
                         </div>
-                       
-                        {/* <div className="p-2 bg-purple-500 text-white rounded-full">
-                            <BiSearch size={18} />
-                        </div> */}
+                    */}
+                </div>
+
+                {queryStatus ? (
+                    <div className="flex flex-row items-center justify-stretch">
+                        <span className='text-sm pl-6 pr-6 flex flex-row items-stretch gap-3'>Searched Properties:</span>
+                        <span className='text-sm pl-6 pr-6 flex flex-row items-stretch gap-3'>{locationLabel}</span>
+                        <span className='text-sm pl-6 pr-6 flex flex-row items-stretch gap-3'>{durationLabel}</span>
+                        <span className='text-sm pl-6 pr-6 flex flex-row items-stretch gap-3'>{guestLabel}</span>
                     </div>
-                </div>
-                <div className="flex flex-row items-center justify-between">
-                        <span className='text-sm pl-6 pr-6 flex flex-row items-center gap-3'>{locationLabel}</span>
-                        <span className='text-sm pl-6 pr-6 flex flex-row items-center gap-3'>{durationLabel}</span>
-                        <span className='text-sm pl-6 pr-6 flex flex-row items-center gap-3'>{guestLabel}</span>
-                </div>
+                ) : null}
+                
             </div>
         </div>
     )

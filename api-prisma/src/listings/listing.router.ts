@@ -152,7 +152,7 @@ listingRouter.post('/queryProperties/:userId', async (request: Request, response
     const queryProperties = request?.body
 
     
-    console.log('QueryProperties: queryProperties',queryProperties)
+    //  console.log('QueryProperties: queryProperties',queryProperties)
 
 
     try {

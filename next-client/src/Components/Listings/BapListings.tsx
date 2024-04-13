@@ -35,7 +35,7 @@ const BapListings: React.FC<BapListingProp> = ({
     
     // console.log('Line 25 = currentUser: ', currentUser)
 
-    const [listings, setListings] = useState<BapListingProp[]>([]);
+    const [propertyListings, setPropertyListings] = useState<BapListingProp[]>([]);
 
 
     
@@ -48,7 +48,7 @@ const BapListings: React.FC<BapListingProp> = ({
 
             console.log('return data from queryPropertyListings: ', data)
 
-            setListings(data);
+            setPropertyListings(data);
         };
     
         fetchData();
@@ -57,7 +57,7 @@ const BapListings: React.FC<BapListingProp> = ({
     }, [currentUser.id, urlQueryParams?.locationValue, urlQueryParams?.category]);
 
 
-    if(listings.length === 0){
+    if(propertyListings.length === 0){
         return(
             <ClientOnly>
                 <div className='text-white pt-28 bg-gray-950'>
@@ -91,7 +91,7 @@ const BapListings: React.FC<BapListingProp> = ({
                                 2xl:grid-cols-6
                                 gap-8
                             "> 
-                            {listings.map((listing: any) => (
+                            {propertyListings.map((listing: any) => (
                                 <ListingBapCard
                                     key={listing.uuid}
                                     currentUser={currentUser}
