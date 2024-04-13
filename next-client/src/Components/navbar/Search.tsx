@@ -77,34 +77,35 @@ const Search = () => {
                 w-full 
                 md:w-auto 
                 py-4 
-                text-gray-300 
+                text-white-300
+                
                 rounded-full 
                 shadow-sm 
                 hover:shadow-md 
                 transition 
                 cursor-pointer
-                bg-slate-500
+                bg-transparent
             ">
             <div className="flex flex-col gap-3">
                 <div className="flex flex-row items-center justify-between">
                     <div
                         onClick={searchPropertyModal.onOpen} 
-                        className="px-4 p-2 mx-2 bg-purple-500 text-white rounded-full cursor-pointer">
+                        className="px-4 p-2 mx-2 bg-purple-500 text-white rounded-full cursor-pointer hover:bg-purple-600">
                         <BiSearch size={18} />
                     </div>
                     <div onClick={searchPropertyModal.onOpen}
-                        className="hidden sm:block text-sm font-semibold pr-3 cursor-pointer"
+                        className="hidden sm:block text-sm font-semibold pr-3 hover:text-purple-600 cursor-pointer"
                     >
                         Search Properties 
                     </div>
                     <div onClick={searchBusinessModal.onOpen}
-                        className='hidden sm:block pl-3 text-sm font-semibold border-l-[1px] flex-1 text-center cursor-pointer'
+                        className='hidden sm:block pl-3 text-sm font-semibold border-l-[1px] flex-1 text-center hover:text-purple-600 cursor-pointer'
                     >
                         Search Businesses
                     </div>
                     <div
                         onClick={searchBusinessModal.onOpen}
-                        className="px-4 p-2 mx-2 bg-purple-500 text-white rounded-full cursor-pointer">
+                        className="px-4 p-2 mx-2 bg-purple-500 text-white rounded-full cursor-pointer hover:bg-purple-600">
                                 <BiSearch size={18} />
                     </div>
                     {/* 
