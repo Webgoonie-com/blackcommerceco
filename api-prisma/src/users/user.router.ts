@@ -202,8 +202,8 @@ userRouter.post(
 
 userRouter.post('/createUserProfilePhotos', uploadUserProfilePhotos.array('files'), async (request: Request, response: Response) => {
     
-    console.log('Hit createUserProfilePhotos request.files', request.files)
-    console.log('Hit createUserProfilePhotos request.body',request.body)
+    // console.log('Hit createUserProfilePhotos request.files', request.files)
+    // console.log('Hit createUserProfilePhotos request.body',request.body)
     
     try {
         
@@ -212,7 +212,7 @@ userRouter.post('/createUserProfilePhotos', uploadUserProfilePhotos.array('files
             body: request.body
         };
 
-        console.log('userPhotoData', userPhotoData)
+        // console.log('userPhotoData', userPhotoData)
 
         const userPhoto = await UserController.createUserProfilePhoto(userPhotoData as any);
 
