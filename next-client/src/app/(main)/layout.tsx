@@ -40,7 +40,7 @@ export default async function RootLayout({  children } : Readonly<{
                   <SearchModal />
                   <SearchPropertyModal />
                   <SearchBusinessModal />
-                  <ProfileModal />
+                  <ProfileModal  currentUser={currentUser as any} />
                   <BusinessStoreResgistrationModal currentUser={currentUser as any} />
 							    <RentMyPropertyModal currentUser={currentUser as any} />
                   

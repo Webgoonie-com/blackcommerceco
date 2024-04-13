@@ -47,7 +47,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
     } = useForm<FieldValues>({
     defaultValues: {
        
-        imageSrc: [],
+        imageSrc: '',
         streetAddress: '',
         streetAddress2: '',
         streetCity: '',
@@ -61,6 +61,9 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
 })
 
     const setCustomValue = (id: string, value: any) => {
+        
+        console.log('setCustomValue Activated')
+
         setValue(id, value, {
             shouldValidate: true,
             shouldDirty: true,
@@ -69,7 +72,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
     }
 
     const onChangeImages = (images: string[]) => {
-            
+            console.log('onChangeImages Activated')
         setCustomValue('imageSrc', images);
 
         setSelectedImages(images);

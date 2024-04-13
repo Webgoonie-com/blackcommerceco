@@ -236,41 +236,48 @@ export const updateUser = async (user: Omit<User, "id">, id: number): Promise<Us
 }
 
 export const createUserProfilePhoto = async (user: any): Promise<UserPhoto | any> => {
-   
-    const { firstName, lastName, email, hashedPassword } = user;
 
-    //  console.log('on user.service user', user)
-
-    const hashed = await bcrypt.hash(hashedPassword, 12);
-
-
+    
     const files = user.files; // Access the uploaded files
     const body = user.body; // Access the body data
 
-    const destinationWithoutPublic = files?.destination.replace(/^public\//, '');
+    // console.log('line 252 files:', files)
+    // console.log('line 253 body:', body)
 
-    const imgUrl = body?.imgUrl + '/' + destinationWithoutPublic + '/' + files?.filename;
+    //  const destinationWithoutPublic = files?.destination.replace(/^public\//, '');
 
-    const fullLocalPath = path.join(process.cwd(), files?.path)
+    const destinationWithoutPublic = files[0]?.destination.replace('public/', '');
+    const imgUrl = body?.imgUrl + '/' + destinationWithoutPublic + '/' + files[0]?.filename;
 
+    const fullLocalPath = path.join(process.cwd(), files[0]?.path)
 
-    
-    return orm.userPhoto.create({
-        data: {
-            token: user?.token,
-            serverCaption: user?.serverCaption,
-            userCaption: user?.userCaption,
-            imageSize: user?.imageSize,
-            type: user?.type,
-            local: user?.local,
-            url: user?.url,
-            filename: user?.filename,
-            message: user?.message,
-            userId: user?.id,
-            
-        },
+    try {
         
-    });
+        const userPhotoCreation = await orm.userPhoto.create({
+            data: {
+                token: body?.token,
+                serverCaption: "Profile Photo",
+                userCaption: "Profile Photo Caption",
+                imageSize: files[0]?.size,
+                type: files[0]?.mimetype,
+                local: fullLocalPath,
+                url: imgUrl,
+                filename: files[0]?.filename,
+                message: "",
+                userId: parseInt(body?.userId),
+                
+            },
+            
+        });
+
+        return userPhotoCreation
+
+    } catch (error) {
+          console.log('Line 298 Error on Error', error)  
+    }
+
+
+
 }
 
 
