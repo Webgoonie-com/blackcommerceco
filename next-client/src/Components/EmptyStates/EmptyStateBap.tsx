@@ -37,7 +37,7 @@ const EmptyStateBap: React.FC<EmptyStateBapProps> = ({
                     <Button
                         outline
                         label={"Remove all Fliters"} 
-                        onClick={() => router.push('/')}
+                        onClick={() => router.push('/baps')}
                     />
                 )}
     

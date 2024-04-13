@@ -30,12 +30,12 @@ const ProfileModal = () => {
     
     return ( 
         <Modal 
-        isOpen={profileModal.isOpen}
-        onClose={profileModal.onClose}
-        onSubmit={profileModal.onOpen}
-        title="Profile Picture"
-        actionLabel="Change Profile Picture"
-        body={bodyContent}
+            isOpen={profileModal.isOpen}
+            onClose={profileModal.onClose}
+            onSubmit={profileModal.onOpen}
+            title="Profile Picture"
+            actionLabel="Change Profile Picture"
+            body={bodyContent}
         />
     );
 }

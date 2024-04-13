@@ -178,7 +178,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
 
         //console.log('data being submited', data)
 
-        console.log('data 1')
+        
 
         try {
 
@@ -192,19 +192,18 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
             setCustomValue('propertyId', id)
 
        
-        console.log('data 2')
+
 
         if(step !== STEPS.PRICE){
             return onNext()
         }
 
-        console.log('data 3')
         setIsLoading(true)
         
-        console.log('data 4')
+
             
       
-                console.log('data 5')
+                
 
                 toast.success('Congratulations Your Listing was Just Created!', {
                     duration: 7000,
@@ -212,7 +211,8 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                 })
                
 
-                console.log('data 6')
+                
+                setAutoSaveToken(makeToken(20))
 
                 rentMyPropertyModalModal.onClose()
                 reset()
@@ -429,7 +429,7 @@ const RentMyPropertyModal: React.FC<RentMyPropertyModalProps> = ({currentUser}) 
                                 disabled={isLoading}
                                 register={register}
                                 errors={errors}
-                                required
+                                
                         />
                     </div>
                     

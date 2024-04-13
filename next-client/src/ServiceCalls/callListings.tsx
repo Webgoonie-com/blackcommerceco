@@ -1,5 +1,17 @@
+import getCurrentUsers from '@/Actions/getCurrentUser';
 import axios from 'axios';
 import React from 'react'
+
+export interface IBapsListingParams {
+    userId?: number;
+    guestCount?: number;
+    roomCount?: number;
+    bathroomCount?: number;
+    startDate?: string;
+    endDate?: string;
+    locationValue?: string;
+    category?: string;
+}
 
 export const callListings = async () => {
 
@@ -17,6 +29,115 @@ export const callListings = async () => {
 }
 
 
+
+export const queryPropertyListings = async (params: IBapsListingParams) => {
+    
+
+
+    const currentUser = await getCurrentUsers();
+
+    //  console.log('queryPropertyListings new params: ', params)
+
+    const {
+
+       
+        roomCount,
+        guestCount,
+        bathroomCount,
+        locationValue,
+        startDate,
+        endDate,
+        category
+
+    } = params;
+
+
+
+    
+
+    try {
+
+     
+
+        // console.log('userId from system: ', currentUser?.id);
+        // console.log('roomCount from params: ', roomCount);
+
+        // console.log('guestCount before conversion: ', guestCount);
+        // console.log('bathroomCount before conversion: ', bathroomCount);
+
+        const userId =  currentUser?.id;
+
+
+        //  let query: any = {};
+
+        // if (userId) {
+        //     query.userId = userId;
+        // }
+        
+        // if (category) {
+        //     query.category = category;
+        // }
+
+        // if (guestCount) {
+        //     query.guestCount = {
+        //         gte: +guestCount as number
+        //     }
+        // }
+        
+        // if (bathroomCount) {
+        //     const newBathRoomCount =  parseInt(bathroomCount as any)
+        //     query.bathroomCount = {
+        //         gte: +newBathRoomCount as number
+        //     }
+        // }
+        
+        // if (locationValue) {
+        //     query.locationValue = locationValue;
+        // }
+
+        // if (startDate && endDate)
+        // {
+
+        
+        //     query.NOT = {
+
+        //         reservations: {
+        //             some: {
+        //                 OR: [ 
+        //                     {
+        //                         endDate: { gte: startDate },
+        //                         startDate: { lte: startDate },
+        //                     },
+        //                     {
+        //                         startDate: { lte: endDate },
+        //                         endDate: { gte: endDate }
+        //                     }
+        //                 ]
+        //             }
+        //         }
+        //     }
+        // }
+
+       // console.log('query from params: ', params);
+
+       
+
+        //const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/listings/allProperties', query);
+
+        //const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/listings/queryProperties/'+userId, query);
+        
+        const response = await axios.post(process.env.NEXT_PUBLIC_API_URL + '/api/listings/queryProperties/'+userId, params);
+
+        return response.data;
+
+    } catch (error) {
+
+        console.error('Error fetching listings:', error);
+
+        return [];
+
+    }
+};
 
 export const getPropertyListings = async () => {
     

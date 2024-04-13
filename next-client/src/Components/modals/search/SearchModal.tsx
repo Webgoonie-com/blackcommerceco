@@ -11,7 +11,7 @@ import { CountrySelectValue } from "@/Elements/Selects/SelectCountry";
 import { formatISO } from "date-fns";
 import Heading from "@/Components/Heading";
 import CountrySelect from "@/Elements/Selects/CountrySelect";
-import MapSmall from "../../maps/MapSmall";
+
 import CalendarProperty from "@/Elements/Calendars/CalendarProperty";
 import Calendar from "@/Elements/Calendars/Calendar";
 import Counter from "@/Elements/Counters/Counter";
@@ -31,11 +31,13 @@ const SearchModal = () => {
 
     // a hack to set location
     const [location, setLocation] = useState<CountrySelectValue>();
+
     const [step, setStep] = useState(STEPS.LOCATION);
     
     const [guestCount, setGuestCount] = useState(1);
     const [roomCount, setRoomCount] = useState(1);
     const [bathroomCount, setBathroomCount] = useState(1);
+    const [queryStatus, setQueryStatus] = useState<Boolean>(true);
 
     const [dateRange, setDateRange] = useState<Range>({
         startDate: new Date(),
@@ -43,19 +45,27 @@ const SearchModal = () => {
         key: 'selection'
     })
 
-    const Map = useMemo(() => dynamic(() => import('../../maps/MapSmall'), {
-
+    const MapSmall = useMemo(() => dynamic(() => import('@/Components/maps/MapSmall'), {
+        ssr: false
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }), [location])
-
+    
     const onBack = useCallback(() => {
+
         setStep((value) => value - 1)
+
     }, [])
 
     const onNext = useCallback(() => {
+
         setStep((value) => value + 1)
+
     }, [])
 
+
+
     const onSubmit = useCallback(async() => {
+
         if (step !== STEPS.INFO) {
             return onNext()
 
@@ -69,6 +79,7 @@ const SearchModal = () => {
 
         const updatedQuery: any = {
             ...currentQuery,
+            queryStatus: queryStatus,
             locationValue: location?.value,
             guestCount,
             roomCount,
@@ -84,9 +95,25 @@ const SearchModal = () => {
             updatedQuery.startDate = formatISO(dateRange.endDate)
         }
 
+        console.log('updatedQuery looking for blank.', updatedQuery)
+
+        if(!updatedQuery){
+
+            console.log('! NO updatedQuery looking for blank.', updatedQuery)
+
+        }else{
+
+            console.log('Yes updatedQuery looking for blank.', updatedQuery)
+        }
+
+        // Build the parameter to push to URL from qs query strings
+
         const openUrl = qs.stringifyUrl({
+
             url: '/baps/',
+
             query: updatedQuery
+
         }, {skipNull: true})
 
 
@@ -99,7 +126,7 @@ const SearchModal = () => {
 
     }, 
     [
-        bathroomCount,
+        queryStatus,
         dateRange.endDate,
         dateRange.startDate,
         guestCount,
@@ -107,6 +134,7 @@ const SearchModal = () => {
         onNext,
         params, 
         roomCount,
+        bathroomCount,
         router,
         searchModal,
         step
@@ -149,7 +177,7 @@ const SearchModal = () => {
             
             <hr />
 
-            <MapSmall center={location?.latlng} />\
+            <MapSmall center={location?.latlng} />
 
         </div>
     )
@@ -157,6 +185,7 @@ const SearchModal = () => {
     if(step === STEPS.DATE) {
         bodyContent = (
             <div className="flex flex-col gap-8">
+
                 <Heading 
                     title="Please Choose Your Dates"
                     subtitle="Select available dates for your for selection..."
@@ -207,7 +236,7 @@ const SearchModal = () => {
             onClose={searchModal.onClose}
             
             onSubmit={onSubmit}
-            title="Quick Search"
+            title="Search"
             actionLabel={actionLabel}
             secondaryActionLabel={secondaryActionLabel}
             secondaryAction={step === STEPS.LOCATION ? undefined : onBack}

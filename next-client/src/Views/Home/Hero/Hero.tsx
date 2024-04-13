@@ -122,20 +122,25 @@ const Hero = () => {
                                         </button>
                                     </>
                                 ) : (
-                                    <button className="
-                                        bg-purple-500
-                                         outline-none border-2
-                                         border-purple-600
-                                         text-white-50
-                                         rounded-md
-                                         font-semibold px-6 py-3
-                                         text-xl
-                                         sm:text-xl
-                                         md:text-lg
-                                         xl:text-xl
-                                    ">
-                                        Welcome {session.user?.name}!
-                                    </button>
+                                    <>
+                                        
+                                        <button className="
+                                            bg-purple-500
+                                             outline-none border-2
+                                             border-purple-600
+                                             text-white-50
+                                             rounded-md
+                                             font-semibold px-6 py-3
+                                             text-xl
+                                             sm:text-xl
+                                             md:text-lg
+                                             xl:text-xl
+                                        ">
+                                           We Welcome You {session.user?.name}
+                                        </button>
+
+                                        
+                                    </>
                                 )}
                             </div>
                         </div>

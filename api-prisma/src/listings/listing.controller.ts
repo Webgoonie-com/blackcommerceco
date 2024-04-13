@@ -101,6 +101,201 @@ export const listPropertys = async (): Promise<Property[]> => {
     })
 }
 
+export const listQueryPropertys = async (property: any): Promise<Property[]> => {
+
+    
+    console.log('listQueryPropertys on Controller data for property: ', property)
+
+    let query: any = {};
+
+    let exisitingCountry
+    
+    const {
+
+       
+        roomCount,
+        guestCount,
+        bathroomCount,
+        locationValue,
+        startDate,
+        endDate,
+        category
+
+    } = property;
+
+
+        console.log('category: ', category)
+
+        if (category) {
+            query.category = category;
+        }
+
+        console.log('roomCount: ', roomCount)
+
+        if (roomCount) {
+            const newRoomCount  = roomCount as number
+
+            query.roomCount = {
+                gte: +newRoomCount as number
+            }
+        }
+
+        console.log('roomCount: ', roomCount)
+
+        if (guestCount) {
+            query.guestCount = {
+                gte: +guestCount as number
+            }
+        }
+
+        console.log('guestCount in query: ',  query)
+        console.log('guestCount: ',  query.guestCount)
+
+        if (bathroomCount) {
+            query.bathroomCount = {
+                gte: +bathroomCount as number
+            }
+        }
+
+        console.log('bathroomCount: ', bathroomCount)
+        
+        if (locationValue) {
+            
+            exisitingCountry = await orm.country.findFirst({
+                where: {
+                    isoCode: locationValue.toString()
+                }
+            });
+
+            query.countryId = exisitingCountry?.id
+        }
+
+
+
+
+        if (startDate && endDate)
+            {
+
+            
+                query.NOT = {
+
+                    reservations: {
+                        some: {
+                            OR: [ 
+                                {
+                                    endDate: { gte: startDate },
+                                    startDate: { lte: startDate },
+                                },
+                                {
+                                    startDate: { lte: endDate },
+                                    endDate: { gte: endDate }
+                                }
+                            ]
+                        }
+                    }
+                }
+        }
+
+        
+
+        // if(exisitingCountry){
+        //     query.locationValue = exisitingCountry?.isoCode
+        // }
+
+        console.log('Take a peek at the query your about to use: ', query)
+
+
+    
+        const listQuriedProperties =  await orm.property.findMany({
+            where: query,
+            select:{
+                id: true,
+                uuid: true,
+                token: true,
+                title: true,
+                description: true,
+                imageSrc: true,
+                imagesMultiSrc: true,
+
+                category: true,
+                roomCount: true,
+                bathroomCount: true,
+                guestCount: true,
+                locationValue: true,
+                price: true,
+                
+                streetAddress: true,
+                streetAddress2: true,
+                streetCity: true,
+                streetZipCode: true,
+                createdAt: true,
+                updatedAt: true,
+                
+                user: {
+                    select: {
+                        id: true,
+                        uuid: true,
+                        name: true,
+                        role: false,
+                        email: false,
+                        emailVerified: false,
+                        hashedPassword: false,
+                        image: true,
+                        phone: false,
+                        firstName: true,
+                        lastName: true,
+                        updatedAt: true,
+                        createdAt: true,
+                    }
+                },
+                userId: true,
+                countryId: true,
+                country: { 
+                    select: {
+                        id: true,
+                        isoCode: true,
+                        name: true,
+                        currency: true,
+                        phonecode: true,
+                        flag: true,
+                        latitude: true,
+                        longitude: true,
+                        region: true,
+                        timezones: true
+                    }
+                },
+                countryStateRegionId: true,
+                countryStateRegion: { 
+                    select: {
+                        id: true,
+                        isoCode: true,
+                        name: true,
+                        latitude: true,
+                        longitude: true,
+                        countryId: true
+                    }
+                },
+                countryCityId: true,
+                countryCity: { 
+                    select: {
+                        id: true,
+                        name: true,
+                        latitude: true,
+                        longitude: true,
+                        countryId: true
+                    }
+                },
+            },
+            orderBy:{
+                createdAt: 'desc'
+            }
+        })
+
+        console.log('return', listQuriedProperties)
+        
+        return listQuriedProperties
+}
+
 export const listBusinesses = async (): Promise<Business[]> => {
     return await  orm.business.findMany({
         // where: {

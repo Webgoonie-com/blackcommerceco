@@ -1,10 +1,12 @@
 'use client'
 
+import qs from "query-string";
 import React, { useEffect, useState } from 'react';
-import { getPropertyListings } from '@/ServiceCalls/callListings';
+import { queryPropertyListings } from '@/ServiceCalls/callListings';
 import ClientOnly from '@/Components/ClientOnly';
 import EmptyStateBap from '@/Components/EmptyStates/EmptyStateBap';
 import ListingBapCard from './ListingBapCard';
+import { useSearchParams } from "next/navigation";
 
 interface BapListingProp {
     id: number;
@@ -19,9 +21,18 @@ interface BapListingProp {
 const BapListings: React.FC<BapListingProp> = ({
     id,
     uuid,
+    Propertys,
     currentUser,
 }) => {
 
+    const params = useSearchParams()
+
+    const urlQueryParams = qs.parse(params.toString())
+
+    console.log('urlQueryParams', urlQueryParams)
+
+    
+    
     // console.log('Line 25 = currentUser: ', currentUser)
 
     const [listings, setListings] = useState<BapListingProp[]>([]);
@@ -33,14 +44,17 @@ const BapListings: React.FC<BapListingProp> = ({
 
         const fetchData = async () => {
 
-            const data = await getPropertyListings();
+            const data = await queryPropertyListings(urlQueryParams);
+
+            console.log('return data from queryPropertyListings: ', data)
 
             setListings(data);
         };
     
         fetchData();
 
-    }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentUser.id, urlQueryParams?.locationValue, urlQueryParams?.category]);
 
 
     if(listings.length === 0){
@@ -56,6 +70,10 @@ const BapListings: React.FC<BapListingProp> = ({
     return (
         <ClientOnly>
             
+            {/* <div className="relative flex flex-row ms-5 p-5">
+                    {Propertys.namePublicDisplay}
+            </div> */}
+
             <div 
                 className='relative bg-gray-950 pb-20 pt-28 px-5 py-20 mx-auto flex items-center md:flex-row flex-col'>
                 

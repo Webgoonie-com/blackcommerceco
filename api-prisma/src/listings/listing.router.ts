@@ -126,9 +126,37 @@ listingRouter.get('/all', async (request: Request, response: Response) => {
 })
 
 listingRouter.get('/allProperties', async (request: Request, response: Response) => {
-    
+
+    console.log('Hit allProperties on Router')
+
+    const queryProperties = await request.params;
+
+    console.log('is there a QueryProperties: queryProperties', queryProperties)
+
     try {
         const users = await ListingController.listPropertys()
+        return response.status(200).json(users);
+
+    } catch (error: any) {
+        return response.status(500).json(error.message);
+    }
+
+})
+
+listingRouter.post('/queryProperties/:userId', async (request: Request, response: Response) => {
+    
+
+    console.log('Hit queryProperties on Router request.body', request?.body)
+
+    
+    const queryProperties = request?.body
+
+    
+    console.log('QueryProperties: queryProperties',queryProperties)
+
+
+    try {
+        const users = await ListingController.listQueryPropertys(queryProperties as any)
         return response.status(200).json(users);
 
     } catch (error: any) {

@@ -1,7 +1,7 @@
 "use client"
 
 import qs from "query-string";
-import useSearchModal from "@/Hooks/useSearchModal";
+import useSearchPropertyModal from "@/Hooks/useSearchPropertyModal";
 import { useRouter, useSearchParams } from "next/navigation";
 import Modal from "../Modal";
 import { useCallback, useMemo, useState } from "react";
@@ -11,17 +11,16 @@ import { CountrySelectValue } from "@/Elements/Selects/SelectCountry";
 import { formatISO } from "date-fns";
 import Heading from "@/Components/Heading";
 import CountrySelect from "@/Elements/Selects/CountrySelect";
-import MapSmall from "../../maps/MapSmall";
 import CalendarProperty from "@/Elements/Calendars/CalendarProperty";
 import Calendar from "@/Elements/Calendars/Calendar";
 import Counter from "@/Elements/Counters/Counter";
-import useSearchPropertyModal from "@/Hooks/useSearchPropertyModal";
 
 enum STEPS {
     LOCATION = 0,
     DATE = 1,
     INFO = 2,
 }
+
 const SearchPropertyModal = () => {
 
     const router = useRouter()
@@ -32,11 +31,13 @@ const SearchPropertyModal = () => {
 
     // a hack to set location
     const [location, setLocation] = useState<CountrySelectValue>();
+
     const [step, setStep] = useState(STEPS.LOCATION);
     
     const [guestCount, setGuestCount] = useState(1);
     const [roomCount, setRoomCount] = useState(1);
     const [bathroomCount, setBathroomCount] = useState(1);
+    const [queryStatus, setQueryStatus] = useState<Boolean>(true);
 
     const [dateRange, setDateRange] = useState<Range>({
         startDate: new Date(),
@@ -44,17 +45,23 @@ const SearchPropertyModal = () => {
         key: 'selection'
     })
 
-    const Map = useMemo(() => dynamic(() => import('../../maps/MapSmall'), {
-
+    const MapSmall = useMemo(() => dynamic(() => import('@/Components/maps/MapSmall'), {
+        ssr: false
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }), [location])
-
+    
     const onBack = useCallback(() => {
+
         setStep((value) => value - 1)
+
     }, [])
 
     const onNext = useCallback(() => {
+
         setStep((value) => value + 1)
+
     }, [])
+
 
     const onSubmit = useCallback(async() => {
         if (step !== STEPS.INFO) {
@@ -70,6 +77,7 @@ const SearchPropertyModal = () => {
 
         const updatedQuery: any = {
             ...currentQuery,
+            queryStatus: queryStatus,
             locationValue: location?.value,
             guestCount,
             roomCount,
@@ -100,7 +108,7 @@ const SearchPropertyModal = () => {
 
     }, 
     [
-        bathroomCount,
+        queryStatus,
         dateRange.endDate,
         dateRange.startDate,
         guestCount,
@@ -108,6 +116,7 @@ const SearchPropertyModal = () => {
         onNext,
         params, 
         roomCount,
+        bathroomCount,
         router,
         searchPropertyModal,
         step

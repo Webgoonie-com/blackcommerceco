@@ -221,6 +221,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
                 position: 'bottom-right',
             });
     
+            setAutoSaveToken(makeToken(20))
             reset();
             setStep(STEPS.CATEGORY);
             businessRegistrationModal.onClose();
@@ -497,7 +498,7 @@ const BusinessStoreResgistrationModal: React.FC<BusinessStoreResgistrationModalP
                             disabled={isLoading}
                             register={register}
                             errors={errors}
-                            required
+                            
                             />
                     </div>
                     

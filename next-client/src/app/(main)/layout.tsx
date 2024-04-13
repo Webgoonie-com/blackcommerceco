@@ -1,8 +1,6 @@
 
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "../globals.css";
-
+import type { Metadata } from "next";
 import NavbarPublic from "@/Components/navbar/NavbarPublic";
 import ClientOnly from "@/Components/ClientOnly";
 import RegisterModal from "@/Components/modals/auth/RegisterModal";
@@ -17,10 +15,10 @@ import SearchPropertyModal from "@/Components/modals/search/SearchPropertyModal"
 import SearchBusinessModal from "@/Components/modals/search/SearchBusinessModal";
 import ProfileModal from "@/Components/modals/profile/ProfileModal";
 
-const inter = Inter({ subsets: ["latin"] });
+
 
 export const metadata: Metadata = {
-  title: "BlackCommerce Main",
+  title: "BlackCommerce.co",
   description: "A app made for a miniority group of people on planet earth deprived far for too long.",
 };
 
@@ -33,15 +31,6 @@ export default async function RootLayout({  children } : Readonly<{
   return (
     
      
-    
-    // <main id="page-container" className="h-full">
-    //           <ClientOnly>
-      
-    //                 {children}
-    //             <Footer />
-    //           </ClientOnly>
-    //        </main>
-
           <main id="page-container" className="h-full">
 
             <ClientOnly>
