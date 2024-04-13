@@ -441,7 +441,7 @@ model User {
 }         
 
 model UserPhoto {         
-  Id                                  Int                     @id @default(autoincrement())
+  id                                  Int                     @id @default(autoincrement())
   uuid                                String                  @default(uuid()) @unique
   token                               String
   serverCaption                       String?

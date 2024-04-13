@@ -1,5 +1,9 @@
+import { UserPhoto } from "@prisma/client";
 import { orm } from "../utils/orm.server";
 import bcrypt from "bcrypt";
+import path from "path";
+
+import { unlink } from "fs/promises";
 
 type User = {
     id: number;
@@ -140,6 +144,8 @@ export const createUser = async (user: CreateUserInput): Promise<User | any> => 
     });
 }
 
+
+
 export const loginUser = async (user: CreateUserInput): Promise<User | null> => {
     const { email, hashedPassword } = user;
 
@@ -190,6 +196,20 @@ export const loginUser = async (user: CreateUserInput): Promise<User | null> => 
     }
 };
 
+export const updateteUserPrimaryPhoto = async (userPhotoData: any): Promise<User[] | any> => {
+
+    const primaryPhoto = await orm.user.update({
+        where: { id: parseInt(userPhotoData?.businessId) },
+        data: {
+            image: userPhotoData.primaryPhoto, // Save the concatenated string           
+        }
+    })
+
+    // console.log('return primaryPhoto', primaryPhoto)
+
+    return primaryPhoto
+}
+
 
 export const updateUser = async (user: Omit<User, "id">, id: number): Promise<User> => {
     const {firstName, lastName, email} = user
@@ -215,6 +235,44 @@ export const updateUser = async (user: Omit<User, "id">, id: number): Promise<Us
     })
 }
 
+export const createUserProfilePhoto = async (user: any): Promise<UserPhoto | any> => {
+   
+    const { firstName, lastName, email, hashedPassword } = user;
+
+    //  console.log('on user.service user', user)
+
+    const hashed = await bcrypt.hash(hashedPassword, 12);
+
+
+    const files = user.files; // Access the uploaded files
+    const body = user.body; // Access the body data
+
+    const destinationWithoutPublic = files?.destination.replace(/^public\//, '');
+
+    const imgUrl = body?.imgUrl + '/' + destinationWithoutPublic + '/' + files?.filename;
+
+    const fullLocalPath = path.join(process.cwd(), files?.path)
+
+
+    
+    return orm.userPhoto.create({
+        data: {
+            token: user?.token,
+            serverCaption: user?.serverCaption,
+            userCaption: user?.userCaption,
+            imageSize: user?.imageSize,
+            type: user?.type,
+            local: user?.local,
+            url: user?.url,
+            filename: user?.filename,
+            message: user?.message,
+            userId: user?.id,
+            
+        },
+        
+    });
+}
+
 
 export const deleteUserId = async (id: number): Promise<void> => {
     await orm.user.delete({
@@ -226,4 +284,94 @@ export const deleteUserUuid = async (uuid: string): Promise<void> => {
     await orm.user.delete({
         where: { uuid: uuid},
     })
+}
+
+
+export const deleteAutoSaveProfilePhoto  = async (userPhotoData: any):  Promise<void> => {
+    
+    
+
+
+    const propertyPhotoData = userPhotoData.propertyPhotoData
+    const userId = userPhotoData.userId
+    const autoSaveToken = userPhotoData.autoSaveToken
+
+
+    try {
+        
+
+        
+        const checkIfMainBusinessPhoto = await orm.business.findFirst({
+            where: {
+                imageSrc: propertyPhotoData,
+                userId: parseInt(userId as any)
+            }
+        });
+
+        
+
+        if(checkIfMainBusinessPhoto){
+            
+            try {
+                
+                const primaryPhoto = await orm.business.update({
+                    where: { id: checkIfMainBusinessPhoto?.id },
+                    data: {
+                        imageSrc: '', 
+                    }
+                })
+                
+            } catch (error) {
+                console.log('Business primaryPhoto error', error)
+            }
+        }
+        
+
+       // return checkIfMainBusinessPhoto
+
+
+        const deleteThisPhotoObject = await orm.businessphoto.findFirst({
+            where: {
+                imageSrc: propertyPhotoData,
+                token: autoSaveToken,
+                userId: parseInt(userId),
+            }
+        });
+
+        
+       
+        if(deleteThisPhotoObject){
+            
+
+        
+            
+            const fullLocalPath = path.join(process.cwd(), deleteThisPhotoObject.imgFilePath)
+    
+            
+    
+            await unlink(deleteThisPhotoObject.imgFilePath)
+
+            
+
+
+            await orm.businessphoto.delete({
+                where: {
+                  id: deleteThisPhotoObject.id,
+                },
+              })
+
+
+              //return deleteBusinessPhoto
+
+              
+        }
+
+
+
+        
+    } catch (error) {
+        console.log('Error deleting', error)
+    }
+
+    return userPhotoData;
 }

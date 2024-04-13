@@ -347,7 +347,6 @@ model user {
 }
 
 model userphoto {
-  Id            Int      @id @default(autoincrement())
   uuid          String   @unique(map: "UserPhoto_uuid_key")
   serverCaption String?
   userCaption   String?
@@ -361,6 +360,7 @@ model userphoto {
   updatedAt     DateTime @default(now())
   userId        Int
   token         String
+  id            Int      @id @default(autoincrement())
 
   @@index([userId], map: "UserPhoto_userId_fkey")
 }

@@ -35,9 +35,7 @@ const MyProfilePage = async () => {
       </>
     )
 
-    return (
-      <div>MyProfilePage</div>
-    )
+    
 }
 
 export default MyProfilePage

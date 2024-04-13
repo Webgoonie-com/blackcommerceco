@@ -20,3 +20,29 @@ export const callUsers = async () => {
     }
 
 }
+
+
+
+export const deleteAutoSaveProfilePhoto = async (data: any, autoSaveToken: any, userId: any) => {
+    
+    const userPhotoData = await data
+
+    try {
+        
+         const postPhotoData = {
+            userPhotoData,
+            userId,
+            autoSaveToken
+
+         }
+
+        const {data: propertyphotoResult} = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/users/deleteAutoSaveProfilePhoto/:`+autoSaveToken, postPhotoData)
+        
+        return propertyphotoResult
+
+    } catch (error) {
+        console.log('error', error)
+        return error
+    }
+
+}
