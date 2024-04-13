@@ -94,8 +94,10 @@ const SearchPropertyModal = () => {
         }
 
         const openUrl = qs.stringifyUrl({
+            
             url: '/baps/',
             query: updatedQuery
+
         }, {skipNull: true})
 
 
@@ -109,8 +111,8 @@ const SearchPropertyModal = () => {
     }, 
     [
         queryStatus,
-        dateRange.endDate,
         dateRange.startDate,
+        dateRange.endDate,
         guestCount,
         location?.value,
         onNext,
