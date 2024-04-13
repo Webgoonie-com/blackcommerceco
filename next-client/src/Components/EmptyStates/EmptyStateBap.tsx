@@ -22,9 +22,9 @@ const EmptyStateBap: React.FC<EmptyStateBapProps> = ({
     const router = useRouter();
 
     return (
-        <div className='bg-slate-500 h-screen'>
+        
             <div
-                className="h-full flex flex-col gap-2 justify-center items-center bg-gray-950"
+                className="h=[60vh] flex flex-col gap-2 justify-center items-center bg-gray-950"
             >
                 
             <ModalHeading
@@ -46,7 +46,7 @@ const EmptyStateBap: React.FC<EmptyStateBapProps> = ({
             
                 Empty Results... 
             </div>
-       </div>
+       
 
     )
 }
