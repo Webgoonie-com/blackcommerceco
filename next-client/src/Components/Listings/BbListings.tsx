@@ -1,11 +1,13 @@
 'use client'
 
+import qs from "query-string";
 import React, { useEffect, useState } from 'react';
-import { useSession } from "next-auth/react"
-import { getBusinessListings } from '@/ServiceCalls/callListings';
+//  import { useSession } from "next-auth/react"
+import { queryBusinessListings } from '@/ServiceCalls/callListings';
 import ClientOnly from '@/Components/ClientOnly';
 import EmptyStateBb from '@/Components/EmptyStates/EmptyStateBb';
 import ListingBbCard from './ListingBbCard';
+import { useSearchParams } from 'next/navigation';
 
 
 
@@ -27,6 +29,12 @@ const BbListings: React.FC<BbListingProp> = ({
 }) => {
 
 
+    const params = useSearchParams()
+
+    const urlQueryParams = qs.parse(params.toString())
+
+    console.log('urlQueryParams', urlQueryParams)
+    
     // console.log('Line 30 = currentUser: ', currentUser)
 
     const [bBlistings, setBbListings] = useState<BbListingProp[]>([]);
@@ -37,14 +45,16 @@ const BbListings: React.FC<BbListingProp> = ({
         
         const fetchData = async () => {
             
-            const data = await getBusinessListings()
+            //  const data = await getBusinessListings()
+            const data = await queryBusinessListings(urlQueryParams)
             
             setBbListings(data)
         };
     
         fetchData()
 
-    }, []);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentUser?.id, urlQueryParams.locationValue, urlQueryParams.category]);
 
 
     if(bBlistings.length === 0){

@@ -8,13 +8,13 @@ import { useCallback, useMemo, useState } from "react";
 import { Range } from "react-date-range";
 import dynamic from "next/dynamic";
 import { CountrySelectValue } from "@/Elements/Selects/SelectCountry";
-import { formatISO } from "date-fns";
 import Heading from "@/Components/Heading";
 import CountrySelect from "@/Elements/Selects/CountrySelect";
-// import MapSmall from "../../maps/MapSmall";
-import CalendarProperty from "@/Elements/Calendars/CalendarProperty";
-import Calendar from "@/Elements/Calendars/Calendar";
-import Counter from "@/Elements/Counters/Counter";
+
+//  import { formatISO } from "date-fns";
+//  import MapSmall from "../../maps/MapSmall";
+//  import Calendar from "@/Elements/Calendars/Calendar";
+//  import Counter from "@/Elements/Counters/Counter";
 
 enum STEPS {
     LOCATION = 0,
@@ -33,9 +33,8 @@ const SearchBusinessModal = () => {
     const [location, setLocation] = useState<CountrySelectValue>();
     const [step, setStep] = useState(STEPS.LOCATION);
     
-    const [guestCount, setGuestCount] = useState(1);
-    const [roomCount, setRoomCount] = useState(1);
-    const [bathroomCount, setBathroomCount] = useState(1);
+    const [queryStatus, setQueryStatus] = useState<Boolean>(true);
+    const [queryCatType, setQueryCatType] = useState<String>("businesses");
 
     const [dateRange, setDateRange] = useState<Range>({
         startDate: new Date(),
@@ -44,8 +43,9 @@ const SearchBusinessModal = () => {
     })
 
     const MapSmall = useMemo(() => dynamic(() => import('../../maps/MapSmall'), {
-
-    }), [])
+        ssr: false
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }), [location])
 
     const onBack = useCallback(() => {
         setStep((value) => value - 1)
@@ -74,20 +74,12 @@ const SearchBusinessModal = () => {
 
         const updatedQuery: any = {
             ...currentQuery,
+            queryCatType: queryCatType,
+            queryStatus: queryStatus,
             locationValue: location?.value,
-            // guestCount,
-            // roomCount,
-            // bathroomCount
         }
 
-        // We have to transform our Start and Enddate Into Strings Because We have to use it in our url
-        // if (dateRange.startDate){
-        //     updatedQuery.startDate = formatISO(dateRange.startDate)
-        // }
-
-        // if (dateRange.endDate){
-        //     updatedQuery.startDate = formatISO(dateRange.endDate)
-        // }
+        
 
         const openUrl = qs.stringifyUrl({
             url: '/bbs/',
@@ -103,7 +95,7 @@ const SearchBusinessModal = () => {
         
 
     }, 
-    [location?.value, onNext, params, router, searchBusinessModal, step])
+    [location?.value, onNext, params, queryCatType, queryStatus, router, searchBusinessModal, step])
 
     const actionLabel = useMemo(() => {
         
@@ -147,52 +139,10 @@ const SearchBusinessModal = () => {
         </div>
     )
 
-    if(step === STEPS.DATE) {
-        bodyContent = (
-            <div className="flex flex-col gap-8">
-                <Heading 
-                    title="Please Choose Your Dates"
-                    subtitle="Select available dates for your for selection..."
-                />
-
-                <Calendar
-                    value={dateRange}
-                    onChange={(value) => setDateRange(value.selection)}
-                />
-
-            </div>
-        )
-    }
+    
 
 
-    if(step === STEPS.INFO) {
-        bodyContent= (
-            <div className="flex flex-col gap-8">
-                <Heading
-                    title="More Information"
-                    subtitle="Find better results with exact answers"
-                />
-                <Counter
-                    title="Guest"
-                    subtitle="How many guest?"
-                    value={guestCount}
-                    onChange={(value) => {setGuestCount(value)}}
-                />
-                <Counter
-                    title="Bed Rooms"
-                    subtitle="How many rooms do you need?"
-                    value={roomCount}
-                    onChange={(value) => {setRoomCount(value)}}
-                />
-                <Counter
-                    title="Bath Rooms"
-                    subtitle="How many bathrooms needed?"
-                    value={bathroomCount}
-                    onChange={(value) => {setBathroomCount(value)}}
-                />
-            </div>
-        )
-    }
+   
 
     return ( 
         <Modal

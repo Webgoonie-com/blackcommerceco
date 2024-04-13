@@ -389,6 +389,142 @@ export const listBusinesses = async (): Promise<Business[]> => {
 }
 
 
+export const listQueryBusinesses = async (businesses: any): Promise<Business[]> => {
+   
+    //  console.log('Hit Query String On API For Businessess')
+
+    let query: any = {};
+
+    let exisitingCountry
+
+    const {
+
+       
+        
+        locationValue,
+        
+        category
+
+    } = businesses;
+
+    if (category) {
+            query.category = category;
+    }
+
+    if (locationValue) {
+            
+        exisitingCountry = await orm.country.findFirst({
+            where: {
+                isoCode: locationValue.toString()
+            }
+        });
+
+        query.countryId = exisitingCountry?.id
+    }
+
+    const listQuriedBusinesses  = await  orm.business.findMany({
+        // where: {
+        //     imageSrc: {
+        //         not: null
+        //     },
+            
+        // },
+        where: query,
+        select:{
+            id: true,
+            uuid: true,
+            token: true,
+            title: true,
+            description: true,
+            category: true,
+            imageSrc: true,
+            imagesMultiSrc: true,
+            locationValue: true,
+            listingId: true,
+            isAFranchise: true,
+            isTheFranchiseParent: true,
+            ownsOtherBusinesses: true,
+            hasStore: true,
+            hasProducts: true,
+            hasServices: true,
+            sellPrice: true,
+            streetAddress: true,
+            streetAddress2: true,
+            streetCity: true,
+            streetZipCode: true,
+            userId: true,
+            countryId: true,
+            country: { 
+                select: {
+                    id: true,
+                    isoCode: true,
+                    name: true,
+                    currency: true,
+                    phonecode: true,
+                    flag: true,
+                    latitude: true,
+                    longitude: true,
+                    region: true,
+                    timezones: true
+                }
+            },
+            countryStateRegionId: true,
+            countryStateRegion: { 
+                select: {
+                    id: true,
+                    isoCode: true,
+                    name: true,
+                    latitude: true,
+                    longitude: true,
+                    countryId: true
+                }
+            },
+            countryCityId: true,
+            countryCity: { 
+                select: {
+                    id: true,
+                    name: true,
+                    latitude: true,
+                    longitude: true,
+                    countryId: true
+                }
+            },            
+            createdAt: true,
+            user: {
+                select: {
+                    id: true,
+                    uuid: true,
+                    name: true,
+                    role: false,
+                    email: false,
+                    emailVerified: false,
+                    hashedPassword: false,
+                    image: true,
+                    phone: false,
+                    firstName: true,
+                    lastName: true,
+                    updatedAt: true,
+                    createdAt: true,
+                }
+            },
+            updatedAt: true,
+            
+            },
+            orderBy:{
+                createdAt: 'desc'
+            }
+        
+    })
+
+    //  console.log('return', listQuriedBusinesses)
+        
+
+    return listQuriedBusinesses
+
+
+
+}
+
 export const getListingId = async (id: number): Promise<Listing | null> => {
     return orm.listing.findUnique({
         where: {

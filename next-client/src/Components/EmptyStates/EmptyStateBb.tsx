@@ -36,7 +36,7 @@ const EmptyStateBb: React.FC<EmptyStateBbProps> = ({
                 <Button
                     outline
                     label={"Remove all Fliters"} 
-                    onClick={() => router.push('/')}
+                    onClick={() => router.push('/bbs/')}
                 />
             )}
 

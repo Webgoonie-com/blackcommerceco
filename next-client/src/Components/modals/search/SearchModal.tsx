@@ -92,7 +92,7 @@ const SearchModal = () => {
         }
 
         if (dateRange.endDate){
-            updatedQuery.startDate = formatISO(dateRange.endDate)
+            updatedQuery.endDate = formatISO(dateRange.endDate)
         }
 
         console.log('updatedQuery looking for blank.', updatedQuery)
@@ -107,8 +107,9 @@ const SearchModal = () => {
         }
 
         // Build the parameter to push to URL from qs query strings
-
-        const openUrl = qs.stringifyUrl({
+        let openUrl
+        
+        openUrl = qs.stringifyUrl({
 
             url: '/baps/',
 

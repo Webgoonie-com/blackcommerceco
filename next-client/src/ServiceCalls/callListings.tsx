@@ -13,6 +13,12 @@ export interface IBapsListingParams {
     category?: string;
 }
 
+export interface IBbsListingParams {
+    userId?: number;
+    locationValue?: string;
+    category?: string;
+}
+
 export const callListings = async () => {
 
     try {
@@ -165,6 +171,37 @@ export const getBusinessListings = async () => {
         
         const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/api/listings/allBusinesses');    
         
+        return response.data;
+
+    } catch (error) {
+        console.error('Error fetching listings:', error);
+        return [];
+    }
+};
+
+export const queryBusinessListings = async (params: IBbsListingParams) => {
+
+    console.log('running Query Business Lisings')
+
+    const currentUser = await getCurrentUsers();
+
+    const {
+
+       
+       
+        locationValue,
+       
+        category
+
+    } = params;
+
+    
+    try {
+        
+        const userId =  currentUser?.id;
+
+        const response = await axios.post(process.env.NEXT_PUBLIC_API_URL +'/api/listings/queryBusinesses/'+userId, params);
+
         return response.data;
 
     } catch (error) {

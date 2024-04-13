@@ -98,10 +98,12 @@ const Search = () => {
                     >
                         Search Properties 
                     </div>
+                    
                     <div onClick={searchBusinessModal.onOpen}
                         className='hidden sm:block pl-3 text-sm font-semibold border-l-[1px] flex-1 text-center hover:text-purple-600 cursor-pointer'
                     >
                         Search Businesses
+                        {/* border-x-[1px] */}
                     </div>
                     <div
                         onClick={searchBusinessModal.onOpen}

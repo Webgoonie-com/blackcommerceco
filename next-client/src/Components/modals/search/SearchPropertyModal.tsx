@@ -11,7 +11,6 @@ import { CountrySelectValue } from "@/Elements/Selects/SelectCountry";
 import { formatISO } from "date-fns";
 import Heading from "@/Components/Heading";
 import CountrySelect from "@/Elements/Selects/CountrySelect";
-import CalendarProperty from "@/Elements/Calendars/CalendarProperty";
 import Calendar from "@/Elements/Calendars/Calendar";
 import Counter from "@/Elements/Counters/Counter";
 
@@ -38,7 +37,7 @@ const SearchPropertyModal = () => {
     const [roomCount, setRoomCount] = useState(1);
     const [bathroomCount, setBathroomCount] = useState(1);
     const [queryStatus, setQueryStatus] = useState<Boolean>(true);
-    const [queryCatType, setQueryCatType] = useState<String>("Property");
+    const [queryCatType, setQueryCatType] = useState<String>("propertys");
 
     const [dateRange, setDateRange] = useState<Range>({
         startDate: new Date(),
@@ -92,10 +91,12 @@ const SearchPropertyModal = () => {
         }
 
         if (dateRange.endDate){
-            updatedQuery.startDate = formatISO(dateRange.endDate)
+            updatedQuery.endDate = formatISO(dateRange.endDate)
         }
 
-        const openUrl = qs.stringifyUrl({
+        let openUrl
+        
+        openUrl = qs.stringifyUrl({
             
             url: '/baps/',
             query: updatedQuery
@@ -111,20 +112,7 @@ const SearchPropertyModal = () => {
         
 
     }, 
-    [
-        queryStatus,
-        dateRange.startDate,
-        dateRange.endDate,
-        guestCount,
-        location?.value,
-        onNext,
-        params, 
-        roomCount,
-        bathroomCount,
-        router,
-        searchPropertyModal,
-        step
-    ])
+    [step, params, queryCatType, queryStatus, location?.value, guestCount, roomCount, bathroomCount, dateRange.startDate, dateRange.endDate, searchPropertyModal, router, onNext])
 
     const actionLabel = useMemo(() => {
         

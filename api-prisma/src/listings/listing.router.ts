@@ -149,14 +149,14 @@ listingRouter.post('/queryProperties/:userId', async (request: Request, response
     console.log('Hit queryProperties on Router request.body', request?.body)
 
     
-    const queryProperties = request?.body
+    const queryBusinesses = request?.body
 
     
     //  console.log('QueryProperties: queryProperties',queryProperties)
 
 
     try {
-        const users = await ListingController.listQueryPropertys(queryProperties as any)
+        const users = await ListingController.listQueryBusinesses(queryBusinesses as any)
         return response.status(200).json(users);
 
     } catch (error: any) {
@@ -169,6 +169,28 @@ listingRouter.get('/allBusinesses', async (request: Request, response: Response)
 
     try {
         const users = await ListingController.listBusinesses()
+        return response.status(200).json(users);
+
+    } catch (error: any) {
+        return response.status(500).json(error.message);
+    }
+
+})
+
+listingRouter.post('/queryBusinesses/:userId', async (request: Request, response: Response) => {
+    
+
+    console.log('Hit queryProperties on Router request.body', request?.body)
+
+    
+    const queryProperties = request?.body
+
+    
+    //  console.log('QueryProperties: queryProperties',queryProperties)
+
+
+    try {
+        const users = await ListingController.listQueryBusinesses(queryProperties as any)
         return response.status(200).json(users);
 
     } catch (error: any) {

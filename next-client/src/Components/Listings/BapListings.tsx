@@ -54,7 +54,7 @@ const BapListings: React.FC<BapListingProp> = ({
         fetchData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentUser.id, urlQueryParams?.locationValue, urlQueryParams?.category]);
+    }, [currentUser?.id, urlQueryParams?.locationValue, urlQueryParams?.category]);
 
 
     if(propertyListings.length === 0){
