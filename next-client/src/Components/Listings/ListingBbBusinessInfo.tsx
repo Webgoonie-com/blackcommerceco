@@ -81,7 +81,7 @@ const ListingBbBusinessInfo:React.FC<ListingBbBusinessInfoProps> = ({
 
                     </div>
                     
-                    <Avatar src={user?.usrImage} />
+                    <Avatar src={user?.image} />
 
                 </div>
 
