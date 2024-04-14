@@ -108,7 +108,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
         if (!isSubmitting) { // Check if form is already submitting
             setIsSubmitting(true); // Set submitting state to true to prevent multiple submissions
 
-            const formData = watch(); // Retrieve form data
+            
 
             if (selectedImage.length > 0) {
                 
@@ -145,7 +145,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
                 setIsSubmitting(false); // Reset submitting state if no photo uploaded
             }
         }
-    }, [autoSaveToken, currentUser?.id, profileModal, selectedImage, watch, isSubmitting]);
+    }, [autoSaveToken, currentUser?.id, profileModal, selectedImage, isSubmitting]);
 
 
 
