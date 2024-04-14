@@ -198,16 +198,27 @@ export const loginUser = async (user: CreateUserInput): Promise<User | null> => 
 
 export const updateteUserPrimaryPhoto = async (userPhotoData: any): Promise<User[] | any> => {
 
-    const primaryPhoto = await orm.user.update({
-        where: { id: parseInt(userPhotoData?.businessId) },
-        data: {
-            image: userPhotoData.primaryPhoto, // Save the concatenated string           
-        }
-    })
 
-    // console.log('return primaryPhoto', primaryPhoto)
+    
+    
+    try {
+        
+        const primaryPhoto = await orm.user.update({
+            where: { id: parseInt(userPhotoData?.userId) },
+            data: {
+                image: userPhotoData?.imageUrl[0], // Save the concatenated string           
+            }
+        })
+    
+       
+    
+        return primaryPhoto
 
-    return primaryPhoto
+    } catch (error) {
+
+        console.log('Failed on updateteUserPrimaryPhoto error', error)
+
+    }
 }
 
 
@@ -251,7 +262,22 @@ export const createUserProfilePhoto = async (user: any): Promise<UserPhoto | any
 
     const fullLocalPath = path.join(process.cwd(), files[0]?.path)
 
+    if(!body?.userId){
+
+            throw new Error("User not found or is missing");
+            
+    }
+
     try {
+
+        const checkIfMainProfilePhotoExisit = await orm.user.findUnique({
+            where: {
+                
+                id: parseInt(body?.userId),
+            }
+        });
+
+
         
         const userPhotoCreation = await orm.userPhoto.create({
             data: {
@@ -270,7 +296,21 @@ export const createUserProfilePhoto = async (user: any): Promise<UserPhoto | any
             
         });
 
+
+        if(!checkIfMainProfilePhotoExisit?.image){
+            
+            await orm.user.update({
+                where: { id: parseInt(body?.userId), },
+                data: {
+                    image: userPhotoCreation.url, // Save the concatenated string           
+                }
+            })
+
+        }
+
         return userPhotoCreation
+
+
 
     } catch (error) {
           console.log('Line 298 Error on Error', error)  
@@ -366,6 +406,116 @@ export const deleteAutoSaveProfilePhoto  = async (userPhotoData: any):  Promise<
                   id: deleteThisPhotoObject.id,
                 },
               })
+
+
+              //return deleteBusinessPhoto
+
+              
+        }
+
+
+
+        
+    } catch (error) {
+        console.log('Error deleting', error)
+    }
+
+    return userPhotoData;
+}
+
+export const deleteProfilePhoto  = async (userPhotoData: any):  Promise<void> => {
+    
+    
+
+
+    const imageUrl = userPhotoData.imageUrl
+    const userId = userPhotoData.userId
+    const autoSaveToken = userPhotoData.autoSaveToken
+
+    // console.log('userPhotoData.propertyPhotoData.imageUrl', userPhotoData.imageUrl)
+    // console.log('imageUrl', imageUrl)
+
+
+    try {
+        
+
+        
+        const checkIfUserProfilePhotoExisit = await orm.user.findFirst({
+            where: {
+                //image: imageUrl,
+                id: parseInt(userId as any)
+            }
+        });
+
+        // console.log('checkIfUserProfilePhotoExisit',)
+
+        
+        // console.log('Before the Check  checkIfUserProfilePhotoExisit?.image: ',  checkIfUserProfilePhotoExisit?.image)
+        // console.log('Before the Check  propertyPhotoData: ', imageUrl)
+
+        if(checkIfUserProfilePhotoExisit && checkIfUserProfilePhotoExisit?.image === imageUrl){
+            
+            //  console.log("Yes it matched existing profile Photo URL")
+
+            try {
+                
+                await orm.user.update({
+                    where: { id: checkIfUserProfilePhotoExisit?.id },
+                    data: {
+                        image: '', 
+                    }
+                })
+                
+            } catch (error) {
+                console.log('User primaryPhoto error', error)
+            }
+        }else{
+            console.log("Didnt match existing  profile Photo URL")
+        }
+        
+
+        
+        if(!checkIfUserProfilePhotoExisit){
+            throw new Error("Can't Delete A User Photo We Have No Record Of...");
+            
+        }
+        
+       //    console.log('Liie 472 checkIfUserProfilePhotoExisit:, ', checkIfUserProfilePhotoExisit)
+
+       
+
+        const deleteThisPhotoObject = await orm.userPhoto.findFirst({
+            where: {
+                url: imageUrl,
+                token: autoSaveToken,
+                userId: parseInt(userId),
+            }
+        });
+
+        
+       
+        if(deleteThisPhotoObject){
+            
+
+        
+            
+            //const fullLocalPath = path.join(process.cwd(), deleteThisPhotoObject.local)
+            
+            if(deleteThisPhotoObject.local){
+                
+                await unlink( deleteThisPhotoObject.local)
+    
+                
+                // console.log('Deleting User PHoto')
+    
+                await orm.userPhoto.delete({
+                    where: {
+                      id: deleteThisPhotoObject.id,
+                    },
+                  })
+            }
+            
+    
 
 
               //return deleteBusinessPhoto

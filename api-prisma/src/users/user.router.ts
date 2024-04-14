@@ -262,12 +262,12 @@ userRouter.post('/loginuser', async (request: Request, response: Response) => {
 
 userRouter.post("/makePrimaryPhoto/", async (request: Request, response: Response) => {
 
-    const businessPhotoData = await request.body;
+    const userProfilePhotoData = await request.body;
 
-    // console.log('businessPhotoData', businessPhotoData)
+    console.log('userProfilePhotoData', userProfilePhotoData)
 
     try {
-        const property = await UserController.updateteUserPrimaryPhoto(businessPhotoData)
+        const property = await UserController.updateteUserPrimaryPhoto(userProfilePhotoData)
         return response.status(200).json(property);
 
     } catch (error: any) {
@@ -348,6 +348,25 @@ userRouter.post('/deleteAutoSaveProfilePhoto/:imageurl', async (request: Request
         const deleteAutoSavePhoto = await UserController.deleteAutoSaveProfilePhoto(businessData);
 
         return response.status(200).json(deleteAutoSavePhoto);
+    } catch (error) {
+        return response.status(500).json({ error });
+    }
+});
+
+userRouter.post('/deleteUserProfilePhoto', async (request: Request, response: Response) => {    
+
+console.log('userProfilePhotoData on router request.body, ',  request.body)
+
+
+    try {
+        const userProfilePhotoData = request.body; // Assuming you're sending the business data in the request body
+
+        
+
+        // Call the service function with the received data
+        const deletuserProfilePhotoData = await UserController.deleteProfilePhoto(userProfilePhotoData);
+
+        return response.status(200).json(deletuserProfilePhotoData);
     } catch (error) {
         return response.status(500).json({ error });
     }

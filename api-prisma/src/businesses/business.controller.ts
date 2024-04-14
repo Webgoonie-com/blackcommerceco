@@ -1058,3 +1058,91 @@ export const deleteBusiness = async (businessData: any): Promise<void> => {
 };
 
 
+export const deleteAutoSaveBusinessPhoto  = async (businessPhotoData: any):  Promise<void> => {
+    
+    
+
+
+    const propertyPhotoData = businessPhotoData.propertyPhotoData
+    const userId = businessPhotoData.userId
+    const autoSaveToken = businessPhotoData.autoSaveToken
+
+
+    try {
+        
+
+        
+        const checkIfMainBusinessPhoto = await orm.business.findFirst({
+            where: {
+                imageSrc: propertyPhotoData,
+                userId: parseInt(userId as any)
+            }
+        });
+
+        
+
+        if(checkIfMainBusinessPhoto){
+            
+            try {
+                
+                const primaryPhoto = await orm.business.update({
+                    where: { id: checkIfMainBusinessPhoto?.id },
+                    data: {
+                        imageSrc: '', 
+                    }
+                })
+                
+            } catch (error) {
+                console.log('Business primaryPhoto error', error)
+            }
+        }
+        
+
+       // return checkIfMainBusinessPhoto
+
+
+        const deleteThisPhotoObject = await orm.businessphoto.findFirst({
+            where: {
+                imageSrc: propertyPhotoData,
+                token: autoSaveToken,
+                userId: parseInt(userId),
+            }
+        });
+
+        
+       
+        if(deleteThisPhotoObject){
+            
+
+        
+            
+            const fullLocalPath = path.join(process.cwd(), deleteThisPhotoObject.imgFilePath)
+    
+            
+    
+            await unlink(deleteThisPhotoObject.imgFilePath)
+
+            
+
+
+            await orm.businessphoto.delete({
+                where: {
+                  id: deleteThisPhotoObject.id,
+                },
+              })
+
+
+              //return deleteBusinessPhoto
+
+              
+        }
+
+
+
+        
+    } catch (error) {
+        console.log('Error deleting', error)
+    }
+
+    return businessPhotoData;
+}
