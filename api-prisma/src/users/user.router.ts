@@ -28,7 +28,7 @@ const MIME_TYPE_MAP = {
 };
 
 async function checkFileType(file: Express.Multer.File, cb: multer.FileFilterCallback){
-    console.log('Checking file type', file)
+   // console.log('Checking file type', file)
 
     // Check if the file has a valid image extension
     const validExtension = /\.(jpeg|jpg|png|avif|gif|webp)$/.test(path.extname(file.originalname).toLowerCase());
@@ -264,7 +264,7 @@ userRouter.post("/makePrimaryPhoto/", async (request: Request, response: Respons
 
     const userProfilePhotoData = await request.body;
 
-    console.log('userProfilePhotoData', userProfilePhotoData)
+    //  console.log('userProfilePhotoData', userProfilePhotoData)
 
     try {
         const property = await UserController.updateteUserPrimaryPhoto(userProfilePhotoData)
@@ -355,7 +355,7 @@ userRouter.post('/deleteAutoSaveProfilePhoto/:imageurl', async (request: Request
 
 userRouter.post('/deleteUserProfilePhoto', async (request: Request, response: Response) => {    
 
-console.log('userProfilePhotoData on router request.body, ',  request.body)
+    //  console.log('userProfilePhotoData on router request.body, ',  request.body)
 
 
     try {
