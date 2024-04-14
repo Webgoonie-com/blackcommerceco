@@ -477,6 +477,7 @@ import { Country } from "country-state-city";
         "name" | "createdAt" | "updatedAt" | "emailVerified"
         > & {
         name: string;
+        image: string;
         createdAt: string;
         updatedAt: string;
         emailVerified: string | null;

@@ -3,20 +3,23 @@
 import Avatar from '@/Components/Avatar'
 import axios from 'axios';
 import Image from 'next/image';
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import { Button } from '@/Components/ui/button';
 import { deleteAutoSaveProfilePhoto } from '@/ServiceCalls/callUsers';
 import toast from 'react-hot-toast';
 import { User } from '@/Types';
 
+import { useSession } from 'next-auth/react'
+
 interface ImageUploadUserProfilePhotosProps {
     onChange: (images: string[]) => void;
     userId: string;
     currentUser: User;
     value: string[];
-    selectedImages: string[];
+    selectedImage: string[];
     autoSaveToken: string;
+    propSelectedImage: string;
 }
 
 
@@ -24,7 +27,7 @@ const ImageUploadUserProfilePhoto: React.FC<ImageUploadUserProfilePhotosProps> =
     onChange,
     userId,
     currentUser,
-    selectedImages: propSelectedImages,
+    selectedImage: propSelectedImage,
     autoSaveToken,
 }) => {
 
@@ -34,7 +37,56 @@ const ImageUploadUserProfilePhoto: React.FC<ImageUploadUserProfilePhotosProps> =
     const [primaryPhoto, setPrimaryPhoto] = useState<boolean>(false);
     const imageRef = useRef<HTMLInputElement>(null);
 
+
+    const {data: session, update } = useSession()
+
+    const updateUserPhotoSession = useCallback(async (imageUrl: string) => {
+        
+        console.log('running updateUserPhotoSession')
+
+        if (session && session.user) {  
+            try {
+                // Update the session state asynchronously
+                await update({
+                    ...session,
+                    user: {
+                        ...session.user,
+                        image: imageUrl,
+                    },
+                });
+            } catch (error) {
+                console.error('Error updating user photo session:', error);
+            }
+        }
+    }, [session, update]);
+
+    const removoeUserPhotoSession = useCallback(async () => {
+        
+        console.log('running updateUserPhotoSession')
+
+        if (session && session.user) {  
+            try {
+                // Update the session state asynchronously
+                await update({
+                    ...session,
+                    user: {
+                        ...session.user,
+                        image: '',
+                    },
+                });
+            } catch (error) {
+                console.error('Error updating user photo session:', error);
+            }
+        }
+    }, [session, update]);
+
+
+
     const onImageChange = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
+
+        console.log('Say this is the session: ', { session })
+
+
         if (event.target.files) {
             const file = event.target.files[0]; // Get the first file
             setSelectedFile(file); // Set selectedFile to the file object
@@ -75,7 +127,7 @@ const ImageUploadUserProfilePhoto: React.FC<ImageUploadUserProfilePhotosProps> =
                 console.error('Error uploading image:', error);
             }
         }
-    }, [userId, autoSaveToken, onChange, setSelectedImage, setSelectedFile]);
+    }, [session, userId, autoSaveToken, onChange]);
     
 
     const makePrimaryPhoto =  async (imageUrl: string) => {
@@ -118,6 +170,11 @@ const ImageUploadUserProfilePhoto: React.FC<ImageUploadUserProfilePhotosProps> =
             
             // Update the state to remove the deleted image
             setSelectedImage("");
+
+            if(session && selectedImage === session.user?.image){
+                console.log('Both session And Selected Image Match so remove from session')
+                removoeUserPhotoSession()
+            }
             
             // Call the onChange callback with the updated images
             onChange([]);
@@ -125,6 +182,18 @@ const ImageUploadUserProfilePhoto: React.FC<ImageUploadUserProfilePhotosProps> =
             console.error('Error deleting image:', error);
         }
     };
+
+
+    useEffect(() => {
+        console.log('running useEffect')
+        // Check if selectedImage is not empty and session is available
+        if (selectedImage && session) {
+            updateUserPhotoSession(selectedImage);
+        }
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedImage]);
+
 
     return (
         <>
@@ -154,13 +223,13 @@ const ImageUploadUserProfilePhoto: React.FC<ImageUploadUserProfilePhotosProps> =
                 </div>
             ) : (
                 <div className="flex flex-col items-center text-center p-5 cursor-pointer border-indigo-300">
-                    <Avatar sqPixels={400} />
+                    <span  onClick={() => imageRef.current?.click()}> 
+                        <Avatar  src={session?.user?.image}  sqPixels={400} />
+                    </span>
                     <div onClick={() => imageRef.current?.click()} className="self-auto text-center font-semibold text-lg">
                         Click To Upload
                     </div>
-                    <div className="self-auto text-center font-semibold text-lg">
-                        current Photo: {currentUser.image}
-                    </div>
+                    
                     <input id="myImage" type="file" multiple name="files" ref={imageRef} onChange={onImageChange} style={{ display: 'none' }} />
                 </div>
             )}

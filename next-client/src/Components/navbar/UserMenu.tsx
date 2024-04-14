@@ -31,6 +31,8 @@ const UserMenu: React.FC<UserMenuProps> = ({
 
     const router = useRouter()
 
+    const {data: session, update } = useSession()
+
     const registerModal = useRegisterModal()
     const loginModal = useLoginModal()
 
@@ -154,7 +156,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                     onClick={toggleOpen}
                     className={`
 
-                        p-4 
+                        p-2
                         sm:me-4
                         md:me-5
                         md:py-2 
@@ -175,7 +177,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                         ${currentUser ? 'white xl:white md:white sm:green' : 'white'}
                     `} />
                     <div className='hidden md:block'>
-                        <Avatar />
+                        <Avatar sqPixels={35}  src={session?.user?.image != currentUser?.image ? session?.user?.image : currentUser?.image}   />
                     </div>
                 </div>
             </div>

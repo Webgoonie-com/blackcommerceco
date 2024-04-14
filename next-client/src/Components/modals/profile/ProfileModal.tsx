@@ -4,16 +4,19 @@ import useProfileModal from "@/Hooks/useProfileModal";
 import Modal from "../Modal";
 import Heading from "@/Components/Heading";
 import Avatar from "@/Components/Avatar";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import ModalHeading from "../ModalHeading";
 import ImageUploadUserProfilePhoto from "@/Elements/Files/ImageUploadUserProfilePhoto";
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { User } from "next-auth";
+import { autoSavePrimaryUserPhoto } from "@/ServiceCalls/callUsers";
 
 
 interface ProfileModalProps {
-    currentUser?: User | null;
+    currentselectedImage?: string[],
+    autoSaveToken?: string,
+    currentUser: User,
 }
 
 const makeToken = (length: number)  => {
@@ -26,13 +29,16 @@ const makeToken = (length: number)  => {
     return result;
 }
 
-const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
+const ProfileModal: React.FC<ProfileModalProps> = ({
+    currentUser,
+    }) => {
 
     const [disableButton, setDisableButton] =useState<Boolean>(false)
 
     const profileModal = useProfileModal()
 
-    const [selectedImages, setSelectedImages] = useState<string[]>([]);
+    const [selectedImage, setSelectedImage] = useState<string[]>([]);
+    const [propSelectedImage, setPropSelectedImage] = useState<string[]>([]);
 
     const [autoSaveToken, setAutoSaveToken] = useState<string>(makeToken(20));
 
@@ -62,7 +68,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
 
     const setCustomValue = (id: string, value: any) => {
         
-        console.log('setCustomValue Activated')
+        
 
         setValue(id, value, {
             shouldValidate: true,
@@ -71,13 +77,61 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
         })
     }
 
-    const onChangeImages = (images: string[]) => {
-            console.log('onChangeImages Activated')
-        setCustomValue('imageSrc', images);
+    const onChangeImages = (image: string[]) => {
+            
+        setCustomValue('imageSrc', image);
 
-        setSelectedImages(images);
+        setSelectedImage(image);
+
+        setPropSelectedImage(image)
 
     };
+
+    const onCancel = useCallback(async() => {
+
+        
+        toast.loading("No worries Canceling", {
+            duration: 1000,
+            position: 'bottom-right',
+            
+        });
+
+        profileModal.onClose()
+        
+    }, [profileModal])
+
+    const onSubmit = useCallback(async() => {
+
+        const formData = watch(); // Retrieve form data
+
+        if(selectedImage.length > 0) {
+            console.log('Photos Exist So Lets Save changes')
+            
+            console.log('Mahfucka Clicked On Submit to save Changes and not cancel')
+            
+            const responseData = await autoSavePrimaryUserPhoto(selectedImage, autoSaveToken, currentUser?.id);
+
+            profileModal.onClose()
+
+            toast.success('Success Profile Photo Updated!', {
+                duration: 7000,
+                position: 'bottom-right',
+                icon: '🔥',
+            });
+        }else{
+            toast.error("Sorry No Photo Uploaded...", {
+                duration: 3000,
+                position: 'bottom-right',
+                
+            });
+            toast.error("Try Uploading A Photo...", {
+                duration: 5000,
+                position: 'bottom-right',
+                icon: '🔥',
+            });
+        }
+
+    }, [autoSaveToken, currentUser?.id, profileModal, selectedImage])
 
 
     const watchImageSrc = watch('imageSrc')
@@ -94,9 +148,10 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
                 value={watchImageSrc as any}
                 autoSaveToken={autoSaveToken}
                 onChange={onChangeImages}
-                userId={'' + currentUser?.id}
-                selectedImages={selectedImages}
-                currentUser={currentUser as any} 
+                userId={currentUser?.id}
+                selectedImage={selectedImage}
+                currentUser={currentUser as any}
+                propSelectedImage={propSelectedImage as any}
             />
 
         </div>
@@ -105,10 +160,12 @@ const ProfileModal: React.FC<ProfileModalProps> = ({currentUser}) => {
     return ( 
         <Modal 
             isOpen={profileModal.isOpen}
-            onClose={profileModal.onClose}
-            onSubmit={profileModal.onClose}
+            onClose={onCancel}
+            onSubmit={onSubmit}
             title="Profile Picture"
-            actionLabel="Save Changes And Close"
+            actionLabel="Close & Save Changes"
+            secondaryActionLabel={"Cancel"}
+            secondaryAction={onCancel}
             body={bodyContent}
         />
     );
