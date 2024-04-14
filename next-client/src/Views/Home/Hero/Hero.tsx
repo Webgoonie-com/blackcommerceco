@@ -17,7 +17,7 @@ const Hero = () => {
    
     
     return (
-        <section className="h-screen w-full bg-cover bg-center clearfix relative position-relative" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1506956191951-7a88da4435e5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074')`}}>
+        <section className="hidden md:block h-screen w-full bg-cover bg-center clearfix relative position-relative" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1506956191951-7a88da4435e5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074')`}}>
             <Container>
                 <div className="flex flex-col justify-center absolute">
                     <div 

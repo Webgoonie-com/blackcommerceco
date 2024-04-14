@@ -2,10 +2,9 @@ import React from 'react'
 import EmptyState from '@/Components/EmptyStates/EmptyState'
 import ClientOnly from '@/Components/ClientOnly'
 import getCurrentUser from '@/Actions/getCurrentUser'
-import MyProfileClient from './MyProfileClient'
 
 
-const MyProfilePage = async () => {
+const ComingSoonPage = async () => {
 
     const currentUser = await getCurrentUser()
 
@@ -27,11 +26,16 @@ const MyProfilePage = async () => {
 
     return(
       <>
-        <MyProfileClient />
+      <ClientOnly>
+          <EmptyState 
+              title='This Will Be Coming Soon!'
+              subtitle='Looks like you you found a section I have not finished yet...'
+          />
+      </ClientOnly>
       </>
     )
 
     
 }
 
-export default MyProfilePage
+export default ComingSoonPage
