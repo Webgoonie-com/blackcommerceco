@@ -73,6 +73,22 @@ const nextConfig = {
         protocol: "https",
         hostname: "localhost:3334",
       },
+      {
+        protocol: "http",
+        hostname: "blackcommerce.co",
+      },
+      {
+        protocol: "https",
+        hostname: "blackcommerce.co",
+      },
+      {
+        protocol: "http",
+        hostname: "api.blackcommerce.co",
+      },
+      {
+        protocol: "https",
+        hostname: "api.blackcommerce.co",
+      },
     ],
   },
 };
