@@ -131,7 +131,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
             });
         }
 
-    }, [autoSaveToken, currentUser?.id, profileModal, selectedImage])
+    }, [autoSaveToken, currentUser?.id, profileModal, selectedImage, watch])
 
 
     const watchImageSrc = watch('imageSrc')
