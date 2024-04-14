@@ -31,6 +31,8 @@ const ImageUploadUserProfilePhoto: React.FC<ImageUploadUserProfilePhotosProps> =
     autoSaveToken,
 }) => {
 
+    const [isUploading, setIsUploading] = useState(false);
+
     const [uploding, setUploading] = useState<Boolean>(false);
     const [selectedImage, setSelectedImage] = useState<string>("");
     const [selectedFile, setSelectedFile] = useState<File>();
@@ -87,7 +89,7 @@ const ImageUploadUserProfilePhoto: React.FC<ImageUploadUserProfilePhotosProps> =
         console.log('Say this is the session: ', { session })
 
 
-        if (event.target.files) {
+        if (!isUploading && event.target.files) {
             const file = event.target.files[0]; // Get the first file
             setSelectedFile(file); // Set selectedFile to the file object
             
@@ -125,9 +127,11 @@ const ImageUploadUserProfilePhoto: React.FC<ImageUploadUserProfilePhotosProps> =
                 
             } catch (error) {
                 console.error('Error uploading image:', error);
+            } finally {
+                setIsUploading(false); // Reset uploading status
             }
         }
-    }, [session, userId, autoSaveToken, onChange]);
+    }, [session, isUploading, userId, autoSaveToken, onChange]);
     
 
     const makePrimaryPhoto =  async (imageUrl: string) => {

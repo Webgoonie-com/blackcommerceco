@@ -33,6 +33,8 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
     currentUser,
     }) => {
 
+    const [isSubmitting, setIsSubmitting] = useState(false); 
+
     const [disableButton, setDisableButton] =useState<Boolean>(false)
 
     const profileModal = useProfileModal()
@@ -100,38 +102,51 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
         
     }, [profileModal])
 
-    const onSubmit = useCallback(async() => {
+    
 
-        const formData = watch(); // Retrieve form data
+    const onSubmit = useCallback(async () => {
+        if (!isSubmitting) { // Check if form is already submitting
+            setIsSubmitting(true); // Set submitting state to true to prevent multiple submissions
 
-        if(selectedImage.length > 0) {
-            console.log('Photos Exist So Lets Save changes')
-            
-            console.log('Mahfucka Clicked On Submit to save Changes and not cancel')
-            
-            const responseData = await autoSavePrimaryUserPhoto(selectedImage, autoSaveToken, currentUser?.id);
+            const formData = watch(); // Retrieve form data
 
-            profileModal.onClose()
-
-            toast.success('Success Profile Photo Updated!', {
-                duration: 7000,
-                position: 'bottom-right',
-                icon: '🔥',
-            });
-        }else{
-            toast.error("Sorry No Photo Uploaded...", {
-                duration: 3000,
-                position: 'bottom-right',
+            if (selectedImage.length > 0) {
                 
-            });
-            toast.error("Try Uploading A Photo...", {
-                duration: 5000,
-                position: 'bottom-right',
-                icon: '🔥',
-            });
-        }
 
-    }, [autoSaveToken, currentUser?.id, profileModal, selectedImage, watch])
+                try {
+                    const responseData = await autoSavePrimaryUserPhoto(selectedImage, autoSaveToken, currentUser?.id);
+
+                    profileModal.onClose()
+
+                    toast.success('Success Profile Photo Updated!', {
+                        duration: 7000,
+                        position: 'bottom-right',
+                        icon: '🔥',
+                    });
+                } catch (error) {
+                    console.error('Error saving photo:', error);
+                    toast.error('An error occurred while updating profile photo.', {
+                        duration: 5000,
+                        position: 'bottom-right',
+                    });
+                } finally {
+                    setIsSubmitting(false); // Reset submitting state after submission is complete
+                }
+            } else {
+                toast.error("Sorry No Photo Uploaded...", {
+                    duration: 3000,
+                    position: 'bottom-right',
+                });
+                toast.error("Try Uploading A Photo...", {
+                    duration: 5000,
+                    position: 'bottom-right',
+                    icon: '🔥',
+                });
+                setIsSubmitting(false); // Reset submitting state if no photo uploaded
+            }
+        }
+    }, [autoSaveToken, currentUser?.id, profileModal, selectedImage, watch, isSubmitting]);
+
 
 
     const watchImageSrc = watch('imageSrc')
