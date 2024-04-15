@@ -1,0 +1,5 @@
+.ProfilePost {
+    display: flex;
+    background-color: 'var(--yellow)';
+    margin-bottom: 10rem;
+}

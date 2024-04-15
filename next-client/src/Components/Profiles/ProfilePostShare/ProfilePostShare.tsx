@@ -1,18 +1,20 @@
 "use client"
 
 import React, { useState, useRef } from 'react'
-import './ProfilePostShare.css'
-import profileImg from "../../img/profileImg.jpg";
+
 import Avatar from '@/Components/Avatar';
 
-// import { UilScenery} from "@iconscout/react-unicons";
-// import { UilPlayCircle  } from "@iconscout/react-unicons";
-// import { UilLocationPoint  } from "@iconscout/react-unicons";
-// import { UilSchedule  } from "@iconscout/react-unicons";
-// import { UilTimes  } from "@iconscout/react-unicons";
+
+import { FaShareNodes } from "react-icons/fa6";
+import { RxVideo } from "react-icons/rx";
+import { HiOutlineLocationMarker } from "react-icons/hi";
+import { IoCalendarNumberOutline } from "react-icons/io5";
+import { MdPhotoCamera } from "react-icons/md";
 
 import { useSession } from "next-auth/react"
 import { User } from '@/Types';
+
+import './ProfilePostShare.css'
 
 interface ProfilePostShareProps {
     currentUser: User;
@@ -24,31 +26,30 @@ const ProfilePostShare: React.FC<ProfilePostShareProps> = ({
 
     const {data: session, update } = useSession()
 
-    // const [image, setImage] = useState(null)
+    const [image, setImage] = useState<String | null>(null)
 
-    // const imageRef = useRef()
+    const imageRef = useRef()
 
-    // const onImageChange = (event) => {
-    //     console.log('onImageChange activatec')
+    const onImageChange = (event: { target: { files: any[]; }; }) => {
+        console.log('onImageChange activatec')
 
-    //     if(event.target.files && event.target.files[0])
-    //     {
+        if(event.target.files && event.target.files[0])
+        {
 
-    //         let img = event.target.files[0]
+            let img = event.target.files[0]
 
-    //         setImage({
-    //             image: URL.createObjectURL(img),
-    //         })
+            // setImage({
+            //     image: URL.createObjectURL(img),
+            // })
 
-    //     }
-    // }
+        }
+    }
 
    
     return (
         <>
             <div className="ProfilePostShare">
             
-            {/* <img src={profileImg} alt="" /> */}
 
             <Avatar sqPixels={200} src={currentUser?.image as any || session?.user?.image} />
     
@@ -68,8 +69,8 @@ const ProfilePostShare: React.FC<ProfilePostShareProps> = ({
                             // }}
 
                         >
-                            {/* <UilScenery />
-                                Photo */}
+                            <MdPhotoCamera />
+                                Photo
                         </div>
 
                         <div
@@ -79,7 +80,7 @@ const ProfilePostShare: React.FC<ProfilePostShareProps> = ({
                             }}
 
                         >
-                            {/* <UilPlayCircle /> */}
+                                <RxVideo />
                                 Video
                         </div>
 
@@ -90,7 +91,7 @@ const ProfilePostShare: React.FC<ProfilePostShareProps> = ({
                             }}
 
                         >
-                            {/* <UilSchedule /> */}
+                            <HiOutlineLocationMarker />
                                 Location
                         </div>
 
@@ -101,16 +102,16 @@ const ProfilePostShare: React.FC<ProfilePostShareProps> = ({
                             }}
 
                         >
-                            {/* <UilLocationPoint /> */}
+                            <IoCalendarNumberOutline />
                                 Schedule
                         </div>
 
                         <button className="button ps-button">
-                            Share
+                            <FaShareNodes /> Share
                         </button>
 
                         <div style={{ display: "none"}}>
-                            {/* <input 
+                             {/* <input 
                                 type='file'
                                 name='myImage'
                                 ref={imageRef}
