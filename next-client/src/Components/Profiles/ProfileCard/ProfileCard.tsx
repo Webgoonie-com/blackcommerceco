@@ -28,7 +28,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
     return (
       <div className='ProfileCard'>
             
-        <div className="ProfileImages">
+        <div className="ProfileImages relative">
             <Image src={Cover} alt='' />
             {/* <Image src={ProfileImg} alt='' /> */}
             <Avatar sqPixels={200} src={currentUser?.image as any || session?.user?.image} />

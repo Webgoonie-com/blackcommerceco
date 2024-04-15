@@ -1,0 +1,95 @@
+.ProfilePostShare {
+    display: flex;
+    background-color: var(--cardColor);
+    padding: 1rem;
+    border-radius: 1rem;
+    
+    
+}
+
+
+.ProfilePostShare>img{
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+}
+
+
+.ProfilePostShare > div{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    gap: 1rem;
+}
+
+.ProfilePostShare > div > input {
+    background: var(--inputColor);
+    border-radius: 10px;
+    padding: 10px;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    font-size: 17px;
+    border: none;
+    outline: none;
+}
+
+.postOptions{
+    display: flex;
+    justify-content: space-around;
+}
+
+.option{
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.option:hover {
+    cursor: pointer;
+}
+
+.ps-button {
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 12px;
+}
+
+.previewImage {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+}
+.useIcon, .previewImage > svg  {
+    cursor: pointer;
+    position: absolute;
+    right: 1rem;
+    top: 0.5rem;
+    cursor: pointer;
+    border: 2px solid var(--yellow);
+    border-radius: 50%;
+}
+.useIcon:hover {
+    color: var(--red);
+    border: 2px solid var(--red);
+}
+.previewImage > .selectedPostImage {
+    display: flex;
+    
+    margin-top: 50px;
+}
+
+.previewImage > img {
+    width: 75%;
+    /* height: 20rem; */
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+
+}

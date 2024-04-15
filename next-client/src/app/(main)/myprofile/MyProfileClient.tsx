@@ -2,6 +2,8 @@ import React from 'react'
 
 import './MyProfile.css';
 import ProfileLeftSide from '@/Components/Profiles/ProfileLeftSide';
+import ProfilePostSide from '@/Components/Profiles/ProfilePostSide';
+
 
 const MyProfileClient = () => {
   return (
@@ -10,7 +12,7 @@ const MyProfileClient = () => {
         <ProfileLeftSide />
         
         <div className='myProfileClientPostsSide'>
-                POST
+               <ProfilePostSide />
         </div>
         
         <div className='myProfileClientProfileRideSide'>

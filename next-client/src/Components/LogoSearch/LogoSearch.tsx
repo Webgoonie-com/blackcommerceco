@@ -9,15 +9,15 @@ import Image from 'next/image'
 
 const LogoSearch = () => {
     return (
-        <div className="LogoSearch">
+        <div className="LogoSearch justify-between">
             
-            <Image src={Logo} alt="Brand Logo" />
+            <Image className='mt-2' src={Logo} alt="Brand Logo" />
 
             {/* <Logo /> */}
 
             <div className="Search">
 
-                <input type='text' placeholder='#MemberSearch' />
+                <input type='text' className='rounded-sm' placeholder='#MemberSearch' />
 
                 <div className='s-icon cursor-pointer'>
                     <BiSearch size={36} />

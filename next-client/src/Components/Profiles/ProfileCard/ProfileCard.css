@@ -5,12 +5,19 @@
     position: relative;
     gap: 1rem;
     background-color:  var(--cardColor);
-    overflow-x: clip;
+    overflow-x: hidden;
 }
 
 .ProfileCard > span {
     font-weight: bold;
     color: var(--purple);
+    align-self: center;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+.ProfileCard > span:hover {
+    font-weight: bold;
+    color: var(--blue);
     align-self: center;
     margin-bottom: 1rem;
     cursor: pointer;
@@ -22,6 +29,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    
 }
 
 
@@ -36,12 +44,21 @@
    position: absolute;
    bottom: -3rem;
 }
+.ProfileImages > Img:nth-of-type(2):hover {
+   width: 6.2rem;
+   border-radius: 50%;
+   border: 2px solid #fff;
+   
+   position: absolute;
+   bottom: -3.1rem;
+}
 
 .ProfileName {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 3rem;
+    color: #000;
 }
 
 .ProfileName > span:nth-of-type(1) {
@@ -90,6 +107,7 @@
     
    
     width: 100%;
+    color: #000;
 }
 
 .follow > span:nth-of-type(2) {
