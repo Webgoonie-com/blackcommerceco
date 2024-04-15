@@ -20,7 +20,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
     currentUser,
 }) => {
     
-   console.log('Profile Card currentUser', currentUser)
+   
 
    const {data: session, update } = useSession()
 
