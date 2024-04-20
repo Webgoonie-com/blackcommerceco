@@ -3,6 +3,7 @@ import './ProfilePostSide.css'
 
 import ProfilePostShare from '@/Components/Profiles/ProfilePostShare/ProfilePostShare'
 import getCurrentUsers from '@/Actions/getCurrentUser'
+import ProfileThreads from '../ProfileThreads'
 
 const ProfilePostSide = () => {
 
@@ -13,11 +14,8 @@ const ProfilePostSide = () => {
             
           
             <ProfilePostShare currentUser={currentUser as any } />
-            {/*
             
-
-            <Posts /> */}
-            
+            <ProfileThreads />
             
         </div>
   )
