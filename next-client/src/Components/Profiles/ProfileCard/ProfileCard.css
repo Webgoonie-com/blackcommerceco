@@ -1,3 +1,4 @@
+
 .ProfileCard {
     border-radius:  1.5rem;
     display: flex;
@@ -84,7 +85,7 @@
     display: flex;
     gap: 1rem;
     width: 80%;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 }
 

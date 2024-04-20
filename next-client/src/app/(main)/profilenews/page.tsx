@@ -2,10 +2,10 @@ import React from 'react'
 import EmptyState from '@/Components/EmptyStates/EmptyState'
 import ClientOnly from '@/Components/ClientOnly'
 import getCurrentUser from '@/Actions/getCurrentUser'
-import MyProfileClient from './MyProfileClient'
+import ProfileNewsClient from './MyProfileNewsClient'
 
 
-const MyProfilePage = async () => {
+const ProfileNews = async () => {
 
     const currentUser = await getCurrentUser()
 
@@ -27,11 +27,11 @@ const MyProfilePage = async () => {
 
     return (
       
-        <MyProfileClient />
+        <ProfileNewsClient />
       
     )
 
     
 }
 
-export default MyProfilePage
+export default ProfileNews

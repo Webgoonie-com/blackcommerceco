@@ -15,6 +15,8 @@ body{
   margin: 0;
 }
 
+
+
 @media screen and (max-width: 768px) {
   body {
     overflow-x: hidden;
@@ -45,6 +47,24 @@ body{
   --video: #4A4EB7;
   --location: #EF5757;
   --schedule: #E1AE4A;
+}
+
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  background: var(--buttonBg);
+}
+
+.button:hover {
+  cursor: pointer;
+  color: var(--purple);
+  background: transparent;
+  border: 2px solid var(--pink);
 }
 
 /* Made for Property photos to stop the shrink if don't work delete. */
@@ -218,6 +238,16 @@ ul.country-list{
 
 
 /* Custom For pages */
+
+.MyProfileNews {
+    overflow: hidden;
+    color: var(--white);
+    padding: 1rem 1rem;
+    height: 100vh;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20rem;
+}
 
 .MyProfile {
     overflow: hidden;

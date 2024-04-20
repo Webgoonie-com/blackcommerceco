@@ -8,6 +8,7 @@ import CommentIcon from '../../../../public/images/comment.png'
 import { PiGearSixBold } from "react-icons/pi";
 
 import ProfileTrendCard from '../ProfileTrendCard'
+import { Button } from '@/Components/ui/button'
 
 const ProfileRightSide = () => {
     return (
@@ -27,6 +28,8 @@ const ProfileRightSide = () => {
 
 
             <ProfileTrendCard />
+
+            <Button variant={'purple'} className='button r-button'>Share</Button>
 
         </div>
     )

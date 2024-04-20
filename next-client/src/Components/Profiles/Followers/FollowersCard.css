@@ -1,4 +1,4 @@
-.FollowersCard{
+.FollowersCard {
     width: 100%;
     border-radius: 0.7rem;
     gap: 1rem;
@@ -6,6 +6,11 @@
     flex-direction: column;
     font-size: 13px;
     
+}
+
+.FollowersCard h3 {
+    font-weight: bold;
+    font-size: 15px;
 }
 
 .follower {
@@ -18,6 +23,11 @@
 .follower > div {
     display: flex;
     gap: 10px;
+}
+.follower > svg {
+    width: 3.2rem;
+    height: 3.2rem;
+    border-radius: 50%;
 }
 
 .followerImg {
@@ -35,4 +45,10 @@
 
 .name > span:nth-of-type(1){
     font-weight: bold;
+}
+
+.fc-button {
+    height: 2rem;
+    padding-left: 10px;
+    padding-right: 10px;
 }

@@ -3,6 +3,7 @@ import "./FollowersCard.css";
 import { Followers } from '@/Components/Profiles/ProfileDummyData/FollowersData'
 import Image from 'next/image';
 import { User } from '@/Types';
+import Avatar from '@/Components/Avatar';
 
 interface FollowersCardProps {
   currentUser: User;
@@ -17,7 +18,7 @@ const FollowersCard: React.FC<FollowersCardProps> = ({
     return (
         <div className="FollowersCard">
             <h3>
-                Who is Following You
+                Who is Following You?
             </h3>
 
             {Followers && Followers.map((follower, id) => {
@@ -25,7 +26,15 @@ const FollowersCard: React.FC<FollowersCardProps> = ({
                     <div className="follower" key={id}>
                         
                         <div>
-                            <Image src={follower?.img} alt="" className="followerImg" />
+                            
+                            
+
+                            {follower && follower?.img ? (
+                                <Image src={follower?.img} alt="" className="followerImg" />
+                            ) : (
+                                <Avatar sqPixels={50} />
+                            )}
+                            
                             
                             <div className='name'>
                                 <span>{follower?.name}</span>
@@ -34,7 +43,7 @@ const FollowersCard: React.FC<FollowersCardProps> = ({
                         </div>
                         
                         <button className="button fc-button">
-                            Follow
+                            Follow Back
                         </button>
 
                     </div>

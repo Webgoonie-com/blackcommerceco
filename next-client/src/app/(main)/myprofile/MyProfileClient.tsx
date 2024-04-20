@@ -1,7 +1,7 @@
 import React from 'react'
 
 import './MyProfile.css';
-import ProfileLeftSide from '@/Components/Profiles/ProfileLeftSide';
+import MyProfileLeftSide from '@/Components/Profiles/MyProfileLeftSide';
 import ProfilePostSide from '@/Components/Profiles/ProfilePostSide';
 import ProfileRightSide from '@/Components/Profiles/ProfileRightSide';
 
@@ -10,7 +10,7 @@ const MyProfileClient = () => {
   return (
     <div className="MyProfileClient">
         
-          <ProfileLeftSide />
+        <MyProfileLeftSide />
         
         <div className='myProfileClientPostsSide'>
           <ProfilePostSide />
