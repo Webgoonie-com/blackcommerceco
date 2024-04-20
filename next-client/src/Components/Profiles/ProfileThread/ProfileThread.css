@@ -12,20 +12,20 @@
 .detail > span {
     margin-right: 5px;
 }
-.profileThreadMainImg {
+.ProfileThread > img {
     width: 100%;
     max-height: 20rem;
     object-fit: cover;
     border-radius: 0.5rem;
 }
 
-.profileThreadActions {
+.ProfileThread .profileThreadReactions {
     display: flex;
     align-items: flex-start;
     gap: 1.5rem;
 }
 
-.profileThreadActions > img {
+.profileThreadReactions > img {
     padding-left: 2px;
     padding-right: 2px;
 }

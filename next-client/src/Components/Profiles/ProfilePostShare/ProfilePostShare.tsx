@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useRef, ChangeEvent, TextareaHTMLAttributes  } from 'react'
+import React, { useState, useRef, ChangeEvent } from 'react'
 
 import Avatar from '@/Components/Avatar';
 
@@ -37,7 +37,7 @@ const ProfilePostShare: React.FC<ProfilePostShareProps> = ({
 
     const onPostShare=() => {
         
-        console.log('Clicked on post share')
+        
 
         setWhatsHappening(null)
 

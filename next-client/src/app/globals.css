@@ -21,6 +21,7 @@ body{
   }
 }
 
+/* Absolutely No scroll bars */
 ::-webkit-scrollbar{
   display: none;
 }
@@ -225,6 +226,7 @@ ul.country-list{
     height: 100vh;
     width: 100%;
     max-width: 100%;
+    margin-bottom: 20rem;
 }
 
 .blur {
