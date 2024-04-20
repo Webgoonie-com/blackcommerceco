@@ -1,1 +1,1 @@
-export { default } from "./ProfileThread"
+export { default } from "./ProfileThreads"

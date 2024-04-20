@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useRef, ChangeEvent  } from 'react'
+import React, { useState, useRef, ChangeEvent, TextareaHTMLAttributes  } from 'react'
 
 import Avatar from '@/Components/Avatar';
 
@@ -16,6 +16,7 @@ import { User } from '@/Types';
 
 import './ProfilePostShare.css'
 import { IoMdClose } from 'react-icons/io';
+import { Button } from '@/Components/ui/button';
 
 interface ProfilePostShareProps {
     currentUser: User;
@@ -28,12 +29,46 @@ const ProfilePostShare: React.FC<ProfilePostShareProps> = ({
     const {data: session, update } = useSession()
 
     const [image, setImage] = useState<String | null>(null)
+    const [whatsHappening, setWhatsHappening] = useState<String | null>(null)
+
+    const [disablePost, setDisablePost] = useState<Boolean | null>(true)
 
     const imageRef = useRef<HTMLInputElement | null>(null);
 
+    const onPostShare=() => {
+        
+        console.log('Clicked on post share')
+
+        setWhatsHappening(null)
+
+        if(image){
+
+            setImage(null)
+        }
+
+
+    }
+
+    
+    const onWhatsHappeningChange =  (event: ChangeEvent<HTMLTextAreaElement>) => {
+
+            if(image){
+                setDisablePost(false)
+
+            }else if(event?.target?.value?.length && event?.target?.value?.length > 5){
+
+                setDisablePost(false)
+
+            }else{
+                setDisablePost(true)
+            }
+
+            setWhatsHappening(event?.target?.value as string)
+    }
+
     const onImageChange =  (event: ChangeEvent<HTMLInputElement>) => {
 
-        console.log('onImageChange activatec')
+       
 
         if(event.target.files && event.target.files[0])
         {
@@ -44,12 +79,11 @@ const ProfilePostShare: React.FC<ProfilePostShareProps> = ({
                 URL.createObjectURL(img),
             )
 
+            setDisablePost(false)
+
         }
 
-        // if (event.target.files && event.target.files[0]) {
-        //     let img = event.target.files[0];
-        //     setImage(URL.createObjectURL(img));
-        // }
+        
     }
 
    
@@ -62,7 +96,9 @@ const ProfilePostShare: React.FC<ProfilePostShareProps> = ({
     
                 <div>
 
-                    <input type="text" placeholder="What's happening now with you?"  />
+                    {/* <input type="text" onChange={onWhatsHappeningChange} placeholder="What's happening now with you?" value={whatsHappening as string}  /> */}
+
+                    <textarea onChange={onWhatsHappeningChange} placeholder="What's happening now with you?"  value={whatsHappening as string || ''}></textarea>
 
                     <div className="postOptions">
 
@@ -160,9 +196,13 @@ const ProfilePostShare: React.FC<ProfilePostShareProps> = ({
                                 priority
                              />
 
+                             {/* <Button variant={"purple"}>Post</Button> */}
+
                         </div>
                     )}
 
+
+                    <Button onClick={onPostShare} disabled={disablePost as boolean} variant={"purple"}>Post</Button>
                 </div>
 
             </div>
