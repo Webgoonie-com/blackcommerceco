@@ -2,7 +2,7 @@
 
 import React from 'react'
 import ProfileCard from '../ProfileCard'
-import LogoSearch from '@/Components/LogoSearch/LogoSearch'
+import LogoSearch from '@/Components/Profiles/LogoSearch/LogoSearch'
 import './ProfileLeftSide.css'
 import getCurrentUser from '@/Actions/getCurrentUser'
 import FollowersCard from '../Followers/FollowersCard'

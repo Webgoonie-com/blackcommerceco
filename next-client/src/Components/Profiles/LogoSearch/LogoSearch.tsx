@@ -3,7 +3,7 @@ import React from 'react'
 
 
 import './LogoSearch.css'
-import Logo from '../../../public/images/birdLogo.png'
+import Logo from '../../../../public/images/birdLogo.png'
 import { BiSearch } from 'react-icons/bi'
 import Image from 'next/image'
 

@@ -15,7 +15,7 @@
     background-color: var(--inputColor);
     border-radius: 10px;
     padding: 0px;
-    margin-left: -2%;
+    /* margin-left: -2%; */
 }
 
 .Search > input{

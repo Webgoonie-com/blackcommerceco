@@ -22,13 +22,14 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
 }) => {
     
    
+    const ProfilePage = true
 
-   const {data: session, update } = useSession()
+    const {data: session, update } = useSession()
 
-   const profileModal = useProfileModal()
+    const profileModal = useProfileModal()
 
 
-   const toggleProfileOpen = useCallback(() => {
+    const toggleProfileOpen = useCallback(() => {
     
     profileModal.onOpen()
     
@@ -70,13 +71,44 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
                     <span>1</span>
                     <span>Followers</span>
                 </div>
+
+                {ProfilePage && (
+                    <>
+                        <div className='vertln'></div>
+                        
+                        <div className='follow'>
+                            <span>3</span>
+                            <span>Posts</span>
+                        </div>
+                    </>
+                    )
+                }
+
+                {/* {ProfilePage &&  (
+                     <div>
+
+                     </div>
+                    )  
+                    :
+                    ( 
+                        <div>
+                            
+                        </div>
+                    )
+                } */}
             </div>
             <hr />
         </div>
 
-        <span>
-            View Profile
-        </span>
+        {ProfilePage ? '' : (
+            <span>
+                View Profile
+            </span>
+         )
+        }
+
+
+        
 
       </div>
     )

@@ -1,3 +1,40 @@
-.ProfileInfoCard{
+.ProfileInfoCard {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background-color: var(--cardColor);
+    padding: 1rem;
+    border-radius: 1rem;
+    width: 90%;
+    margin-bottom: 20px;
+}
+
+/* .infoHead svg {
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+} */
+
+/* .ProfileInfoCard .infoHead svg {
+    position: relative !important;
+    display: grid;
+    right: 0;
+    align-self: "self-end";
+} */
+
+.ProfileInfoCard .infoHead {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.logout-button {
+    width: 7rem;
+    height: 2rem;
+    margin-top: 6rem;
+    align-self: flex-end;
 }
