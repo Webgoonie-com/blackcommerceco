@@ -1,0 +1,54 @@
+.Adminauth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    gap: 4rem;
+    position: relative;
+    
+}
+
+.Adminauth > div {
+    display: flex;
+    
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-left {
+    gap: 2rem;
+}
+
+.admin-left > img{
+  width: 200px;
+  height: 100px;
+
+}
+
+.admin-left {
+  gap: 2rem;
+}
+
+.Webname > h1 {
+    font-size: 2rem;
+    background-color: red;
+
+    background-image: var(--buttonBg);
+
+    background-size: 100%;
+    background-repeat: repeat;
+
+    /* Use the text as a mask for the background */
+    /* This will show the gradianet as a text color rather than */
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
+
+}
+
+.Webname > h6 {
+    font-size: 0.85rem;
+}
+
