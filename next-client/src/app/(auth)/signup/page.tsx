@@ -4,9 +4,9 @@ import React from 'react'
 import Image from 'next/image'
 import AdminLogo from '../../../../public/images/logo.png'
 
-import './Adminauth.css'
+import './AuthSignUp.css'
 
-const AdminPage = () => {
+const SignUpPage = () => {
 
     function SignUp(){
       return(
@@ -49,14 +49,14 @@ const AdminPage = () => {
     }
 
     return (
-      <div className="Adminauth">
+      <div className="AuthSignUp">
 
           <div className="admin-left">
             
             <Image src={AdminLogo} width={200} height={100} alt="" />
 
             <div className="Webname">
-              <h1 className="font-bold mb-5">Admin Login</h1>
+              <h1 className="font-bold mb-5">User Sign Up</h1>
               <h6 className='font-semibold text-base'>Explore The Resources we been needing for along time.</h6>
             </div>
 
@@ -67,4 +67,4 @@ const AdminPage = () => {
     )
 }
 
-export default AdminPage
+export default SignUpPage

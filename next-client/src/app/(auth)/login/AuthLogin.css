@@ -1,4 +1,4 @@
-.Adminauth {
+.LoginAuth {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -8,24 +8,24 @@
     
 }
 
-.Adminauth > div {
+.LoginAuth > div {
     display: flex;
     
     align-items: center;
     justify-content: center;
 }
 
-.admin-left {
+.login-left {
     gap: 2rem;
 }
 
-.admin-left > img{
+.login-left > img{
   width: 200px;
   height: 100px;
 
 }
 
-.admin-left {
+.login-left {
   gap: 2rem;
 }
 
